@@ -83,6 +83,7 @@ export function initializeInquiry() {
     else requiredElement<HTMLButtonElement>(".menu-toggle").focus();
   });
   form.addEventListener("input", updateInquiry);
+  form.addEventListener("change", updateInquiry);
 
   async function copyText(text: string): Promise<boolean> {
     if (navigator.clipboard && window.isSecureContext) {
