@@ -1,6 +1,9 @@
 ---
 import Brand from "./Brand.astro";
 import Icon from "./Icon.astro";
+import { site } from "../data/site";
+
+const supportEmail = site.contact.email.trim();
 ---
 
 <footer class="page-shell">
@@ -9,12 +12,23 @@ import Icon from "./Icon.astro";
     <span class="order-3 w-full text-xs tracking-wide text-muted md:order-none md:w-auto">
       Stay curious. Be abnormal.
     </span>
-    <a
-      class="inline-flex items-center gap-2 text-xs text-muted hover:text-brand"
-      href="#subscriptions"
-    >
-      探索订阅 <Icon name="up-right" class="size-3.5" />
-    </a>
+    <div class="flex flex-col items-end gap-3">
+      {supportEmail && (
+        <a
+          class="text-sm text-muted hover:text-brand"
+          href={`mailto:${supportEmail}`}
+          aria-label={`客服邮箱：${supportEmail}`}
+        >
+          {supportEmail}
+        </a>
+      )}
+      <a
+        class="inline-flex items-center gap-2 text-xs text-muted hover:text-brand"
+        href="#subscriptions"
+      >
+        探索订阅 <Icon name="up-right" class="size-3.5" />
+      </a>
+    </div>
   </div>
   <div class="flex flex-col justify-between gap-2 border-t border-line py-6 text-[0.6875rem] leading-relaxed text-muted md:flex-row md:gap-5 md:text-xs">
     <span>© {new Date().getFullYear()} Abnormal. 保持好奇，创造不同。</span>

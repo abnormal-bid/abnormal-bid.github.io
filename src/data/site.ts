@@ -23,7 +23,11 @@ export const site = {
   socialTitle: "Abnormal — 好用的 AI，轻松拥有。",
   socialDescription: "AI 订阅代办咨询。少一点折腾，多一点创造。",
   // 这里只填写公开的业务联系方式，不要放入密钥或其他敏感信息。
-  contact: { wechat: "", email: "", telegram: "" } satisfies Contact,
+  contact: {
+    wechat: "",
+    email: "support@abnormal.bid",
+    telegram: "",
+  } satisfies Contact,
 };
 
 // 套餐尚未确认时将 price 留空，页面自动显示「咨询报价」。
