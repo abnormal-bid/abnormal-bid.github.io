@@ -1,0 +1,300 @@
+---
+import Icon from "./Icon.astro";
+
+const promises = ["费用提前确认", "按需选择方案", "专人沟通办理"];
+const products = [
+  {
+    name: "ChatGPT",
+    caption: "让灵感发生",
+    symbol: "◎",
+    position: "float-chatgpt",
+    mark: "bg-[#e7f4ee] text-[#248b67] font-semibold",
+  },
+  {
+    name: "Claude",
+    caption: "让想法深入",
+    symbol: "✳",
+    position: "float-claude",
+    mark: "bg-[#faece5] text-[#c87755]",
+  },
+  {
+    name: "Gemini",
+    caption: "让探索继续",
+    symbol: "✦",
+    position: "float-gemini",
+    mark: "bg-[#edf0ff] text-[#6b79da]",
+  },
+  {
+    name: "Cursor",
+    caption: "让代码成形",
+    symbol: "↖",
+    position: "float-cursor",
+    mark: "bg-[#f0f0f2] text-[#24252c] font-medium",
+  },
+];
+---
+
+<section
+  class="page-shell grid min-w-0 grid-cols-1 items-center gap-2.5 pt-10 pb-[26px] min-[601px]:min-h-[530px] min-[601px]:grid-cols-[1.06fr_1fr] min-[601px]:gap-0 min-[601px]:pt-[34px] min-[601px]:pb-10 min-[801px]:min-h-[591px] min-[801px]:pt-10 min-[801px]:pb-[54px] min-[1101px]:gap-5 min-[1450px]:min-h-[626px]"
+  aria-labelledby="hero-title"
+>
+  <div class="relative z-2 min-w-0 text-center min-[601px]:text-left">
+    <p class="eyebrow flex items-center justify-center gap-[9px] text-[10px] tracking-[1.5px] min-[601px]:justify-start min-[601px]:text-[11px] min-[601px]:tracking-[1.7px]">
+      <span class="text-[22px] leading-none tracking-normal" aria-hidden="true">
+        ✳
+      </span>
+      AI, WITHOUT THE FRICTION
+    </p>
+    <h1
+      id="hero-title"
+      class="mt-[19px] mb-5 text-[clamp(41px,10.6vw,57px)] leading-[1.36] font-[750] tracking-[-2px] min-[601px]:mt-5 min-[601px]:mb-6 min-[601px]:text-[43px] min-[601px]:leading-[1.38] min-[801px]:text-[clamp(45px,4.5vw,62px)] min-[801px]:tracking-[-2.8px]"
+    >
+      好用的 AI，
+      <br />
+      <span class="text-brand">
+        轻松拥有<span class="-ml-[5px]">。</span>
+      </span>
+    </h1>
+    <p class="text-[15px] leading-[1.95] tracking-[0.1px] text-[#71717d] min-[601px]:text-base">
+      把订阅交给我们，把时间留给创造。
+      <br />
+      从日常灵感到专业工作，找到适合你的 AI 订阅方案。
+    </p>
+    <div class="mt-[26px] flex flex-wrap items-center justify-center gap-[17px] min-[601px]:mt-8 min-[601px]:justify-start min-[601px]:gap-[15px] min-[801px]:gap-[27px]">
+      <a
+        class="btn btn-primary min-h-[46px] gap-3.5 px-[19px] py-3 text-sm min-[601px]:gap-2.5 min-[601px]:px-4 min-[801px]:gap-3.5 min-[801px]:px-6"
+        href="#subscriptions"
+      >
+        探索订阅服务 <Icon name="arrow" class="size-[18px]" />
+      </a>
+      <a class="text-link gap-[11px] text-sm" href="#how-it-works">
+        了解办理流程{" "}
+        <span class="text-[19px]" aria-hidden="true">
+          ↗
+        </span>
+      </a>
+    </div>
+    <div class="mt-[22px] flex flex-wrap justify-center gap-2.5 text-[11px] text-[#6f717d] min-[601px]:mt-[29px] min-[601px]:justify-start min-[601px]:gap-x-3 min-[601px]:gap-y-1.5 min-[601px]:text-xs min-[1101px]:gap-[18px]">
+      {promises.map((promise) => (
+        <span class="inline-flex items-center gap-[5px]">
+          <Icon name="check" class="size-3.5 shrink-0 text-brand" />
+          {promise}
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <div
+    class="hero-visual relative isolate mx-auto mt-3.5 h-[370px] w-full min-w-0 max-w-[430px] overflow-hidden min-[601px]:mt-0 min-[601px]:max-w-none min-[801px]:h-[420px] min-[1101px]:h-[445px] min-[1450px]:h-[480px]"
+    role="img"
+    aria-label="ChatGPT、Claude、Gemini、Cursor：探索 AI 的更多可能"
+  >
+    <div class="absolute top-1/2 left-1/2 size-[210px] -translate-1/2 rounded-full border border-[#e5dff7] min-[801px]:size-[260px]"></div>
+    <div class="absolute top-1/2 left-1/2 size-[300px] -translate-1/2 rounded-full border border-[#e5dff7] min-[801px]:size-[360px]"></div>
+    <div class="absolute top-1/2 left-1/2 size-[370px] -translate-1/2 rounded-full border border-dashed border-[#eee9f8] min-[801px]:size-[450px]"></div>
+    <span class="absolute top-[3px] left-1/2 -translate-x-1/2 text-[8px] font-semibold tracking-[2px] whitespace-nowrap text-[#8d83a8] min-[601px]:top-0 min-[601px]:text-[7px] min-[801px]:top-3.5 min-[801px]:text-[9px]">
+      A LITTLE LESS ORDINARY.
+    </span>
+
+    {products.map((product) => (
+      <div
+        class:list={[
+          "floating-brand absolute z-2 flex items-center gap-[7px] rounded-[10px] border border-[#ece9f4] bg-[#ffffffed] py-2.5 pr-[13px] pl-2.5 text-sm font-[650] tracking-[-0.3px] shadow-[0_8px_24px_#2b195209] min-[601px]:gap-1.5 min-[601px]:p-[9px] min-[601px]:text-[13px] min-[801px]:gap-2 min-[801px]:rounded-[13px] min-[801px]:py-2.5 min-[801px]:pr-[13px] min-[801px]:pl-2.5 min-[801px]:text-sm min-[1101px]:gap-[11px] min-[1101px]:py-[13px] min-[1101px]:pr-[19px] min-[1101px]:pl-[13px] min-[1101px]:text-[17px] min-[1450px]:py-[15px] min-[1450px]:pr-[22px] min-[1450px]:pl-[15px]",
+          product.position,
+        ]}
+      >
+        <span
+          class:list={[
+            "inline-flex size-8 shrink-0 items-center justify-center rounded-[10px] font-[Arial,sans-serif] text-[25px] leading-none min-[1101px]:size-[39px] min-[1101px]:text-[29px]",
+            product.mark,
+          ]}
+        >
+          {product.symbol}
+        </span>
+        <span>
+          {product.name}
+          <small class="mt-[3px] block text-[9px] font-normal tracking-[0.7px] text-[#9995a4] min-[601px]:text-[8px] min-[801px]:text-[10px]">
+            {product.caption}
+          </small>
+        </span>
+      </div>
+    ))}
+
+    <div class="access-card absolute top-1/2 left-1/2 h-[177px] w-[252px] overflow-hidden rounded-2xl p-[21px] text-white min-[601px]:h-[168px] min-[601px]:w-[222px] min-[601px]:p-5 min-[801px]:h-[190px] min-[801px]:w-[264px] min-[801px]:p-[23px] min-[1101px]:h-[206px] min-[1101px]:w-[306px] min-[1101px]:px-[26px] min-[1450px]:h-[220px] min-[1450px]:w-[326px]">
+      <div class="flex items-center justify-between text-sm font-bold tracking-[-0.6px] min-[601px]:text-[13px] min-[801px]:text-base">
+        <span>
+          abnormal<span class="text-[#b3a0ff]">.</span>
+        </span>
+        <Icon name="up-right" class="size-[17px] text-[#c7b9ea]" />
+      </div>
+      <div class="mt-4 text-2xl leading-[1.2] font-semibold tracking-[-0.8px] min-[601px]:mt-[17px] min-[601px]:text-[21px] min-[801px]:mt-[19px] min-[801px]:text-[25px] min-[1101px]:text-[28px] min-[1450px]:text-[31px]">
+        More AI.
+        <br />
+        More possibilities<span class="text-[#bdabfa]">.</span>
+      </div>
+      <div class="mt-3.5 flex items-center justify-between text-[9px] tracking-[1.6px] text-[#cabfde] min-[601px]:text-[8px] min-[801px]:text-[10px] min-[1101px]:mt-[17px] min-[1450px]:mt-[21px]">
+        <span>你的下一种可能</span>
+        <span class="mr-0.5 text-[17px] font-bold tracking-[-5px] min-[801px]:text-[22px]">
+          a↗
+        </span>
+      </div>
+    </div>
+
+    <span class="absolute bottom-0 left-1/2 flex -translate-x-1/2 items-center gap-2 text-[8px] tracking-[1.6px] whitespace-nowrap text-[#958ba8] min-[801px]:bottom-1.5 min-[801px]:text-[10px]">
+      <span class="size-[5px] rounded-full bg-[#a99acb]"></span>{" "}
+      给创造力，多一个入口
+    </span>
+    <span class="absolute top-[57px] right-[18%] text-[23px] font-normal text-[#ac9cdb]">
+      +
+    </span>
+    <span class="absolute bottom-[47px] left-[24%] text-lg font-normal text-[#ac9cdb]">
+      +
+    </span>
+  </div>
+</section>
+
+<style>
+  .hero-visual {
+    background-image: radial-gradient(#c8c2e3 0.8px, transparent 0.8px);
+    background-size: 17px 17px;
+    background-position: center;
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 6%,
+      #000 94%,
+      transparent
+    );
+  }
+  .hero-visual::before {
+    content: "";
+    position: absolute;
+    inset: 5%;
+    z-index: -1;
+    background: radial-gradient(ellipse, #ffffff95, transparent 66%);
+  }
+  .access-card {
+    transform: translate(-50%, -50%) rotate(-8deg);
+    background: linear-gradient(120deg, #30263f, #26222f 70%);
+    box-shadow:
+      0 25px 35px -15px #49355c65,
+      0 0 0 5px #ffffff70;
+    transition: transform 0.4s;
+  }
+  .hero-visual:hover .access-card {
+    transform: translate(-50%, -50%) rotate(-4deg);
+  }
+  .access-card::after {
+    content: "";
+    position: absolute;
+    right: -48px;
+    top: -70px;
+    width: 208px;
+    height: 208px;
+    border: 1px solid #ffffff0c;
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 25px #ffffff03,
+      0 0 0 52px #ffffff03;
+  }
+  .float-chatgpt {
+    left: 9%;
+    top: 32px;
+    transform: rotate(-7deg);
+  }
+  .float-claude {
+    right: 1%;
+    top: 100px;
+    transform: rotate(8deg);
+  }
+  .float-gemini {
+    left: 1%;
+    bottom: 71px;
+    transform: rotate(-5deg);
+  }
+  .float-cursor {
+    right: 8%;
+    bottom: 28px;
+    transform: rotate(7deg);
+  }
+  @media (min-width: 601px) {
+    .hero-visual {
+      mask-image: linear-gradient(
+        90deg,
+        transparent,
+        #000 12%,
+        #000 88%,
+        transparent
+      );
+    }
+    .float-chatgpt {
+      left: 6%;
+      top: 28px;
+    }
+    .float-claude {
+      right: 0;
+      top: 99px;
+    }
+    .float-gemini {
+      left: 0;
+      bottom: 81px;
+    }
+    .float-cursor {
+      right: 1%;
+      bottom: 27px;
+    }
+  }
+  @media (min-width: 801px) {
+    .float-chatgpt {
+      left: 8%;
+      top: 45px;
+    }
+    .float-claude {
+      top: 108px;
+    }
+    .float-gemini {
+      bottom: 84px;
+    }
+    .float-cursor {
+      right: 3%;
+      bottom: 38px;
+    }
+  }
+  @media (min-width: 1101px) {
+    .float-chatgpt {
+      left: 12%;
+      top: 51px;
+    }
+    .float-claude {
+      right: 1%;
+      top: 101px;
+    }
+    .float-gemini {
+      left: 3%;
+      bottom: 94px;
+    }
+    .float-cursor {
+      right: 9%;
+      bottom: 55px;
+    }
+  }
+  @media (min-width: 1450px) {
+    .float-chatgpt {
+      top: 61px;
+    }
+    .float-claude {
+      top: 114px;
+    }
+    .float-gemini {
+      bottom: 97px;
+    }
+    .float-cursor {
+      bottom: 67px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .access-card {
+      transition: none;
+    }
+  }
+</style>

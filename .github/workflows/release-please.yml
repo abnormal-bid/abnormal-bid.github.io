@@ -1,0 +1,94 @@
+name: Release Please
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: release-please-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    outputs:
+      prs_created: ${{ steps.release.outputs.prs_created }}
+      prs: ${{ steps.release.outputs.prs || '[]' }}
+    steps:
+      - name: Create release pull request or publish release
+        id: release
+        uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target-branch: main
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  # GITHUB_TOKEN-created PRs do not trigger the separate pull_request workflow.
+  validate-release:
+    needs: release
+    if: needs.release.outputs.prs_created == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: read
+    strategy:
+      fail-fast: false
+      matrix:
+        pr: ${{ fromJSON(needs.release.outputs.prs) }}
+    steps:
+      - name: Resolve the release pull request commit
+        id: pull-request
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        env:
+          RELEASE_PR_NUMBER: ${{ matrix.pr.number }}
+        with:
+          script: |
+            const number = Number(process.env.RELEASE_PR_NUMBER);
+            if (!Number.isInteger(number) || number < 1) {
+              throw new Error('Release Please did not return a valid pull request number.');
+            }
+            const { data: pull } = await github.rest.pulls.get({
+              ...context.repo,
+              pull_number: number,
+            });
+            const repository = `${context.repo.owner}/${context.repo.repo}`;
+            if (pull.state !== 'open' || pull.base.ref !== 'main' ||
+                pull.head.repo?.full_name !== repository) {
+              throw new Error('Expected an open release pull request from this repository to main.');
+            }
+            core.setOutput('sha', pull.head.sha);
+            core.info(`Validating release pull request #${number} at ${pull.head.sha}`);
+
+      - name: Check out the release pull request
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ steps.pull-request.outputs.sha }}
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check Astro and TypeScript
+        run: npm run check
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build the release
+        run: npm run build

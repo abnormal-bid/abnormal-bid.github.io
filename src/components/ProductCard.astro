@@ -1,0 +1,74 @@
+---
+import type { Product } from "../data/site";
+import Icon from "./Icon.astro";
+interface Props {
+  product: Product;
+}
+const { product } = Astro.props;
+---
+
+<article
+  class:list={[
+    "product-card flex flex-col rounded-xl border p-4 transition duration-200 hover:-translate-y-1 hover:border-[#c5b9ef] hover:shadow-lg hover:shadow-ink/5 md:p-6",
+    product.featured
+      ? "border-[#cbbef8] bg-linear-to-b from-[#fcfbff] to-white"
+      : "border-[#e7e7ef] bg-white",
+  ]}
+  data-product={product.name}
+>
+  <div class="flex items-center justify-between gap-2">
+    <span
+      class:list={[
+        "flex size-10 shrink-0 items-center justify-center rounded-xl text-3xl leading-none md:size-12 md:text-4xl",
+        product.markClass,
+      ]}
+      aria-hidden="true"
+    >
+      {product.mark}
+    </span>
+    <span class="text-[0.6875rem] text-muted md:text-xs">
+      {product.category}
+    </span>
+  </div>
+  <h3 class="mt-4 text-[1.35rem] font-semibold tracking-tight md:text-2xl">
+    {product.name}
+  </h3>
+  <p class="mt-2 flex-1 text-sm leading-loose text-muted lg:text-base">
+    {product.description}
+  </p>
+  <div class="mt-4 flex flex-wrap gap-1.5">
+    {product.tags.map((tag) => (
+      <span
+        class:list={[
+          "rounded px-1.5 py-1 text-[0.6875rem] leading-normal md:text-xs",
+          product.featured
+            ? "bg-[#f2edff] text-[#715b9b]"
+            : "bg-[#f6f6f8] text-[#686672]",
+        ]}
+      >
+        {tag}
+      </span>
+    ))}
+  </div>
+  <div class="mt-5 flex flex-col gap-1 border-t border-line pt-5">
+    <strong
+      class="text-xl font-semibold tracking-tight md:text-[1.375rem]"
+      data-price
+    >
+      {product.price || "咨询报价"}
+    </strong>
+    <span class="text-xs text-muted" data-price-note>
+      {product.priceNote}
+    </span>
+  </div>
+  <button
+    class:list={[
+      "btn mt-5 min-h-11 w-full justify-between gap-2 px-3 py-2.5 text-sm",
+      product.featured ? "btn-primary" : "btn-outline",
+    ]}
+    data-inquiry={product.name}
+    aria-label={`咨询 ${product.name} 订阅`}
+  >
+    咨询订阅 <Icon name="up-right" class="size-4" />
+  </button>
+</article>

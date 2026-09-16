@@ -1,0 +1,57 @@
+---
+import Brand from "./Brand.astro";
+import Icon from "./Icon.astro";
+import { navigation } from "../data/site";
+---
+
+<header class="site-header relative z-10 h-18 border-b border-line bg-white/95 md:h-23.5">
+  <div class="page-shell flex h-full items-center justify-between gap-3 md:gap-6">
+    <Brand />
+    <nav
+      class="hidden items-center gap-8 text-sm text-muted md:flex"
+      aria-label="主导航"
+    >
+      {navigation.map(({ href, label }) => (
+        <a class="transition-colors hover:text-brand" href={href}>
+          {label}
+        </a>
+      ))}
+    </nav>
+    <button
+      class="btn btn-dark ml-auto min-h-10 gap-2 px-3 py-2 text-xs md:ml-0 md:gap-4 md:px-4 md:text-sm"
+      data-inquiry
+    >
+      咨询订阅 <Icon name="up-right" class="size-4" />
+    </button>
+    <button
+      class="menu-toggle icon-button w-7 md:hidden"
+      aria-label="展开导航"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+    >
+      <Icon name="menu" />
+    </button>
+  </div>
+  <nav
+    class="absolute inset-x-0 top-full flex flex-col gap-1 border-b border-line bg-white px-5 pt-3 pb-4 shadow-lg shadow-ink/5 md:hidden"
+    id="mobile-nav"
+    aria-label="移动端导航"
+    hidden
+  >
+    {navigation.map(({ href, label }) => (
+      <a class="rounded px-2 py-3 text-sm hover:bg-lavender" href={href}>
+        {label}
+      </a>
+    ))}
+    <button
+      class="rounded px-2 py-3 text-left text-sm hover:bg-lavender"
+      data-inquiry
+    >
+      咨询订阅 ↗
+    </button>
+  </nav>
+</header>
+<script>
+  import { initializeNavigation } from "../scripts/navigation";
+  initializeNavigation();
+</script>

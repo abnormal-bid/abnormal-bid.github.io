@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Subscriptions from "../components/Subscriptions.astro";
+import Process from "../components/Process.astro";
+import Faq from "../components/Faq.astro";
+import Footer from "../components/Footer.astro";
+import InquiryDialog from "../components/InquiryDialog.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<BaseLayout>
+  <Header />
+  <main id="main">
+    <Hero />
+    <div class="border-y border-line bg-[#fcfcfe]">
+      <div class="page-shell flex min-h-22 flex-col items-center justify-center gap-3 py-5 text-xs text-muted lg:flex-row lg:justify-between lg:gap-6 lg:text-sm">
+        <p>
+          少一点订阅的麻烦。
+          <strong class="ml-2 font-medium text-[#52535d]">
+            多一点 AI 的可能。
+          </strong>
+        </p>
+        <div class="flex gap-4 md:gap-6">
+          {["灵感创作", "深度研究", "高效办公", "智能编程"].map(
+            (label, index) => (
+              <span
+                class:list={{
+                  'before:mr-4 before:text-[#b7b1c8] before:content-["/"] md:before:mr-6':
+                    index > 0,
+                }}
+              >
+                {label}
+              </span>
+            ),
+          )}
+        </div>
+      </div>
+    </div>
+    <Subscriptions />
+    <Process />
+    <Faq />
+    <section class="page-shell pb-12 md:pb-18">
+      <div class="relative overflow-hidden rounded-2xl bg-brand px-6 py-9 text-white md:flex md:items-center md:justify-between md:gap-8 md:px-12 md:py-12">
+        <div
+          class="pointer-events-none absolute bottom-[-4rem] left-[55%] text-[17.5rem] leading-none text-white/5"
+          aria-hidden="true"
+        >
+          ✳
+        </div>
+        <div class="relative">
+          <p class="text-[0.625rem] font-bold tracking-[0.1em]">
+            MAKE ROOM FOR WHAT'S NEXT
+          </p>
+          <h2 class="mt-3 text-[1.6rem] leading-normal font-semibold tracking-tight md:text-[1.95rem]">
+            下一次灵感，从这里开始。
+          </h2>
+          <p class="mt-3 text-sm leading-relaxed">
+            挑选你的 AI 搭档，剩下的，我们一起搞定。
+          </p>
+        </div>
+        <button
+          class="btn relative mt-6 shrink-0 bg-white text-ink md:mt-0"
+          data-inquiry
+        >
+          聊聊我的订阅 <Icon name="up-right" />
+        </button>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <InquiryDialog />
+</BaseLayout>

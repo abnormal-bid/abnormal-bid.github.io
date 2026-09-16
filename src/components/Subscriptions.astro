@@ -1,0 +1,40 @@
+---
+import { products, otherProduct } from "../data/site";
+import Icon from "./Icon.astro";
+import ProductCard from "./ProductCard.astro";
+---
+
+<section
+  class="page-shell section-space"
+  id="subscriptions"
+  aria-labelledby="subscriptions-title"
+>
+  <div class="mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-end md:gap-8">
+    <div>
+      <p class="eyebrow">FIND YOUR AI</p>
+      <h2 class="section-title" id="subscriptions-title">
+        你的 AI，从这里开始<span class="text-brand">。</span>
+      </h2>
+    </div>
+    <p class="text-sm leading-loose text-muted">
+      不同的擅长，同样值得拥有。
+      <br class="hidden md:block" />
+      选一个想了解的产品，聊聊你的订阅需求。
+    </p>
+  </div>
+  <div class="grid grid-cols-2 gap-3 md:gap-5 lg:grid-cols-4">
+    {products.map((product) => (
+      <ProductCard product={product} />
+    ))}
+  </div>
+  <p class="mt-6 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-2 text-center text-xs leading-relaxed text-muted">
+    <Icon name="chat" class="size-4" />
+    有其他产品或团队订阅需求？
+    <button class="text-brand hover:underline" data-inquiry={otherProduct}>
+      和我们聊聊 ↗
+    </button>
+    <span class="w-full lg:ml-2 lg:w-auto">
+      具体可办理的套餐及费用，以咨询确认为准。
+    </span>
+  </p>
+</section>

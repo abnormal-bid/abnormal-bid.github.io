@@ -1,0 +1,23 @@
+---
+import Brand from "./Brand.astro";
+import Icon from "./Icon.astro";
+---
+
+<footer class="page-shell">
+  <div class="flex flex-wrap items-center justify-between gap-4 pb-7 md:gap-6">
+    <Brand />
+    <span class="order-3 w-full text-xs tracking-wide text-muted md:order-none md:w-auto">
+      Stay curious. Be abnormal.
+    </span>
+    <a
+      class="inline-flex items-center gap-2 text-xs text-muted hover:text-brand"
+      href="#subscriptions"
+    >
+      探索订阅 <Icon name="up-right" class="size-3.5" />
+    </a>
+  </div>
+  <div class="flex flex-col justify-between gap-2 border-t border-line py-6 text-[0.6875rem] leading-relaxed text-muted md:flex-row md:gap-5 md:text-xs">
+    <span>© {new Date().getFullYear()} Abnormal. 保持好奇，创造不同。</span>
+    <p>独立订阅代办服务 · 所列产品名称及商标归各自权利人所有</p>
+  </div>
+</footer>
