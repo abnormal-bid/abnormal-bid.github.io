@@ -1,0 +1,46 @@
+---
+import Icon from "./Icon.astro";
+const options = [
+  { value: "system", label: "跟随系统", icon: "monitor" },
+  { value: "light", label: "浅色模式", icon: "sun" },
+  { value: "dark", label: "深色模式", icon: "moon" },
+] as const;
+---
+
+<details class="relative" data-theme-picker>
+  <summary
+    class="icon-button list-none"
+    aria-label="切换主题，当前跟随系统"
+    title="主题：跟随系统"
+  >
+    {options.map(({ value, icon }) => (
+      <span data-theme-icon={value} hidden={value !== "system"}>
+        <Icon name={icon} />
+      </span>
+    ))}
+  </summary>
+  <fieldset class="absolute top-12 right-0 w-40 rounded-xl border border-line bg-surface p-1.5 shadow-xl shadow-black/10">
+    <legend class="sr-only">外观主题</legend>
+    {options.map(({ value, label, icon }) => (
+      <label class="flex cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm text-muted has-checked:bg-lavender has-checked:text-accent hover:bg-lavender has-focus-visible:outline-2 has-focus-visible:outline-accent">
+        <input
+          class="peer sr-only"
+          type="radio"
+          name="theme"
+          value={value}
+          checked={value === "system"}
+        />
+        <Icon name={icon} class="size-4" />
+        <span>{label}</span>
+        <Icon
+          name="check"
+          class="ml-auto size-3.5 opacity-0 peer-checked:opacity-100"
+        />
+      </label>
+    ))}
+  </fieldset>
+</details>
+<script>
+  import { initializeThemePicker } from "../scripts/theme";
+  initializeThemePicker();
+</script>

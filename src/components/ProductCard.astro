@@ -5,14 +5,20 @@ interface Props {
   product: Product;
 }
 const { product } = Astro.props;
+const darkMarkClasses: Record<string, string> = {
+  ChatGPT: "dark:bg-[#203a31] dark:text-[#79d5af]",
+  Claude: "dark:bg-[#443028] dark:text-[#f0b295]",
+  Gemini: "dark:bg-[#292e4c] dark:text-[#adb9ff]",
+  Cursor: "dark:bg-[#35313f] dark:text-[#eeeaf6]",
+};
 ---
 
 <article
   class:list={[
-    "product-card flex flex-col rounded-xl border p-4 transition duration-200 hover:-translate-y-1 hover:border-[#c5b9ef] hover:shadow-lg hover:shadow-ink/5 md:p-6",
+    "product-card flex flex-col rounded-xl border p-4 transition duration-200 hover:-translate-y-1 hover:border-[#c5b9ef] hover:shadow-lg hover:shadow-ink/5 dark:hover:border-accent/60 dark:hover:shadow-black/20 md:p-6",
     product.featured
-      ? "border-[#cbbef8] bg-linear-to-b from-[#fcfbff] to-white"
-      : "border-[#e7e7ef] bg-white",
+      ? "border-[#cbbef8] bg-linear-to-b from-[#fcfbff] to-white dark:border-[#635186] dark:from-[#2b243b] dark:to-surface"
+      : "border-[#e7e7ef] bg-surface dark:border-line",
   ]}
   data-product={product.name}
 >
@@ -21,6 +27,7 @@ const { product } = Astro.props;
       class:list={[
         "flex size-10 shrink-0 items-center justify-center rounded-xl text-3xl leading-none md:size-12 md:text-4xl",
         product.markClass,
+        darkMarkClasses[product.name] ?? "dark:bg-lavender dark:text-accent",
       ]}
       aria-hidden="true"
     >
@@ -42,8 +49,8 @@ const { product } = Astro.props;
         class:list={[
           "rounded px-1.5 py-1 text-[0.6875rem] leading-normal md:text-xs",
           product.featured
-            ? "bg-[#f2edff] text-[#715b9b]"
-            : "bg-[#f6f6f8] text-[#686672]",
+            ? "bg-[#f2edff] text-[#715b9b] dark:bg-[#39304f] dark:text-[#d1bffc]"
+            : "bg-[#f6f6f8] text-[#686672] dark:bg-[#2c2835] dark:text-[#c6bfd4]",
         ]}
       >
         {tag}

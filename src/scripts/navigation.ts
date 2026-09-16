@@ -4,6 +4,9 @@ export function initializeNavigation() {
   const toggle = requiredElement<HTMLButtonElement>(".menu-toggle");
   const nav = requiredElement<HTMLElement>("#mobile-nav");
   const desktop = window.matchMedia("(min-width: 768px)");
+  const themePicker = document.querySelector<HTMLDetailsElement>(
+    "[data-theme-picker]",
+  );
 
   function closeMenu() {
     nav.hidden = true;
@@ -16,6 +19,9 @@ export function initializeNavigation() {
     nav.hidden = !opening;
     toggle.setAttribute("aria-expanded", String(opening));
     toggle.setAttribute("aria-label", opening ? "收起导航" : "展开导航");
+  });
+  themePicker?.addEventListener("toggle", () => {
+    if (themePicker.open) closeMenu();
   });
   nav
     .querySelectorAll("a, button")

@@ -1,10 +1,11 @@
 ---
 import Brand from "./Brand.astro";
 import Icon from "./Icon.astro";
+import ThemePicker from "./ThemePicker.astro";
 import { navigation } from "../data/site";
 ---
 
-<header class="site-header relative z-10 h-18 border-b border-line bg-white/95 md:h-23.5">
+<header class="site-header relative z-10 h-18 border-b border-line bg-canvas/95 md:h-23.5">
   <div class="page-shell flex h-full items-center justify-between gap-3 md:gap-6">
     <Brand />
     <nav
@@ -12,17 +13,20 @@ import { navigation } from "../data/site";
       aria-label="主导航"
     >
       {navigation.map(({ href, label }) => (
-        <a class="transition-colors hover:text-brand" href={href}>
+        <a class="transition-colors hover:text-accent" href={href}>
           {label}
         </a>
       ))}
     </nav>
-    <button
-      class="btn btn-dark ml-auto min-h-10 gap-2 px-3 py-2 text-xs md:ml-0 md:gap-4 md:px-4 md:text-sm"
-      data-inquiry
-    >
-      咨询订阅 <Icon name="up-right" class="size-4" />
-    </button>
+    <div class="ml-auto flex items-center gap-2 md:ml-0 md:gap-3">
+      <ThemePicker />
+      <button
+        class="btn btn-dark hidden min-h-10 gap-2 px-3 py-2 text-xs sm:inline-flex md:gap-4 md:px-4 md:text-sm"
+        data-inquiry
+      >
+        咨询订阅 <Icon name="up-right" class="size-4" />
+      </button>
+    </div>
     <button
       class="menu-toggle icon-button w-7 md:hidden"
       aria-label="展开导航"
@@ -33,7 +37,7 @@ import { navigation } from "../data/site";
     </button>
   </div>
   <nav
-    class="absolute inset-x-0 top-full flex flex-col gap-1 border-b border-line bg-white px-5 pt-3 pb-4 shadow-lg shadow-ink/5 md:hidden"
+    class="absolute inset-x-0 top-full flex flex-col gap-1 border-b border-line bg-surface px-5 pt-3 pb-4 shadow-lg shadow-black/5 md:hidden"
     id="mobile-nav"
     aria-label="移动端导航"
     hidden

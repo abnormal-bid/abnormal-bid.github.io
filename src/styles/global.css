@@ -1,25 +1,41 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;650;700;750;800&family=Noto+Sans+SC:wght@400;500;600;650;700;750;800&display=swap");
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
   --color-brand: #7357ef;
   --color-brand-dark: #6344dc;
   --color-ink: #202127;
   --color-muted: #6f707c;
+  --color-canvas: #ffffff;
+  --color-surface: #ffffff;
+  --color-subtle: #fcfcfe;
   --color-line: #e9e9ef;
   --color-lavender: #f6f4ff;
+  --color-accent: #7357ef;
   --font-sans:
     "DM Sans", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
 }
 
 @layer base {
+  :root[data-theme="dark"] {
+    --color-ink: #f2f0fa;
+    --color-muted: #b0aaba;
+    --color-canvas: #141219;
+    --color-surface: #1e1b26;
+    --color-subtle: #19161f;
+    --color-line: #383241;
+    --color-lavender: #292335;
+    --color-accent: #b7a3ff;
+  }
   html {
     @apply scroll-smooth scroll-pt-8 font-sans text-ink antialiased md:scroll-pt-28;
     font-synthesis: none;
   }
   body {
-    @apply m-0 bg-white;
+    @apply m-0 bg-canvas;
   }
   .icon {
     @apply size-5;
@@ -34,17 +50,18 @@
   a,
   button,
   select,
+  input,
   textarea,
   summary {
-    @apply outline-offset-4 focus-visible:outline-3 focus-visible:outline-brand;
+    @apply outline-offset-4 focus-visible:outline-3 focus-visible:outline-accent;
     -webkit-tap-highlight-color: transparent;
   }
   select,
   textarea {
-    @apply w-full rounded-lg border border-[#e2ddea] bg-white px-3 py-2.5 text-base text-[#55505e];
+    @apply w-full rounded-lg border border-line bg-surface px-3 py-2.5 text-base text-ink;
   }
   textarea {
-    @apply min-h-20 max-h-44 resize-y leading-relaxed placeholder:text-xs placeholder:text-[#77717f];
+    @apply min-h-20 max-h-44 resize-y leading-relaxed placeholder:text-xs placeholder:text-muted;
   }
   ::selection {
     @apply bg-[#ded5ff] text-[#31206e];
@@ -87,7 +104,7 @@
   @apply py-13 md:py-16 lg:py-20;
 }
 @utility eyebrow {
-  @apply text-xs font-bold tracking-[0.11em] text-brand;
+  @apply text-xs font-bold tracking-[0.11em] text-accent;
 }
 @utility btn {
   @apply inline-flex min-h-12 items-center justify-center gap-5 rounded-lg border border-transparent px-5 py-3 text-sm leading-normal font-medium transition duration-200 hover:-translate-y-0.5 disabled:translate-y-0;
@@ -96,13 +113,13 @@
   @apply border-brand bg-brand text-white hover:border-brand-dark hover:bg-brand-dark hover:shadow-md;
 }
 @utility btn-dark {
-  @apply border-ink bg-ink text-white hover:bg-[#373840];
+  @apply border-ink bg-ink text-canvas hover:bg-[#373840] dark:hover:bg-[#d9d4e5];
 }
 @utility btn-outline {
-  @apply border-[#e4e4eb] bg-white hover:border-[#b5a5f3] hover:bg-[#faf9ff];
+  @apply border-line bg-surface hover:border-accent hover:bg-lavender;
 }
 @utility text-link {
-  @apply inline-flex items-center gap-3 text-sm leading-relaxed font-medium transition-colors hover:text-brand;
+  @apply inline-flex items-center gap-3 text-sm leading-relaxed font-medium transition-colors hover:text-accent;
 }
 @utility icon-button {
   @apply flex size-9 shrink-0 items-center justify-center rounded-lg text-muted hover:bg-lavender;

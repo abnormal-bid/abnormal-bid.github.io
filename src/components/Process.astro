@@ -4,7 +4,7 @@ import Icon from "./Icon.astro";
 ---
 
 <section
-  class="border-y border-[#f0eef7] bg-[#faf9fd]"
+  class="border-y border-[#f0eef7] bg-[#faf9fd] dark:border-line dark:bg-subtle"
   id="how-it-works"
   aria-labelledby="process-title"
 >
@@ -13,7 +13,7 @@ import Icon from "./Icon.astro";
       <div>
         <p class="eyebrow">LESS FRICTION, MORE CREATION</p>
         <h2 class="section-title" id="process-title">
-          三步，把 AI 加入你的日常<span class="text-brand">。</span>
+          三步，把 AI 加入你的日常<span class="text-accent">。</span>
         </h2>
       </div>
       <p class="text-sm leading-loose text-muted">
@@ -26,14 +26,17 @@ import Icon from "./Icon.astro";
       {processSteps.map((step, index) => (
         <article class="relative pl-14 md:pl-0">
           <div class="absolute top-0 left-0 mb-5 flex flex-col items-center gap-4 md:static md:flex-row">
-            <span class="text-3xl font-normal tracking-tight text-[#8875ba]">
+            <span class="text-3xl font-normal tracking-tight text-[#8875ba] dark:text-accent">
               {String(index + 1).padStart(2, "0")}
             </span>
             <span
-              class="hidden h-px flex-1 bg-[#e6e1f1] md:block"
+              class="hidden h-px flex-1 bg-[#e6e1f1] dark:bg-line md:block"
               aria-hidden="true"
             ></span>
-            <Icon name={step.icon} class="text-[#9180be] md:size-6" />
+            <Icon
+              name={step.icon}
+              class="text-[#9180be] dark:text-accent md:size-6"
+            />
           </div>
           <h3 class="mb-2 text-base font-semibold md:mb-3 md:text-lg">
             {step.title}

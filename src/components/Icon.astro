@@ -10,7 +10,10 @@ interface Props {
     | "shield"
     | "chat"
     | "spark"
-    | "copy";
+    | "copy"
+    | "sun"
+    | "moon"
+    | "monitor";
   class?: string;
 }
 const { name, class: className } = Astro.props;
@@ -31,6 +34,12 @@ const paths: Record<Props["name"], string[]> = {
     "M10 8h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z",
     "M16 8V4H4v12h4",
   ],
+  sun: [
+    "M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z",
+    "M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5",
+  ],
+  moon: ["M20.5 13.1A8.6 8.6 0 0 1 10.9 3.5a8.6 8.6 0 1 0 9.6 9.6Z"],
+  monitor: ["M4 4h16v12H4zM12 16v4m-4 0h8"],
 };
 ---
 

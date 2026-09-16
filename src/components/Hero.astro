@@ -8,28 +8,28 @@ const products = [
     caption: "让灵感发生",
     symbol: "◎",
     position: "float-chatgpt",
-    mark: "bg-[#e7f4ee] text-[#248b67] font-semibold",
+    mark: "bg-[#e7f4ee] text-[#248b67] font-semibold dark:bg-[#183c31] dark:text-[#82d6b1]",
   },
   {
     name: "Claude",
     caption: "让想法深入",
     symbol: "✳",
     position: "float-claude",
-    mark: "bg-[#faece5] text-[#c87755]",
+    mark: "bg-[#faece5] text-[#c87755] dark:bg-[#412d25] dark:text-[#e7b097]",
   },
   {
     name: "Gemini",
     caption: "让探索继续",
     symbol: "✦",
     position: "float-gemini",
-    mark: "bg-[#edf0ff] text-[#6b79da]",
+    mark: "bg-[#edf0ff] text-[#6b79da] dark:bg-[#282d49] dark:text-[#aebaff]",
   },
   {
     name: "Cursor",
     caption: "让代码成形",
     symbol: "↖",
     position: "float-cursor",
-    mark: "bg-[#f0f0f2] text-[#24252c] font-medium",
+    mark: "bg-[#f0f0f2] text-[#24252c] font-medium dark:bg-[#35313d] dark:text-[#e4dfee]",
   },
 ];
 ---
@@ -39,7 +39,7 @@ const products = [
   aria-labelledby="hero-title"
 >
   <div class="relative z-2 min-w-0 text-center min-[601px]:text-left">
-    <p class="eyebrow flex items-center justify-center gap-[9px] text-[10px] tracking-[1.5px] min-[601px]:justify-start min-[601px]:text-[11px] min-[601px]:tracking-[1.7px]">
+    <p class="eyebrow dark:text-accent flex items-center justify-center gap-[9px] text-[10px] tracking-[1.5px] min-[601px]:justify-start min-[601px]:text-[11px] min-[601px]:tracking-[1.7px]">
       <span class="text-[22px] leading-none tracking-normal" aria-hidden="true">
         ✳
       </span>
@@ -51,11 +51,11 @@ const products = [
     >
       好用的 AI，
       <br />
-      <span class="text-brand">
+      <span class="text-accent">
         轻松拥有<span class="-ml-[5px]">。</span>
       </span>
     </h1>
-    <p class="text-[15px] leading-[1.95] tracking-[0.1px] text-[#71717d] min-[601px]:text-base">
+    <p class="text-[15px] leading-[1.95] tracking-[0.1px] text-[#71717d] dark:text-muted min-[601px]:text-base">
       把订阅交给我们，把时间留给创造。
       <br />
       从日常灵感到专业工作，找到适合你的 AI 订阅方案。
@@ -67,17 +67,20 @@ const products = [
       >
         探索订阅服务 <Icon name="arrow" class="size-[18px]" />
       </a>
-      <a class="text-link gap-[11px] text-sm" href="#how-it-works">
+      <a
+        class="text-link gap-[11px] text-sm dark:hover:text-accent"
+        href="#how-it-works"
+      >
         了解办理流程{" "}
         <span class="text-[19px]" aria-hidden="true">
           ↗
         </span>
       </a>
     </div>
-    <div class="mt-[22px] flex flex-wrap justify-center gap-2.5 text-[11px] text-[#6f717d] min-[601px]:mt-[29px] min-[601px]:justify-start min-[601px]:gap-x-3 min-[601px]:gap-y-1.5 min-[601px]:text-xs min-[1101px]:gap-[18px]">
+    <div class="mt-[22px] flex flex-wrap justify-center gap-2.5 text-[11px] text-[#6f717d] dark:text-muted min-[601px]:mt-[29px] min-[601px]:justify-start min-[601px]:gap-x-3 min-[601px]:gap-y-1.5 min-[601px]:text-xs min-[1101px]:gap-[18px]">
       {promises.map((promise) => (
         <span class="inline-flex items-center gap-[5px]">
-          <Icon name="check" class="size-3.5 shrink-0 text-brand" />
+          <Icon name="check" class="size-3.5 shrink-0 text-accent" />
           {promise}
         </span>
       ))}
@@ -89,17 +92,17 @@ const products = [
     role="img"
     aria-label="ChatGPT、Claude、Gemini、Cursor：探索 AI 的更多可能"
   >
-    <div class="absolute top-1/2 left-1/2 size-[210px] -translate-1/2 rounded-full border border-[#e5dff7] min-[801px]:size-[260px]"></div>
-    <div class="absolute top-1/2 left-1/2 size-[300px] -translate-1/2 rounded-full border border-[#e5dff7] min-[801px]:size-[360px]"></div>
-    <div class="absolute top-1/2 left-1/2 size-[370px] -translate-1/2 rounded-full border border-dashed border-[#eee9f8] min-[801px]:size-[450px]"></div>
-    <span class="absolute top-[3px] left-1/2 -translate-x-1/2 text-[8px] font-semibold tracking-[2px] whitespace-nowrap text-[#8d83a8] min-[601px]:top-0 min-[601px]:text-[7px] min-[801px]:top-3.5 min-[801px]:text-[9px]">
+    <div class="absolute top-1/2 left-1/2 size-[210px] -translate-1/2 rounded-full border border-[#e5dff7] dark:border-[#3f374d] min-[801px]:size-[260px]"></div>
+    <div class="absolute top-1/2 left-1/2 size-[300px] -translate-1/2 rounded-full border border-[#e5dff7] dark:border-[#3f374d] min-[801px]:size-[360px]"></div>
+    <div class="absolute top-1/2 left-1/2 size-[370px] -translate-1/2 rounded-full border border-dashed border-[#eee9f8] dark:border-[#332c40] min-[801px]:size-[450px]"></div>
+    <span class="absolute top-[3px] left-1/2 -translate-x-1/2 text-[8px] font-semibold tracking-[2px] whitespace-nowrap text-[#8d83a8] dark:text-[#b6a9cc] min-[601px]:top-0 min-[601px]:text-[7px] min-[801px]:top-3.5 min-[801px]:text-[9px]">
       A LITTLE LESS ORDINARY.
     </span>
 
     {products.map((product) => (
       <div
         class:list={[
-          "floating-brand absolute z-2 flex items-center gap-[7px] rounded-[10px] border border-[#ece9f4] bg-[#ffffffed] py-2.5 pr-[13px] pl-2.5 text-sm font-[650] tracking-[-0.3px] shadow-[0_8px_24px_#2b195209] min-[601px]:gap-1.5 min-[601px]:p-[9px] min-[601px]:text-[13px] min-[801px]:gap-2 min-[801px]:rounded-[13px] min-[801px]:py-2.5 min-[801px]:pr-[13px] min-[801px]:pl-2.5 min-[801px]:text-sm min-[1101px]:gap-[11px] min-[1101px]:py-[13px] min-[1101px]:pr-[19px] min-[1101px]:pl-[13px] min-[1101px]:text-[17px] min-[1450px]:py-[15px] min-[1450px]:pr-[22px] min-[1450px]:pl-[15px]",
+          "floating-brand absolute z-2 flex items-center gap-[7px] rounded-[10px] border border-[#ece9f4] bg-[#ffffffed] py-2.5 pr-[13px] pl-2.5 text-sm font-[650] tracking-[-0.3px] shadow-[0_8px_24px_#2b195209] text-ink dark:border-line dark:bg-surface dark:shadow-[0_8px_24px_#00000033] min-[601px]:gap-1.5 min-[601px]:p-[9px] min-[601px]:text-[13px] min-[801px]:gap-2 min-[801px]:rounded-[13px] min-[801px]:py-2.5 min-[801px]:pr-[13px] min-[801px]:pl-2.5 min-[801px]:text-sm min-[1101px]:gap-[11px] min-[1101px]:py-[13px] min-[1101px]:pr-[19px] min-[1101px]:pl-[13px] min-[1101px]:text-[17px] min-[1450px]:py-[15px] min-[1450px]:pr-[22px] min-[1450px]:pl-[15px]",
           product.position,
         ]}
       >
@@ -113,7 +116,7 @@ const products = [
         </span>
         <span>
           {product.name}
-          <small class="mt-[3px] block text-[9px] font-normal tracking-[0.7px] text-[#9995a4] min-[601px]:text-[8px] min-[801px]:text-[10px]">
+          <small class="mt-[3px] block text-[9px] font-normal tracking-[0.7px] text-[#9995a4] dark:text-muted min-[601px]:text-[8px] min-[801px]:text-[10px]">
             {product.caption}
           </small>
         </span>
@@ -140,7 +143,7 @@ const products = [
       </div>
     </div>
 
-    <span class="absolute bottom-0 left-1/2 flex -translate-x-1/2 items-center gap-2 text-[8px] tracking-[1.6px] whitespace-nowrap text-[#958ba8] min-[801px]:bottom-1.5 min-[801px]:text-[10px]">
+    <span class="absolute bottom-0 left-1/2 flex -translate-x-1/2 items-center gap-2 text-[8px] tracking-[1.6px] whitespace-nowrap text-[#958ba8] dark:text-[#b6a9cc] min-[801px]:bottom-1.5 min-[801px]:text-[10px]">
       <span class="size-[5px] rounded-full bg-[#a99acb]"></span>{" "}
       给创造力，多一个入口
     </span>
@@ -196,6 +199,19 @@ const products = [
     box-shadow:
       0 0 0 25px #ffffff03,
       0 0 0 52px #ffffff03;
+  }
+  :global([data-theme="dark"]) .hero-visual {
+    background-image: radial-gradient(#514561 0.8px, transparent 0.8px);
+  }
+  :global([data-theme="dark"]) .hero-visual::before {
+    background: radial-gradient(ellipse, #7357ef1f, transparent 66%);
+  }
+  :global([data-theme="dark"]) .access-card {
+    background: linear-gradient(120deg, #3c304f, #2c2538 70%);
+    box-shadow:
+      0 25px 35px -15px #00000099,
+      0 0 0 1px #a58cd63d,
+      0 0 0 5px #a58cd60d;
   }
   .float-chatgpt {
     left: 9%;

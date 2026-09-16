@@ -1,5 +1,6 @@
 ---
 import { site } from "../data/site";
+import themeInitializer from "../scripts/theme-init.js?raw";
 import "../styles/global.css";
 interface Props {
   title?: string;
@@ -15,6 +16,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#7357ef" />
+    <script is:inline set:html={themeInitializer}></script>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <meta property="og:title" content={site.socialTitle} />
@@ -28,7 +30,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <a
-      class="fixed top-2 left-2 z-50 -translate-y-[150%] rounded bg-ink px-5 py-3 text-white focus:translate-y-0"
+      class="fixed top-2 left-2 z-50 -translate-y-[150%] rounded bg-ink px-5 py-3 text-canvas focus:translate-y-0"
       href="#main"
     >
       跳到主要内容

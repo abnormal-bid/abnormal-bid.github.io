@@ -15,7 +15,7 @@ const supportEmail = site.contact.email.trim();
     <div class="flex flex-col items-end gap-3">
       {supportEmail && (
         <a
-          class="text-sm text-muted hover:text-brand"
+          class="text-sm text-muted hover:text-accent"
           href={`mailto:${supportEmail}`}
           aria-label={`客服邮箱：${supportEmail}`}
         >
@@ -23,7 +23,7 @@ const supportEmail = site.contact.email.trim();
         </a>
       )}
       <a
-        class="inline-flex items-center gap-2 text-xs text-muted hover:text-brand"
+        class="inline-flex items-center gap-2 text-xs text-muted hover:text-accent"
         href="#subscriptions"
       >
         探索订阅 <Icon name="up-right" class="size-3.5" />

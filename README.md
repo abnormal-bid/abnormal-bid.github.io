@@ -2,7 +2,7 @@
 
 [线上网站](https://abnormal-bid.github.io/) · [发布记录](https://github.com/abnormal-bid/abnormal-bid.github.io/releases)
 
-使用 Astro、Tailwind CSS 4 和 TypeScript 构建的中文 AI 订阅服务官网。Astro 预渲染静态页面，只有导航菜单与咨询弹窗需要客户端 JavaScript；GitHub Actions 验证并部署到 GitHub Pages，release-please 管理版本与更新日志。
+使用 Astro、Tailwind CSS 4 和 TypeScript 构建的中文 AI 订阅服务官网。Astro 预渲染静态页面，导航菜单、主题切换与咨询弹窗使用轻量客户端 JavaScript；GitHub Actions 验证并部署到 GitHub Pages，release-please 管理版本与更新日志。
 
 ## 开发
 
@@ -17,7 +17,7 @@ npm run dev
 
 ```sh
 npm run check         # Astro 与 TypeScript 检查
-npm test              # 咨询文案、联系方式与邮件回退测试
+npm test              # 咨询逻辑与主题偏好测试
 npm run format:check  # 格式检查
 npm run build         # 生成 dist/
 npm run preview       # 预览生产构建
@@ -34,13 +34,19 @@ src/
   layouts/       共享 HTML 布局、SEO 与全局样式入口
   lib/inquiry.ts 咨询文案和联系方式选择的纯函数
   pages/         页面路由
-  scripts/       导航及咨询弹窗的 TypeScript 交互
+  scripts/       导航、主题及咨询弹窗的客户端交互
   styles/        Tailwind 主题、基础样式和共享 utility
 public/          favicon 等直接复制到发布目录的静态文件
-tests/           咨询逻辑回归测试
+tests/           咨询逻辑与主题行为回归测试
 ```
 
 主要布局、排版、状态和响应式设计使用 Tailwind utility；Hero 特有的点阵、轨道和卡片装饰使用组件内的少量局部 CSS。没有保留旧的全局 `styles.css` 或 `window.SITE_CONFIG`。
+
+## 外观主题
+
+导航栏提供「跟随系统」「浅色模式」「深色模式」。首次访问默认跟随系统，系统外观变化时同步更新；手动选择保存在当前浏览器的 `localStorage`（`abnormal-theme`），选择跟随系统会清除该偏好。不同标签页自动同步选择，浏览器禁用存储时仍可临时切换。
+
+主题初始化脚本在页面头部同步执行，提前设置实际主题，避免刷新时闪过错误配色。全局色彩在 `src/styles/global.css` 维护，组件通过动态色彩与 `dark:` 样式适配。
 
 ## 配置经营信息
 

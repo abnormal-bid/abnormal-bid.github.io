@@ -14,11 +14,11 @@ import Icon from "../components/Icon.astro";
   <Header />
   <main id="main">
     <Hero />
-    <div class="border-y border-line bg-[#fcfcfe]">
+    <div class="border-y border-line bg-subtle">
       <div class="page-shell flex min-h-22 flex-col items-center justify-center gap-3 py-5 text-xs text-muted lg:flex-row lg:justify-between lg:gap-6 lg:text-sm">
         <p>
           少一点订阅的麻烦。
-          <strong class="ml-2 font-medium text-[#52535d]">
+          <strong class="ml-2 font-medium text-[#52535d] dark:text-ink">
             多一点 AI 的可能。
           </strong>
         </p>
@@ -27,7 +27,7 @@ import Icon from "../components/Icon.astro";
             (label, index) => (
               <span
                 class:list={{
-                  'before:mr-4 before:text-[#b7b1c8] before:content-["/"] md:before:mr-6':
+                  'before:mr-4 before:text-[#b7b1c8] before:content-["/"] dark:before:text-[#716781] md:before:mr-6':
                     index > 0,
                 }}
               >
@@ -61,7 +61,7 @@ import Icon from "../components/Icon.astro";
           </p>
         </div>
         <button
-          class="btn relative mt-6 shrink-0 bg-white text-ink md:mt-0"
+          class="btn relative mt-6 shrink-0 bg-white text-[#202127] md:mt-0"
           data-inquiry
         >
           聊聊我的订阅 <Icon name="up-right" />
