@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.0](https://github.com/abnormal-bid/abnormal-bid.github.io/compare/v1.2.0...v1.3.0) (2026-09-21)
+
+
+### Features
+
+* add privacy policy and terms of service pages ([686af75](https://github.com/abnormal-bid/abnormal-bid.github.io/commit/686af759715ad807b611f14afecb96fd78ae099e))
+* present Abnormal as an email service ([1ca4f20](https://github.com/abnormal-bid/abnormal-bid.github.io/commit/1ca4f2027ee6bef93b88f065cfa9468155c8e6d6))
+* refresh site design with forest green visual identity ([1bf5da7](https://github.com/abnormal-bid/abnormal-bid.github.io/commit/1bf5da7083a115a894bfb62e2df65c6c7e5dfa72))
+
 ## [1.2.0](https://github.com/abnormal-bid/abnormal-bid.github.io/compare/v1.1.0...v1.2.0) (2026-09-16)
 
 
