@@ -4,48 +4,130 @@ import Icon from "./Icon.astro";
 ---
 
 <section
-  class="border-y border-[#f0eef7] bg-[#faf9fd] dark:border-line dark:bg-subtle"
+  class="process-section"
   id="how-it-works"
   aria-labelledby="process-title"
 >
   <div class="page-shell section-space">
-    <div class="mb-9 flex flex-col justify-between gap-3 md:flex-row md:items-end md:gap-8">
+    <div class="process-heading">
       <div>
-        <p class="eyebrow">A SIMPLE WAY TO GET STARTED</p>
+        <p class="eyebrow">
+          <span class="mr-2.5 font-normal text-muted">02 /</span>A SIMPLE WAY TO
+          GET STARTED
+        </p>
         <h2 class="section-title" id="process-title">
           三步，开始使用你的邮箱<span class="text-accent">。</span>
         </h2>
       </div>
-      <p class="text-sm leading-loose text-muted">
+      <p class="process-intro">
         从需求到配置，
         <br class="hidden md:block" />
         每一步都先和你说清楚。
       </p>
     </div>
-    <div class="grid gap-8 md:grid-cols-3 md:gap-10">
+    <div class="process-grid">
       {processSteps.map((step, index) => (
-        <article class="relative pl-14 md:pl-0">
-          <div class="absolute top-0 left-0 mb-5 flex flex-col items-center gap-4 md:static md:flex-row">
-            <span class="text-3xl font-normal tracking-tight text-[#8875ba] dark:text-accent">
+        <article class="process-step">
+          <div class="step-topline">
+            <span class="step-number" aria-hidden="true">
               {String(index + 1).padStart(2, "0")}
             </span>
-            <span
-              class="hidden h-px flex-1 bg-[#e6e1f1] dark:bg-line md:block"
-              aria-hidden="true"
-            ></span>
-            <Icon
-              name={step.icon}
-              class="text-[#9180be] dark:text-accent md:size-6"
-            />
+            <span class="step-line" aria-hidden="true"></span>
+            <span class="step-icon">
+              <Icon name={step.icon} />
+            </span>
           </div>
-          <h3 class="mb-2 text-base font-semibold md:mb-3 md:text-lg">
-            {step.title}
-          </h3>
-          <p class="text-[0.9375rem] leading-loose text-muted md:text-base">
-            {step.description}
-          </p>
+          <h3 class="step-title">{step.title}</h3>
+          <p class="step-description">{step.description}</p>
         </article>
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  .process-section {
+    border-block: 1px solid var(--color-line);
+    background: var(--color-subtle);
+  }
+  .process-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2.75rem;
+  }
+  .process-intro,
+  .step-description {
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    line-height: 1.95;
+  }
+  .process-grid {
+    display: grid;
+    gap: 2.25rem;
+  }
+  .process-step {
+    min-width: 0;
+  }
+  .step-topline {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.3rem;
+  }
+  .step-number {
+    font-size: 2.75rem;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.07em;
+    color: var(--color-accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .step-line {
+    height: 1px;
+    flex: 1;
+    background: var(--color-line);
+  }
+  .step-icon {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+    place-items: center;
+    border: 1px solid var(--color-line);
+    border-radius: 50%;
+    color: var(--color-accent);
+    background: var(--color-canvas);
+  }
+  .step-title {
+    margin-bottom: 0.65rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  .step-description {
+    max-width: 28rem;
+  }
+  @media (width >= 768px) {
+    .process-heading {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 3.75rem;
+    }
+    .process-intro {
+      flex-shrink: 0;
+    }
+    .process-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2.5rem;
+    }
+    .step-topline {
+      margin-bottom: 1.75rem;
+    }
+    .step-number {
+      font-size: 3.25rem;
+    }
+  }
+</style>

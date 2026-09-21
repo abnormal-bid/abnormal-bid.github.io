@@ -53,34 +53,26 @@ if (telegram)
 <BaseLayout title={`${title} — Abnormal`} description={description}>
   <Header />
   <main id="main">
-    <section
-      class="border-b border-line bg-subtle"
-      aria-labelledby="legal-title"
-    >
-      <div class="page-shell flex flex-col gap-8 py-12 md:py-16 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
-        <div class="max-w-2xl">
+    <section class="legal-hero" aria-labelledby="legal-title">
+      <div class="page-shell legal-hero-inner">
+        <div class="legal-hero-copy">
           <p class="eyebrow">{eyebrow}</p>
-          <h1
-            class="mt-3 text-[2rem] leading-tight font-semibold tracking-tight md:text-[2.5rem]"
-            id="legal-title"
-          >
+          <h1 class="legal-title" id="legal-title">
             {title}
             <span class="text-accent">。</span>
           </h1>
-          <p class="mt-4 text-[0.9375rem] leading-loose text-muted md:text-base">
-            {summary}
-          </p>
+          <p class="legal-summary">{summary}</p>
         </div>
-        <dl class="flex shrink-0 gap-8 text-sm">
+        <dl class="legal-dates">
           <div>
-            <dt class="text-xs text-muted">生效日期</dt>
-            <dd class="mt-1 font-medium">
+            <dt>生效日期</dt>
+            <dd>
               <time datetime={effective}>{formatDate(effective)}</time>
             </dd>
           </div>
           <div>
-            <dt class="text-xs text-muted">最后更新</dt>
-            <dd class="mt-1 font-medium">
+            <dt>最后更新</dt>
+            <dd>
               <time datetime={updated}>{formatDate(updated)}</time>
             </dd>
           </div>
@@ -88,18 +80,17 @@ if (telegram)
       </div>
     </section>
 
-    <div class="page-shell section-space grid gap-10 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-20">
-      <aside class="lg:sticky lg:top-8 lg:self-start">
+    <div class="page-shell section-space legal-layout">
+      <aside class="legal-sidebar">
         <nav aria-label="目录">
-          <p class="text-xs font-semibold tracking-wide text-muted">目录</p>
-          <ol class="mt-3 flex flex-wrap gap-2 lg:flex-col lg:gap-0 lg:border-t lg:border-line">
+          <p class="legal-nav-label">
+            本页目录 <span>CONTENTS</span>
+          </p>
+          <ol class="legal-nav-list">
             {sections.map(({ slug, text }, index) => (
-              <li class="lg:border-b lg:border-line">
-                <a
-                  class="inline-flex items-baseline gap-2 rounded-lg border border-line bg-surface px-3 py-1.5 text-xs text-muted transition-colors hover:border-accent hover:text-accent lg:w-full lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:py-2.5 lg:text-sm"
-                  href={`#${slug}`}
-                >
-                  <span class="text-[0.625rem] font-semibold tracking-[0.1em] text-accent tabular-nums">
+              <li>
+                <a class="legal-nav-link" href={`#${slug}`}>
+                  <span class="legal-nav-number">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   {text}
@@ -111,18 +102,14 @@ if (telegram)
       </aside>
 
       <article class="min-w-0">
-        <div class="rounded-2xl bg-lavender px-5 py-5 md:px-7 md:py-6">
-          <div class="flex flex-wrap items-baseline justify-between gap-2">
-            <p class="text-xs font-semibold tracking-wide text-[#756092] dark:text-accent">
-              要点速览
-            </p>
-            <p class="text-[0.6875rem] text-muted">
-              摘要仅供快速了解，具体以正文为准。
-            </p>
+        <div class="legal-highlights">
+          <div class="highlights-heading">
+            <p class="highlights-label">要点速览</p>
+            <p class="highlights-note">摘要仅供快速了解，具体以正文为准。</p>
           </div>
-          <ul class="mt-3 grid gap-2.5 md:grid-cols-2 md:gap-x-6">
+          <ul class="highlights-list">
             {highlights.map((item) => (
-              <li class="flex items-start gap-2.5 text-sm leading-relaxed">
+              <li>
                 <Icon name="check" class="mt-1 size-4 shrink-0 text-accent" />
                 {item}
               </li>
@@ -166,10 +153,7 @@ if (telegram)
           </section>
         </div>
 
-        <nav
-          class="mt-12 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-6 text-sm"
-          aria-label="相关页面"
-        >
+        <nav class="legal-related" aria-label="相关页面">
           {relatedPages.map(({ href, label }) => (
             <a class="text-link text-muted" href={href}>
               另见 {label} <Icon name="up-right" class="size-4" />
@@ -187,6 +171,148 @@ if (telegram)
 </BaseLayout>
 
 <style>
+  .legal-hero {
+    position: relative;
+    border-bottom: 1px solid var(--color-line);
+    background: var(--color-subtle);
+  }
+  .legal-hero-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding-block: 3.5rem;
+  }
+  .legal-hero-copy {
+    max-width: 40rem;
+  }
+  .legal-title {
+    margin-top: 1rem;
+    font-size: clamp(2.25rem, 4vw, 3.5rem);
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+  }
+  .legal-summary {
+    margin-top: 1.25rem;
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.95;
+  }
+  .legal-dates {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    gap: 1.5rem 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-line);
+  }
+  .legal-dates dt {
+    color: var(--color-muted);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+  }
+  .legal-dates dd {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+  .legal-layout {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .legal-nav-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--color-ink);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  .legal-nav-label span {
+    color: var(--color-muted);
+    font-size: 0.5625rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+  }
+  .legal-nav-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .legal-nav-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.65rem;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
+    color: var(--color-muted);
+    background: var(--color-surface);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    transition:
+      color 180ms ease,
+      background 180ms ease;
+  }
+  .legal-nav-link:hover {
+    color: var(--color-accent);
+    background: var(--color-lavender);
+  }
+  .legal-nav-number {
+    flex-shrink: 0;
+    color: var(--color-accent);
+    font-size: 0.625rem;
+    letter-spacing: 0.05em;
+    font-variant-numeric: tabular-nums;
+  }
+  .legal-highlights {
+    padding: 1.4rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.875rem;
+    background: var(--color-lavender);
+  }
+  .highlights-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.6rem 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .highlights-label {
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .highlights-note {
+    color: var(--color-muted);
+    font-size: 0.6875rem;
+    line-height: 1.8;
+  }
+  .highlights-list {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.15rem;
+  }
+  .highlights-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.8125rem;
+    line-height: 1.8;
+  }
+  .legal-related {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+    margin-top: 3rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--color-line);
+  }
   .legal-body {
     counter-reset: legal-section;
     font-size: 0.9375rem;
@@ -198,7 +324,7 @@ if (telegram)
     display: flex;
     align-items: baseline;
     gap: 0.75rem;
-    margin-top: 3rem;
+    margin-top: 3.25rem;
     margin-bottom: 1rem;
     font-size: 1.25rem;
     line-height: 1.5;
@@ -268,11 +394,62 @@ if (telegram)
     color: var(--color-ink);
   }
   @media (width >= 768px) {
+    .legal-hero-inner {
+      padding-block: 4.5rem;
+    }
+    .legal-highlights {
+      padding: 1.75rem 2rem;
+    }
+    .highlights-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 1.5rem;
+    }
     .legal-body {
       font-size: 1rem;
     }
     .legal-body :global(h2) {
       font-size: 1.375rem;
+    }
+  }
+  @media (width >= 1024px) {
+    .legal-hero-inner {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 3.5rem;
+    }
+    .legal-dates {
+      flex-direction: column;
+      gap: 1.4rem;
+      min-width: 11rem;
+      padding: 0 0 0 2rem;
+      border-top: 0;
+      border-left: 1px solid var(--color-line);
+    }
+    .legal-layout {
+      grid-template-columns: 13rem minmax(0, 1fr);
+      gap: 5rem;
+    }
+    .legal-sidebar {
+      position: sticky;
+      top: 7.5rem;
+      align-self: start;
+    }
+    .legal-nav-list {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--color-line);
+    }
+    .legal-nav-list li {
+      border-bottom: 1px solid var(--color-line);
+    }
+    .legal-nav-link {
+      width: 100%;
+      padding: 0.85rem 0.2rem;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      font-size: 0.8125rem;
     }
   }
 </style>

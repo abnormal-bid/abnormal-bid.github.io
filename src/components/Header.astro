@@ -5,57 +5,180 @@ import ThemePicker from "./ThemePicker.astro";
 import { navigation } from "../data/site";
 ---
 
-<header class="site-header relative z-10 h-18 border-b border-line bg-canvas/95 md:h-23.5">
-  <div class="page-shell flex h-full items-center justify-between gap-3 md:gap-6">
+<header class="site-header">
+  <div class="page-shell header-inner">
     <Brand />
-    <nav
-      class="hidden items-center gap-8 text-sm text-muted md:flex"
-      aria-label="主导航"
-    >
+    <nav class="desktop-nav" aria-label="主导航">
       {navigation.map(({ href, label }) => (
-        <a class="transition-colors hover:text-accent" href={href}>
-          {label}
-        </a>
+        <a href={href}>{label}</a>
       ))}
     </nav>
-    <div class="ml-auto flex items-center gap-2 md:ml-0 md:gap-3">
+    <div class="header-actions">
       <ThemePicker />
+      <span class="header-divider" aria-hidden="true"></span>
+      <button class="btn btn-primary header-inquiry" data-inquiry>
+        咨询邮箱 <Icon name="up-right" class="size-3.5" />
+      </button>
       <button
-        class="btn btn-dark hidden min-h-10 gap-2 px-3 py-2 text-xs sm:inline-flex md:gap-4 md:px-4 md:text-sm"
-        data-inquiry
+        class="menu-toggle icon-button"
+        aria-label="展开导航"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
       >
+        <Icon name="menu" />
+      </button>
+    </div>
+  </div>
+  <nav id="mobile-nav" aria-label="移动端导航" hidden>
+    <div class="page-shell mobile-nav-inner">
+      {navigation.map(({ href, label }, index) => (
+        <a href={href}>
+          <span>0{index + 1}</span>
+          {label}
+          <Icon name="up-right" class="size-4" />
+        </a>
+      ))}
+      <button class="btn btn-primary" data-inquiry>
         咨询邮箱 <Icon name="up-right" class="size-4" />
       </button>
     </div>
-    <button
-      class="menu-toggle icon-button w-7 md:hidden"
-      aria-label="展开导航"
-      aria-expanded="false"
-      aria-controls="mobile-nav"
-    >
-      <Icon name="menu" />
-    </button>
-  </div>
-  <nav
-    class="absolute inset-x-0 top-full flex flex-col gap-1 border-b border-line bg-surface px-5 pt-3 pb-4 shadow-lg shadow-black/5 md:hidden"
-    id="mobile-nav"
-    aria-label="移动端导航"
-    hidden
-  >
-    {navigation.map(({ href, label }) => (
-      <a class="rounded px-2 py-3 text-sm hover:bg-lavender" href={href}>
-        {label}
-      </a>
-    ))}
-    <button
-      class="rounded px-2 py-3 text-left text-sm hover:bg-lavender"
-      data-inquiry
-    >
-      咨询邮箱 ↗
-    </button>
   </nav>
 </header>
 <script>
   import { initializeNavigation } from "../scripts/navigation";
   initializeNavigation();
 </script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-canvas) 93%, transparent);
+    backdrop-filter: blur(18px);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 86px;
+  }
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-left: 3rem;
+  }
+  .desktop-nav a {
+    position: relative;
+    padding-block: 0.8rem;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    transition: color 0.2s;
+  }
+  .desktop-nav a::after {
+    content: "";
+    position: absolute;
+    bottom: 0.25rem;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s;
+  }
+  .desktop-nav a:hover {
+    color: var(--color-ink);
+  }
+  .desktop-nav a:hover::after {
+    transform: scaleX(1);
+  }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .header-divider {
+    width: 1px;
+    height: 1.2rem;
+    margin-inline: 0.1rem 0.5rem;
+    background: var(--color-line);
+  }
+  .header-inquiry {
+    min-height: 42px;
+    padding: 0.6rem 1.1rem;
+    gap: 1.1rem;
+    font-size: 0.75rem;
+  }
+  .menu-toggle {
+    display: none;
+  }
+  #mobile-nav {
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    max-height: calc(100dvh - 73px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--color-canvas);
+    border-bottom: 1px solid var(--color-line);
+    box-shadow: 0 14px 24px #12261b0d;
+  }
+  .mobile-nav-inner {
+    display: flex;
+    flex-direction: column;
+    padding-block: 0.75rem 1.3rem;
+  }
+  .mobile-nav-inner > a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 54px;
+    border-bottom: 1px solid var(--color-line);
+    font-size: 0.85rem;
+  }
+  .mobile-nav-inner > a > span {
+    color: var(--color-muted);
+    font-size: 0.6rem;
+  }
+  .mobile-nav-inner > a :global(.icon) {
+    margin-left: auto;
+    color: var(--color-accent);
+  }
+  .mobile-nav-inner > button {
+    margin-top: 1rem;
+  }
+  @media (min-width: 768px) {
+    #mobile-nav {
+      display: none;
+    }
+  }
+  @media (max-width: 950px) {
+    .desktop-nav {
+      gap: 1.2rem;
+      margin-left: 0;
+    }
+  }
+  @media (max-width: 767px) {
+    .header-inner {
+      min-height: 72px;
+      gap: 0.75rem;
+    }
+    .desktop-nav,
+    .header-divider {
+      display: none;
+    }
+    .menu-toggle {
+      display: flex;
+    }
+    .header-actions {
+      gap: 0.15rem;
+    }
+    .header-inquiry {
+      display: none;
+    }
+  }
+</style>

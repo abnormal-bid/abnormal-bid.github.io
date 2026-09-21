@@ -17,34 +17,39 @@ const initialLink = getContactLink(site.contact, initialInquiry);
 ---
 
 <dialog
-  class="m-auto max-h-[calc(100dvh-40px)] w-[calc(100%-32px)] max-w-130 overscroll-contain rounded-2xl border border-[#e9e5f3] bg-surface p-5 text-ink shadow-2xl backdrop:bg-[#17102469] backdrop:backdrop-blur-sm dark:border-line dark:backdrop:bg-black/65 md:p-8"
+  class="inquiry-dialog"
   id="inquiry-dialog"
   aria-labelledby="inquiry-title"
   aria-describedby="inquiry-description"
 >
-  <div class="mb-2 flex items-center justify-between gap-4">
-    <span class="eyebrow text-[0.625rem]">LET'S GET YOU STARTED</span>
-    <button class="icon-button" id="close-dialog" aria-label="关闭咨询窗口">
-      <Icon name="close" />
-    </button>
+  <div class="inquiry-heading">
+    <div class="inquiry-heading-top">
+      <span class="inquiry-eyebrow">
+        <span class="inquiry-heading-icon">
+          <Icon name="chat" />
+        </span>
+        LET'S GET YOU STARTED
+      </span>
+      <button
+        class="icon-button inquiry-close"
+        id="close-dialog"
+        aria-label="关闭咨询窗口"
+      >
+        <Icon name="close" />
+      </button>
+    </div>
+    <h2 id="inquiry-title">
+      从你的需求开始<span class="text-accent">。</span>
+    </h2>
+    <p id="inquiry-description">
+      选好服务，整理需求，再联系咨询。
+      <br />
+      方案、报价与开通方式均需确认后再下单。
+    </p>
   </div>
-  <h2
-    class="text-[1.625rem] leading-normal font-semibold tracking-tight"
-    id="inquiry-title"
-  >
-    从你的需求开始<span class="text-accent">。</span>
-  </h2>
-  <p
-    class="mt-3 mb-5 text-sm leading-loose text-muted"
-    id="inquiry-description"
-  >
-    选好服务，整理需求，再联系咨询。
-    <br />
-    方案、报价与开通方式均需确认后再下单。
-  </p>
-  <form id="inquiry-form">
-    <div class="mb-5 grid grid-cols-2 gap-3.5">
-      <label class="text-sm font-medium">
+  <form class="inquiry-form" id="inquiry-form">
+    <div class="inquiry-fields">
+      <label class="inquiry-field">
         服务类型
         <select class="mt-2" id="inquiry-product" name="product">
           {products.map(({ name }) => (
@@ -56,7 +61,7 @@ const initialLink = getContactLink(site.contact, initialInquiry);
           </option>
         </select>
       </label>
-      <label class="text-sm font-medium">
+      <label class="inquiry-field">
         使用时长
         <select class="mt-2" id="inquiry-duration" name="duration">
           {serviceDurations.map((value) => (
@@ -65,7 +70,7 @@ const initialLink = getContactLink(site.contact, initialInquiry);
         </select>
       </label>
     </div>
-    <label class="block text-sm font-medium">
+    <label class="inquiry-field">
       邮箱数量、域名或客户端需求{" "}
       <span class="ml-1 text-xs font-normal text-muted">选填</span>
       <textarea
@@ -77,8 +82,9 @@ const initialLink = getContactLink(site.contact, initialInquiry);
         placeholder="例如：需要 3 个邮箱，已有域名，希望在手机和电脑上收发邮件。请勿填写密码或验证码。"
       ></textarea>
     </label>
-    <div class="mt-5 rounded-lg bg-lavender px-4 py-3.5">
-      <span class="text-xs font-medium text-[#756092] dark:text-accent">
+    <div class="inquiry-preview">
+      <span class="inquiry-preview-label">
+        <Icon name="copy" class="size-3.5" />
         你的咨询内容
       </span>
       <p
@@ -88,14 +94,14 @@ const initialLink = getContactLink(site.contact, initialInquiry);
         {formatInquiry(initialInquiry)}
       </p>
     </div>
-    <div class="mt-4 flex items-start gap-2" id="contact-info">
-      <Icon name="chat" class="mt-1 size-4 text-[#8d7fa9] dark:text-accent" />
+    <div class="inquiry-contact" id="contact-info">
+      <Icon name="chat" class="mt-1 size-4 text-accent" />
       <p class="text-xs leading-loose wrap-anywhere text-muted">
         {describeContact(site.contact)}
       </p>
     </div>
     <button
-      class="btn btn-primary mt-5 w-full gap-2.5"
+      class="btn btn-primary inquiry-copy"
       id="copy-inquiry"
       type="submit"
     >
@@ -103,7 +109,7 @@ const initialLink = getContactLink(site.contact, initialInquiry);
       复制咨询内容
     </button>
     <a
-      class="btn btn-dark mt-2 w-full"
+      class="btn btn-outline inquiry-contact-link"
       id="contact-link"
       href={initialLink?.href}
       hidden={!initialLink}
@@ -113,7 +119,7 @@ const initialLink = getContactLink(site.contact, initialInquiry);
       <span data-contact-label>{initialLink?.label || "前往咨询"}</span>
       <Icon name="up-right" />
     </a>
-    <p class="mt-3 text-center text-xs leading-relaxed text-muted">
+    <p class="inquiry-note">
       此页面仅帮你整理需求，不会提交订单或扣款。
       <br />
       咨询与服务适用
@@ -144,6 +150,242 @@ const initialLink = getContactLink(site.contact, initialInquiry);
     ></p>
   </form>
 </dialog>
+<style>
+  .inquiry-dialog {
+    width: min(560px, calc(100% - 32px));
+    max-height: calc(100dvh - 40px);
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    overscroll-behavior: contain;
+    border: 1px solid var(--color-line);
+    border-radius: 24px;
+    background: var(--color-surface);
+    color: var(--color-ink);
+    box-shadow: 0 24px 100px rgb(0 0 0 / 20%);
+  }
+
+  .inquiry-dialog[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .inquiry-dialog::backdrop {
+    background: color-mix(in srgb, var(--color-brand-dark) 42%, transparent);
+    backdrop-filter: blur(6px);
+  }
+
+  .inquiry-heading {
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--color-line);
+    background: var(--color-subtle);
+    padding: 20px 28px 22px;
+  }
+
+  .inquiry-heading-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .inquiry-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-accent);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .inquiry-heading-icon {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    background: var(--color-surface);
+  }
+
+  .inquiry-close {
+    width: 44px;
+    height: 44px;
+    margin-right: -8px;
+    border-radius: 50%;
+  }
+
+  .inquiry-heading h2 {
+    font-size: 28px;
+    font-weight: 650;
+    line-height: 1.4;
+    letter-spacing: -0.045em;
+  }
+
+  .inquiry-heading p {
+    margin-top: 10px;
+    color: var(--color-muted);
+    font-size: 13px;
+    line-height: 1.9;
+  }
+
+  .inquiry-form {
+    min-height: 0;
+    padding: 26px 28px 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line) transparent;
+  }
+
+  .inquiry-fields {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .inquiry-field {
+    display: block;
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .inquiry-field select,
+  .inquiry-field textarea {
+    border-radius: 12px;
+    background-color: var(--color-canvas);
+    font-weight: 400;
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .inquiry-field select {
+    min-height: 48px;
+    padding-right: 8px;
+    font-size: 14px;
+  }
+
+  .inquiry-field textarea {
+    min-height: 108px;
+    padding: 12px 14px;
+  }
+
+  .inquiry-field textarea::placeholder {
+    line-height: 1.8;
+  }
+
+  .inquiry-field select:hover,
+  .inquiry-field textarea:hover {
+    border-color: color-mix(
+      in srgb,
+      var(--color-accent) 45%,
+      var(--color-line)
+    );
+  }
+
+  .inquiry-field select:focus,
+  .inquiry-field textarea:focus {
+    border-color: var(--color-accent);
+    background-color: var(--color-surface);
+  }
+
+  .inquiry-preview {
+    margin-top: 22px;
+    padding: 17px 18px;
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    background: var(--color-lavender);
+  }
+
+  .inquiry-preview-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--color-accent);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .inquiry-contact {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin-top: 16px;
+  }
+
+  .inquiry-copy,
+  .inquiry-contact-link {
+    width: 100%;
+    min-height: 50px;
+    gap: 10px;
+    border-radius: 12px;
+  }
+
+  .inquiry-copy {
+    margin-top: 22px;
+  }
+
+  .inquiry-contact-link {
+    margin-top: 10px;
+  }
+
+  .inquiry-note {
+    margin-top: 18px;
+    color: var(--color-muted);
+    font-size: 11px;
+    line-height: 1.9;
+    text-align: center;
+  }
+
+  @media (max-height: 600px) {
+    .inquiry-dialog[open] {
+      display: block;
+      overflow-y: auto;
+    }
+
+    .inquiry-form {
+      overflow: visible;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .inquiry-dialog {
+      max-height: calc(100dvh - 24px);
+      width: calc(100% - 24px);
+      border-radius: 20px;
+    }
+
+    .inquiry-heading {
+      padding: 12px 20px 18px;
+    }
+
+    .inquiry-heading-top {
+      margin-bottom: 4px;
+    }
+
+    .inquiry-heading h2 {
+      font-size: 24px;
+    }
+
+    .inquiry-form {
+      padding: 22px 20px;
+    }
+
+    .inquiry-fields {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .inquiry-field select {
+      font-size: 16px;
+    }
+  }
+</style>
 <script>
   import { initializeInquiry } from "../scripts/inquiry";
   initializeInquiry();

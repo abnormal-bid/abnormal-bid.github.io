@@ -4,16 +4,17 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  --color-brand: #7357ef;
-  --color-brand-dark: #6344dc;
-  --color-ink: #202127;
-  --color-muted: #6f707c;
-  --color-canvas: #ffffff;
+  --color-brand: #244c3e;
+  --color-brand-dark: #193b30;
+  --color-ink: #253d34;
+  --color-muted: #626e62;
+  --color-canvas: #fbfcf8;
   --color-surface: #ffffff;
-  --color-subtle: #fcfcfe;
-  --color-line: #e9e9ef;
-  --color-lavender: #f6f4ff;
-  --color-accent: #7357ef;
+  --color-subtle: #f1f4ec;
+  --color-line: #e0e6da;
+  --color-lavender: #eef3e7;
+  --color-accent: #426c43;
+  --color-lime: #d8ecaa;
   --font-sans:
     "DM Sans", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
@@ -21,21 +22,35 @@
 
 @layer base {
   :root[data-theme="dark"] {
-    --color-ink: #f2f0fa;
-    --color-muted: #b0aaba;
-    --color-canvas: #141219;
-    --color-surface: #1e1b26;
-    --color-subtle: #19161f;
-    --color-line: #383241;
-    --color-lavender: #292335;
-    --color-accent: #b7a3ff;
+    --color-brand: #345d49;
+    --color-brand-dark: #426f57;
+    --color-ink: #edf2e7;
+    --color-muted: #a7b3a6;
+    --color-canvas: #141e19;
+    --color-surface: #1c2921;
+    --color-subtle: #19251e;
+    --color-line: #334336;
+    --color-lavender: #293a28;
+    --color-accent: #c3dda0;
+    --color-lime: #d8ecaa;
   }
   html {
-    @apply scroll-smooth scroll-pt-8 font-sans text-ink antialiased md:scroll-pt-28;
+    @apply scroll-smooth font-sans text-ink antialiased;
+    scroll-padding-top: 7rem;
     font-synthesis: none;
   }
   body {
     @apply m-0 bg-canvas;
+    min-width: 320px;
+    line-height: 1.6;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
   }
   .icon {
     @apply size-5;
@@ -58,13 +73,13 @@
   }
   select,
   textarea {
-    @apply w-full rounded-lg border border-line bg-surface px-3 py-2.5 text-base text-ink;
+    @apply w-full rounded-xl border border-line bg-canvas px-3.5 py-3 text-base text-ink transition-colors focus:border-accent;
   }
   textarea {
     @apply min-h-20 max-h-44 resize-y leading-relaxed placeholder:text-xs placeholder:text-muted;
   }
   ::selection {
-    @apply bg-[#ded5ff] text-[#31206e];
+    @apply bg-lime text-[#253d34];
   }
   [hidden] {
     display: none !important;
@@ -90,30 +105,30 @@
 
 @utility page-shell {
   width: calc(100% - 40px);
-  max-width: 1200px;
+  max-width: 1240px;
   margin-inline: auto;
   @media (width >= 768px) {
     width: calc(100% - 64px);
   }
   @media (width >= 1280px) {
-    width: calc(100% - 112px);
+    width: calc(100% - 128px);
   }
 }
 
 @utility section-space {
-  @apply py-13 md:py-16 lg:py-20;
+  @apply py-16 md:py-20 lg:py-24;
 }
 @utility eyebrow {
-  @apply text-xs font-bold tracking-[0.11em] text-accent;
+  @apply text-[0.625rem] font-semibold tracking-[0.18em] text-accent md:text-[0.6875rem];
 }
 @utility btn {
-  @apply inline-flex min-h-12 items-center justify-center gap-5 rounded-lg border border-transparent px-5 py-3 text-sm leading-normal font-medium transition duration-200 hover:-translate-y-0.5 disabled:translate-y-0;
+  @apply inline-flex min-h-12 items-center justify-center gap-5 rounded-full border border-transparent px-6 py-3 text-sm leading-normal font-medium transition duration-200 hover:-translate-y-0.5 disabled:translate-y-0;
 }
 @utility btn-primary {
-  @apply border-brand bg-brand text-white hover:border-brand-dark hover:bg-brand-dark hover:shadow-md;
+  @apply border-brand bg-brand text-white hover:border-brand-dark hover:bg-brand-dark hover:shadow-lg hover:shadow-brand/10;
 }
 @utility btn-dark {
-  @apply border-ink bg-ink text-canvas hover:bg-[#373840] dark:hover:bg-[#d9d4e5];
+  @apply border-ink bg-ink text-canvas hover:opacity-85;
 }
 @utility btn-outline {
   @apply border-line bg-surface hover:border-accent hover:bg-lavender;
@@ -122,8 +137,8 @@
   @apply inline-flex items-center gap-3 text-sm leading-relaxed font-medium transition-colors hover:text-accent;
 }
 @utility icon-button {
-  @apply flex size-9 shrink-0 items-center justify-center rounded-lg text-muted hover:bg-lavender;
+  @apply flex size-11 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-lavender hover:text-ink;
 }
 @utility section-title {
-  @apply mt-2.5 text-[1.6rem] leading-normal font-semibold tracking-tight md:text-[1.95rem];
+  @apply mt-4 text-[1.625rem] leading-[1.5] font-semibold tracking-[-0.04em] md:text-[2rem] lg:text-[2.25rem];
 }

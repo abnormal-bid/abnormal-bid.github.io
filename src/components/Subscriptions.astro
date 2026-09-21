@@ -5,36 +5,139 @@ import ProductCard from "./ProductCard.astro";
 ---
 
 <section
-  class="page-shell section-space"
+  class="services-section"
   id="services"
   aria-labelledby="services-title"
 >
-  <div class="mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-end md:gap-8">
-    <div>
-      <p class="eyebrow">FIND YOUR EMAIL</p>
-      <h2 class="section-title" id="services-title">
-        你的邮箱，从这里开始<span class="text-accent">。</span>
-      </h2>
+  <div class="page-shell section-space">
+    <div class="services-heading">
+      <div>
+        <p class="eyebrow">
+          <span>01 /</span> FIND YOUR EMAIL
+        </p>
+        <h2 class="section-title" id="services-title">
+          总有一个邮箱，
+          <br class="mobile-break" />
+          适合你的日常<span class="text-accent">。</span>
+        </h2>
+      </div>
+      <p class="services-intro">
+        从一人的灵感，到一群人的协作。
+        <br />
+        选一项想了解的服务，聊聊你的邮箱需求。
+      </p>
     </div>
-    <p class="text-sm leading-loose text-muted">
-      不同的使用场景，都有合适的选择。
-      <br class="hidden md:block" />
-      选一项想了解的服务，聊聊你的邮箱需求。
-    </p>
+    <div class="services-grid">
+      {products.map((product, index) => (
+        <ProductCard product={product} index={index} />
+      ))}
+    </div>
+    <div class="services-note">
+      <p>
+        <Icon name="chat" class="size-4" />
+        有其他邮箱或团队配置需求？
+        <button data-inquiry={otherProduct}>
+          和我们聊聊 <Icon name="up-right" class="size-3" />
+        </button>
+      </p>
+      <span>具体服务方案及费用，以咨询确认为准。</span>
+    </div>
   </div>
-  <div class="grid grid-cols-2 gap-3 md:gap-5 lg:grid-cols-4">
-    {products.map((product) => (
-      <ProductCard product={product} />
-    ))}
-  </div>
-  <p class="mt-6 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-2 text-center text-xs leading-relaxed text-muted">
-    <Icon name="chat" class="size-4" />
-    有其他邮箱或团队配置需求？
-    <button class="text-accent hover:underline" data-inquiry={otherProduct}>
-      和我们聊聊 ↗
-    </button>
-    <span class="w-full lg:ml-2 lg:w-auto">
-      具体服务方案及费用，以咨询确认为准。
-    </span>
-  </p>
 </section>
+
+<style>
+  .services-section {
+    border-top: 1px solid var(--color-line);
+  }
+  .services-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .eyebrow > span {
+    margin-right: 0.65rem;
+    color: var(--color-muted);
+    font-weight: 400;
+  }
+  .services-intro {
+    padding-bottom: 0.2rem;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    line-height: 1.95;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .services-note {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.75rem;
+    font-size: 0.65rem;
+    color: var(--color-muted);
+  }
+  .services-note p {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .services-note button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    min-height: 32px;
+    color: var(--color-accent);
+    text-underline-offset: 4px;
+  }
+  .services-note button:hover {
+    text-decoration: underline;
+  }
+  .mobile-break {
+    display: none;
+  }
+  @media (max-width: 1023px) {
+    .services-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .services-heading {
+      gap: 1rem;
+    }
+    .services-intro {
+      font-size: 0.75rem;
+    }
+    .services-note {
+      align-items: start;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+  @media (max-width: 767px) {
+    .services-heading {
+      align-items: start;
+      flex-direction: column;
+      margin-bottom: 1.75rem;
+    }
+    .services-intro {
+      font-size: 0.8rem;
+    }
+  }
+  @media (max-width: 639px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+    .services-note {
+      line-height: 1.8;
+    }
+  }
+  @media (max-width: 380px) {
+    .mobile-break {
+      display: block;
+    }
+  }
+</style>

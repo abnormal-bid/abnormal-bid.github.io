@@ -14,57 +14,38 @@ import Icon from "../components/Icon.astro";
   <Header />
   <main id="main">
     <Hero />
-    <div class="border-y border-line bg-subtle">
-      <div class="page-shell flex min-h-22 flex-col items-center justify-center gap-3 py-5 text-xs text-muted lg:flex-row lg:justify-between lg:gap-6 lg:text-sm">
-        <p>
-          少一点配置的麻烦。
-          <strong class="ml-2 font-medium text-[#52535d] dark:text-ink">
-            多一点沟通的从容。
-          </strong>
-        </p>
-        <div class="flex gap-4 md:gap-6">
-          {["日常收发", "专属域名", "团队协作", "配置支持"].map(
-            (label, index) => (
-              <span
-                class:list={{
-                  'before:mr-4 before:text-[#b7b1c8] before:content-["/"] dark:before:text-[#716781] md:before:mr-6':
-                    index > 0,
-                }}
-              >
-                {label}
-              </span>
-            ),
-          )}
-        </div>
+    <div class="page-shell value-strip">
+      <p>
+        少一点配置的麻烦。<strong>多一点沟通的从容。</strong>
+      </p>
+      <div>
+        {["日常收发", "专属域名", "团队协作", "配置支持"].map((label) => (
+          <span>
+            <Icon name="spark" class="size-3.5" />
+            {label}
+          </span>
+        ))}
       </div>
     </div>
     <Subscriptions />
     <Process />
     <Faq />
-    <section class="page-shell pb-12 md:pb-18">
-      <div class="relative overflow-hidden rounded-2xl bg-brand px-6 py-9 text-white md:flex md:items-center md:justify-between md:gap-8 md:px-12 md:py-12">
-        <div
-          class="pointer-events-none absolute bottom-[-4rem] left-[55%] text-[17.5rem] leading-none text-white/5"
-          aria-hidden="true"
-        >
-          ✳
+    <section class="page-shell closing-section" aria-labelledby="closing-title">
+      <div class="closing-card">
+        <div class="closing-decoration" aria-hidden="true">
+          <span>@</span>
         </div>
-        <div class="relative">
-          <p class="text-[0.625rem] font-bold tracking-[0.1em]">
-            MAKE EVERY CONNECTION COUNT
-          </p>
-          <h2 class="mt-3 text-[1.6rem] leading-normal font-semibold tracking-tight md:text-[1.95rem]">
-            下一封邮件，从这里开始。
+        <div class="closing-copy">
+          <p>MAKE EVERY CONNECTION COUNT</p>
+          <h2 id="closing-title">
+            下一封邮件，
+            <br class="closing-break" />
+            从这里开始。
           </h2>
-          <p class="mt-3 text-sm leading-relaxed">
-            聊聊你的使用场景，一起找到合适的邮箱方案。
-          </p>
+          <span>聊聊你的使用场景，一起找到合适的邮箱方案。</span>
         </div>
-        <button
-          class="btn relative mt-6 shrink-0 bg-white text-[#202127] md:mt-0"
-          data-inquiry
-        >
-          聊聊邮箱需求 <Icon name="up-right" />
+        <button class="btn closing-button" data-inquiry>
+          聊聊邮箱需求 <Icon name="up-right" class="size-4" />
         </button>
       </div>
     </section>
@@ -72,3 +53,177 @@ import Icon from "../components/Icon.astro";
   <Footer />
   <InquiryDialog />
 </BaseLayout>
+
+<style>
+  .value-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-block: 1.8rem;
+    border-top: 1px solid var(--color-line);
+    color: var(--color-muted);
+  }
+  .value-strip p {
+    font-size: 0.75rem;
+  }
+  .value-strip strong {
+    margin-left: 0.5rem;
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+  .value-strip > div {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .value-strip > div > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+  }
+  .value-strip :global(.icon) {
+    color: var(--color-accent);
+  }
+  .closing-section {
+    padding-bottom: 5rem;
+  }
+  .closing-card {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    overflow: hidden;
+    padding: 3.25rem 3.5rem;
+    border: 1px solid #42634e;
+    border-radius: 22px;
+    background: #244c3e;
+    color: #f8fbed;
+  }
+  .closing-copy {
+    position: relative;
+  }
+  .closing-copy > p {
+    color: #d8ecaa;
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+  }
+  .closing-copy > h2 {
+    margin-top: 1rem;
+    font-size: clamp(1.65rem, 2.6vw, 2.25rem);
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+  }
+  .closing-copy > span {
+    display: block;
+    margin-top: 0.9rem;
+    font-size: 0.8rem;
+    color: #c2d1c4;
+    line-height: 1.9;
+  }
+  .closing-button {
+    flex-shrink: 0;
+    min-height: 52px;
+    gap: 1.75rem;
+    color: #244c3e;
+    background: #d8ecaa;
+    font-size: 0.8rem;
+  }
+  .closing-button:hover {
+    background: #e4f3c3;
+    box-shadow: 0 6px 25px #0e2c2929;
+  }
+  .closing-decoration {
+    position: absolute;
+    z-index: -1;
+    width: 24rem;
+    height: 24rem;
+    border: 1px solid #d8ecaa12;
+    border-radius: 50%;
+    left: 48%;
+    top: -4rem;
+    display: grid;
+    place-items: center;
+  }
+  .closing-decoration::before {
+    content: "";
+    position: absolute;
+    inset: 2.75rem;
+    border-radius: 50%;
+    border: 1px solid #d8ecaa12;
+  }
+  .closing-decoration > span {
+    font-family: Georgia, serif;
+    font-size: 15rem;
+    color: #d8ecaa0a;
+    transform: rotate(-18deg);
+    line-height: 1;
+  }
+  .closing-break {
+    display: none;
+  }
+  @media (max-width: 1023px) {
+    .value-strip {
+      justify-content: center;
+    }
+    .value-strip > div {
+      gap: 1.5rem;
+    }
+    .closing-card {
+      padding: 2.75rem;
+    }
+  }
+  @media (max-width: 767px) {
+    .value-strip {
+      flex-direction: column;
+      gap: 1.1rem;
+      padding-block: 1.5rem;
+    }
+    .value-strip p {
+      font-size: 0.65rem;
+    }
+    .value-strip > div {
+      gap: 1.1rem;
+    }
+    .value-strip > div > span {
+      gap: 0.3rem;
+      font-size: 0.6rem;
+    }
+    .closing-card {
+      align-items: start;
+      flex-direction: column;
+      gap: 1.75rem;
+      padding: 2rem 1.5rem;
+      border-radius: 18px;
+    }
+    .closing-section {
+      padding-bottom: 3.5rem;
+    }
+    .closing-copy > span {
+      font-size: 0.75rem;
+    }
+    .closing-decoration {
+      left: 25%;
+    }
+  }
+  @media (max-width: 380px) {
+    .value-strip strong {
+      margin-left: 0.15rem;
+    }
+    .value-strip > div {
+      gap: 0.8rem;
+    }
+    .closing-break {
+      display: block;
+    }
+    .closing-copy > h2 {
+      font-size: 1.6rem;
+    }
+  }
+</style>

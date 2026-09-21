@@ -27,7 +27,7 @@
     root.style.colorScheme = theme;
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", theme === "dark" ? "#141219" : "#ffffff");
+      ?.setAttribute("content", theme === "dark" ? "#141e19" : "#fbfcf8");
     window.dispatchEvent(new CustomEvent("abnormal:themechange"));
   };
 

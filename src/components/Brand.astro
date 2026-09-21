@@ -1,15 +1,44 @@
-<a
-  class="inline-flex items-center gap-2.5 text-[1.5rem] font-extrabold tracking-[-0.075rem] whitespace-nowrap"
-  href="/"
-  aria-label="Abnormal 首页"
->
-  <span
-    class="relative flex size-8.5 items-center justify-center rounded-[0.625rem] bg-brand pt-0.5 pr-1.5 text-[2rem] leading-none font-semibold text-white"
-    aria-hidden="true"
-  >
-    a<span class="absolute top-0.5 right-1 text-xl">↗</span>
+<a class="brand" href="/" aria-label="Abnormal 首页">
+  <span class="brand-mark" aria-hidden="true">
+    a<span>↗</span>
   </span>
   <span>
-    abnormal<span class="text-accent">.</span>
+    abnormal<span class="brand-period">.</span>
   </span>
 </a>
+
+<style>
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.45rem;
+    line-height: 1;
+    font-weight: 750;
+    letter-spacing: -0.075rem;
+    white-space: nowrap;
+  }
+  .brand-mark {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.15rem;
+    height: 2.15rem;
+    padding: 0.05rem 0.35rem 0 0;
+    border-radius: 0.7rem;
+    background: #244c3e;
+    color: #d8ecaa;
+    font-size: 2.05rem;
+    font-weight: 600;
+  }
+  .brand-mark > span {
+    position: absolute;
+    top: 0.1rem;
+    right: 0.15rem;
+    font-size: 1.25rem;
+  }
+  .brand-period {
+    color: var(--color-accent);
+  }
+</style>

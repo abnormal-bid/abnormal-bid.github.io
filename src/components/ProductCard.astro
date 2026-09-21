@@ -3,79 +3,245 @@ import type { Product } from "../data/site";
 import Icon from "./Icon.astro";
 interface Props {
   product: Product;
+  index: number;
 }
-const { product } = Astro.props;
-const darkMarkClasses: Record<string, string> = {
-  个人邮箱: "dark:bg-[#203a31] dark:text-[#79d5af]",
-  域名邮箱: "dark:bg-[#443028] dark:text-[#f0b295]",
-  团队邮箱: "dark:bg-[#292e4c] dark:text-[#adb9ff]",
-  邮箱配置: "dark:bg-[#35313f] dark:text-[#eeeaf6]",
-};
+const { product, index } = Astro.props;
+const symbols = ["mail", "domain", "team", "settings"];
+const symbol = symbols[index];
 ---
 
 <article
-  class:list={[
-    "product-card flex flex-col rounded-xl border p-4 transition duration-200 hover:-translate-y-1 hover:border-[#c5b9ef] hover:shadow-lg hover:shadow-ink/5 dark:hover:border-accent/60 dark:hover:shadow-black/20 md:p-6",
-    product.featured
-      ? "border-[#cbbef8] bg-linear-to-b from-[#fcfbff] to-white dark:border-[#635186] dark:from-[#2b243b] dark:to-surface"
-      : "border-[#e7e7ef] bg-surface dark:border-line",
-  ]}
+  class:list={["product-card", { "is-featured": product.featured }]}
   data-product={product.name}
 >
-  <div class="flex items-center justify-between gap-2">
+  <div class="card-top">
     <span
-      class:list={[
-        "flex size-10 shrink-0 items-center justify-center rounded-xl text-3xl leading-none md:size-12 md:text-4xl",
-        product.markClass,
-        darkMarkClasses[product.name] ?? "dark:bg-lavender dark:text-accent",
-      ]}
+      class:list={["product-symbol", `symbol-${symbol}`]}
       aria-hidden="true"
     >
-      {product.mark}
+      {symbol === "mail" ? (
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="14" rx="3" />
+          <path d="m4 7 8 6 8-6" />
+        </svg>
+      ) : symbol === "domain" ? (
+        <span>@</span>
+      ) : symbol === "team" ? (
+        <svg viewBox="0 0 24 24">
+          <circle cx="9" cy="8" r="3" />
+          <path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6m3 9v-2a6 6 0 0 0-2-4" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24">
+          <path d="M5 4v9m0 4v3m7-16v3m0 4v9m7-16v9m0 4v3" />
+          <circle cx="5" cy="15" r="2" />
+          <circle cx="12" cy="9" r="2" />
+          <circle cx="19" cy="15" r="2" />
+        </svg>
+      )}
     </span>
-    <span class="text-[0.6875rem] text-muted md:text-xs">
-      {product.category}
-    </span>
+    <span class="product-category">{product.category}</span>
   </div>
-  <h3 class="mt-4 text-[1.35rem] font-semibold tracking-tight md:text-2xl">
+  <h3>
     {product.name}
+    <span aria-hidden="true">0{index + 1}</span>
   </h3>
-  <p class="mt-2 flex-1 text-sm leading-loose text-muted lg:text-base">
-    {product.description}
-  </p>
-  <div class="mt-4 flex flex-wrap gap-1.5">
+  <p class="product-description">{product.description}</p>
+  <div class="product-tags">
     {product.tags.map((tag) => (
-      <span
-        class:list={[
-          "rounded px-1.5 py-1 text-[0.6875rem] leading-normal md:text-xs",
-          product.featured
-            ? "bg-[#f2edff] text-[#715b9b] dark:bg-[#39304f] dark:text-[#d1bffc]"
-            : "bg-[#f6f6f8] text-[#686672] dark:bg-[#2c2835] dark:text-[#c6bfd4]",
-        ]}
-      >
+      <span>
+        <Icon name="check" class="size-3" />
         {tag}
       </span>
     ))}
   </div>
-  <div class="mt-5 flex flex-col gap-1 border-t border-line pt-5">
-    <strong
-      class="text-xl font-semibold tracking-tight md:text-[1.375rem]"
-      data-price
-    >
-      {product.price || "咨询报价"}
-    </strong>
-    <span class="text-xs text-muted" data-price-note>
-      {product.priceNote}
-    </span>
+  <div class="product-price">
+    <strong data-price>{product.price || "咨询报价"}</strong>
+    <span data-price-note>{product.priceNote}</span>
   </div>
   <button
     class:list={[
-      "btn mt-5 min-h-11 w-full justify-between gap-2 px-3 py-2.5 text-sm",
+      "btn product-action",
       product.featured ? "btn-primary" : "btn-outline",
     ]}
     data-inquiry={product.name}
-    aria-label={`咨询 ${product.name} 服务`}
+    aria-label={`咨询这项服务：${product.name}`}
   >
-    咨询服务 <Icon name="up-right" class="size-4" />
+    咨询这项服务 <Icon name="up-right" class="size-4" />
   </button>
 </article>
+
+<style>
+  .product-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 1.55rem 1.4rem 1.4rem;
+    border: 1px solid var(--color-line);
+    border-radius: 18px;
+    background: var(--color-surface);
+    transition:
+      transform 0.25s,
+      box-shadow 0.25s,
+      border-color 0.25s;
+  }
+  .product-card:hover {
+    transform: translateY(-5px);
+    border-color: color-mix(
+      in srgb,
+      var(--color-accent) 45%,
+      var(--color-line)
+    );
+    box-shadow: 0 16px 36px -18px #244c3e26;
+  }
+  .is-featured {
+    background: var(--color-lavender);
+    border-color: color-mix(
+      in srgb,
+      var(--color-accent) 35%,
+      var(--color-line)
+    );
+  }
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+  }
+  .product-symbol {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+  }
+  .product-symbol svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .symbol-mail {
+    color: #4e7759;
+    background: #edf3e7;
+  }
+  .symbol-domain {
+    color: #426443;
+    background: #dae8c8;
+    font-size: 1.8rem;
+    line-height: 1;
+    font-weight: 500;
+  }
+  .symbol-team {
+    color: #a1714f;
+    background: #f8eee3;
+  }
+  .symbol-settings {
+    color: #6e7a84;
+    background: #edf0f1;
+  }
+  .product-category {
+    font-size: 0.6rem;
+    color: var(--color-muted);
+    letter-spacing: 0.04em;
+  }
+  h3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+  }
+  h3 > span {
+    color: var(--color-muted);
+    font-size: 0.6rem;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+  }
+  .product-description {
+    flex: 1;
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    line-height: 1.95;
+    color: var(--color-muted);
+  }
+  .product-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.9rem;
+    margin-top: 1.4rem;
+    font-size: 0.65rem;
+    color: var(--color-muted);
+  }
+  .product-tags > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .product-tags :global(.icon) {
+    color: var(--color-accent);
+  }
+  .product-price {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 1.45rem;
+    border-top: 1px solid var(--color-line);
+    padding-top: 1.25rem;
+  }
+  .product-price strong {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+  .product-price > span {
+    font-size: 0.65rem;
+    color: var(--color-muted);
+  }
+  .product-action {
+    justify-content: space-between;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 1.3rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.75rem;
+  }
+  :global([data-theme="dark"]) .product-symbol {
+    background: var(--color-lavender);
+    color: var(--color-accent);
+  }
+  @media (max-width: 1100px) and (min-width: 1024px) {
+    .product-card {
+      padding-inline: 1.1rem;
+    }
+    .product-category {
+      font-size: 0.55rem;
+    }
+    .product-tags {
+      gap: 0.4rem;
+    }
+  }
+  @media (max-width: 639px) {
+    .product-card {
+      padding: 1.5rem;
+    }
+    .product-description {
+      max-width: 28rem;
+    }
+    h3 {
+      margin-top: 1.1rem;
+    }
+    .product-tags {
+      margin-top: 1rem;
+    }
+    .product-price {
+      margin-top: 1.2rem;
+    }
+  }
+</style>
