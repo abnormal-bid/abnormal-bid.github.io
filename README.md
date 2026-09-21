@@ -31,9 +31,9 @@ Astro 检查器当前支持 TypeScript 5/6，因此本项目使用兼容的 Type
 src/
   components/     导航、Hero、订阅卡片、流程、FAQ、咨询弹窗等 Astro 组件
   data/site.ts    网站文案、产品、价格和公开联系方式
-  layouts/       共享 HTML 布局、SEO 与全局样式入口
+  layouts/       共享 HTML 布局、法律页面布局、SEO 与全局样式入口
   lib/inquiry.ts 咨询文案和联系方式选择的纯函数
-  pages/         页面路由
+  pages/         页面路由：首页，以及 Markdown 编写的隐私政策与服务条款
   scripts/       导航、主题及咨询弹窗的客户端交互
   styles/        Tailwind 主题、基础样式和共享 utility
 public/          favicon 等直接复制到发布目录的静态文件
@@ -60,6 +60,14 @@ tests/           咨询逻辑与主题行为回归测试
 这些配置会公开到网页中，请勿放入密钥、密码或私人信息。修改后提交到 `main` 即会重新构建并发布。
 
 联系信息未配置时，页面明确提示「咨询渠道即将公布」。咨询弹窗只在浏览器内整理和复制需求，不发送数据、不创建订单，也不收款。具体套餐、费用及服务条件需事先确认。
+
+## 隐私政策与服务条款
+
+`src/pages/privacy.md` 与 `src/pages/terms.md` 通过 `src/layouts/LegalLayout.astro` 渲染，发布路径为 `/privacy/` 与 `/terms/`，页脚与咨询弹窗都有入口。正文使用 Markdown 编写，每个二级标题自动编号并生成目录；「联系我们」一节由布局根据 `site.contact` 生成，正文中无需重复联系方式。
+
+frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`（页首英文小标）、`summary`（页首导语）、`effective` 与 `updated`（`YYYY-MM-DD`，修改正文后请更新 `updated`）、`highlights`（页首「要点速览」）。
+
+正式经营前请按实际情况核对并修改条款中的默认约定：信息保存期限、答复与验收时限、退款规则、适用法律与管辖法院，以及是否需要补充经营主体名称。
 
 ## 检查和部署
 

@@ -1,0 +1,278 @@
+---
+import type { MarkdownLayoutProps } from "astro";
+import BaseLayout from "./BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import InquiryDialog from "../components/InquiryDialog.astro";
+import Icon from "../components/Icon.astro";
+import { legalPages, site } from "../data/site";
+import { getTelegramUrl } from "../lib/inquiry";
+
+interface LegalFrontmatter {
+  title: string;
+  description: string;
+  eyebrow: string;
+  summary: string;
+  effective: string;
+  updated: string;
+  highlights: string[];
+}
+type Props = MarkdownLayoutProps<LegalFrontmatter>;
+
+const { frontmatter, headings } = Astro.props;
+const { title, description, eyebrow, summary, effective, updated, highlights } =
+  frontmatter;
+
+const currentPath = Astro.url.pathname.replace(/\/+$/, "");
+const relatedPages = legalPages.filter(
+  ({ href }) => href.replace(/\/+$/, "") !== currentPath,
+);
+const sections = [
+  ...headings.filter(({ depth }) => depth === 2),
+  { depth: 2, slug: "contact", text: "联系我们" },
+];
+
+const dateFormatter = new Intl.DateTimeFormat("zh-CN", {
+  dateStyle: "long",
+  timeZone: "UTC",
+});
+const formatDate = (value: string) =>
+  dateFormatter.format(new Date(`${value}T00:00:00Z`));
+
+const email = site.contact.email.trim();
+const wechat = site.contact.wechat.trim();
+const telegram = getTelegramUrl(site.contact.telegram);
+const contacts: { label: string; value: string; href?: string }[] = [];
+if (email)
+  contacts.push({ label: "邮箱", value: email, href: `mailto:${email}` });
+if (wechat) contacts.push({ label: "微信", value: wechat });
+if (telegram)
+  contacts.push({ label: "Telegram", value: telegram, href: telegram });
+---
+
+<BaseLayout title={`${title} — Abnormal`} description={description}>
+  <Header />
+  <main id="main">
+    <section
+      class="border-b border-line bg-subtle"
+      aria-labelledby="legal-title"
+    >
+      <div class="page-shell flex flex-col gap-8 py-12 md:py-16 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
+        <div class="max-w-2xl">
+          <p class="eyebrow">{eyebrow}</p>
+          <h1
+            class="mt-3 text-[2rem] leading-tight font-semibold tracking-tight md:text-[2.5rem]"
+            id="legal-title"
+          >
+            {title}
+            <span class="text-accent">。</span>
+          </h1>
+          <p class="mt-4 text-[0.9375rem] leading-loose text-muted md:text-base">
+            {summary}
+          </p>
+        </div>
+        <dl class="flex shrink-0 gap-8 text-sm">
+          <div>
+            <dt class="text-xs text-muted">生效日期</dt>
+            <dd class="mt-1 font-medium">
+              <time datetime={effective}>{formatDate(effective)}</time>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-xs text-muted">最后更新</dt>
+            <dd class="mt-1 font-medium">
+              <time datetime={updated}>{formatDate(updated)}</time>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <div class="page-shell section-space grid gap-10 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-20">
+      <aside class="lg:sticky lg:top-8 lg:self-start">
+        <nav aria-label="目录">
+          <p class="text-xs font-semibold tracking-wide text-muted">目录</p>
+          <ol class="mt-3 flex flex-wrap gap-2 lg:flex-col lg:gap-0 lg:border-t lg:border-line">
+            {sections.map(({ slug, text }, index) => (
+              <li class="lg:border-b lg:border-line">
+                <a
+                  class="inline-flex items-baseline gap-2 rounded-lg border border-line bg-surface px-3 py-1.5 text-xs text-muted transition-colors hover:border-accent hover:text-accent lg:w-full lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:py-2.5 lg:text-sm"
+                  href={`#${slug}`}
+                >
+                  <span class="text-[0.625rem] font-semibold tracking-[0.1em] text-accent tabular-nums">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  {text}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </aside>
+
+      <article class="min-w-0">
+        <div class="rounded-2xl bg-lavender px-5 py-5 md:px-7 md:py-6">
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <p class="text-xs font-semibold tracking-wide text-[#756092] dark:text-accent">
+              要点速览
+            </p>
+            <p class="text-[0.6875rem] text-muted">
+              摘要仅供快速了解，具体以正文为准。
+            </p>
+          </div>
+          <ul class="mt-3 grid gap-2.5 md:grid-cols-2 md:gap-x-6">
+            {highlights.map((item) => (
+              <li class="flex items-start gap-2.5 text-sm leading-relaxed">
+                <Icon name="check" class="mt-1 size-4 shrink-0 text-accent" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="legal-body">
+          <slot />
+          <section id="contact">
+            <h2>联系我们</h2>
+            <p>
+              如对本{title}
+              有任何疑问，或需要查询、更正、删除你的信息，请通过以下方式联系我们。为便于处理，请说明你的诉求及相关订单信息；请勿在消息中发送密码、验证码或支付卡信息。
+            </p>
+            {contacts.length > 0 ? (
+              <ul>
+                {contacts.map(({ label, value, href }) => (
+                  <li>
+                    {label}：
+                    {href ? (
+                      <a
+                        href={href}
+                        rel={
+                          href.startsWith("mailto:")
+                            ? undefined
+                            : "noopener noreferrer"
+                        }
+                      >
+                        {value}
+                      </a>
+                    ) : (
+                      value
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>联系渠道即将公布，公布后会更新在本页面。</p>
+            )}
+          </section>
+        </div>
+
+        <nav
+          class="mt-12 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-6 text-sm"
+          aria-label="相关页面"
+        >
+          {relatedPages.map(({ href, label }) => (
+            <a class="text-link text-muted" href={href}>
+              另见 {label} <Icon name="up-right" class="size-4" />
+            </a>
+          ))}
+          <a class="text-link text-muted" href="/">
+            返回首页 <Icon name="arrow" class="size-4" />
+          </a>
+        </nav>
+      </article>
+    </div>
+  </main>
+  <Footer />
+  <InquiryDialog />
+</BaseLayout>
+
+<style>
+  .legal-body {
+    counter-reset: legal-section;
+    font-size: 0.9375rem;
+    line-height: 2;
+    color: var(--color-muted);
+  }
+  .legal-body :global(h2) {
+    counter-increment: legal-section;
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+  .legal-body :global(h2)::before {
+    content: counter(legal-section, decimal-leading-zero);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-accent);
+  }
+  .legal-body :global(h3) {
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+  .legal-body :global(p + p),
+  .legal-body :global(ul + p),
+  .legal-body :global(ol + p) {
+    margin-top: 1rem;
+  }
+  .legal-body :global(ul),
+  .legal-body :global(ol) {
+    display: grid;
+    gap: 0.5rem;
+    margin-block: 1rem;
+    padding-left: 1.25rem;
+  }
+  .legal-body :global(ul) {
+    list-style: disc;
+  }
+  .legal-body :global(ol) {
+    list-style: decimal;
+  }
+  .legal-body :global(li)::marker {
+    color: var(--color-accent);
+  }
+  .legal-body :global(li > p) {
+    margin: 0;
+  }
+  .legal-body :global(strong) {
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+  .legal-body :global(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    overflow-wrap: anywhere;
+  }
+  .legal-body :global(a):hover {
+    text-decoration-thickness: 2px;
+  }
+  .legal-body :global(code) {
+    padding: 0.1em 0.4em;
+    border-radius: 0.25rem;
+    background: var(--color-lavender);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.8125rem;
+    color: var(--color-ink);
+  }
+  @media (width >= 768px) {
+    .legal-body {
+      font-size: 1rem;
+    }
+    .legal-body :global(h2) {
+      font-size: 1.375rem;
+    }
+  }
+</style>

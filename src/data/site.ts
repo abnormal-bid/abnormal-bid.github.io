@@ -77,9 +77,15 @@ export const products: readonly Product[] = [
 ];
 
 export const navigation = [
-  { href: "#subscriptions", label: "订阅服务" },
-  { href: "#how-it-works", label: "如何订阅" },
-  { href: "#faq", label: "常见问题" },
+  { href: "/#subscriptions", label: "订阅服务" },
+  { href: "/#how-it-works", label: "如何订阅" },
+  { href: "/#faq", label: "常见问题" },
+] as const;
+
+// 法律页面入口：页脚与咨询弹窗都会引用，路径带尾部斜杠以匹配 GitHub Pages 的目录发布。
+export const legalPages = [
+  { href: "/privacy/", label: "隐私政策" },
+  { href: "/terms/", label: "服务条款" },
 ] as const;
 
 export const subscriptionDurations = [
