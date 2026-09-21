@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/abnormal-bid/abnormal-bid.github.io/compare/v1.2.0...v1.3.0) (2026-09-21)
+
+
+### Features
+
+* add privacy policy and terms of service pages ([686af75](https://github.com/abnormal-bid/abnormal-bid.github.io/commit/686af759715ad807b611f14afecb96fd78ae099e))
+
 ## [1.2.0](https://github.com/abnormal-bid/abnormal-bid.github.io/compare/v1.1.0...v1.2.0) (2026-09-16)
 
 
