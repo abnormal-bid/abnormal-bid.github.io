@@ -1,8 +1,8 @@
 {
-  "name": "abnormal-ai-subscriptions",
+  "name": "abnormal-mail-services",
   "version": "1.2.0",
   "private": true,
-  "description": "Abnormal AI subscription website built with Astro and Tailwind CSS.",
+  "description": "Abnormal email services website built with Astro and Tailwind CSS.",
   "type": "module",
   "scripts": {
     "dev": "astro dev",

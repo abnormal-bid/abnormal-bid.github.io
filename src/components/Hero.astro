@@ -1,34 +1,34 @@
 ---
 import Icon from "./Icon.astro";
 
-const promises = ["费用提前确认", "按需选择方案", "专人沟通办理"];
+const promises = ["费用提前确认", "按需选择方案", "专人协助配置"];
 const products = [
   {
-    name: "ChatGPT",
-    caption: "让灵感发生",
-    symbol: "◎",
-    position: "float-chatgpt",
+    name: "个人邮箱",
+    caption: "日常收发",
+    symbol: "✉",
+    position: "float-personal",
     mark: "bg-[#e7f4ee] text-[#248b67] font-semibold dark:bg-[#183c31] dark:text-[#82d6b1]",
   },
   {
-    name: "Claude",
-    caption: "让想法深入",
-    symbol: "✳",
-    position: "float-claude",
+    name: "域名邮箱",
+    caption: "专属身份",
+    symbol: "@",
+    position: "float-domain",
     mark: "bg-[#faece5] text-[#c87755] dark:bg-[#412d25] dark:text-[#e7b097]",
   },
   {
-    name: "Gemini",
-    caption: "让探索继续",
-    symbol: "✦",
-    position: "float-gemini",
+    name: "团队邮箱",
+    caption: "协作沟通",
+    symbol: "+",
+    position: "float-team",
     mark: "bg-[#edf0ff] text-[#6b79da] dark:bg-[#282d49] dark:text-[#aebaff]",
   },
   {
-    name: "Cursor",
-    caption: "让代码成形",
-    symbol: "↖",
-    position: "float-cursor",
+    name: "邮箱配置",
+    caption: "配置支持",
+    symbol: "⚙",
+    position: "float-setup",
     mark: "bg-[#f0f0f2] text-[#24252c] font-medium dark:bg-[#35313d] dark:text-[#e4dfee]",
   },
 ];
@@ -43,35 +43,35 @@ const products = [
       <span class="text-[22px] leading-none tracking-normal" aria-hidden="true">
         ✳
       </span>
-      AI, WITHOUT THE FRICTION
+      EMAIL, MADE SIMPLE
     </p>
     <h1
       id="hero-title"
       class="mt-[19px] mb-5 text-[clamp(41px,10.6vw,57px)] leading-[1.36] font-[750] tracking-[-2px] min-[601px]:mt-5 min-[601px]:mb-6 min-[601px]:text-[43px] min-[601px]:leading-[1.38] min-[801px]:text-[clamp(45px,4.5vw,62px)] min-[801px]:tracking-[-2.8px]"
     >
-      好用的 AI，
+      好用的邮箱，
       <br />
       <span class="text-accent">
-        轻松拥有<span class="-ml-[5px]">。</span>
+        沟通更简单<span class="-ml-[5px]">。</span>
       </span>
     </h1>
     <p class="text-[15px] leading-[1.95] tracking-[0.1px] text-[#71717d] dark:text-muted min-[601px]:text-base">
-      把订阅交给我们，把时间留给创造。
+      一个邮箱，连接日常与工作。
       <br />
-      从日常灵感到专业工作，找到适合你的 AI 订阅方案。
+      从个人收发到团队协作，找到适合你的邮箱方案。
     </p>
     <div class="mt-[26px] flex flex-wrap items-center justify-center gap-[17px] min-[601px]:mt-8 min-[601px]:justify-start min-[601px]:gap-[15px] min-[801px]:gap-[27px]">
       <a
         class="btn btn-primary min-h-[46px] gap-3.5 px-[19px] py-3 text-sm min-[601px]:gap-2.5 min-[601px]:px-4 min-[801px]:gap-3.5 min-[801px]:px-6"
-        href="#subscriptions"
+        href="/#services"
       >
-        探索订阅服务 <Icon name="arrow" class="size-[18px]" />
+        探索邮箱服务 <Icon name="arrow" class="size-[18px]" />
       </a>
       <a
         class="text-link gap-[11px] text-sm dark:hover:text-accent"
         href="#how-it-works"
       >
-        了解办理流程{" "}
+        了解服务流程{" "}
         <span class="text-[19px]" aria-hidden="true">
           ↗
         </span>
@@ -90,13 +90,13 @@ const products = [
   <div
     class="hero-visual relative isolate mx-auto mt-3.5 h-[370px] w-full min-w-0 max-w-[430px] overflow-hidden min-[601px]:mt-0 min-[601px]:max-w-none min-[801px]:h-[420px] min-[1101px]:h-[445px] min-[1450px]:h-[480px]"
     role="img"
-    aria-label="ChatGPT、Claude、Gemini、Cursor：探索 AI 的更多可能"
+    aria-label="个人邮箱、域名邮箱、团队邮箱与邮箱配置：找到适合你的邮箱服务"
   >
     <div class="absolute top-1/2 left-1/2 size-[210px] -translate-1/2 rounded-full border border-[#e5dff7] dark:border-[#3f374d] min-[801px]:size-[260px]"></div>
     <div class="absolute top-1/2 left-1/2 size-[300px] -translate-1/2 rounded-full border border-[#e5dff7] dark:border-[#3f374d] min-[801px]:size-[360px]"></div>
     <div class="absolute top-1/2 left-1/2 size-[370px] -translate-1/2 rounded-full border border-dashed border-[#eee9f8] dark:border-[#332c40] min-[801px]:size-[450px]"></div>
     <span class="absolute top-[3px] left-1/2 -translate-x-1/2 text-[8px] font-semibold tracking-[2px] whitespace-nowrap text-[#8d83a8] dark:text-[#b6a9cc] min-[601px]:top-0 min-[601px]:text-[7px] min-[801px]:top-3.5 min-[801px]:text-[9px]">
-      A LITTLE LESS ORDINARY.
+      A LITTLE MORE CONNECTED.
     </span>
 
     {products.map((product) => (
@@ -131,12 +131,12 @@ const products = [
         <Icon name="up-right" class="size-[17px] text-[#c7b9ea]" />
       </div>
       <div class="mt-4 text-2xl leading-[1.2] font-semibold tracking-[-0.8px] min-[601px]:mt-[17px] min-[601px]:text-[21px] min-[801px]:mt-[19px] min-[801px]:text-[25px] min-[1101px]:text-[28px] min-[1450px]:text-[31px]">
-        More AI.
+        Your inbox.
         <br />
-        More possibilities<span class="text-[#bdabfa]">.</span>
+        Your identity<span class="text-[#bdabfa]">.</span>
       </div>
       <div class="mt-3.5 flex items-center justify-between text-[9px] tracking-[1.6px] text-[#cabfde] min-[601px]:text-[8px] min-[801px]:text-[10px] min-[1101px]:mt-[17px] min-[1450px]:mt-[21px]">
-        <span>你的下一种可能</span>
+        <span>连接每一次沟通</span>
         <span class="mr-0.5 text-[17px] font-bold tracking-[-5px] min-[801px]:text-[22px]">
           a↗
         </span>
@@ -145,7 +145,7 @@ const products = [
 
     <span class="absolute bottom-0 left-1/2 flex -translate-x-1/2 items-center gap-2 text-[8px] tracking-[1.6px] whitespace-nowrap text-[#958ba8] dark:text-[#b6a9cc] min-[801px]:bottom-1.5 min-[801px]:text-[10px]">
       <span class="size-[5px] rounded-full bg-[#a99acb]"></span>{" "}
-      给创造力，多一个入口
+      让每一封邮件，都有归处
     </span>
     <span class="absolute top-[57px] right-[18%] text-[23px] font-normal text-[#ac9cdb]">
       +
@@ -213,22 +213,22 @@ const products = [
       0 0 0 1px #a58cd63d,
       0 0 0 5px #a58cd60d;
   }
-  .float-chatgpt {
+  .float-personal {
     left: 9%;
     top: 32px;
     transform: rotate(-7deg);
   }
-  .float-claude {
+  .float-domain {
     right: 1%;
     top: 100px;
     transform: rotate(8deg);
   }
-  .float-gemini {
+  .float-team {
     left: 1%;
     bottom: 71px;
     transform: rotate(-5deg);
   }
-  .float-cursor {
+  .float-setup {
     right: 8%;
     bottom: 28px;
     transform: rotate(7deg);
@@ -243,68 +243,68 @@ const products = [
         transparent
       );
     }
-    .float-chatgpt {
+    .float-personal {
       left: 6%;
       top: 28px;
     }
-    .float-claude {
+    .float-domain {
       right: 0;
       top: 99px;
     }
-    .float-gemini {
+    .float-team {
       left: 0;
       bottom: 81px;
     }
-    .float-cursor {
+    .float-setup {
       right: 1%;
       bottom: 27px;
     }
   }
   @media (min-width: 801px) {
-    .float-chatgpt {
+    .float-personal {
       left: 8%;
       top: 45px;
     }
-    .float-claude {
+    .float-domain {
       top: 108px;
     }
-    .float-gemini {
+    .float-team {
       bottom: 84px;
     }
-    .float-cursor {
+    .float-setup {
       right: 3%;
       bottom: 38px;
     }
   }
   @media (min-width: 1101px) {
-    .float-chatgpt {
+    .float-personal {
       left: 12%;
       top: 51px;
     }
-    .float-claude {
+    .float-domain {
       right: 1%;
       top: 101px;
     }
-    .float-gemini {
+    .float-team {
       left: 3%;
       bottom: 94px;
     }
-    .float-cursor {
+    .float-setup {
       right: 9%;
       bottom: 55px;
     }
   }
   @media (min-width: 1450px) {
-    .float-chatgpt {
+    .float-personal {
       top: 61px;
     }
-    .float-claude {
+    .float-domain {
       top: 114px;
     }
-    .float-gemini {
+    .float-team {
       bottom: 97px;
     }
-    .float-cursor {
+    .float-setup {
       bottom: 67px;
     }
   }

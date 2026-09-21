@@ -17,11 +17,11 @@ export interface Product {
 }
 
 export const site = {
-  title: "Abnormal — AI 订阅服务",
+  title: "Abnormal — 邮箱服务",
   description:
-    "Abnormal 提供 AI 订阅代办咨询。了解 ChatGPT、Claude、Gemini、Cursor 等产品的订阅方案，确认费用与办理方式，让好用的 AI 更近一步。",
-  socialTitle: "Abnormal — 好用的 AI，轻松拥有。",
-  socialDescription: "AI 订阅代办咨询。少一点折腾，多一点创造。",
+    "Abnormal 提供邮箱服务，面向个人与团队的日常通信需求，支持邮箱开通、域名邮箱方案咨询与配置协助。了解服务内容与费用，让沟通更简单。",
+  socialTitle: "Abnormal — 好用的邮箱，沟通更简单。",
+  socialDescription: "从个人通信到团队往来，找到适合你的邮箱服务。",
   // 这里只填写公开的业务联系方式，不要放入密钥或其他敏感信息。
   contact: {
     wechat: "",
@@ -34,51 +34,51 @@ export const site = {
 // Tailwind 样式写为完整类名，保证构建时可以静态扫描。
 export const products: readonly Product[] = [
   {
-    name: "ChatGPT",
-    category: "日常全能",
-    mark: "◎",
+    name: "个人邮箱",
+    category: "日常通信",
+    mark: "✉",
     markClass: "bg-[#e7f4ee] text-[#248b67]",
-    description: "写作、学习、头脑风暴，为每一天多加一点灵感。",
-    tags: ["内容创作", "日常助手"],
+    description: "为日常收发、学习与工作往来，选择适合自己的邮箱。",
+    tags: ["日常收发", "个人使用"],
     price: "",
-    priceNote: "按套餐与时长确认",
+    priceNote: "按容量与使用时长确认",
   },
   {
-    name: "Claude",
-    category: "深度思考",
-    mark: "✳",
+    name: "域名邮箱",
+    category: "专属地址",
+    mark: "@",
     markClass: "bg-[#faece5] text-[#c87755]",
-    description: "从长文梳理到细致推敲，陪你把复杂的想法理清楚。",
-    tags: ["深度写作", "文档分析"],
+    description: "围绕你的域名规划邮箱地址，让每一次联系都带上自己的名字。",
+    tags: ["域名咨询", "地址规划"],
     price: "",
-    priceNote: "按套餐与时长确认",
+    priceNote: "按域名与配置需求确认",
     featured: true,
   },
   {
-    name: "Gemini",
-    category: "多面探索",
-    mark: "✦",
+    name: "团队邮箱",
+    category: "工作往来",
+    mark: "+",
     markClass: "bg-[#edf0ff] text-[#6b79da]",
-    description: "文字、图像与更多信息，换个角度，发现新的答案。",
-    tags: ["多模态", "研究学习"],
+    description: "按成员数量与工作用途规划邮箱，方便团队开展日常沟通。",
+    tags: ["团队使用", "按需配置"],
     price: "",
-    priceNote: "按套餐与时长确认",
+    priceNote: "按邮箱数量与时长确认",
   },
   {
-    name: "Cursor",
-    category: "编程搭档",
-    mark: "↖",
+    name: "邮箱配置",
+    category: "使用支持",
+    mark: "⚙",
     markClass: "bg-[#f0f0f2] text-[#24252c]",
-    description: "从第一个想法到下一次提交，让你的代码更快跟上思路。",
-    tags: ["辅助编程", "开发效率"],
+    description: "协助了解收发设置与客户端配置，让邮箱融入你的日常工作。",
+    tags: ["配置协助", "使用指导"],
     price: "",
-    priceNote: "按套餐与时长确认",
+    priceNote: "按具体服务范围确认",
   },
 ];
 
 export const navigation = [
-  { href: "/#subscriptions", label: "订阅服务" },
-  { href: "/#how-it-works", label: "如何订阅" },
+  { href: "/#services", label: "邮箱服务" },
+  { href: "/#how-it-works", label: "开通流程" },
   { href: "/#faq", label: "常见问题" },
 ] as const;
 
@@ -88,14 +88,14 @@ export const legalPages = [
   { href: "/terms/", label: "服务条款" },
 ] as const;
 
-export const subscriptionDurations = [
+export const serviceDurations = [
   "1 个月",
   "3 个月",
   "6 个月",
   "12 个月",
   "尚未确定",
 ] as const;
-export const otherProduct = "其他 / 团队订阅";
+export const otherProduct = "其他邮箱需求";
 export const undecidedProduct = "尚未确定";
 
 export const processSteps = [
@@ -103,45 +103,45 @@ export const processSteps = [
     icon: "chat",
     title: "聊聊你的需求",
     description:
-      "选择想订阅的 AI 产品，告诉我们目标套餐和使用时长；还没想好，也可以先聊聊用途。",
+      "告诉我们邮箱用途、所需数量与使用时长；有域名或客户端配置需求，也可以一起说明。",
   },
   {
     icon: "shield",
     title: "确认方案与费用",
     description:
-      "沟通可办理的方案、总费用、预计交付时间与售后约定，确认清楚后再决定。",
+      "沟通邮箱容量、服务范围、总费用、预计开通时间与支持方式，确认清楚后再决定。",
   },
   {
     icon: "spark",
-    title: "完成办理，开始创造",
-    description: "按确认的方式办理并验收订阅结果，把时间留给真正想做的事。",
+    title: "完成开通，开始沟通",
+    description: "按确认的方案开通与配置邮箱，检查收发是否正常，开始日常使用。",
   },
 ] as const;
 
 export const faqs = [
   {
-    question: "这是 AI 产品的官方服务吗？",
+    question: "Abnormal 提供什么服务？",
     answer:
-      "Abnormal 提供独立的 AI 订阅代办咨询，并非相关产品的官方网站，也不代表其运营方。产品名称仅用于说明可咨询的订阅需求。",
+      "我们提供邮箱服务，围绕个人与团队的日常通信需求，提供邮箱开通、域名邮箱方案咨询与配置协助。具体服务内容以双方确认的方案为准。",
   },
   {
-    question: "订阅价格是多少？有哪些套餐？",
+    question: "邮箱服务如何收费？",
     answer:
-      "价格取决于产品、套餐、时长及当时可用的办理方式。具体能否办理、总费用与费用明细会在下单前确认；未列出的产品也可以提出咨询。",
+      "费用根据邮箱数量、容量、使用时长和配置需求确定。我们会在开通前说明服务范围、总费用与续费条件，具体以咨询时确认的方案为准。",
   },
   {
-    question: "是使用自己的账号吗？需要提供什么？",
+    question: "开通前需要提供哪些信息？",
     answer:
-      "账号与办理方式会在确认方案时说明。初次咨询只需提供产品、套餐和时长，请勿发送密码、验证码、恢复码或支付信息。涉及账号操作时，需先确认方式及必要信息的使用范围。",
+      "初次咨询只需说明用途、邮箱数量和使用时长；涉及域名邮箱时，可以补充域名与期望的地址。请勿在咨询中发送密码、验证码、恢复码或支付信息，所需配置操作会另行说明。",
   },
   {
-    question: "通常多久可以完成订阅？",
+    question: "可以使用自己的域名或邮件客户端吗？",
     answer:
-      "不同产品和办理方式所需时间不同。我们会在付款前与你确认预计交付时间与验收方式，具体以双方确认的方案为准。",
+      "可以先告诉我们你的域名、设备与常用邮件客户端。我们会根据需求确认适用的方案、所需配置和支持范围；域名接入需由你确认拥有相应管理权限。",
   },
   {
-    question: "如果办理失败，或需要退款怎么办？",
+    question: "开通需要多久？遇到问题怎么办？",
     answer:
-      "办理失败、未完成或主动取消时的处理方式与退款条件，需在付款前确认。开通后的问题也请通过原咨询渠道联系，并提供订单相关信息，以便按约定处理。",
+      "开通时间取决于邮箱数量与配置需求，我们会在付款前确认预计时间、验收方式和取消退款条件。使用中遇到问题，可通过原咨询渠道联系我们，按确认的服务范围提供支持。",
   },
 ] as const;

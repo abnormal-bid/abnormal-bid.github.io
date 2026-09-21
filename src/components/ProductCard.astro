@@ -6,10 +6,10 @@ interface Props {
 }
 const { product } = Astro.props;
 const darkMarkClasses: Record<string, string> = {
-  ChatGPT: "dark:bg-[#203a31] dark:text-[#79d5af]",
-  Claude: "dark:bg-[#443028] dark:text-[#f0b295]",
-  Gemini: "dark:bg-[#292e4c] dark:text-[#adb9ff]",
-  Cursor: "dark:bg-[#35313f] dark:text-[#eeeaf6]",
+  个人邮箱: "dark:bg-[#203a31] dark:text-[#79d5af]",
+  域名邮箱: "dark:bg-[#443028] dark:text-[#f0b295]",
+  团队邮箱: "dark:bg-[#292e4c] dark:text-[#adb9ff]",
+  邮箱配置: "dark:bg-[#35313f] dark:text-[#eeeaf6]",
 };
 ---
 
@@ -74,8 +74,8 @@ const darkMarkClasses: Record<string, string> = {
       product.featured ? "btn-primary" : "btn-outline",
     ]}
     data-inquiry={product.name}
-    aria-label={`咨询 ${product.name} 订阅`}
+    aria-label={`咨询 ${product.name} 服务`}
   >
-    咨询订阅 <Icon name="up-right" class="size-4" />
+    咨询服务 <Icon name="up-right" class="size-4" />
   </button>
 </article>

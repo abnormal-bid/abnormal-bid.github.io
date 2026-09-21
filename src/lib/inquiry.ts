@@ -8,11 +8,11 @@ export interface Inquiry {
 
 export function formatInquiry({ product, duration, notes }: Inquiry): string {
   return [
-    "你好，我想咨询 AI 订阅服务。",
-    `产品：${product}`,
-    `时长：${duration}`,
+    "你好，我想咨询邮箱服务。",
+    `服务类型：${product}`,
+    `使用时长：${duration}`,
     ...(notes.trim() ? [`需求：${notes.trim()}`] : []),
-    "请帮我确认可办理的套餐、总费用、交付时间与售后条件。",
+    "请帮我确认邮箱方案、总费用、开通时间与支持范围。",
   ].join("\n");
 }
 
@@ -45,7 +45,7 @@ export function getContactLink(contact: Contact, inquiry: Inquiry) {
   if (email) {
     return {
       type: "email",
-      href: `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(`AI 订阅咨询 · ${inquiry.product}`)}&body=${encodeURIComponent(formatInquiry(inquiry))}`,
+      href: `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(`邮箱服务咨询 · ${inquiry.product}`)}&body=${encodeURIComponent(formatInquiry(inquiry))}`,
       label: "通过邮件咨询",
     } as const;
   }

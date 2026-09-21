@@ -2,7 +2,7 @@
 import Icon from "./Icon.astro";
 import {
   products,
-  subscriptionDurations,
+  serviceDurations,
   site,
   otherProduct,
   undecidedProduct,
@@ -10,7 +10,7 @@ import {
 import { describeContact, formatInquiry, getContactLink } from "../lib/inquiry";
 const initialInquiry = {
   product: undecidedProduct,
-  duration: subscriptionDurations[0],
+  duration: serviceDurations[0],
   notes: "",
 };
 const initialLink = getContactLink(site.contact, initialInquiry);
@@ -38,14 +38,14 @@ const initialLink = getContactLink(site.contact, initialInquiry);
     class="mt-3 mb-5 text-sm leading-loose text-muted"
     id="inquiry-description"
   >
-    选好产品，整理需求，再联系咨询。
+    选好服务，整理需求，再联系咨询。
     <br />
-    方案、报价与办理方式均需确认后再下单。
+    方案、报价与开通方式均需确认后再下单。
   </p>
   <form id="inquiry-form">
     <div class="mb-5 grid grid-cols-2 gap-3.5">
       <label class="text-sm font-medium">
-        想订阅的产品
+        服务类型
         <select class="mt-2" id="inquiry-product" name="product">
           {products.map(({ name }) => (
             <option>{name}</option>
@@ -57,16 +57,16 @@ const initialLink = getContactLink(site.contact, initialInquiry);
         </select>
       </label>
       <label class="text-sm font-medium">
-        订阅时长
+        使用时长
         <select class="mt-2" id="inquiry-duration" name="duration">
-          {subscriptionDurations.map((value) => (
+          {serviceDurations.map((value) => (
             <option>{value}</option>
           ))}
         </select>
       </label>
     </div>
     <label class="block text-sm font-medium">
-      套餐或其他需求{" "}
+      邮箱数量、域名或客户端需求{" "}
       <span class="ml-1 text-xs font-normal text-muted">选填</span>
       <textarea
         class="mt-2"
@@ -74,7 +74,7 @@ const initialLink = getContactLink(site.contact, initialInquiry);
         name="notes"
         rows="3"
         maxlength="600"
-        placeholder="例如：想了解个人套餐，用于写作和日常办公。请勿填写密码或验证码。"
+        placeholder="例如：需要 3 个邮箱，已有域名，希望在手机和电脑上收发邮件。请勿填写密码或验证码。"
       ></textarea>
     </label>
     <div class="mt-5 rounded-lg bg-lavender px-4 py-3.5">
@@ -116,7 +116,7 @@ const initialLink = getContactLink(site.contact, initialInquiry);
     <p class="mt-3 text-center text-xs leading-relaxed text-muted">
       此页面仅帮你整理需求，不会提交订单或扣款。
       <br />
-      咨询与办理适用
+      咨询与服务适用
       <a
         class="underline underline-offset-4 hover:text-accent"
         href="/terms/"

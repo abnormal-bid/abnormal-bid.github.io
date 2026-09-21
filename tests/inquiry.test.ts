@@ -9,15 +9,15 @@ import {
 
 const emptyContact = { wechat: "", email: "", telegram: "" };
 const inquiry = {
-  product: "Claude",
+  product: "域名邮箱",
   duration: "3 个月",
-  notes: "  写作 & 代码分析\n个人套餐  ",
+  notes: "  日常通信 & 工作往来\n需要 3 个邮箱  ",
 };
 
 test("consultation text keeps the selected product, duration and trimmed notes", () => {
   assert.equal(
     formatInquiry(inquiry),
-    "你好，我想咨询 AI 订阅服务。\n产品：Claude\n时长：3 个月\n需求：写作 & 代码分析\n个人套餐\n请帮我确认可办理的套餐、总费用、交付时间与售后条件。",
+    "你好，我想咨询邮箱服务。\n服务类型：域名邮箱\n使用时长：3 个月\n需求：日常通信 & 工作往来\n需要 3 个邮箱\n请帮我确认邮箱方案、总费用、开通时间与支持范围。",
   );
   assert.ok(!formatInquiry({ ...inquiry, notes: "  " }).includes("需求："));
 });
@@ -47,14 +47,18 @@ test("Telegram permits HTTPS t.me links only, without embedded credentials", () 
 
 test("invalid Telegram falls back to the configured email and escapes inquiry text", () => {
   const link = getContactLink(
-    { ...emptyContact, telegram: "not-a-link", email: "hello+ai@example.com" },
+    {
+      ...emptyContact,
+      telegram: "not-a-link",
+      email: "hello+mail@example.com",
+    },
     inquiry,
   );
   assert.equal(link?.type, "email");
   assert.ok(link);
   const url = new URL(link.href);
-  assert.equal(decodeURIComponent(url.pathname), "hello+ai@example.com");
-  assert.equal(url.searchParams.get("subject"), "AI 订阅咨询 · Claude");
+  assert.equal(decodeURIComponent(url.pathname), "hello+mail@example.com");
+  assert.equal(url.searchParams.get("subject"), "邮箱服务咨询 · 域名邮箱");
   assert.equal(url.searchParams.get("body"), formatInquiry(inquiry));
 });
 

@@ -10,7 +10,7 @@ const supportEmail = site.contact.email.trim();
   <div class="flex flex-wrap items-center justify-between gap-4 pb-7 md:gap-6">
     <Brand />
     <span class="order-3 w-full text-xs tracking-wide text-muted md:order-none md:w-auto">
-      Stay curious. Be abnormal.
+      Your inbox. Your identity.
     </span>
     <div class="flex flex-col items-end gap-3">
       {supportEmail && (
@@ -24,16 +24,16 @@ const supportEmail = site.contact.email.trim();
       )}
       <a
         class="inline-flex items-center gap-2 text-xs text-muted hover:text-accent"
-        href="/#subscriptions"
+        href="/#services"
       >
-        探索订阅 <Icon name="up-right" class="size-3.5" />
+        探索邮箱服务 <Icon name="up-right" class="size-3.5" />
       </a>
     </div>
   </div>
   <div class="flex flex-col justify-between gap-3 border-t border-line py-6 text-[0.6875rem] leading-relaxed text-muted md:flex-row md:gap-5 md:text-xs">
-    <span>© {new Date().getFullYear()} Abnormal. 保持好奇，创造不同。</span>
+    <span>© {new Date().getFullYear()} Abnormal. 让沟通更简单。</span>
     <div class="flex flex-col gap-3 md:flex-row md:items-center md:gap-5">
-      <p>独立订阅代办服务 · 所列产品名称及商标归各自权利人所有</p>
+      <p>邮箱服务与配置支持 · 具体方案以咨询确认为准</p>
       <nav class="flex gap-4" aria-label="法律信息">
         {legalPages.map(({ href, label }) => (
           <a class="transition-colors hover:text-accent" href={href}>

@@ -1,8 +1,8 @@
-# Abnormal · AI 订阅服务
+# Abnormal · 邮箱服务
 
-[线上网站](https://abnormal-bid.github.io/) · [发布记录](https://github.com/abnormal-bid/abnormal-bid.github.io/releases)
+[线上网站](https://abnormal.bid/) · [发布记录](https://github.com/abnormal-bid/abnormal-bid.github.io/releases)
 
-使用 Astro、Tailwind CSS 4 和 TypeScript 构建的中文 AI 订阅服务官网。Astro 预渲染静态页面，导航菜单、主题切换与咨询弹窗使用轻量客户端 JavaScript；GitHub Actions 验证并部署到 GitHub Pages，release-please 管理版本与更新日志。
+使用 Astro、Tailwind CSS 4 和 TypeScript 构建的中文邮箱服务官网，介绍个人邮箱、域名邮箱、团队邮箱与邮箱配置服务。Astro 预渲染静态页面，导航菜单、主题切换与咨询弹窗使用轻量客户端 JavaScript；GitHub Actions 验证并部署到 GitHub Pages，release-please 管理版本与更新日志。
 
 ## 开发
 
@@ -29,8 +29,8 @@ Astro 检查器当前支持 TypeScript 5/6，因此本项目使用兼容的 Type
 
 ```text
 src/
-  components/     导航、Hero、订阅卡片、流程、FAQ、咨询弹窗等 Astro 组件
-  data/site.ts    网站文案、产品、价格和公开联系方式
+  components/     导航、Hero、邮箱服务卡片、流程、FAQ、咨询弹窗等 Astro 组件
+  data/site.ts    网站文案、邮箱服务、价格和公开联系方式
   layouts/       共享 HTML 布局、法律页面布局、SEO 与全局样式入口
   lib/inquiry.ts 咨询文案和联系方式选择的纯函数
   pages/         页面路由：首页，以及 Markdown 编写的隐私政策与服务条款
@@ -53,9 +53,9 @@ tests/           咨询逻辑与主题行为回归测试
 编辑 `src/data/site.ts`：
 
 - `site.contact.wechat`：真实微信号。
-- `site.contact.email`：真实咨询邮箱；邮件咨询按钮会填入选定的产品、时长和需求。
+- `site.contact.email`：真实咨询邮箱；邮件咨询按钮会填入选定的服务类型、使用时长和需求。
 - `site.contact.telegram`：完整的 `https://t.me/...` 链接。有效 Telegram 优先；无效时回退到邮箱。
-- `products`：统一维护产品名称、类别、描述、标签、`price` 与 `priceNote`。`price` 留空时显示「咨询报价」。
+- `products`：统一维护邮箱服务名称、类别、描述、标签、`price` 与 `priceNote`。`price` 留空时显示「咨询报价」。
 
 这些配置会公开到网页中，请勿放入密钥、密码或私人信息。修改后提交到 `main` 即会重新构建并发布。
 
@@ -99,4 +99,4 @@ GitHub 默认不会因 `GITHUB_TOKEN` 创建的 PR 触发另一条 `pull_request
 - 使用原生 `<dialog>` 和 `<details>`，支持键盘操作、Esc 关闭、焦点恢复与减少动态效果偏好。
 - 不包含统计脚本、Cookie 或客户数据存储。
 - Google Fonts 为可选外部字体，加载失败时回退到系统字体。
-- 页面产品图形是装饰性字形，不表示官方授权或合作。
+- 页面邮箱服务图形是装饰性字形。
