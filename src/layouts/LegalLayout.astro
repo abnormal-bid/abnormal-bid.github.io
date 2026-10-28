@@ -59,7 +59,7 @@ if (telegram)
           <p class="eyebrow">{eyebrow}</p>
           <h1 class="legal-title" id="legal-title">
             {title}
-            <span class="text-accent">。</span>
+            <span class="text-brand">。</span>
           </h1>
           <p class="legal-summary">{summary}</p>
         </div>
@@ -110,7 +110,10 @@ if (telegram)
           <ul class="highlights-list">
             {highlights.map((item) => (
               <li>
-                <Icon name="check" class="mt-1 size-4 shrink-0 text-accent" />
+                <Icon
+                  name="check"
+                  class="mt-1 size-4 shrink-0 text-foreground"
+                />
                 {item}
               </li>
             ))}
@@ -155,11 +158,11 @@ if (telegram)
 
         <nav class="legal-related" aria-label="相关页面">
           {relatedPages.map(({ href, label }) => (
-            <a class="text-link text-muted" href={href}>
+            <a class="text-link" href={href}>
               另见 {label} <Icon name="up-right" class="size-4" />
             </a>
           ))}
-          <a class="text-link text-muted" href="/">
+          <a class="text-link" href="/">
             返回首页 <Icon name="arrow" class="size-4" />
           </a>
         </nav>
@@ -173,8 +176,7 @@ if (telegram)
 <style>
   .legal-hero {
     position: relative;
-    border-bottom: 1px solid var(--color-line);
-    background: var(--color-subtle);
+    border-bottom: 1px solid var(--border);
   }
   .legal-hero-inner {
     display: flex;
@@ -187,16 +189,14 @@ if (telegram)
   }
   .legal-title {
     margin-top: 1rem;
-    font-size: clamp(2.25rem, 4vw, 3.5rem);
-    line-height: 1.3;
-    font-weight: 600;
-    letter-spacing: -0.04em;
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+    line-height: 1.25;
   }
   .legal-summary {
     margin-top: 1.25rem;
-    color: var(--color-muted);
-    font-size: 0.9375rem;
-    line-height: 1.95;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
   }
   .legal-dates {
     display: flex;
@@ -204,16 +204,15 @@ if (telegram)
     flex-shrink: 0;
     gap: 1.5rem 2.5rem;
     padding-top: 1.25rem;
-    border-top: 1px solid var(--color-line);
+    border-top: 1px solid var(--border);
   }
   .legal-dates dt {
-    color: var(--color-muted);
-    font-size: 0.6875rem;
-    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    font-size: 12px;
   }
   .legal-dates dd {
-    margin-top: 0.5rem;
-    font-size: 0.8125rem;
+    margin-top: 0.4rem;
+    font-size: 14px;
     font-weight: 500;
   }
   .legal-layout {
@@ -225,15 +224,15 @@ if (telegram)
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    color: var(--color-ink);
-    font-size: 0.75rem;
+    color: var(--text);
+    font-size: 13px;
     font-weight: 500;
   }
   .legal-nav-label span {
-    color: var(--color-muted);
-    font-size: 0.5625rem;
+    color: var(--text-secondary);
+    font-size: 11px;
     font-weight: 400;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.06em;
   }
   .legal-nav-list {
     display: flex;
@@ -246,32 +245,31 @@ if (telegram)
     align-items: baseline;
     gap: 0.65rem;
     padding: 0.6rem 0.85rem;
-    border: 1px solid var(--color-line);
-    border-radius: 0.5rem;
-    color: var(--color-muted);
-    background: var(--color-surface);
-    font-size: 0.75rem;
+    border: 1px solid var(--input);
+    border-radius: var(--radius-control);
+    color: var(--text-secondary);
+    background: var(--control);
+    font-size: 13px;
     line-height: 1.6;
     transition:
-      color 180ms ease,
-      background 180ms ease;
+      color 0.15s,
+      background-color 0.15s;
   }
   .legal-nav-link:hover {
-    color: var(--color-accent);
-    background: var(--color-lavender);
+    color: var(--text);
+    background: var(--hover);
   }
   .legal-nav-number {
     flex-shrink: 0;
-    color: var(--color-accent);
-    font-size: 0.625rem;
-    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    font-size: 11px;
     font-variant-numeric: tabular-nums;
   }
   .legal-highlights {
     padding: 1.4rem;
-    border: 1px solid var(--color-line);
-    border-radius: 0.875rem;
-    background: var(--color-lavender);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-panel);
+    background: var(--card);
   }
   .highlights-heading {
     display: flex;
@@ -280,16 +278,15 @@ if (telegram)
     justify-content: space-between;
     gap: 0.6rem 1.5rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--border);
   }
   .highlights-label {
-    color: var(--color-accent);
-    font-size: 0.75rem;
+    font-size: 15px;
     font-weight: 600;
   }
   .highlights-note {
-    color: var(--color-muted);
-    font-size: 0.6875rem;
+    color: var(--text-secondary);
+    font-size: 12px;
     line-height: 1.8;
   }
   .highlights-list {
@@ -301,8 +298,8 @@ if (telegram)
     display: flex;
     align-items: flex-start;
     gap: 0.6rem;
-    font-size: 0.8125rem;
-    line-height: 1.8;
+    font-size: 14px;
+    line-height: 1.75;
   }
   .legal-related {
     display: flex;
@@ -311,13 +308,13 @@ if (telegram)
     gap: 1rem 2rem;
     margin-top: 3rem;
     padding-top: 1.75rem;
-    border-top: 1px solid var(--color-line);
+    border-top: 1px solid var(--border);
   }
   .legal-body {
     counter-reset: legal-section;
-    font-size: 0.9375rem;
-    line-height: 2;
-    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--text-secondary);
   }
   .legal-body :global(h2) {
     counter-increment: legal-section;
@@ -329,23 +326,22 @@ if (telegram)
     font-size: 1.25rem;
     line-height: 1.5;
     font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--color-ink);
+    color: var(--text);
   }
   .legal-body :global(h2)::before {
     content: counter(legal-section, decimal-leading-zero);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
     font-variant-numeric: tabular-nums;
-    color: var(--color-accent);
+    color: var(--brand);
   }
   .legal-body :global(h3) {
     margin-top: 1.75rem;
     margin-bottom: 0.5rem;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 600;
-    color: var(--color-ink);
+    color: var(--text);
   }
   .legal-body :global(p + p),
   .legal-body :global(ul + p),
@@ -366,32 +362,33 @@ if (telegram)
     list-style: decimal;
   }
   .legal-body :global(li)::marker {
-    color: var(--color-accent);
+    color: var(--text-secondary);
   }
   .legal-body :global(li > p) {
     margin: 0;
   }
   .legal-body :global(strong) {
     font-weight: 600;
-    color: var(--color-ink);
+    color: var(--text);
   }
   .legal-body :global(a) {
-    color: var(--color-accent);
+    color: var(--text);
     text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.25em;
+    text-decoration-color: var(--input);
+    text-underline-offset: 4px;
     overflow-wrap: anywhere;
+    transition: text-decoration-color 0.15s;
   }
   .legal-body :global(a):hover {
-    text-decoration-thickness: 2px;
+    text-decoration-color: currentColor;
   }
   .legal-body :global(code) {
     padding: 0.1em 0.4em;
-    border-radius: 0.25rem;
-    background: var(--color-lavender);
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 0.8125rem;
-    color: var(--color-ink);
+    border-radius: 6px;
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
   }
   @media (width >= 768px) {
     .legal-hero-inner {
@@ -403,9 +400,6 @@ if (telegram)
     .highlights-list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       column-gap: 1.5rem;
-    }
-    .legal-body {
-      font-size: 1rem;
     }
     .legal-body :global(h2) {
       font-size: 1.375rem;
@@ -424,7 +418,7 @@ if (telegram)
       min-width: 11rem;
       padding: 0 0 0 2rem;
       border-top: 0;
-      border-left: 1px solid var(--color-line);
+      border-left: 1px solid var(--border);
     }
     .legal-layout {
       grid-template-columns: 13rem minmax(0, 1fr);
@@ -432,16 +426,16 @@ if (telegram)
     }
     .legal-sidebar {
       position: sticky;
-      top: 7.5rem;
+      top: 6rem;
       align-self: start;
     }
     .legal-nav-list {
       display: grid;
       gap: 0;
-      border-top: 1px solid var(--color-line);
+      border-top: 1px solid var(--border);
     }
     .legal-nav-list li {
-      border-bottom: 1px solid var(--color-line);
+      border-bottom: 1px solid var(--border);
     }
     .legal-nav-link {
       width: 100%;

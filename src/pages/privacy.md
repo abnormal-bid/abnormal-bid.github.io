@@ -5,7 +5,7 @@ description: "Abnormal 隐私政策：说明你访问本网站及咨询、使用
 eyebrow: PRIVACY POLICY
 summary: "本政策说明你访问 Abnormal 网站，以及咨询、使用邮箱服务时，我们如何收集、使用、保存和保护你的信息。我们只收集完成服务所必需的信息，不出售个人信息。"
 effective: "2026-09-21"
-updated: "2026-09-21"
+updated: "2026-10-28"
 highlights:
   - "本网站不设账号、不使用 Cookie，也不加载统计或广告脚本。"
   - "咨询弹窗只在你的浏览器里整理文字，不会上传或保存到我们的服务器。"
@@ -25,7 +25,7 @@ highlights:
 
 - **咨询弹窗**：你在弹窗中选择的服务类型、使用时长和填写的需求，只在你的浏览器中整理成一段文字。网站不会把这些内容发送到我们的服务器，也不会保存。只有当你复制后发送给我们，或点击「通过邮件咨询」在你的邮件客户端里发送时，我们才会收到。
 - **外观偏好**：当你手动选择浅色或深色模式时，选择会保存在你浏览器的本地存储（`abnormal-theme`）中，仅用于记住外观。它不会发送给我们，选择「跟随系统」即可清除。
-- **托管与字体服务**：网站托管在 GitHub Pages，网页字体来自 Google Fonts。当你访问时，你的浏览器会向这些服务商请求页面和字体文件，服务商可能按其政策记录 IP 地址、浏览器类型等访问日志。这些数据由服务商处理，我们无法访问。详见 [GitHub 隐私声明](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement) 与 [Google 隐私政策](https://policies.google.com/privacy)。
+- **托管服务**：网站托管在 GitHub Pages，网页字体随网站一同托管，不向第三方字体服务请求。当你访问时，你的浏览器会向托管服务商请求页面和字体文件，服务商可能按其政策记录 IP 地址、浏览器类型等访问日志。这些数据由服务商处理，我们无法访问。详见 [GitHub 隐私声明](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement)。
 
 ## 咨询与提供服务时处理的信息
 

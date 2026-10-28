@@ -72,36 +72,24 @@ const symbol = symbols[index];
 </article>
 
 <style>
+  /* 服务卡片照 mailhq 的 Card：24px 圆角细边框、不铺底色；悬停只加深描边。 */
   .product-card {
     position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
-    padding: 1.55rem 1.4rem 1.4rem;
-    border: 1px solid var(--color-line);
-    border-radius: 18px;
-    background: var(--color-surface);
-    transition:
-      transform 0.25s,
-      box-shadow 0.25s,
-      border-color 0.25s;
+    padding: 1.5rem 1.4rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-panel);
+    background: var(--card);
+    transition: border-color 0.15s;
   }
   .product-card:hover {
-    transform: translateY(-5px);
-    border-color: color-mix(
-      in srgb,
-      var(--color-accent) 45%,
-      var(--color-line)
-    );
-    box-shadow: 0 16px 36px -18px #244c3e26;
+    border-color: color-mix(in oklab, var(--border), var(--text) 18%);
   }
-  .is-featured {
-    background: var(--color-lavender);
-    border-color: color-mix(
-      in srgb,
-      var(--color-accent) 35%,
-      var(--color-line)
-    );
+  .is-featured,
+  .is-featured:hover {
+    border-color: color-mix(in oklab, var(--brand) 55%, var(--border));
   }
   .card-top {
     display: flex;
@@ -110,121 +98,106 @@ const symbol = symbols[index];
     gap: 0.7rem;
   }
   .product-symbol {
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
     display: grid;
     place-items: center;
-    border-radius: 14px;
+    border-radius: var(--radius-control);
+    background: var(--surface);
+    color: var(--text);
   }
   .product-symbol svg {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     fill: none;
     stroke: currentColor;
     stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  .symbol-mail {
-    color: #4e7759;
-    background: #edf3e7;
+  .is-featured .product-symbol {
+    background: var(--brand);
+    color: var(--brand-foreground);
   }
   .symbol-domain {
-    color: #426443;
-    background: #dae8c8;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     line-height: 1;
     font-weight: 500;
   }
-  .symbol-team {
-    color: #a1714f;
-    background: #f8eee3;
-  }
-  .symbol-settings {
-    color: #6e7a84;
-    background: #edf0f1;
-  }
   .product-category {
-    font-size: 0.6rem;
-    color: var(--color-muted);
-    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: var(--radius-chip);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
   }
   h3 {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 1.5rem;
-    font-size: 1.3rem;
-    font-weight: 600;
-    letter-spacing: -0.04em;
+    font-size: 20px;
+    line-height: 1.4;
   }
   h3 > span {
-    color: var(--color-muted);
-    font-size: 0.6rem;
+    color: var(--text-secondary);
+    font-size: 12px;
     font-weight: 400;
-    letter-spacing: 0.03em;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
   }
   .product-description {
     flex: 1;
-    margin-top: 0.75rem;
-    font-size: 0.8rem;
-    line-height: 1.95;
-    color: var(--color-muted);
+    margin-top: 0.6rem;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-secondary);
   }
   .product-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem 0.9rem;
-    margin-top: 1.4rem;
-    font-size: 0.65rem;
-    color: var(--color-muted);
+    gap: 6px 14px;
+    margin-top: 1.25rem;
+    font-size: 12px;
+    color: var(--text-secondary);
   }
   .product-tags > span {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
+    gap: 5px;
   }
   .product-tags :global(.icon) {
-    color: var(--color-accent);
+    color: var(--text);
   }
   .product-price {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-    margin-top: 1.45rem;
-    border-top: 1px solid var(--color-line);
-    padding-top: 1.25rem;
+    gap: 4px;
+    margin-top: 1.4rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.2rem;
   }
   .product-price strong {
-    font-size: 1.2rem;
+    font-size: 20px;
     font-weight: 600;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.02em;
   }
   .product-price > span {
-    font-size: 0.65rem;
-    color: var(--color-muted);
+    font-size: 12px;
+    color: var(--text-secondary);
   }
   .product-action {
     justify-content: space-between;
     width: 100%;
-    min-height: 44px;
-    margin-top: 1.3rem;
-    padding: 0.7rem 1rem;
-    font-size: 0.75rem;
-  }
-  :global([data-theme="dark"]) .product-symbol {
-    background: var(--color-lavender);
-    color: var(--color-accent);
+    margin-top: 1.25rem;
   }
   @media (max-width: 1100px) and (min-width: 1024px) {
     .product-card {
       padding-inline: 1.1rem;
     }
-    .product-category {
-      font-size: 0.55rem;
-    }
     .product-tags {
-      gap: 0.4rem;
+      gap: 6px 10px;
     }
   }
   @media (max-width: 639px) {

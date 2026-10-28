@@ -13,12 +13,12 @@ import ProductCard from "./ProductCard.astro";
     <div class="services-heading">
       <div>
         <p class="eyebrow">
-          <span>01 /</span> FIND YOUR EMAIL
+          <span>01 /</span> Find your email
         </p>
         <h2 class="section-title" id="services-title">
           总有一个邮箱，
           <br class="mobile-break" />
-          适合你的日常<span class="text-accent">。</span>
+          适合你的日常<span class="text-brand">。</span>
         </h2>
       </div>
       <p class="services-intro">
@@ -47,7 +47,7 @@ import ProductCard from "./ProductCard.astro";
 
 <style>
   .services-section {
-    border-top: 1px solid var(--color-line);
+    border-top: 1px solid var(--border);
   }
   .services-heading {
     display: flex;
@@ -57,15 +57,14 @@ import ProductCard from "./ProductCard.astro";
     margin-bottom: 2.5rem;
   }
   .eyebrow > span {
-    margin-right: 0.65rem;
-    color: var(--color-muted);
-    font-weight: 400;
+    margin-right: 0.25rem;
+    font-variant-numeric: tabular-nums;
   }
   .services-intro {
     padding-bottom: 0.2rem;
-    color: var(--color-muted);
-    font-size: 0.8rem;
-    line-height: 1.95;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
   }
   .services-grid {
     display: grid;
@@ -78,8 +77,8 @@ import ProductCard from "./ProductCard.astro";
     justify-content: space-between;
     gap: 1rem;
     margin-top: 1.75rem;
-    font-size: 0.65rem;
-    color: var(--color-muted);
+    font-size: 13px;
+    color: var(--text-secondary);
   }
   .services-note p {
     display: flex;
@@ -92,11 +91,15 @@ import ProductCard from "./ProductCard.astro";
     align-items: center;
     gap: 0.2rem;
     min-height: 32px;
-    color: var(--color-accent);
+    color: var(--text);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--border);
     text-underline-offset: 4px;
+    transition: text-decoration-color 0.15s;
   }
   .services-note button:hover {
-    text-decoration: underline;
+    text-decoration-color: currentColor;
   }
   .mobile-break {
     display: none;
@@ -107,9 +110,6 @@ import ProductCard from "./ProductCard.astro";
     }
     .services-heading {
       gap: 1rem;
-    }
-    .services-intro {
-      font-size: 0.75rem;
     }
     .services-note {
       align-items: start;
@@ -122,9 +122,6 @@ import ProductCard from "./ProductCard.astro";
       align-items: start;
       flex-direction: column;
       margin-bottom: 1.75rem;
-    }
-    .services-intro {
-      font-size: 0.8rem;
     }
   }
   @media (max-width: 639px) {

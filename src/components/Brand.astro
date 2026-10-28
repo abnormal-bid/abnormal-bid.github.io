@@ -11,34 +11,37 @@
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    font-size: 1.45rem;
+    gap: 10px;
+    border-radius: var(--radius-control);
+    font-size: 17px;
     line-height: 1;
-    font-weight: 750;
-    letter-spacing: -0.075rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
     white-space: nowrap;
   }
+  /* 品牌标记照 mailhq 的 BrandMark：品牌橙瓷砖，字母 a 与箭头反白。 */
   .brand-mark {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.15rem;
-    height: 2.15rem;
-    padding: 0.05rem 0.35rem 0 0;
-    border-radius: 0.7rem;
-    background: #244c3e;
-    color: #d8ecaa;
-    font-size: 2.05rem;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding-bottom: 2px;
+    border-radius: var(--radius-control);
+    background: var(--brand);
+    color: var(--brand-foreground);
+    font-size: 21px;
     font-weight: 600;
+    letter-spacing: 0;
   }
   .brand-mark > span {
     position: absolute;
-    top: 0.1rem;
-    right: 0.15rem;
-    font-size: 1.25rem;
+    top: 3px;
+    right: 4px;
+    font-size: 9px;
+    line-height: 1;
   }
   .brand-period {
-    color: var(--color-accent);
+    color: var(--brand);
   }
 </style>

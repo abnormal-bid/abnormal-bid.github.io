@@ -40,13 +40,24 @@ public/          favicon 等直接复制到发布目录的静态文件
 tests/           咨询逻辑与主题行为回归测试
 ```
 
-主要布局、排版、状态和响应式设计使用 Tailwind utility；Hero 特有的点阵、轨道和卡片装饰使用组件内的少量局部 CSS。没有保留旧的全局 `styles.css` 或 `window.SITE_CONFIG`。
+主要布局、排版、状态和响应式设计使用 Tailwind utility；Hero 特有的轨道和卡片装饰使用组件内的少量局部 CSS。没有保留旧的全局 `styles.css` 或 `window.SITE_CONFIG`。
+
+## 视觉设计
+
+视觉与 [mailhq](https://github.com/abnormal-bid/mail) 及 [onboard](https://github.com/abnormal-bid/onboard) 统一：Anthropic 品牌配色（暖调象牙与墨色、深色主题暖炭灰），Inter 字体，唯一的强调色品牌橙，套在 Resend 式的结构上——1px 细线分隔、面板不铺底色、没有阴影。
+
+- `src/styles/global.css` 的令牌（配色、圆角、焦点色）照抄 mailhq 的 `src/app/globals.css`，改配色时几边一起改。组件内直接用 `var(--text)`、`var(--text-secondary)`、`var(--border)` 等原始令牌；Tailwind 工具类用 `text-foreground`、`text-muted-foreground`、`text-brand` 等映射名。
+- 品牌橙只用在主按钮、品牌标记、小标前的圆点、标题末尾的句号与少量装饰点；勾选图标、链接悬停与编号都用墨色或灰色。浅色下主按钮用加深一级的陶土色 `#b85636`（白字 4.75:1），深色下用 `#d97757` 配深字。
+- 圆角照 Resend：徽章 8px、按钮与控件 12px、小面板 16px、卡片与对话框 24px。按钮按下缩到 0.98，悬停只改底色或描边，不上浮、不加阴影。
+- 控件照 mailhq：半透明 `control` 底、`input` 细描边；悬停与聚焦时描边加深，键盘焦点是 2px 灰色描边。只有浮层（主题菜单、咨询对话框）使用 `--popover-bg` 与浮层阴影。
+- 品牌标记沿用字母 a 与箭头，照 mailhq 的 BrandMark 放在品牌橙圆角方块里；`public/favicon.svg` 与 onboard 同一枚图标。
+- Inter 可变字体（拉丁子集，OFL）自托管在 `public/fonts/`，与 mailhq 同一份文件，页面头部预载；中文字形回退到苹方 / 微软雅黑等系统字体，不访问 Google Fonts。
 
 ## 外观主题
 
 导航栏提供「跟随系统」「浅色模式」「深色模式」。首次访问默认跟随系统，系统外观变化时同步更新；手动选择保存在当前浏览器的 `localStorage`（`abnormal-theme`），选择跟随系统会清除该偏好。不同标签页自动同步选择，浏览器禁用存储时仍可临时切换。
 
-主题初始化脚本在页面头部同步执行，提前设置实际主题，避免刷新时闪过错误配色。全局色彩在 `src/styles/global.css` 维护，组件通过动态色彩与 `dark:` 样式适配。
+主题初始化脚本在页面头部同步执行，提前设置实际主题，避免刷新时闪过错误配色。全局色彩在 `src/styles/global.css` 维护，浅色与深色各一套令牌，挂在 `<html data-theme>` 上；脚本未运行时按系统偏好取色。`<meta name="theme-color">` 随生效的主题切换（`#faf9f5` / `#1f1e1d`）。
 
 ## 配置经营信息
 
@@ -98,5 +109,5 @@ GitHub 默认不会因 `GITHUB_TOKEN` 创建的 PR 触发另一条 `pull_request
 
 - 使用原生 `<dialog>` 和 `<details>`，支持键盘操作、Esc 关闭、焦点恢复与减少动态效果偏好。
 - 不包含统计脚本、Cookie 或客户数据存储。
-- Google Fonts 为可选外部字体，加载失败时回退到系统字体。
+- 字体随站点自托管，不请求第三方字体服务。
 - 首屏邮箱界面与地址卡片为服务概念示意，不代表实际邮件客户端界面。

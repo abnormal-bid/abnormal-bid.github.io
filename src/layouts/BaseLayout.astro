@@ -15,7 +15,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#fbfcf8" />
+    <meta name="theme-color" content="#faf9f5" />
     <script is:inline set:html={themeInitializer}></script>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
@@ -26,11 +26,18 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:locale" content="zh_CN" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="/fonts/Inter-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <title>{title}</title>
   </head>
   <body>
     <a
-      class="fixed top-2 left-2 z-50 -translate-y-[150%] rounded bg-ink px-5 py-3 text-canvas focus:translate-y-0"
+      class="fixed top-3 left-4 z-50 -translate-y-[160%] rounded-control bg-foreground px-3.5 py-2 text-background focus:translate-y-0"
       href="#main"
     >
       跳到主要内容

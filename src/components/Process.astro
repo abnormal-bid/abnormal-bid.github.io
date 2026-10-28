@@ -12,11 +12,10 @@ import Icon from "./Icon.astro";
     <div class="process-heading">
       <div>
         <p class="eyebrow">
-          <span class="mr-2.5 font-normal text-muted">02 /</span>A SIMPLE WAY TO
-          GET STARTED
+          <span class="mr-1 tabular-nums">02 /</span>A simple way to get started
         </p>
         <h2 class="section-title" id="process-title">
-          三步，开始使用你的邮箱<span class="text-accent">。</span>
+          三步，开始使用你的邮箱<span class="text-brand">。</span>
         </h2>
       </div>
       <p class="process-intro">
@@ -47,8 +46,7 @@ import Icon from "./Icon.astro";
 
 <style>
   .process-section {
-    border-block: 1px solid var(--color-line);
-    background: var(--color-subtle);
+    border-top: 1px solid var(--border);
   }
   .process-heading {
     display: flex;
@@ -58,9 +56,9 @@ import Icon from "./Icon.astro";
   }
   .process-intro,
   .step-description {
-    color: var(--color-muted);
-    font-size: 0.875rem;
-    line-height: 1.95;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
   }
   .process-grid {
     display: grid;
@@ -77,16 +75,16 @@ import Icon from "./Icon.astro";
   }
   .step-number {
     font-size: 2.75rem;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 1;
-    letter-spacing: -0.07em;
-    color: var(--color-accent);
+    letter-spacing: -0.04em;
+    color: var(--text);
     font-variant-numeric: tabular-nums;
   }
   .step-line {
     height: 1px;
     flex: 1;
-    background: var(--color-line);
+    background: var(--border);
   }
   .step-icon {
     display: grid;
@@ -94,16 +92,15 @@ import Icon from "./Icon.astro";
     height: 2.75rem;
     flex-shrink: 0;
     place-items: center;
-    border: 1px solid var(--color-line);
-    border-radius: 50%;
-    color: var(--color-accent);
-    background: var(--color-canvas);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-control);
+    color: var(--text);
+    background: var(--card);
   }
   .step-title {
     margin-bottom: 0.65rem;
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: -0.025em;
+    font-size: 18px;
+    line-height: 1.4;
   }
   .step-description {
     max-width: 28rem;

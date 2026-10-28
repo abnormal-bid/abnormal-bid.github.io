@@ -10,10 +10,10 @@ import Icon from "./Icon.astro";
 >
   <div class="faq-intro">
     <p class="eyebrow">
-      <span class="mr-2.5 font-normal text-muted">03 /</span>GOOD QUESTIONS
+      <span class="mr-1 tabular-nums">03 /</span>Good questions
     </p>
     <h2 class="section-title" id="faq-title">
-      你可能还想知道<span class="text-accent">。</span>
+      你可能还想知道<span class="text-brand">。</span>
     </h2>
     <p class="faq-description">关于邮箱，先把问题说清楚。</p>
     <button class="text-link faq-contact" data-inquiry>
@@ -45,72 +45,65 @@ import Icon from "./Icon.astro";
   }
   .faq-description {
     margin-top: 1rem;
-    color: var(--color-muted);
-    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-size: 15px;
     line-height: 1.8;
   }
   .faq-contact {
     margin-top: 1.5rem;
-    color: var(--color-accent);
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--color-line);
   }
   .faq-list {
-    border-top: 1px solid var(--color-line);
+    border-top: 1px solid var(--border);
   }
   .faq-item {
-    border-bottom: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--border);
   }
   .faq-item summary {
     display: flex;
-    min-height: 5.5rem;
+    min-height: 4.75rem;
     align-items: center;
     gap: 1.1rem;
-    padding-block: 1.4rem;
+    padding-block: 1.2rem;
     list-style: none;
     line-height: 1.7;
   }
   .faq-number {
     flex-shrink: 0;
-    font-size: 0.625rem;
-    letter-spacing: 0.07em;
-    color: var(--color-muted);
+    font-size: 12px;
+    color: var(--text-secondary);
     font-variant-numeric: tabular-nums;
   }
   .faq-question {
     flex: 1;
-    font-size: 0.9375rem;
+    font-size: 15px;
     font-weight: 500;
-    transition: color 180ms ease;
   }
   .faq-toggle {
     display: grid;
     flex-shrink: 0;
-    width: 1.875rem;
-    height: 1.875rem;
+    width: 2rem;
+    height: 2rem;
     place-items: center;
-    border: 1px solid var(--color-line);
-    border-radius: 50%;
-    color: var(--color-muted);
+    border-radius: var(--radius-control);
+    color: var(--text-secondary);
     transition:
-      transform 180ms ease,
-      background 180ms ease,
-      color 180ms ease;
+      transform 0.15s,
+      background-color 0.15s,
+      color 0.15s;
   }
-  .faq-item summary:hover .faq-question,
-  .faq-item[open] .faq-question {
-    color: var(--color-accent);
+  .faq-item summary:hover .faq-toggle,
+  .faq-item[open] .faq-toggle {
+    background: var(--control);
+    color: var(--text);
   }
   .faq-item[open] .faq-toggle {
     transform: rotate(45deg);
-    background: var(--color-lavender);
-    color: var(--color-accent);
   }
   .faq-answer {
-    margin: -0.3rem 2.75rem 1.6rem 2rem;
-    font-size: 0.875rem;
-    line-height: 2;
-    color: var(--color-muted);
+    margin: -0.3rem 2.75rem 1.4rem 2.15rem;
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--text-secondary);
   }
   @media (width >= 1024px) {
     .faq-section {
