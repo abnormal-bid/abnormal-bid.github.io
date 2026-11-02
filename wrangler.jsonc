@@ -8,7 +8,7 @@
   // nodejs_compat：Next.js 服务端依赖 Node API。
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": true,
-  // 自定义域名在控制台绑定（见 README「部署」），这里不声明 routes，切换线上域名不会被一次推送顺带触发。
+  // 自定义域名绑定在 Cloudflare 一侧（见 README「域名」），这里不声明 routes，推送不会改动线上域名。
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS",
