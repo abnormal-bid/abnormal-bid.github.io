@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Create release pull request or publish release
         id: release
-        uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4
+        uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           target-branch: main
@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Resolve the release pull request commit
         id: pull-request
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        uses: actions/github-script@v8
         env:
           RELEASE_PR_NUMBER: ${{ matrix.pr.number }}
         with:
@@ -70,25 +70,32 @@ jobs:
             core.info(`Validating release pull request #${number} at ${pull.head.sha}`);
 
       - name: Check out the release pull request
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@v7
         with:
           ref: ${{ steps.pull-request.outputs.sha }}
           persist-credentials: false
 
+      - name: Set up pnpm
+        # 不写 version：pnpm/action-setup 会读 package.json 的 packageManager 字段，避免两处版本号漂移。
+        uses: pnpm/action-setup@v6
+
       - name: Set up Node.js
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        uses: actions/setup-node@v7
         with:
-          node-version: 24
-          cache: npm
+          node-version-file: .node-version
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
 
       - name: Check Astro and TypeScript
-        run: npm run check
+        run: pnpm typecheck
 
       - name: Run tests
-        run: npm test
+        run: pnpm test
 
       - name: Build the release
-        run: npm run build
+        run: pnpm build

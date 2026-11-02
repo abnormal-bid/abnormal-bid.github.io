@@ -1,7 +1,5 @@
 export function initializeThemePicker() {
-  const picker = document.querySelector<HTMLDetailsElement>(
-    "[data-theme-picker]",
-  );
+  const picker = document.querySelector<HTMLDetailsElement>("[data-theme-picker]");
   const summary = picker?.querySelector("summary");
   if (!picker || !summary) return;
 
@@ -16,16 +14,12 @@ export function initializeThemePicker() {
       ?.textContent?.trim() ?? preference;
   const syncPicker = () => {
     const preference = window.abnormalTheme.getPreference();
-    picker
-      .querySelectorAll<HTMLInputElement>('input[name="theme"]')
-      .forEach((input) => {
-        input.checked = input.value === preference;
-      });
-    picker
-      .querySelectorAll<HTMLElement>("[data-theme-icon]")
-      .forEach((icon) => {
-        icon.hidden = icon.dataset.themeIcon !== preference;
-      });
+    picker.querySelectorAll<HTMLInputElement>('input[name="theme"]').forEach((input) => {
+      input.checked = input.value === preference;
+    });
+    picker.querySelectorAll<HTMLElement>("[data-theme-icon]").forEach((icon) => {
+      icon.hidden = icon.dataset.themeIcon !== preference;
+    });
     const label = labelOf(preference);
     summary.setAttribute("aria-label", ariaTemplate.replace("{label}", label));
     summary.title = titleTemplate.replace("{label}", label);
@@ -34,17 +28,11 @@ export function initializeThemePicker() {
   picker.addEventListener("change", (event) => {
     const input = event.target;
     if (!(input instanceof HTMLInputElement)) return;
-    if (
-      input.value !== "system" &&
-      input.value !== "light" &&
-      input.value !== "dark"
-    )
-      return;
+    if (input.value !== "system" && input.value !== "light" && input.value !== "dark") return;
     window.abnormalTheme.setPreference(input.value);
   });
   document.addEventListener("click", (event) => {
-    if (event.target instanceof Node && !picker.contains(event.target))
-      picker.open = false;
+    if (event.target instanceof Node && !picker.contains(event.target)) picker.open = false;
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && picker.open) {

@@ -4,9 +4,7 @@ export function initializeNavigation() {
   const toggle = requiredElement<HTMLButtonElement>(".menu-toggle");
   const nav = requiredElement<HTMLElement>("#mobile-nav");
   const desktop = window.matchMedia("(min-width: 768px)");
-  const themePicker = document.querySelector<HTMLDetailsElement>(
-    "[data-theme-picker]",
-  );
+  const themePicker = document.querySelector<HTMLDetailsElement>("[data-theme-picker]");
 
   // 按钮文案随页面语言渲染在 data-open-label / data-close-label 上。
   const openLabel = toggle.dataset.openLabel ?? "";
@@ -27,9 +25,7 @@ export function initializeNavigation() {
   themePicker?.addEventListener("toggle", () => {
     if (themePicker.open) closeMenu();
   });
-  nav
-    .querySelectorAll("a, button")
-    .forEach((item) => item.addEventListener("click", closeMenu));
+  nav.querySelectorAll("a, button").forEach((item) => item.addEventListener("click", closeMenu));
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !nav.hidden) {
       closeMenu();
@@ -37,11 +33,7 @@ export function initializeNavigation() {
     }
   });
   document.addEventListener("click", (event) => {
-    if (
-      event.target instanceof Element &&
-      !event.target.closest(".site-header")
-    )
-      closeMenu();
+    if (event.target instanceof Element && !event.target.closest(".site-header")) closeMenu();
   });
   desktop.addEventListener("change", (event) => {
     if (event.matches) closeMenu();

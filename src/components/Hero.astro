@@ -98,12 +98,7 @@ const avatars = [
           <Icon name="plus" class="size-4" />
         </div>
         {h.mock.mails.map((mail, index) => (
-          <div
-            class:list={[
-              "mail-row",
-              { "last-mail": index === h.mock.mails.length - 1 },
-            ]}
-          >
+          <div class:list={["mail-row", { "last-mail": index === h.mock.mails.length - 1 }]}>
             <span class:list={["mail-avatar", avatars[index]?.className]}>
               <Icon name={avatars[index]?.icon ?? "spark"} />
             </span>
@@ -132,8 +127,7 @@ const avatars = [
       </span>
     </div>
     <p class="visual-caption" aria-hidden="true">
-      <span></span> YOUR INBOX. YOUR IDENTITY.{" "}
-      <span class="demo-label">{h.mock.demoLabel}</span>
+      <span></span> YOUR INBOX. YOUR IDENTITY. <span class="demo-label">{h.mock.demoLabel}</span>
     </p>
   </div>
 </section>

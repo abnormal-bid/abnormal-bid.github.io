@@ -10,8 +10,7 @@ export const zh: Copy = {
     description:
       "Abnormal 邮箱服务：在线选购 @abnormal.bid 邮箱，用兑换码自助开通，网页邮箱与邮件客户端都能收发；域名邮箱、团队邮箱与配置协助可咨询。",
     socialTitle: "Abnormal — 好用的邮箱，沟通更简单。",
-    socialDescription:
-      "在线选购、自助开通 @abnormal.bid 邮箱，开通后即可在网页或邮件客户端收发。",
+    socialDescription: "在线选购、自助开通 @abnormal.bid 邮箱，开通后即可在网页或邮件客户端收发。",
   },
   skipLink: "跳到主要内容",
   brandLabel: "Abnormal 首页",
@@ -49,8 +48,7 @@ export const zh: Copy = {
     loginPrompt: "已经开通？",
     loginLink: "登录网页邮箱",
     promises: ["付款后自动发放兑换码", "用户名自己取", "开通即可收发"],
-    visualLabel:
-      "邮箱服务概念示意：清晰的收件箱和专属域名地址，连接日常与工作。",
+    visualLabel: "邮箱服务概念示意：清晰的收件箱和专属域名地址，连接日常与工作。",
     mock: {
       overline: "A LITTLE MORE CONNECTED",
       heading: "每一封，都有归处",
@@ -90,8 +88,7 @@ export const zh: Copy = {
         icon: "cart",
         eyebrow: "还没有邮箱",
         title: "购买邮箱",
-        description:
-          "选好套餐，用 Linux DO Credit 或银行卡付款。付款确认后自动发放兑换码。",
+        description: "选好套餐，用 Linux DO Credit 或银行卡付款。付款确认后自动发放兑换码。",
         link: "shop",
         action: "前往商店",
         primary: true,
@@ -100,8 +97,7 @@ export const zh: Copy = {
         icon: "ticket",
         eyebrow: "已有兑换码",
         title: "兑换开通",
-        description:
-          "输入 16 位兑换码，自己取用户名、设密码，一次可开通多个，开通后立即可用。",
+        description: "输入 16 位兑换码，自己取用户名、设密码，一次可开通多个，开通后立即可用。",
         link: "redeem",
         action: "立即开通",
       },
@@ -109,8 +105,7 @@ export const zh: Copy = {
         icon: "mail",
         eyebrow: "已经开通",
         title: "网页邮箱",
-        description:
-          "在浏览器里收发邮件，用完整邮箱地址和密码登录，可同时登录多个邮箱。",
+        description: "在浏览器里收发邮件，用完整邮箱地址和密码登录，可同时登录多个邮箱。",
         link: "webmail",
         action: "登录邮箱",
       },
@@ -118,8 +113,7 @@ export const zh: Copy = {
         icon: "book",
         eyebrow: "开通之后",
         title: "使用教程",
-        description:
-          "在手机或电脑的邮件客户端里收发、修改密码，以及用它注册 Claude 与 ChatGPT。",
+        description: "在手机或电脑的邮件客户端里收发、修改密码，以及用它注册 Claude 与 ChatGPT。",
         link: "guide",
         action: "查看教程",
       },
@@ -132,16 +126,12 @@ export const zh: Copy = {
   },
   services: {
     titleLines: ["总有一个邮箱，", "适合你的日常"],
-    intro: [
-      "个人邮箱在线购买、自助开通；",
-      "域名、团队与配置需求，先聊聊再定方案。",
-    ],
+    intro: ["个人邮箱在线购买、自助开通；", "域名、团队与配置需求，先聊聊再定方案。"],
     products: [
       {
         name: "个人邮箱",
         category: "日常通信",
-        description:
-          "@abnormal.bid 邮箱，在线选购、自助开通，适合日常收发与注册常用服务。",
+        description: "@abnormal.bid 邮箱，在线选购、自助开通，适合日常收发与注册常用服务。",
         tags: ["在线购买", "自助开通"],
         price: "在线选购",
         priceNote: "套餐与价格以商店页面为准",
@@ -179,8 +169,7 @@ export const zh: Copy = {
     consultAria: (name) => `咨询这项服务：${name}`,
     noteQuestion: "有其他邮箱或团队配置需求？",
     noteAction: "和我们聊聊",
-    noteFine:
-      "个人邮箱以商店页面的套餐与价格为准；其他服务的方案及费用，以咨询确认为准。",
+    noteFine: "个人邮箱以商店页面的套餐与价格为准；其他服务的方案及费用，以咨询确认为准。",
   },
   process: {
     title: "三步，开始使用你的邮箱",
@@ -189,24 +178,21 @@ export const zh: Copy = {
       {
         icon: "cart",
         title: "选购套餐",
-        description:
-          "在商店选择邮箱数量与容量，用 Linux DO Credit 或银行卡付款；付款确认后自动发放兑换码。",
+        description: "在商店选择邮箱数量与容量，用 Linux DO Credit 或银行卡付款；付款确认后自动发放兑换码。",
         link: "shop",
         action: "前往商店",
       },
       {
         icon: "ticket",
         title: "兑换开通",
-        description:
-          "在开通页输入兑换码，自己取用户名、设密码。密码只显示一次，记得保存。",
+        description: "在开通页输入兑换码，自己取用户名、设密码。密码只显示一次，记得保存。",
         link: "redeem",
         action: "前往开通",
       },
       {
         icon: "mail",
         title: "登录收发",
-        description:
-          "用完整邮箱地址登录网页邮箱，或按教程在邮件客户端里通过 IMAP / SMTP 收发。",
+        description: "用完整邮箱地址登录网页邮箱，或按教程在邮件客户端里通过 IMAP / SMTP 收发。",
         link: "webmail",
         action: "登录网页邮箱",
       },
@@ -282,10 +268,7 @@ export const zh: Copy = {
   inquiry: {
     close: "关闭咨询窗口",
     title: "从你的需求开始",
-    description: [
-      "选好服务，整理需求，再联系咨询。",
-      "方案、报价与开通方式均需确认后再下单。",
-    ],
+    description: ["选好服务，整理需求，再联系咨询。", "方案、报价与开通方式均需确认后再下单。"],
     productLabel: "服务类型",
     durationLabel: "使用时长",
     durations: ["1 个月", "3 个月", "6 个月", "12 个月", "尚未确定"],
@@ -294,8 +277,7 @@ export const zh: Copy = {
     undecidedLabel: "还没想好，想先咨询",
     notesLabel: "邮箱数量、域名或客户端需求",
     optional: "选填",
-    notesPlaceholder:
-      "例如：需要 3 个邮箱，已有域名，希望在手机和电脑上收发邮件。请勿填写密码或验证码。",
+    notesPlaceholder: "例如：需要 3 个邮箱，已有域名，希望在手机和电脑上收发邮件。请勿填写密码或验证码。",
     previewLabel: "你的咨询内容",
     copy: "复制咨询内容",
     contactFallback: "前往咨询",

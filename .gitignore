@@ -6,3 +6,5 @@ dist/
 .env
 .env.*
 !.env.example
+# Claude Code 的会话临时文件；launch.json（预览服务器配置）保留。
+.claude/.cc-writes/

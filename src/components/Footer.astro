@@ -47,11 +47,7 @@ const supportEmail = site.contact.email.trim();
       <div class="footer-contact">
         <p class="footer-label">{f.contactLabel}</p>
         {supportEmail && (
-          <a
-            class="footer-email"
-            href={`mailto:${supportEmail}`}
-            aria-label={f.emailAria(supportEmail)}
-          >
+          <a class="footer-email" href={`mailto:${supportEmail}`} aria-label={f.emailAria(supportEmail)}>
             {supportEmail}
           </a>
         )}
@@ -67,10 +63,7 @@ const supportEmail = site.contact.email.trim();
         </p>
         <nav class="footer-legal" aria-label={f.legalLabel}>
           {t.legalPages.map(({ path: page, label }) => (
-            <a
-              class="transition-colors hover:text-foreground"
-              href={path(page)}
-            >
+            <a class="transition-colors hover:text-foreground" href={path(page)}>
               {label}
             </a>
           ))}

@@ -38,11 +38,7 @@ const linkClass =
         </span>
         Let's get you started
       </span>
-      <button
-        class="icon-button inquiry-close"
-        id="close-dialog"
-        aria-label={q.close}
-      >
+      <button class="icon-button inquiry-close" id="close-dialog" aria-label={q.close}>
         <Icon name="close" />
       </button>
     </div>
@@ -80,10 +76,7 @@ const linkClass =
       </label>
     </div>
     <label class="inquiry-field">
-      {q.notesLabel}{" "}
-      <span class="ml-1 text-xs font-normal text-muted-foreground">
-        {q.optional}
-      </span>
+      {q.notesLabel} <span class="ml-1 text-xs font-normal text-muted-foreground">{q.optional}</span>
       <textarea
         class="mt-2"
         id="inquiry-notes"
@@ -98,24 +91,15 @@ const linkClass =
         <Icon name="copy" class="size-3.5" />
         {q.previewLabel}
       </span>
-      <p
-        class="mt-1 text-xs leading-loose wrap-anywhere whitespace-pre-wrap"
-        id="inquiry-text"
-      >
+      <p class="mt-1 text-xs leading-loose wrap-anywhere whitespace-pre-wrap" id="inquiry-text">
         {formatInquiry(initialInquiry, lang)}
       </p>
     </div>
     <div class="inquiry-contact" id="contact-info">
       <Icon name="chat" class="mt-1 size-4 text-muted-foreground" />
-      <p class="text-xs leading-loose wrap-anywhere text-muted-foreground">
-        {describeContact(site.contact, lang)}
-      </p>
+      <p class="text-xs leading-loose wrap-anywhere text-muted-foreground">{describeContact(site.contact, lang)}</p>
     </div>
-    <button
-      class="btn btn-primary inquiry-copy"
-      id="copy-inquiry"
-      type="submit"
-    >
+    <button class="btn btn-primary inquiry-copy" id="copy-inquiry" type="submit">
       <Icon name="copy" />
       {q.copy}
     </button>
@@ -134,22 +118,12 @@ const linkClass =
       {q.note}
       <br />
       {q.legal[0]}{" "}
-      <a
-        class={linkClass}
-        href={path(termsPage.path)}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a class={linkClass} href={path(termsPage.path)} target="_blank" rel="noopener noreferrer">
         {termsPage.label}
         <span class="sr-only">{q.newWindow}</span>
       </a>{" "}
       {q.legal[1]}{" "}
-      <a
-        class={linkClass}
-        href={path(privacyPage.path)}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a class={linkClass} href={path(privacyPage.path)} target="_blank" rel="noopener noreferrer">
         {privacyPage.label}
         <span class="sr-only">{q.newWindow}</span>
       </a>

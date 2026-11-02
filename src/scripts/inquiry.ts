@@ -14,19 +14,13 @@ export function initializeInquiry() {
   };
   const form = requiredElement<HTMLFormElement>("#inquiry-form", dialog);
   const product = requiredElement<HTMLSelectElement>("#inquiry-product", form);
-  const duration = requiredElement<HTMLSelectElement>(
-    "#inquiry-duration",
-    form,
-  );
+  const duration = requiredElement<HTMLSelectElement>("#inquiry-duration", form);
   const notes = requiredElement<HTMLTextAreaElement>("#inquiry-notes", form);
   const preview = requiredElement<HTMLParagraphElement>("#inquiry-text", form);
   const status = requiredElement<HTMLParagraphElement>("#copy-status", form);
   const copyButton = requiredElement<HTMLButtonElement>("#copy-inquiry", form);
   const contactLink = requiredElement<HTMLAnchorElement>("#contact-link", form);
-  const contactLabel = requiredElement<HTMLSpanElement>(
-    "[data-contact-label]",
-    contactLink,
-  );
+  const contactLabel = requiredElement<HTMLSpanElement>("[data-contact-label]", contactLink);
   let lastTrigger: HTMLButtonElement | null = null;
 
   function currentInquiry() {
@@ -50,25 +44,18 @@ export function initializeInquiry() {
     }
   }
 
-  document
-    .querySelectorAll<HTMLButtonElement>("[data-inquiry]")
-    .forEach((button) => {
-      button.addEventListener("click", () => {
-        lastTrigger = button;
-        const selection = button.dataset.inquiry || undecidedProduct;
-        product.value = Array.from(product.options).some(
-          (option) => option.value === selection,
-        )
-          ? selection
-          : undecidedProduct;
-        updateInquiry();
-        dialog.showModal();
-      });
+  document.querySelectorAll<HTMLButtonElement>("[data-inquiry]").forEach((button) => {
+    button.addEventListener("click", () => {
+      lastTrigger = button;
+      const selection = button.dataset.inquiry || undecidedProduct;
+      product.value = Array.from(product.options).some((option) => option.value === selection)
+        ? selection
+        : undecidedProduct;
+      updateInquiry();
+      dialog.showModal();
     });
-  requiredElement<HTMLButtonElement>("#close-dialog", dialog).addEventListener(
-    "click",
-    () => dialog.close(),
-  );
+  });
+  requiredElement<HTMLButtonElement>("#close-dialog", dialog).addEventListener("click", () => dialog.close());
   let backdropPressed = false;
   dialog.addEventListener("pointerdown", (event) => {
     backdropPressed = event.target === dialog;
@@ -105,8 +92,7 @@ export function initializeInquiry() {
     const field = document.createElement("textarea");
     field.value = text;
     field.setAttribute("aria-label", messages.copyField);
-    field.style.cssText =
-      "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;";
+    field.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;";
     dialog.append(field);
     field.select();
     field.setSelectionRange(0, field.value.length);

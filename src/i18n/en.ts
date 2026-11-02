@@ -48,13 +48,8 @@ export const en: Copy = {
     haveCode: "I have a code",
     loginPrompt: "Already set up?",
     loginLink: "Log in to webmail",
-    promises: [
-      "Code issued on payment",
-      "Pick your own username",
-      "Ready to send right away",
-    ],
-    visualLabel:
-      "Concept illustration of the email service: a tidy inbox and an address on your own domain.",
+    promises: ["Code issued on payment", "Pick your own username", "Ready to send right away"],
+    visualLabel: "Concept illustration of the email service: a tidy inbox and an address on your own domain.",
     mock: {
       overline: "A LITTLE MORE CONNECTED",
       heading: "Every email has a home",
@@ -136,10 +131,7 @@ export const en: Copy = {
   },
   services: {
     titleLines: ["A mailbox", "for every day"],
-    intro: [
-      "Personal mailboxes are bought and set up online.",
-      "For domains, teams or setup help, let's talk first.",
-    ],
+    intro: ["Personal mailboxes are bought and set up online.", "For domains, teams or setup help, let's talk first."],
     products: [
       {
         name: "Personal mailbox",
@@ -156,8 +148,7 @@ export const en: Copy = {
       {
         name: "Domain mailbox",
         category: "Your address",
-        description:
-          "Addresses planned around your own domain, so every message carries your name.",
+        description: "Addresses planned around your own domain, so every message carries your name.",
         tags: ["Domain advice", "Address planning"],
         price: "",
         priceNote: "Quoted by domain and setup",
@@ -165,8 +156,7 @@ export const en: Copy = {
       {
         name: "Team mailbox",
         category: "Work",
-        description:
-          "Mailboxes planned around your team's size and the way you work together.",
+        description: "Mailboxes planned around your team's size and the way you work together.",
         tags: ["For teams", "Set up to fit"],
         price: "",
         priceNote: "Quoted by mailboxes and term",
@@ -174,8 +164,7 @@ export const en: Copy = {
       {
         name: "Mailbox setup",
         category: "Support",
-        description:
-          "Help with sending and receiving settings and mail apps, so email fits into your day.",
+        description: "Help with sending and receiving settings and mail apps, so email fits into your day.",
         tags: ["Setup help", "How-to guidance"],
         price: "",
         priceNote: "Quoted by scope",
@@ -191,10 +180,7 @@ export const en: Copy = {
   },
   process: {
     title: "Three steps to your mailbox",
-    intro: [
-      "From checkout to your first email,",
-      "every step is self-service.",
-    ],
+    intro: ["From checkout to your first email,", "every step is self-service."],
     steps: [
       {
         icon: "cart",
@@ -313,8 +299,7 @@ export const en: Copy = {
     legal: ["Requests and services are covered by the", "and", "."],
     newWindow: " (opens in a new window)",
     copied: "Copied. Paste it into a message to us.",
-    copyFailed:
-      "Couldn't copy automatically. Select the text above and copy it.",
+    copyFailed: "Couldn't copy automatically. Select the text above and copy it.",
     copyFieldLabel: "Message to copy",
   },
   legal: {
@@ -324,8 +309,7 @@ export const en: Copy = {
     tocLabel: "Contents",
     tocHint: "On this page",
     highlights: "At a glance",
-    highlightsNote:
-      "This summary is for convenience; the full text below governs.",
+    highlightsNote: "This summary is for convenience; the full text below governs.",
     contactTitle: "Contact us",
     contactBody: (title) =>
       `If you have questions about this ${title}, or want to access, correct or delete your information, contact us below. Tell us what you need and include any order details; never send passwords, verification codes or card details.`,

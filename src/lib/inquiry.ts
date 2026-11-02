@@ -29,8 +29,7 @@ const text = {
     product: "Service: ",
     duration: "Term: ",
     notes: "Details: ",
-    closing:
-      "Please let me know the plan, total cost, setup time and what support is included.",
+    closing: "Please let me know the plan, total cost, setup time and what support is included.",
     subject: "Email service inquiry · ",
     telegram: "Ask on Telegram",
     email: "Ask by email",
@@ -39,15 +38,11 @@ const text = {
     telegramLabel: "Telegram: ",
     separator: " · ",
     contactHint: ". Copy the message below and send it to us.",
-    noContact:
-      "Contact channels are coming soon. You can copy your request now and get in touch later.",
+    noContact: "Contact channels are coming soon. You can copy your request now and get in touch later.",
   },
 } satisfies Record<Lang, Record<string, string>>;
 
-export function formatInquiry(
-  { product, duration, notes }: Inquiry,
-  lang: Lang = "zh",
-): string {
+export function formatInquiry({ product, duration, notes }: Inquiry, lang: Lang = "zh"): string {
   const t = text[lang];
   return [
     t.greeting,
@@ -61,13 +56,7 @@ export function formatInquiry(
 export function getTelegramUrl(value: string): string | undefined {
   try {
     const url = new URL(value.trim());
-    if (
-      url.protocol === "https:" &&
-      url.hostname === "t.me" &&
-      !url.username &&
-      !url.password &&
-      url.pathname !== "/"
-    )
+    if (url.protocol === "https:" && url.hostname === "t.me" && !url.username && !url.password && url.pathname !== "/")
       return url.href;
   } catch {
     /* Unconfigured or invalid links must not hide a valid email fallback. */
@@ -75,11 +64,7 @@ export function getTelegramUrl(value: string): string | undefined {
   return undefined;
 }
 
-export function getContactLink(
-  contact: Contact,
-  inquiry: Inquiry,
-  lang: Lang = "zh",
-) {
+export function getContactLink(contact: Contact, inquiry: Inquiry, lang: Lang = "zh") {
   const t = text[lang];
   const telegram = getTelegramUrl(contact.telegram);
   if (telegram)
@@ -107,7 +92,5 @@ export function describeContact(contact: Contact, lang: Lang = "zh"): string {
     contact.email.trim() && `${t.emailLabel}${contact.email.trim()}`,
     telegram && `${t.telegramLabel}${telegram}`,
   ].filter(Boolean);
-  return parts.length
-    ? `${parts.join(t.separator)}${t.contactHint}`
-    : t.noContact;
+  return parts.length ? `${parts.join(t.separator)}${t.contactHint}` : t.noContact;
 }

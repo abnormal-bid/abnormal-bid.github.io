@@ -17,10 +17,7 @@ interface ThemeApi {
 }
 
 const storageKey = "abnormal-theme";
-const script = readFileSync(
-  new URL("../src/scripts/theme-init.js", import.meta.url),
-  "utf8",
-);
+const script = readFileSync(new URL("../src/scripts/theme-init.js", import.meta.url), "utf8");
 
 function initializeTheme({
   dark = false,
@@ -138,11 +135,7 @@ function initializeTheme({
   };
 }
 
-function assertTheme(
-  state: ReturnType<typeof initializeTheme>,
-  preference: Preference,
-  resolved: "light" | "dark",
-) {
+function assertTheme(state: ReturnType<typeof initializeTheme>, preference: Preference, resolved: "light" | "dark") {
   assert.equal(state.api.getPreference(), preference);
   assert.equal(state.root.dataset.themePreference, preference);
   assert.equal(state.root.dataset.theme, resolved);
@@ -159,11 +152,7 @@ test("default theme follows both light and dark system preferences", () => {
 });
 
 test("saved light and dark choices override the system preference", () => {
-  assertTheme(
-    initializeTheme({ dark: true, stored: "light" }),
-    "light",
-    "light",
-  );
+  assertTheme(initializeTheme({ dark: true, stored: "light" }), "light", "light");
   assertTheme(initializeTheme({ dark: false, stored: "dark" }), "dark", "dark");
 });
 
@@ -190,10 +179,7 @@ test("changing a preference saves explicit choices, clears system, and emits upd
     const eventCount = state.dispatched.length;
     state.api.setPreference(preference);
     assertTheme(state, preference, preference === "light" ? "light" : "dark");
-    assert.equal(
-      state.values.get(storageKey),
-      preference === "system" ? undefined : preference,
-    );
+    assert.equal(state.values.get(storageKey), preference === "system" ? undefined : preference);
     assert.ok(state.dispatched.length > eventCount);
     assert.equal(state.dispatched.at(-1)?.type, "abnormal:themechange");
   }
