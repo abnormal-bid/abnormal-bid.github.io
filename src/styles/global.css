@@ -22,6 +22,8 @@
   --highlight-foreground: #141412;
   /* 浅黄面：选中或当前的行、柔和的提示块；上面正文 16.6:1、次要文字 6.1:1。 */
   --highlight-muted: #fff4bf;
+  /* 流程编号下面那道荧光笔：浅色是纯黄配墨色字；深色字是浅色，压在纯黄上看不清，所以换成暗黄。 */
+  --step-band: var(--highlight);
   /* 小号指示（圆点、标题句号、进度、编号）：浅色是墨色，深色是荧光黄，两种主题下都看得清。 */
   --signal: #141412;
   --bg: #f7f7f4;
@@ -47,6 +49,7 @@
   --brand: #f0f0ea;
   --brand-foreground: #141412;
   --highlight-muted: #34311b;
+  --step-band: var(--highlight-muted);
   --signal: #ffe14d;
   --bg: #141412;
   --surface: #252520;
@@ -70,6 +73,7 @@
     --brand: #f0f0ea;
     --brand-foreground: #141412;
     --highlight-muted: #34311b;
+    --step-band: var(--highlight-muted);
     --signal: #ffe14d;
     --bg: #141412;
     --surface: #252520;
