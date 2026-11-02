@@ -1,16 +1,19 @@
+import type { Metadata } from "next";
 import { LegalDocument } from "@/components/LegalDocument";
-import { loadLegalDocument } from "@/lib/legal";
+import Content, { frontmatter, tableOfContents } from "@/content/legal/en/terms.mdx";
 import { pageMetadata } from "@/lib/metadata";
 
-const document = loadLegalDocument("en", "terms");
-
-export const metadata = pageMetadata({
+export const metadata: Metadata = pageMetadata({
   lang: "en",
   path: "/terms/",
-  title: `${document.title} — Abnormal`,
-  description: document.description,
+  title: `${frontmatter.title} — Abnormal`,
+  description: frontmatter.description,
 });
 
 export default function TermsPage() {
-  return <LegalDocument lang="en" document={document} href="/terms/" />;
+  return (
+    <LegalDocument lang="en" frontmatter={frontmatter} headings={tableOfContents} href="/terms/">
+      <Content />
+    </LegalDocument>
+  );
 }

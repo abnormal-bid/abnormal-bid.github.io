@@ -1,26 +1,35 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
+import type { LegalFrontmatter, LegalHeading } from "@/content/legal/types";
 import { site, type Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
 import { getTelegramUrl } from "@/lib/inquiry";
-import type { LegalDocument as LegalContent } from "@/lib/legal";
 import { Icon } from "./Icon";
 import styles from "./LegalDocument.module.css";
 
 export function LegalDocument({
   lang,
-  document,
+  frontmatter,
+  headings,
   href: currentPage,
+  children,
 }: {
   lang: Lang;
-  document: LegalContent;
+  frontmatter: LegalFrontmatter;
+  headings: LegalHeading[];
   /** 不带语言前缀的页面路径，如 /privacy/。 */
   href: string;
+  /** MDX 正文。 */
+  children: ReactNode;
 }) {
-  const { title, eyebrow, summary, effective, updated, highlights, headings, html } = document;
+  const { title, eyebrow, summary, effective, updated, highlights } = frontmatter;
   const { t, path } = useCopy(lang);
   const l = t.legal;
   const relatedPages = t.legalPages.filter(({ path: page }) => page !== currentPage);
-  const sections = [...headings, { slug: "contact", text: l.contactTitle }];
+  const sections = [
+    ...headings.filter(({ depth }) => depth === 2).map(({ id, value }) => ({ slug: id, text: value })),
+    { slug: "contact", text: l.contactTitle },
+  ];
 
   const dateFormatter = new Intl.DateTimeFormat(l.dateLocale, { dateStyle: "long", timeZone: "UTC" });
   const formatDate = (value: string) => dateFormatter.format(new Date(`${value}T00:00:00Z`));
@@ -98,7 +107,7 @@ export function LegalDocument({
           </div>
 
           <div className={styles.legalBody}>
-            <div dangerouslySetInnerHTML={{ __html: html }} />
+            <div>{children}</div>
             <section id="contact">
               <h2>{l.contactTitle}</h2>
               <p>{l.contactBody(title)}</p>

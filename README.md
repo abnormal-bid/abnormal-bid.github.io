@@ -12,7 +12,7 @@
 - 中文标题用全角句号、英文用半角，取 `t.dot`；只在部分宽度换行的标题，两行之间用 `t.space`（英文是空格）。
 - 联动地址由 `linksFor(lang)` 生成：onboard 的英文页在 `/en/` 下，网页邮箱与状态页按浏览器语言显示，两种语言用同一个地址。
 - 客户端组件（`Header`、`ThemePicker`、`InquiryDialog`）不引用文案模块，由 `SiteLayout` 通过 props 传入各自用得到的文案，浏览器脚本里不带两种语言的全部文案；路径工具放在 `src/i18n/paths.ts` 也是这个原因。咨询内容与邮件主题由 `src/lib/inquiry.ts` 按语言生成。
-- 法律页面：中文 `src/content/legal/zh/privacy.md`、`terms.md`，英文 `src/content/legal/en/privacy.md`、`terms.md`。英文版开头注明是译文、以中文版为准；修改条款时两边一起改，并同步 `updated`。
+- 法律页面：中文 `src/content/legal/zh/privacy.mdx`、`terms.mdx`，英文 `src/content/legal/en/privacy.mdx`、`terms.mdx`。英文版开头注明是译文、以中文版为准；修改条款时两边一起改，并同步 `updated`。
 
 ## 与其他站点联动
 
@@ -62,10 +62,10 @@ pnpm cf:deploy     # 部署已有的 .open-next/ 产物
 src/
   app/            路由：(zh)/ 中文页、(en)/en/ 英文页，各有一个根布局；global-not-found.tsx 是两种语言共用的 404
   components/     SiteLayout、页头、Hero、邮箱服务卡片、流程、FAQ、咨询弹窗等组件，样式放在同名 .module.css
-  content/legal/  Markdown 编写的隐私政策与服务条款，zh/ 与 en/ 各一份
+  content/legal/  MDX 编写的隐私政策与服务条款，zh/ 与 en/ 各一份
   data/site.ts    公开联系方式与联动站点地址（linksFor）
   i18n/           中英文文案（zh.ts、en.ts、types.ts）与语言路径工具（paths.ts）
-  lib/            inquiry.ts 咨询文案与联系方式的纯函数；legal.ts 渲染法律页面；metadata.ts 页面 SEO
+  lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO
   scripts/        theme-init.js：内联进头部的主题初始化脚本
   styles/         Tailwind 主题、基础样式和共享 utility
 public/           favicon、字体等由静态资源服务直接响应的文件
@@ -74,7 +74,7 @@ open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资�
 wrangler.jsonc       Cloudflare Worker 与静态资源配置
 ```
 
-主要布局、排版、状态和响应式设计使用 Tailwind utility；组件特有的样式放在 CSS Modules 里。只有 `Header`、`ThemePicker`、`InquiryDialog` 是客户端组件，其余都是服务端组件，在构建时预渲染。Worker 运行时不能用 `fs` 读项目文件，所以法律文档与 `theme-init.js` 由 `next.config.ts` 的 `raw-loader` 规则在构建时打包成字符串。页面里任意位置要打开咨询弹窗，用 `InquiryButton`（`product` 指定预选的服务）。
+主要布局、排版、状态和响应式设计使用 Tailwind utility；组件特有的样式放在 CSS Modules 里。只有 `Header`、`ThemePicker`、`InquiryDialog` 是客户端组件，其余都是服务端组件，在构建时预渲染。Worker 运行时不能用 `fs` 读项目文件，所以法律文档在构建时由 MDX 编译成组件，`theme-init.js` 由 `next.config.ts` 的 `raw-loader` 规则打包成字符串。页面里任意位置要打开咨询弹窗，用 `InquiryButton`（`product` 指定预选的服务）。
 
 ## 视觉设计
 
@@ -112,7 +112,7 @@ wrangler.jsonc       Cloudflare Worker 与静态资源配置
 
 ## 隐私政策与服务条款
 
-`src/content/legal/zh/` 与 `src/content/legal/en/` 下的 `privacy.md`、`terms.md` 由 `src/lib/legal.ts` 渲染，通过 `src/components/LegalDocument.tsx` 输出，发布路径为 `/privacy/` 与 `/terms/`（英文 `/en/privacy/`、`/en/terms/`），页脚与咨询弹窗都有入口。正文使用 Markdown 编写，每个二级标题自动编号并生成目录；「联系我们」一节由组件根据 `site.contact` 生成，正文中无需重复联系方式。
+`src/content/legal/zh/` 与 `src/content/legal/en/` 下的 `privacy.mdx`、`terms.mdx` 在构建时由 [`@next/mdx`](https://nextjs.org/docs/app/guides/mdx) 编译，通过 `src/components/LegalDocument.tsx` 输出，发布路径为 `/privacy/` 与 `/terms/`（英文 `/en/privacy/`、`/en/terms/`），页脚与咨询弹窗都有入口。正文使用 MDX 编写（普通文字里的 `{`、`}`、`<` 会被当成语法，要写成 `\{`、`\}`、`\<`），每个二级标题自动编号并生成目录；「联系我们」一节由组件根据 `site.contact` 生成，正文中无需重复联系方式。
 
 frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`（页首英文小标）、`summary`（页首导语）、`effective` 与 `updated`（`YYYY-MM-DD`，修改正文后请更新 `updated`）、`highlights`（页首「要点速览」）。
 

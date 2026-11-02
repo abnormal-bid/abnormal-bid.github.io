@@ -1,16 +1,19 @@
+import type { Metadata } from "next";
 import { LegalDocument } from "@/components/LegalDocument";
-import { loadLegalDocument } from "@/lib/legal";
+import Content, { frontmatter, tableOfContents } from "@/content/legal/zh/privacy.mdx";
 import { pageMetadata } from "@/lib/metadata";
 
-const document = loadLegalDocument("zh", "privacy");
-
-export const metadata = pageMetadata({
+export const metadata: Metadata = pageMetadata({
   lang: "zh",
   path: "/privacy/",
-  title: `${document.title} — Abnormal`,
-  description: document.description,
+  title: `${frontmatter.title} — Abnormal`,
+  description: frontmatter.description,
 });
 
 export default function PrivacyPage() {
-  return <LegalDocument lang="zh" document={document} href="/privacy/" />;
+  return (
+    <LegalDocument lang="zh" frontmatter={frontmatter} headings={tableOfContents} href="/privacy/">
+      <Content />
+    </LegalDocument>
+  );
 }

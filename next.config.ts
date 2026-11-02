@@ -1,3 +1,4 @@
+import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -9,11 +10,18 @@ const nextConfig: NextConfig = {
   },
   turbopack: {
     rules: {
-      // Worker 运行时不能用 fs 读项目文件，法律文档与主题脚本在构建时打包成字符串。
-      "*.md": { loaders: ["raw-loader"], as: "*.js" },
+      // Worker 运行时不能用 fs 读项目文件，主题脚本在构建时打包成字符串。
       "**/scripts/theme-init.js": { loaders: ["raw-loader"], as: "*.js" },
     },
   },
 };
 
-export default nextConfig;
+// Turbopack 要求插件写成包名字符串。
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: ["remark-frontmatter", "remark-mdx-frontmatter", "remark-gfm", "remark-smartypants"],
+    rehypePlugins: ["rehype-slug", "@stefanprobst/rehype-extract-toc", "@stefanprobst/rehype-extract-toc/mdx"],
+  },
+});
+
+export default withMDX(nextConfig);
