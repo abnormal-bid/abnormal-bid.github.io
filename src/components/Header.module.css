@@ -1,0 +1,117 @@
+.siteHeader {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 64px;
+}
+/* 导航照 mailhq 的幽灵按钮：灰字，悬停铺半透明底。 */
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 24px;
+  margin-right: auto;
+}
+.desktopNav a {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: var(--radius-control);
+  color: var(--text-secondary);
+  font-size: 14px;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
+}
+.desktopNav a:hover {
+  background: var(--control);
+  color: var(--text);
+}
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.headerDivider {
+  width: 1px;
+  height: 16px;
+  margin-inline: 8px;
+  background: var(--border);
+}
+.headerInquiry {
+  min-height: 32px;
+  padding: 0 12px;
+  gap: 6px;
+}
+.menuToggle {
+  display: none;
+}
+.mobileNav {
+  position: absolute;
+  top: 100%;
+  inset-inline: 0;
+  max-height: calc(100dvh - 65px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.mobileNavInner {
+  display: flex;
+  flex-direction: column;
+  padding-block: 8px 20px;
+}
+.mobileNavInner > a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 52px;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+}
+.mobileNavInner > a > span {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.mobileNavInner > a :global(.icon) {
+  margin-left: auto;
+  color: var(--text-secondary);
+}
+.mobileNavInner > button {
+  margin-top: 16px;
+}
+@media (min-width: 768px) {
+  .mobileNav {
+    display: none;
+  }
+}
+@media (max-width: 950px) {
+  .desktopNav {
+    margin-left: 8px;
+  }
+}
+@media (max-width: 767px) {
+  .headerInner {
+    gap: 12px;
+  }
+  .desktopNav,
+  .headerDivider {
+    display: none;
+  }
+  .menuToggle {
+    display: flex;
+  }
+  .headerInquiry {
+    display: none;
+  }
+}

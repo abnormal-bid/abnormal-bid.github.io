@@ -1,0 +1,7 @@
+# pnpm 12 默认不跑依赖的安装脚本，未批准的在 frozen-lockfile 模式下会直接报错。
+# wrangler 本地运行 workerd 与打包用 esbuild，都需要它们的安装脚本下载平台二进制；
+# sharp（next/image 用，这里用不上）不需要。
+allowBuilds:
+  esbuild: true
+  workerd: true
+  sharp: false

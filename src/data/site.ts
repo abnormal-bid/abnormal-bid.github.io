@@ -17,6 +17,7 @@ export interface Product {
 }
 
 export const site = {
+  url: "https://abnormal.bid",
   title: "Abnormal — 邮箱服务",
   description:
     "Abnormal 提供邮箱服务，面向个人与团队的日常通信需求，支持邮箱开通、域名邮箱方案咨询与配置协助。了解服务内容与费用，让沟通更简单。",
@@ -82,7 +83,7 @@ export const navigation = [
   { href: "/#faq", label: "常见问题" },
 ] as const;
 
-// 法律页面入口：页脚与咨询弹窗都会引用，路径带尾部斜杠以匹配 GitHub Pages 的目录发布。
+// 法律页面入口：页脚与咨询弹窗都会引用，路径带尾部斜杠，与 next.config.ts 的 trailingSlash 一致。
 export const legalPages = [
   { href: "/privacy/", label: "隐私政策" },
   { href: "/terms/", label: "服务条款" },
