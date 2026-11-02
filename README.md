@@ -121,7 +121,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 仓库 **Settings → Pages → Build and deployment** 的 Source 应设为 **GitHub Actions**。`astro.config.mjs` 使用组织根域名，因此无需设置 `base` 子路径。部署失败时，上一个成功版本继续可用。
 
-工作流使用内置 `GITHUB_TOKEN`，不需要另加 PAT。第三方 Actions 固定到已验证的完整 commit SHA；Pages 写入与 OIDC 权限仅授予部署任务。
+工作流使用内置 `GITHUB_TOKEN`，不需要另加 PAT。Actions 与 mail、onboard 一样只写大版本标签（如 `actions/checkout@v7`），小版本与补丁更新自动生效，大版本升级由 Dependabot 提 PR；Pages 写入与 OIDC 权限仅授予部署任务。
 
 ## release-please 发版
 
