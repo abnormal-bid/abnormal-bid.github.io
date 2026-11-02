@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.0](https://github.com/abnormal-bid/abnormal-bid.github.io/compare/v1.3.0...v1.4.0) (2026-11-02)
+
+
+### Features
+
+* **brand:** 主色从紫外蓝换成墨色 ([f0a70aa](https://github.com/abnormal-bid/abnormal-bid.github.io/commit/f0a70aab29dc4f339a78ecf40b10338aba453ebe))
+* **brand:** 主色从紫外蓝换成墨色 ([e925b13](https://github.com/abnormal-bid/abnormal-bid.github.io/commit/e925b13cf0a9c9096f28ec783eedfdecec4867c2))
+* **brand:** 官网换成 abnormal 品牌（路线 A） ([#9](https://github.com/abnormal-bid/abnormal-bid.github.io/issues/9)) ([9132dc6](https://github.com/abnormal-bid/abnormal-bid.github.io/commit/9132dc6a00ea3a4c0ad6119a32d159bf6c3949e0))
+
 ## [1.3.0](https://github.com/abnormal-bid/abnormal-bid.github.io/compare/v1.2.0...v1.3.0) (2026-11-02)
 
 
