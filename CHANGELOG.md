@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/abnormal-bid/abnormal-bid.github.io/compare/v1.4.0...v1.5.0) (2026-11-02)
+
+
+### Features
+
+* **brand:** 荧光黄进入界面，标记当前、选中、新与展示 ([#12](https://github.com/abnormal-bid/abnormal-bid.github.io/issues/12)) ([c5dc5a5](https://github.com/abnormal-bid/abnormal-bid.github.io/commit/c5dc5a5a982476c9c0ae6039158283951eb2f7fc))
+
 ## [1.4.0](https://github.com/abnormal-bid/abnormal-bid.github.io/compare/v1.3.0...v1.4.0) (2026-11-02)
 
 
