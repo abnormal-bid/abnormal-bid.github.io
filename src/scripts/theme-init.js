@@ -22,7 +22,7 @@
     root.style.colorScheme = theme;
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", theme === "dark" ? "#15131c" : "#f8f7fc");
+      ?.setAttribute("content", theme === "dark" ? "#141412" : "#f7f7f4");
     window.dispatchEvent(new CustomEvent("abnormal:themechange"));
   };
 

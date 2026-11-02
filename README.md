@@ -76,20 +76,20 @@ tests/           咨询逻辑与主题行为回归测试
 
 ## 视觉设计
 
-视觉与 [mailhq](https://github.com/abnormal-bid/mail) 及 [onboard](https://github.com/abnormal-bid/onboard) 统一，用 abnormal 品牌（路线 A）：墨色压在微带紫调的纸色上、深色主题就是墨色本身，唯一的强调色紫外蓝，荧光黄作第二品牌色；正文 Inter、标题 Bricolage Grotesque、代码 JetBrains Mono；套在 Resend 式的结构上——1px 细线分隔、面板不铺底色、没有阴影。
+视觉与 [mailhq](https://github.com/abnormal-bid/mail) 及 [onboard](https://github.com/abnormal-bid/onboard) 统一，用 abnormal 品牌（路线 A）：墨色压在暖灰纸色上、深色主题就是墨色本身，主色就是墨色，荧光黄是唯一的彩色品牌色；正文 Inter、标题 Bricolage Grotesque、代码 JetBrains Mono；套在 Resend 式的结构上——1px 细线分隔、面板不铺底色、没有阴影。
 
 - `src/styles/global.css` 的令牌（配色、圆角、焦点色）照抄 mailhq 的 `src/app/globals.css`，改配色时几边一起改。组件内直接用 `var(--text)`、`var(--text-secondary)`、`var(--border)` 等原始令牌；Tailwind 工具类用 `text-foreground`、`text-muted-foreground`、`text-brand` 等映射名。
-- 品牌色（紫外蓝）只用在主按钮、小标前的圆点、标题末尾的句号与少量装饰点；勾选图标、链接悬停与编号都用墨色或灰色。浅色下主按钮是 `#4a2bff` 配白字（6.8:1），深色下是 `#9d8dff` 配墨色字（6.7:1）。荧光黄 `--highlight`（`#ffe14d`）只用在品牌标记和选中文字上，永远配墨色字。
+- 品牌色就是墨色，用在主按钮、小标前的圆点、标题末尾的句号与少量装饰点；勾选图标、链接悬停与编号用墨色或灰色。浅色下主按钮是 `#141412` 配白字（18.4:1），深色下是 `#f0f0ea` 配墨色字（16.1:1）。荧光黄 `--highlight`（`#ffe14d`）只用在品牌标记和选中文字上，永远配墨色字。
 - 圆角收紧，呼应方形标志：徽章 4px、按钮与控件 6px、小面板 8px、卡片与对话框 12px。按钮按下缩到 0.98，悬停只改底色或描边，不上浮、不加阴影。
 - 控件照 mailhq：半透明 `control` 底、`input` 细描边；悬停与聚焦时描边加深，键盘焦点是 2px 灰色描边。只有浮层（主题菜单、咨询对话框）使用 `--popover-bg` 与浮层阴影。
-- 品牌标记与 mailhq 的 BrandMark 同一幅图：荧光黄方块上一个墨色小写 a，带紫外蓝错位影子和右上箭头，颜色固定、不随主题变化；`public/favicon.svg` 也是这幅图。
+- 品牌标记与 mailhq 的 BrandMark 同一幅图：荧光黄方块上一个墨色小写 a，带纸白色错位影子和右上箭头，颜色固定、不随主题变化；`public/favicon.svg` 也是这幅图。
 - Inter（正文）、Bricolage Grotesque（标题）、JetBrains Mono（代码）三款可变字体（拉丁子集，OFL）自托管在 `public/fonts/`，与 mailhq 同一份文件，页面头部预载 Inter 与 Bricolage Grotesque；中文字形回退到苹方 / 微软雅黑等系统字体，不访问 Google Fonts。
 
 ## 外观主题
 
 导航栏提供「跟随系统」「浅色模式」「深色模式」。首次访问默认跟随系统，系统外观变化时同步更新；手动选择保存在当前浏览器的 `localStorage`（`abnormal-theme`），选择跟随系统会清除该偏好。不同标签页自动同步选择，浏览器禁用存储时仍可临时切换。
 
-主题初始化脚本在页面头部同步执行，提前设置实际主题，避免刷新时闪过错误配色。全局色彩在 `src/styles/global.css` 维护，浅色与深色各一套令牌，挂在 `<html data-theme>` 上；脚本未运行时按系统偏好取色。`<meta name="theme-color">` 随生效的主题切换（`#f8f7fc` / `#15131c`）。
+主题初始化脚本在页面头部同步执行，提前设置实际主题，避免刷新时闪过错误配色。全局色彩在 `src/styles/global.css` 维护，浅色与深色各一套令牌，挂在 `<html data-theme>` 上；脚本未运行时按系统偏好取色。`<meta name="theme-color">` 随生效的主题切换（`#f7f7f4` / `#141412`）。
 
 ## 配置经营信息
 

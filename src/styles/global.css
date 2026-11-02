@@ -7,76 +7,76 @@
 
 /*
  * 配色与 mailhq（abnormal-bid/mail 的 src/app/globals.css）同一套，两边一起改：
- * abnormal 品牌（路线 A）——墨色 #121018 压在微带紫调的纸色 #f8f7fc 上，深色模式就是墨色本身 #15131c，
+ * abnormal 品牌（路线 A）——墨色 #141412 压在暖灰纸色 #f7f7f4 上，深色模式就是墨色本身 #141412，
  * 套在 Resend 式的结构上——
- * - 唯一强调色是紫外蓝：浅色 #4a2bff 配白字（6.8:1），深色 #9d8dff 配墨色字（6.7:1）；
+ * - 主色就是墨色：浅色 #141412 配白字（18.4:1），深色 #f0f0ea 配墨色字（16.1:1），没有彩色强调色；
  * - 荧光黄 #ffe14d（--highlight）是第二品牌色，只用在标志、选中文字和搜索命中上，永远配墨色字（14.5:1）；
  * - 面板不铺底色（card 与页面同色），层次只靠 1px 细边，不加阴影；
  * - 控件底 control、控件描边 input 是半透明的墨色；
  * - 状态色在各自 10–25% 的浅底上、以及 85% 透明度压在 surface 上时都保持 4.5:1 以上。
  */
 :root {
-  --brand: #4a2bff;
+  --brand: #141412;
   --brand-foreground: #ffffff;
   --highlight: #ffe14d;
-  --highlight-foreground: #121018;
-  --bg: #f8f7fc;
-  --surface: #eeecf6;
-  --text: #121018;
-  --text-secondary: #5a5470;
-  --border: #e4e1ee;
-  --hover: #f0eef7;
-  --control: #1210180b;
-  --input: #12101822;
+  --highlight-foreground: #141412;
+  --bg: #f7f7f4;
+  --surface: #ecece6;
+  --text: #141412;
+  --text-secondary: #5c5c55;
+  --border: #e3e3dc;
+  --hover: #efefea;
+  --control: #1414120b;
+  --input: #14141222;
   --badge-ink: #704800;
   --success: #335c24;
   --destructive: #9f1a2c;
   --card: var(--bg);
   --popover-bg: #ffffff;
-  /* 焦点描边：对淡紫纸色底 3.3:1，满足非文字对比度。 */
-  --focus: #8a84a3;
-  --popover-shadow: 0 4px 12px #1210180d, 0 16px 40px #12101817;
+  /* 焦点描边：对纸色底 3.3:1，满足非文字对比度。 */
+  --focus: #8a8a80;
+  --popover-shadow: 0 4px 12px #1414120d, 0 16px 40px #14141217;
   color-scheme: light;
 }
-/* 深色是品牌墨色：页面 #15131c，浮层 #1c1a25。 */
+/* 深色是品牌墨色：页面 #141412，浮层 #1c1c19。 */
 :root[data-theme="dark"] {
-  --brand: #9d8dff;
-  --brand-foreground: #15131c;
-  --bg: #15131c;
-  --surface: #25222f;
-  --text: #eeecf7;
-  --text-secondary: #a29db8;
-  --border: #2c2938;
-  --hover: #1d1b26;
-  --control: #eeecf70d;
-  --input: #eeecf71f;
+  --brand: #f0f0ea;
+  --brand-foreground: #141412;
+  --bg: #141412;
+  --surface: #252520;
+  --text: #f0f0ea;
+  --text-secondary: #a6a69c;
+  --border: #2e2e29;
+  --hover: #1c1c19;
+  --control: #f0f0ea0d;
+  --input: #f0f0ea1f;
   --badge-ink: #e8b85a;
   --success: #a8c48f;
   --destructive: #ff8a96;
-  --popover-bg: #1c1a25;
-  --focus: #6f6990;
-  --popover-shadow: 0 0 0 1px #eeecf708, 0 16px 48px #00000080;
+  --popover-bg: #1c1c19;
+  --focus: #6f6f66;
+  --popover-shadow: 0 0 0 1px #f0f0ea08, 0 16px 48px #00000080;
   color-scheme: dark;
 }
 /* 脚本没跑（还没写 data-theme）时按系统偏好。 */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --brand: #9d8dff;
-    --brand-foreground: #15131c;
-    --bg: #15131c;
-    --surface: #25222f;
-    --text: #eeecf7;
-    --text-secondary: #a29db8;
-    --border: #2c2938;
-    --hover: #1d1b26;
-    --control: #eeecf70d;
-    --input: #eeecf71f;
+    --brand: #f0f0ea;
+    --brand-foreground: #141412;
+    --bg: #141412;
+    --surface: #252520;
+    --text: #f0f0ea;
+    --text-secondary: #a6a69c;
+    --border: #2e2e29;
+    --hover: #1c1c19;
+    --control: #f0f0ea0d;
+    --input: #f0f0ea1f;
     --badge-ink: #e8b85a;
     --success: #a8c48f;
     --destructive: #ff8a96;
-    --popover-bg: #1c1a25;
-    --focus: #6f6990;
-    --popover-shadow: 0 0 0 1px #eeecf708, 0 16px 48px #00000080;
+    --popover-bg: #1c1c19;
+    --focus: #6f6f66;
+    --popover-shadow: 0 0 0 1px #f0f0ea08, 0 16px 48px #00000080;
     color-scheme: dark;
   }
 }
@@ -322,7 +322,7 @@
     transform: scale(0.98);
   }
 }
-/* 主操作：品牌色（紫外蓝）实底、600 字重。 */
+/* 主操作：品牌色（墨色）实底、600 字重。 */
 @utility btn-primary {
   background: var(--brand);
   color: var(--brand-foreground);
