@@ -22,7 +22,7 @@ const defaultAlternate = new URL(switchPath(Astro.url.pathname, "zh"), Astro.sit
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#faf9f5" />
+    <meta name="theme-color" content="#f8f7fc" />
     <script is:inline set:html={themeInitializer}></script>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
@@ -38,6 +38,7 @@ const defaultAlternate = new URL(switchPath(Astro.url.pathname, "zh"), Astro.sit
     <link rel="alternate" hreflang="x-default" href={defaultAlternate} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/BricolageGrotesque-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
   </head>
   <body>
