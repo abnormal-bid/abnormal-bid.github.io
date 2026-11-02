@@ -2,7 +2,7 @@
 
 [线上网站](https://abnormal.bid/)
 
-使用 Next.js（App Router）、Tailwind CSS 4 和 TypeScript 构建的中英双语邮箱服务官网。官网是整个 Abnormal 的落地页：介绍邮箱服务，并把访客引向购买、兑换开通、网页邮箱、教程与服务状态这几个站点；域名邮箱、团队邮箱与配置协助仍通过咨询弹窗沟通。全站静态导出，导航菜单、主题切换与咨询弹窗是 React 客户端组件；Cloudflare Workers Builds 监听 `main` 自动部署，GitHub Actions 只做检查。
+使用 Next.js（App Router）、Tailwind CSS 4 和 TypeScript 构建的中英双语邮箱服务官网。官网是整个 Abnormal 的落地页：介绍邮箱服务，并把访客引向购买、兑换开通、网页邮箱、教程与服务状态这几个站点；域名邮箱、团队邮箱与配置协助仍通过咨询弹窗沟通。页面在构建时预渲染，通过 [@opennextjs/cloudflare](https://opennext.js.org/cloudflare) 运行在 Cloudflare Worker 上，导航菜单、主题切换与咨询弹窗是 React 客户端组件；Cloudflare Workers Builds 监听 `main` 自动部署，GitHub Actions 只做检查。
 
 ## 中英文
 
@@ -48,9 +48,10 @@ pnpm lint          # ESLint（eslint-config-next）
 pnpm typecheck     # next typegen 与 TypeScript 检查
 pnpm test          # 咨询逻辑、文案结构与主题偏好测试
 pnpm format:check  # 格式检查
-pnpm build         # 静态导出到 out/
-pnpm preview       # 用 wrangler 在本地按生产规则托管 out/（先 build）
-pnpm cf:build      # 完整发布前检查：check、format:check、build 与 wrangler deploy --dry-run
+pnpm build         # next build
+pnpm cf:preview    # OpenNext 构建，并在本地 workerd 里预览（端口 8787）
+pnpm cf:build      # 完整发布前检查：check、format:check、OpenNext 构建到 .open-next/ 与 wrangler deploy --dry-run
+pnpm cf:deploy     # 部署已有的 .open-next/ 产物
 ```
 
 `pnpm install` 会通过 `prepare` 装好 git 钩子：提交前 lint-staged 只处理暂存的文件（代码先 `eslint --fix` 再 `prettier --write`），提交信息由 commitlint 按 Conventional Commits 检查（允许的类型与 mail 相同）。Dependabot 每周一检查 npm 依赖与 GitHub Actions 的更新。
@@ -64,15 +65,16 @@ src/
   content/legal/  Markdown 编写的隐私政策与服务条款，zh/ 与 en/ 各一份
   data/site.ts    公开联系方式与联动站点地址（linksFor）
   i18n/           中英文文案（zh.ts、en.ts、types.ts）与语言路径工具（paths.ts）
-  lib/            inquiry.ts 咨询文案与联系方式的纯函数；legal.ts 构建时渲染法律页面；metadata.ts 页面 SEO
+  lib/            inquiry.ts 咨询文案与联系方式的纯函数；legal.ts 渲染法律页面；metadata.ts 页面 SEO
   scripts/        theme-init.js：内联进头部的主题初始化脚本
   styles/         Tailwind 主题、基础样式和共享 utility
-public/           favicon、字体等直接复制到发布目录的静态文件
+public/           favicon、字体等由静态资源服务直接响应的文件
 tests/            咨询逻辑、文案结构与主题行为回归测试
-wrangler.jsonc    Cloudflare Worker 与静态资源配置
+open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资源里
+wrangler.jsonc       Cloudflare Worker 与静态资源配置
 ```
 
-主要布局、排版、状态和响应式设计使用 Tailwind utility；组件特有的样式放在 CSS Modules 里。只有 `Header`、`ThemePicker`、`InquiryDialog` 是客户端组件，其余都是服务端组件，在构建时渲染成静态 HTML。页面里任意位置要打开咨询弹窗，用 `InquiryButton`（`product` 指定预选的服务）。
+主要布局、排版、状态和响应式设计使用 Tailwind utility；组件特有的样式放在 CSS Modules 里。只有 `Header`、`ThemePicker`、`InquiryDialog` 是客户端组件，其余都是服务端组件，在构建时预渲染。Worker 运行时不能用 `fs` 读项目文件，所以法律文档与 `theme-init.js` 由 `next.config.ts` 的 `raw-loader` 规则在构建时打包成字符串。页面里任意位置要打开咨询弹窗，用 `InquiryButton`（`product` 指定预选的服务）。
 
 ## 视觉设计
 
@@ -110,7 +112,7 @@ wrangler.jsonc    Cloudflare Worker 与静态资源配置
 
 ## 隐私政策与服务条款
 
-`src/content/legal/zh/` 与 `src/content/legal/en/` 下的 `privacy.md`、`terms.md` 由 `src/lib/legal.ts` 在构建时渲染，通过 `src/components/LegalDocument.tsx` 输出，发布路径为 `/privacy/` 与 `/terms/`（英文 `/en/privacy/`、`/en/terms/`），页脚与咨询弹窗都有入口。正文使用 Markdown 编写，每个二级标题自动编号并生成目录；「联系我们」一节由组件根据 `site.contact` 生成，正文中无需重复联系方式。
+`src/content/legal/zh/` 与 `src/content/legal/en/` 下的 `privacy.md`、`terms.md` 由 `src/lib/legal.ts` 渲染，通过 `src/components/LegalDocument.tsx` 输出，发布路径为 `/privacy/` 与 `/terms/`（英文 `/en/privacy/`、`/en/terms/`），页脚与咨询弹窗都有入口。正文使用 Markdown 编写，每个二级标题自动编号并生成目录；「联系我们」一节由组件根据 `site.contact` 生成，正文中无需重复联系方式。
 
 frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`（页首英文小标）、`summary`（页首导语）、`effective` 与 `updated`（`YYYY-MM-DD`，修改正文后请更新 `updated`）、`highlights`（页首「要点速览」）。
 
@@ -120,7 +122,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 ## 部署
 
-站点部署为只有静态资源的 Cloudflare Worker（`wrangler.jsonc`，Worker 名 `abnormal-bid`，没有 `main`，请求全部由静态资源服务响应）。生产发布由 [Cloudflare Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) 直接监听 `main` 分支，每次推送自动检查、构建并部署；任何一步失败都不会部署，上一个成功版本继续可用。
+站点通过 OpenNext 部署为 Cloudflare Worker（`wrangler.jsonc`，Worker 名 `abnormal-bid`，入口是生成的 `.open-next/worker.js`）。页面都是预渲染的，预渲染结果放在只读的静态资源里（`open-next.config.ts`），不需要 R2 或队列；字体等静态文件由静态资源服务直接响应。生产发布由 [Cloudflare Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) 直接监听 `main` 分支，每次推送自动检查、构建并部署；任何一步失败都不会部署，上一个成功版本继续可用。
 
 `.github/workflows/ci.yml` 只在 PR 与 `main` 推送时执行相同的检查与构建，不负责发布，也不需要 Cloudflare 凭据。Actions 与 mail、onboard 一样只写大版本标签（如 `actions/checkout@v7`），大版本升级由 Dependabot 提 PR。
 
@@ -131,7 +133,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 - Worker 名称：`abnormal-bid`（必须与 `wrangler.jsonc` 一致）
 - 生产分支：`main`，根目录：`/`
 - 构建命令：`pnpm install --frozen-lockfile && pnpm cf:build`
-- 部署命令：`pnpm run deploy`
+- 部署命令：`pnpm cf:deploy`
 - 构建变量：
 
   | 变量                      | 值        | 作用                                           |
@@ -151,12 +153,14 @@ Node.js 版本由 `.node-version` 指定。
 3. 原先 `www` 由 GitHub Pages 跳转到根域名，切换后用同一 zone 的 Redirect Rule 把 `www.abnormal.bid` 跳转到 `https://abnormal.bid`（`www` 需要一条代理的 DNS 记录），或把它也绑为自定义域名。
 4. 确认新站生效后，在仓库 Settings → Pages 停用 GitHub Pages。
 
-也可以在本机部署（先 `pnpm exec wrangler login`；`deploy` 要写成 `pnpm run deploy`，因为 `pnpm deploy` 是 pnpm 自带的 workspace 命令）：
+也可以在本机部署（先 `pnpm exec wrangler login`）：
 
 ```sh
-pnpm build
-pnpm run deploy
+pnpm cf:build
+pnpm cf:deploy
 ```
+
+部署不加 `--strict`：自定义域名绑定在控制台，配置里没有声明，严格模式会把它们当成要删除的差异。
 
 ## 其他
 

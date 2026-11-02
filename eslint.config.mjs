@@ -10,7 +10,7 @@ const eslintConfig = defineConfig([
   ...fixupConfigRules(nextTs),
   globalIgnores([
     ".next/**",
-    "out/**",
+    ".open-next/**",
     "next-env.d.ts",
     ".wrangler/**",
     ".artifacts/**",

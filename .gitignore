@@ -5,9 +5,9 @@ node_modules/
 .env.*
 !.env.example
 .dev.vars*
-# Next.js 的构建缓存与静态导出产物
+# Next.js 与 OpenNext 的构建产物
 .next/
-out/
+.open-next/
 *.tsbuildinfo
 # next typegen / next dev 生成
 next-env.d.ts

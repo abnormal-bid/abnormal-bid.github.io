@@ -2,7 +2,7 @@
   "name": "abnormal-mail-services",
   "version": "1.5.0",
   "private": true,
-  "description": "Abnormal email services website built with Next.js and Tailwind CSS, deployed to Cloudflare Workers.",
+  "description": "Abnormal email services website built with Next.js and Tailwind CSS, deployed to Cloudflare Workers with OpenNext.",
   "type": "module",
   "scripts": {
     "dev": "next dev -p 4321",
@@ -11,9 +11,9 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "node --test tests/*.test.ts",
     "check": "pnpm lint && pnpm typecheck && pnpm test",
-    "cf:build": "pnpm check && pnpm format:check && pnpm build && wrangler deploy --dry-run",
-    "preview": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "cf:build": "pnpm check && pnpm format:check && opennextjs-cloudflare build && wrangler deploy --dry-run --outdir .wrangler/dry-run",
+    "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "cf:deploy": "opennextjs-cloudflare deploy",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"
@@ -23,6 +23,7 @@
     "pnpm": ">=12"
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.20.15",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "marked": "^16.4.2",
@@ -44,6 +45,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
     "prettier": "^3.9.10",
+    "raw-loader": "^4.0.2",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
     "wrangler": "^4.156.0"

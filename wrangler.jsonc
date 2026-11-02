@@ -1,16 +1,26 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  // 纯静态站点：没有 main，全部请求由静态资源服务直接响应，不产生 Worker 调用。
   // Workers Builds 里连接的 Worker 名必须与这里一致。
   "name": "abnormal-bid",
+  // 入口是 OpenNext 生成的 Worker，由 pnpm cf:build 产出。
+  "main": ".open-next/worker.js",
   "compatibility_date": "2026-09-01",
+  // nodejs_compat：Next.js 服务端依赖 Node API。
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
   // 自定义域名在控制台绑定（见 README「部署」），这里不声明 routes，切换线上域名不会被一次推送顺带触发。
   "assets": {
-    // next build（output: export）的产物。
-    "directory": "./out",
-    // /privacy 跳到 /privacy/，与 next.config.ts 的 trailingSlash 一致。
-    "html_handling": "auto-trailing-slash",
-    // 找不到的路径交给 Next.js 生成的 404.html（src/app/global-not-found.tsx）。
-    "not_found_handling": "404-page",
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  // OpenNext 用它调用自身。
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "abnormal-bid",
+    },
+  ],
+  "observability": {
+    "enabled": true,
   },
 }

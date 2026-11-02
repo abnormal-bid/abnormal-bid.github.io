@@ -10,7 +10,7 @@
     {
       "name": "site-preview",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "wrangler", "dev", "--port", "8787"],
+      "runtimeArgs": ["exec", "opennextjs-cloudflare", "preview", "--port", "8787"],
       "port": 8787
     }
   ]

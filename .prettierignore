@@ -1,6 +1,6 @@
 node_modules/
 .next/
-out/
+.open-next/
 .wrangler/
 next-env.d.ts
 # pnpm 生成的锁文件，不按 prettier 的 YAML 风格排版。

@@ -1,12 +1,19 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import GithubSlugger from "github-slugger";
 import matter from "gray-matter";
 import { Marked } from "marked";
 import { markedSmartypants } from "marked-smartypants";
+import enPrivacy from "@/content/legal/en/privacy.md";
+import enTerms from "@/content/legal/en/terms.md";
+import zhPrivacy from "@/content/legal/zh/privacy.md";
+import zhTerms from "@/content/legal/zh/terms.md";
 import type { Lang } from "@/data/site";
 
 export type LegalPage = "privacy" | "terms";
+
+const sources: Record<Lang, Record<LegalPage, string>> = {
+  zh: { privacy: zhPrivacy, terms: zhTerms },
+  en: { privacy: enPrivacy, terms: enTerms },
+};
 
 export interface LegalDocument {
   title: string;
@@ -20,10 +27,9 @@ export interface LegalDocument {
   html: string;
 }
 
-// 只在构建时运行：把 src/content/legal/ 下的 Markdown 渲染成静态 HTML，二级标题同时生成目录。
+// 把 src/content/legal/ 下的 Markdown 渲染成 HTML，二级标题同时生成目录。
 export function loadLegalDocument(lang: Lang, page: LegalPage): LegalDocument {
-  const source = readFileSync(join(process.cwd(), "src/content/legal", lang, `${page}.md`), "utf8");
-  const { data, content } = matter(source);
+  const { data, content } = matter(sources[lang][page]);
   const slugger = new GithubSlugger();
   const headings: LegalDocument["headings"] = [];
   const marked = new Marked(markedSmartypants(), {
