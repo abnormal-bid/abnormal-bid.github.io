@@ -12,16 +12,16 @@ import Icon from "./Icon.astro";
     <div class="process-heading">
       <div>
         <p class="eyebrow">
-          <span class="mr-1 tabular-nums">02 /</span>A simple way to get started
+          <span class="mr-1 tabular-nums">03 /</span>A simple way to get started
         </p>
         <h2 class="section-title" id="process-title">
           三步，开始使用你的邮箱<span class="text-brand">。</span>
         </h2>
       </div>
       <p class="process-intro">
-        从需求到配置，
+        从下单到收发，
         <br class="hidden md:block" />
-        每一步都先和你说清楚。
+        每一步都可以自己完成。
       </p>
     </div>
     <div class="process-grid">
@@ -38,6 +38,9 @@ import Icon from "./Icon.astro";
           </div>
           <h3 class="step-title">{step.title}</h3>
           <p class="step-description">{step.description}</p>
+          <a class="text-link step-link" href={step.href}>
+            {step.action} <Icon name="up-right" class="size-3.5" />
+          </a>
         </article>
       ))}
     </div>
@@ -104,6 +107,9 @@ import Icon from "./Icon.astro";
   }
   .step-description {
     max-width: 28rem;
+  }
+  .step-link {
+    margin-top: 0.9rem;
   }
   @media (width >= 768px) {
     .process-heading {

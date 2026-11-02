@@ -2,12 +2,14 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
+import Start from "../components/Start.astro";
 import Subscriptions from "../components/Subscriptions.astro";
 import Process from "../components/Process.astro";
 import Faq from "../components/Faq.astro";
 import Footer from "../components/Footer.astro";
 import InquiryDialog from "../components/InquiryDialog.astro";
 import Icon from "../components/Icon.astro";
+import { links } from "../data/site";
 ---
 
 <BaseLayout>
@@ -19,7 +21,7 @@ import Icon from "../components/Icon.astro";
         少一点配置的麻烦。<strong>多一点沟通的从容。</strong>
       </p>
       <div>
-        {["日常收发", "专属域名", "团队协作", "配置支持"].map((label) => (
+        {["在线选购", "自助开通", "网页收发", "客户端支持"].map((label) => (
           <span>
             <Icon name="spark" class="size-3.5" />
             {label}
@@ -27,6 +29,7 @@ import Icon from "../components/Icon.astro";
         ))}
       </div>
     </div>
+    <Start />
     <Subscriptions />
     <Process />
     <Faq />
@@ -42,11 +45,18 @@ import Icon from "../components/Icon.astro";
             <br class="closing-break" />
             从这里开始。
           </h2>
-          <span>聊聊你的使用场景，一起找到合适的邮箱方案。</span>
+          <span>
+            选个套餐，付款后自助开通，马上开始收发；有域名或团队需求，也可以先聊聊。
+          </span>
         </div>
-        <button class="btn btn-primary closing-button" data-inquiry>
-          聊聊邮箱需求 <Icon name="up-right" class="size-4" />
-        </button>
+        <div class="closing-actions">
+          <a class="btn btn-primary closing-button" href={links.shop}>
+            购买邮箱 <Icon name="arrow" class="size-4" />
+          </a>
+          <button class="btn btn-outline closing-button" data-inquiry>
+            聊聊定制需求 <Icon name="up-right" class="size-4" />
+          </button>
+        </div>
       </div>
     </section>
   </main>
@@ -119,8 +129,14 @@ import Icon from "../components/Icon.astro";
     color: var(--text-secondary);
     line-height: 1.8;
   }
-  .closing-button {
+  .closing-actions {
+    position: relative;
+    display: flex;
     flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .closing-button {
     gap: 10px;
   }
   .closing-decoration {

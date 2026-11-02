@@ -2,7 +2,24 @@
 
 [线上网站](https://abnormal.bid/) · [发布记录](https://github.com/abnormal-bid/abnormal-bid.github.io/releases)
 
-使用 Astro、Tailwind CSS 4 和 TypeScript 构建的中文邮箱服务官网，介绍个人邮箱、域名邮箱、团队邮箱与邮箱配置服务。Astro 预渲染静态页面，导航菜单、主题切换与咨询弹窗使用轻量客户端 JavaScript；GitHub Actions 验证并部署到 GitHub Pages，release-please 管理版本与更新日志。
+使用 Astro、Tailwind CSS 4 和 TypeScript 构建的中文邮箱服务官网。官网是整个 Abnormal 的落地页：介绍邮箱服务，并把访客引向购买、兑换开通、网页邮箱、教程与服务状态这几个站点；域名邮箱、团队邮箱与配置协助仍通过咨询弹窗沟通。Astro 预渲染静态页面，导航菜单、主题切换与咨询弹窗使用轻量客户端 JavaScript；GitHub Actions 验证并部署到 GitHub Pages，release-please 管理版本与更新日志。
+
+## 与其他站点联动
+
+官网本身不收款、不开通邮箱，实际操作都在下面几个站点完成。地址统一写在 `src/data/site.ts` 的 `links` 中，页头、首屏、「从这里开始」入口卡片、服务卡片、开通流程、收尾面板与页脚都从这里取，换域名时只改这一处。
+
+| 入口           | 地址                                         | 所在仓库                                           |
+| -------------- | -------------------------------------------- | -------------------------------------------------- |
+| 购买邮箱       | `https://onboard.abnormal.bid/shop/`         | [onboard](https://github.com/abnormal-bid/onboard) |
+| 兑换开通       | `https://onboard.abnormal.bid/`              | onboard                                            |
+| 我的订单与续费 | `https://onboard.abnormal.bid/shop/account/` | onboard                                            |
+| 使用教程       | `https://onboard.abnormal.bid/guide/`        | onboard                                            |
+| 网页邮箱       | `https://webmail.abnormal.bid/`              | [mail](https://github.com/abnormal-bid/mail)       |
+| 服务状态       | `https://mailhq.abnormal.bid/status`         | mail                                               |
+
+反方向：onboard 页头与页脚的「官网」、网页邮箱登录页与状态页的「官网」链接都指回 `https://abnormal.bid/`。
+
+首页从上到下：首屏（购买邮箱 / 我有兑换码 / 登录网页邮箱）→ 01 从这里开始（四张入口卡片与订单、状态、客服链接）→ 02 邮箱服务（个人邮箱直达商店，其余三项咨询）→ 03 开通流程（选购套餐 → 兑换开通 → 登录收发，每步带链接）→ 04 常见问题 → 收尾面板（购买邮箱 + 聊聊定制需求）。
 
 ## 开发
 
@@ -66,7 +83,8 @@ tests/           咨询逻辑与主题行为回归测试
 - `site.contact.wechat`：真实微信号。
 - `site.contact.email`：真实咨询邮箱；邮件咨询按钮会填入选定的服务类型、使用时长和需求。
 - `site.contact.telegram`：完整的 `https://t.me/...` 链接。有效 Telegram 优先；无效时回退到邮箱。
-- `products`：统一维护邮箱服务名称、类别、描述、标签、`price` 与 `priceNote`。`price` 留空时显示「咨询报价」。
+- `products`：统一维护邮箱服务名称、类别、描述、标签、`price` 与 `priceNote`。`price` 留空时显示「咨询报价」；填了 `href` 的卡片按钮直接前往该地址（如商店），否则打开咨询弹窗。
+- `links`、`entryPoints`、`processSteps`：联动站点地址、首页入口卡片与开通流程。
 
 这些配置会公开到网页中，请勿放入密钥、密码或私人信息。修改后提交到 `main` 即会重新构建并发布。
 
