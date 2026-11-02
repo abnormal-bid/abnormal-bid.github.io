@@ -1,11 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import {
-  describeContact,
-  formatInquiry,
-  getContactLink,
-  getTelegramUrl,
-} from "../src/lib/inquiry.ts";
+import { describeContact, formatInquiry, getContactLink, getTelegramUrl } from "../src/lib/inquiry.ts";
 
 const emptyContact = { wechat: "", email: "", telegram: "" };
 const inquiry = {
@@ -28,10 +23,7 @@ test("missing contact information cannot produce a fake consultation link", () =
 });
 
 test("Telegram permits HTTPS t.me links only, without embedded credentials", () => {
-  assert.equal(
-    getTelegramUrl(" https://t.me/example "),
-    "https://t.me/example",
-  );
+  assert.equal(getTelegramUrl(" https://t.me/example "), "https://t.me/example");
   for (const value of [
     "",
     "example",

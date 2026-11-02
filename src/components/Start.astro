@@ -29,10 +29,7 @@ const supportEmail = site.contact.email.trim();
     </div>
     <div class="start-grid">
       {s.entries.map((entry, index) => (
-        <a
-          class:list={["start-card", { "is-primary": entry.primary }]}
-          href={links[entry.link]}
-        >
+        <a class:list={["start-card", { "is-primary": entry.primary }]} href={links[entry.link]}>
           <span class="start-top">
             <span class="start-icon" aria-hidden="true">
               <Icon name={entry.icon} class="size-5" />

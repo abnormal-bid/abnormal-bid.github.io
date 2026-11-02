@@ -2,12 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { linksFor } from "../src/data/site.ts";
 import { en } from "../src/i18n/en.ts";
-import {
-  localePath,
-  stripLocale,
-  switchPath,
-  toLang,
-} from "../src/i18n/index.ts";
+import { localePath, stripLocale, switchPath, toLang } from "../src/i18n/index.ts";
 import { zh } from "../src/i18n/zh.ts";
 import { describeContact, formatInquiry } from "../src/lib/inquiry.ts";
 
@@ -43,9 +38,7 @@ test("both languages have the same shape of content", () => {
     Array.isArray(value)
       ? value.length
       : value && typeof value === "object"
-        ? Object.fromEntries(
-            Object.entries(value).map(([key, item]) => [key, shape(item)]),
-          )
+        ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, shape(item)]))
         : typeof value;
   assert.deepEqual(shape(en), shape(zh));
 });
@@ -60,8 +53,5 @@ test("the English inquiry message is written in English", () => {
     formatInquiry(inquiry, "en"),
     "Hi, I'd like to ask about your email service.\nService: Domain mailbox\nTerm: 3 months\nPlease let me know the plan, total cost, setup time and what support is included.",
   );
-  assert.match(
-    describeContact({ wechat: "", email: "", telegram: "" }, "en"),
-    /coming soon/,
-  );
+  assert.match(describeContact({ wechat: "", email: "", telegram: "" }, "en"), /coming soon/);
 });

@@ -16,12 +16,7 @@
   let preference = readPreference();
 
   const applyTheme = () => {
-    const theme =
-      preference === "system"
-        ? systemTheme.matches
-          ? "dark"
-          : "light"
-        : preference;
+    const theme = preference === "system" ? (systemTheme.matches ? "dark" : "light") : preference;
     root.dataset.theme = theme;
     root.dataset.themePreference = preference;
     root.style.colorScheme = theme;

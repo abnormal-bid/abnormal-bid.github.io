@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* 仓库配置（如 dependabot.yml 里的 version-update:semver-major）会被 Tailwind 当成任意属性类，不扫描它们。 */
+@source not "../../.github";
 
 /* 主题写在 <html data-theme> 上（theme-init.js）。 */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
@@ -99,10 +101,9 @@
   --color-success: var(--success);
 
   --font-sans:
-    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
-  --font-mono:
-    ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans CJK SC", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   /* 圆角照 Resend：徽章 8、控件 12、小面板 16、卡片与对话框 24。 */
   --radius-chip: 8px;

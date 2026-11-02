@@ -1,0 +1,4 @@
+# pnpm 12 默认不跑依赖的安装脚本，未批准的在 frozen-lockfile 模式下会直接报错。
+# sharp（astro 的图片优化用，这里没有用到）走预编译的 @img/sharp-* 包，不需要它的安装脚本。
+allowBuilds:
+  sharp: false

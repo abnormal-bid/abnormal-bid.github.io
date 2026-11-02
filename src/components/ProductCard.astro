@@ -12,15 +12,9 @@ const symbols = ["mail", "domain", "team", "settings"];
 const symbol = symbols[index];
 ---
 
-<article
-  class:list={["product-card", { "is-featured": product.featured }]}
-  data-product={product.name}
->
+<article class:list={["product-card", { "is-featured": product.featured }]} data-product={product.name}>
   <div class="card-top">
-    <span
-      class:list={["product-symbol", `symbol-${symbol}`]}
-      aria-hidden="true"
-    >
+    <span class:list={["product-symbol", `symbol-${symbol}`]} aria-hidden="true">
       {symbol === "mail" ? (
         <svg viewBox="0 0 24 24">
           <rect x="3" y="5" width="18" height="14" rx="3" />
@@ -62,22 +56,13 @@ const symbol = symbols[index];
     <span data-price-note>{product.priceNote}</span>
   </div>
   {product.link ? (
-    <a
-      class:list={[
-        "btn product-action",
-        product.featured ? "btn-primary" : "btn-outline",
-      ]}
-      href={links[product.link]}
-    >
+    <a class:list={["btn product-action", product.featured ? "btn-primary" : "btn-outline"]} href={links[product.link]}>
       {product.actionLabel}
       <Icon name="up-right" class="size-4" />
     </a>
   ) : (
     <button
-      class:list={[
-        "btn product-action",
-        product.featured ? "btn-primary" : "btn-outline",
-      ]}
+      class:list={["btn product-action", product.featured ? "btn-primary" : "btn-outline"]}
       data-inquiry={product.name}
       aria-label={t.services.consultAria(product.name)}
     >

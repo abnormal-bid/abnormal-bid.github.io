@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .astro/
-package-lock.json
+# pnpm 生成的锁文件，不按 prettier 的 YAML 风格排版。
+pnpm-lock.yaml
 CHANGELOG.md
 .artifacts/

@@ -21,27 +21,20 @@ interface LegalFrontmatter {
 type Props = MarkdownLayoutProps<LegalFrontmatter>;
 
 const { frontmatter, headings } = Astro.props;
-const { title, description, eyebrow, summary, effective, updated, highlights } =
-  frontmatter;
+const { title, description, eyebrow, summary, effective, updated, highlights } = frontmatter;
 
 // 中文版在 src/pages/*.md，英文版在 src/pages/en/*.md；界面文案按页面路径取语言。
 const { t, path } = useCopy(Astro.currentLocale);
 const l = t.legal;
 const currentPath = stripLocale(Astro.url.pathname).replace(/\/+$/, "");
-const relatedPages = t.legalPages.filter(
-  ({ path: page }) => page.replace(/\/+$/, "") !== currentPath,
-);
-const sections = [
-  ...headings.filter(({ depth }) => depth === 2),
-  { depth: 2, slug: "contact", text: l.contactTitle },
-];
+const relatedPages = t.legalPages.filter(({ path: page }) => page.replace(/\/+$/, "") !== currentPath);
+const sections = [...headings.filter(({ depth }) => depth === 2), { depth: 2, slug: "contact", text: l.contactTitle }];
 
 const dateFormatter = new Intl.DateTimeFormat(l.dateLocale, {
   dateStyle: "long",
   timeZone: "UTC",
 });
-const formatDate = (value: string) =>
-  dateFormatter.format(new Date(`${value}T00:00:00Z`));
+const formatDate = (value: string) => dateFormatter.format(new Date(`${value}T00:00:00Z`));
 
 const email = site.contact.email.trim();
 const wechat = site.contact.wechat.trim();
@@ -102,9 +95,7 @@ if (telegram)
             {sections.map(({ slug, text }, index) => (
               <li>
                 <a class="legal-nav-link" href={`#${slug}`}>
-                  <span class="legal-nav-number">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+                  <span class="legal-nav-number">{String(index + 1).padStart(2, "0")}</span>
                   {text}
                 </a>
               </li>
@@ -122,10 +113,7 @@ if (telegram)
           <ul class="highlights-list">
             {highlights.map((item) => (
               <li>
-                <Icon
-                  name="check"
-                  class="mt-1 size-4 shrink-0 text-foreground"
-                />
+                <Icon name="check" class="mt-1 size-4 shrink-0 text-foreground" />
                 {item}
               </li>
             ))}
@@ -144,14 +132,7 @@ if (telegram)
                     {label}
                     {l.colon}
                     {href ? (
-                      <a
-                        href={href}
-                        rel={
-                          href.startsWith("mailto:")
-                            ? undefined
-                            : "noopener noreferrer"
-                        }
-                      >
+                      <a href={href} rel={href.startsWith("mailto:") ? undefined : "noopener noreferrer"}>
                         {value}
                       </a>
                     ) : (

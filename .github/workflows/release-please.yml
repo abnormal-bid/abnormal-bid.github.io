@@ -75,20 +75,27 @@ jobs:
           ref: ${{ steps.pull-request.outputs.sha }}
           persist-credentials: false
 
+      - name: Set up pnpm
+        # 不写 version：pnpm/action-setup 会读 package.json 的 packageManager 字段，避免两处版本号漂移。
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
       - name: Set up Node.js
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24
-          cache: npm
+          node-version-file: .node-version
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
 
       - name: Check Astro and TypeScript
-        run: npm run check
+        run: pnpm typecheck
 
       - name: Run tests
-        run: npm test
+        run: pnpm test
 
       - name: Build the release
-        run: npm run build
+        run: pnpm build

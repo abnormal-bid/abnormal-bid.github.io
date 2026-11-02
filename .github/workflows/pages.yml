@@ -23,21 +23,26 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+      - name: Set up pnpm
+        # 不写 version：pnpm/action-setup 会读 package.json 的 packageManager 字段，避免两处版本号漂移。
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
       - name: Set up Node.js
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .node-version
-          cache: npm
+          cache: pnpm
       - name: Install dependencies
-        run: npm ci
-      - name: Check Astro and TypeScript
-        run: npm run check
+        run: pnpm install --frozen-lockfile
       - name: Check formatting
-        run: npm run format:check
+        run: pnpm format:check
+      - name: Lint
+        run: pnpm lint
+      - name: Check Astro and TypeScript
+        run: pnpm typecheck
       - name: Test consultation behavior
-        run: npm test
+        run: pnpm test
       - name: Build static site
-        run: npm run build
+        run: pnpm build
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4

@@ -8,7 +8,7 @@
 
 中文在根路径（`/`、`/privacy/`、`/terms/`），英文在 `/en/` 下（`/en/`、`/en/privacy/`、`/en/terms/`），由 `astro.config.mjs` 的 `i18n` 配置（`prefixDefaultLocale: false`）。页头的「EN / 中」切换到另一种语言的同一页面；每页都输出互指的 `hreflang`，`x-default` 指向中文版。不按浏览器语言自动跳转。
 
-- 全部界面文案在 `src/i18n/zh.ts` 与 `src/i18n/en.ts`，二者都实现 `src/i18n/types.ts` 的 `Copy`，漏写字段会在 `npm run check` 时报错；`tests/i18n.test.ts` 还会检查两份文案的结构（列表长度、字段）一致。组件用 `useCopy(Astro.currentLocale)` 取当前语言的文案、联动地址与带语言前缀的站内路径。
+- 全部界面文案在 `src/i18n/zh.ts` 与 `src/i18n/en.ts`，二者都实现 `src/i18n/types.ts` 的 `Copy`，漏写字段会在 `pnpm typecheck` 时报错；`tests/i18n.test.ts` 还会检查两份文案的结构（列表长度、字段）一致。组件用 `useCopy(Astro.currentLocale)` 取当前语言的文案、联动地址与带语言前缀的站内路径。
 - 中文标题用全角句号、英文用半角，取 `t.dot`；只在部分宽度换行的标题，两行之间用 `t.space`（英文是空格）。
 - 联动地址由 `linksFor(lang)` 生成：onboard 的英文页在 `/en/` 下，网页邮箱与状态页按浏览器语言显示，两种语言用同一个地址。
 - 客户端脚本（主题菜单、移动端导航、咨询弹窗）不内嵌文案，读取组件渲染在 `data-*` 上的当前语言文字；咨询内容与邮件主题由 `src/lib/inquiry.ts` 按语言生成。
@@ -33,22 +33,26 @@
 
 ## 开发
 
-使用 Node.js 24（见 `.node-version`）和 npm。
+开发设置与 [mail](https://github.com/abnormal-bid/mail)、[onboard](https://github.com/abnormal-bid/onboard) 一致：Node.js 24（见 `.node-version`）、pnpm 12（版本写在 `package.json` 的 `packageManager`）、Prettier（行宽 120）、ESLint、husky + lint-staged + commitlint。
 
 ```sh
-npm ci
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 开发地址为 `http://localhost:4321`。
 
 ```sh
-npm run check         # Astro 与 TypeScript 检查
-npm test              # 咨询逻辑与主题偏好测试
-npm run format:check  # 格式检查
-npm run build         # 生成 dist/
-npm run preview       # 预览生产构建
+pnpm check         # lint + typecheck + test
+pnpm lint          # ESLint（含 eslint-plugin-astro）
+pnpm typecheck     # Astro 与 TypeScript 检查
+pnpm test          # 咨询逻辑、文案结构与主题偏好测试
+pnpm format:check  # 格式检查
+pnpm build         # 生成 dist/
+pnpm preview       # 预览生产构建
 ```
+
+`pnpm install` 会通过 `prepare` 装好 git 钩子：提交前 lint-staged 只处理暂存的文件（代码与 `.astro` 先 `eslint --fix` 再 `prettier --write`），提交信息由 commitlint 按 Conventional Commits 检查（允许的类型与 mail 相同）。Dependabot 每周一检查 npm 依赖与 GitHub Actions 的更新。
 
 Astro 检查器当前支持 TypeScript 5/6，因此本项目使用兼容的 TypeScript 6。
 
@@ -113,7 +117,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 ## 检查和部署
 
-`.github/workflows/pages.yml` 会在 PR 和 `main` 推送时执行安装、类型检查、格式检查、测试与构建。只有 `main` 推送或在 `main` 手动触发工作流才会上传并部署 `dist/`。
+`.github/workflows/pages.yml` 会在 PR 和 `main` 推送时执行安装、格式检查、ESLint、类型检查、测试与构建。只有 `main` 推送或在 `main` 手动触发工作流才会上传并部署 `dist/`。
 
 仓库 **Settings → Pages → Build and deployment** 的 Source 应设为 **GitHub Actions**。`astro.config.mjs` 使用组织根域名，因此无需设置 `base` 子路径。部署失败时，上一个成功版本继续可用。
 
@@ -121,7 +125,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 ## release-please 发版
 
-`.github/workflows/release-please.yml` 在 `main` 推送后维护版本 PR；合并版本 PR 后，下一次运行会创建对应 `v*` 标签和 GitHub Release。`package.json`、`package-lock.json`、`.release-please-manifest.json` 和 `CHANGELOG.md` 由 release-please 同步更新。
+`.github/workflows/release-please.yml` 在 `main` 推送后维护版本 PR；合并版本 PR 后，下一次运行会创建对应 `v*` 标签和 GitHub Release。`package.json`、`.release-please-manifest.json` 和 `CHANGELOG.md` 由 release-please 同步更新。
 
 使用 Conventional Commits：
 
@@ -132,7 +136,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 本次迁移从已有 `1.0.0` 版本记录开始，以原始提交作为 bootstrap 基点，无需手动制作旧标签。后续不要手动修改版本或更新日志，审阅并合并 release-please 生成的版本 PR 即可。
 
-GitHub 默认不会因 `GITHUB_TOKEN` 创建的 PR 触发另一条 `pull_request` 工作流，因此发布工作流中额外检出生成 PR 的实际 head SHA，并执行安装、类型检查、测试与构建。检查结果显示在对应的 **Release Please** 工作流中。如果今后启用必须通过 PR head 检查的分支保护，可在版本 PR 分支手动触发 **Check and Deploy**（该分支只检查、不部署），或配置专用 GitHub App。
+GitHub 默认不会因 `GITHUB_TOKEN` 创建的 PR 触发另一条 `pull_request` 工作流，因此发布工作流中额外检出生成 PR 的实际 head SHA，并执行安装、ESLint、类型检查、测试与构建。检查结果显示在对应的 **Release Please** 工作流中。如果今后启用必须通过 PR head 检查的分支保护，可在版本 PR 分支手动触发 **Check and Deploy**（该分支只检查、不部署），或配置专用 GitHub App。
 
 仓库 **Settings → Actions → General → Workflow permissions** 需要允许 GitHub Actions 创建 PR。保留默认只读权限，具体工作流按任务显式申请写入权限；工作流不会自动批准或自动合并 PR。
 
