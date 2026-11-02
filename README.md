@@ -128,7 +128,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 ### Cloudflare 一次性配置
 
-在 Workers & Pages 里连接 GitHub 仓库 `abnormal-bid/abnormal-bid.github.io`：
+这些已经配好，需要重建时照此设置。在 Workers & Pages 里连接 GitHub 仓库 `abnormal-bid/abnormal-bid.github.io`：
 
 - Worker 名称：`abnormal-bid`（必须与 `wrangler.jsonc` 一致）
 - 生产分支：`main`，根目录：`/`
@@ -144,23 +144,24 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 Node.js 版本由 `.node-version` 指定。
 
-### 切换 abnormal.bid
+### 域名
 
-`wrangler.jsonc` 不声明 `routes`，推送不会改动线上域名。首次部署后先在 `*.workers.dev` 地址上检查，确认无误再切换：
+绑定都在 Cloudflare 一侧，`wrangler.jsonc` 不声明 `routes`，所以推送不会改动线上域名，部署也不加 `--strict`（严格模式会把配置里没有的绑定当成要删除的差异）。
 
-1. 在 `abnormal.bid` 的 DNS 里删除根域名与 `www` 指向 GitHub Pages 的记录（自定义域名要求主机名上没有现存记录）。
-2. Worker → Settings → Domains & Routes 添加自定义域名 `abnormal.bid`。
-3. 原先 `www` 由 GitHub Pages 跳转到根域名，切换后用同一 zone 的 Redirect Rule 把 `www.abnormal.bid` 跳转到 `https://abnormal.bid`（`www` 需要一条代理的 DNS 记录），或把它也绑为自定义域名。
-4. 确认新站生效后，在仓库 Settings → Pages 停用 GitHub Pages。
+- `abnormal.bid`：Worker `abnormal-bid` 的自定义域名，DNS 里对应一条由 Cloudflare 管理的 `AAAA 100::`。需要重新绑定时，先确认主机名上没有其他 A、AAAA 或 CNAME 记录，再执行 `pnpm cf:build` 和 `pnpm exec opennextjs-cloudflare deploy -- --domain abnormal.bid`。
+- `www.abnormal.bid`：zone 的 Redirect Rule（`http_request_dynamic_redirect` 阶段）用 301 跳到 `https://abnormal.bid`，保留路径与查询参数；DNS 里只有一条代理的 `AAAA 100::` 占位记录。
+- 根域名上的 MX 与 TXT 记录属于邮件服务（`@abnormal.bid` 邮箱），改 DNS 时不要动。
 
-也可以在本机部署（先 `pnpm exec wrangler login`）：
+GitHub Pages 已不再使用：部署流程已删除，线上由上面的 Worker 提供。GitHub 不允许停用这个仓库的 Pages（API 返回 422），`abnormal-bid.github.io` 因此继续 301 跳到 `abnormal.bid`。不要清除 Pages 设置里的自定义域名，否则这个地址会直接显示最后一次部署的旧站。
+
+### 本机部署
+
+先 `pnpm exec wrangler login`，再执行：
 
 ```sh
 pnpm cf:build
 pnpm cf:deploy
 ```
-
-部署不加 `--strict`：自定义域名绑定在控制台，配置里没有声明，严格模式会把它们当成要删除的差异。
 
 ## 其他
 
