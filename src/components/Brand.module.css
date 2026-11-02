@@ -5,32 +5,23 @@
   border-radius: var(--radius-control);
   font-size: 17px;
   line-height: 1;
+  font-family: var(--font-heading);
   font-weight: 600;
   letter-spacing: -0.02em;
   white-space: nowrap;
 }
-/* 品牌标记照 mailhq 的 BrandMark：品牌橙瓷砖，字母 a 与箭头反白。 */
+/*
+ * 品牌标记与 mailhq 的 BrandMark 同一幅图：荧光黄方块上一个墨色小写 a，带纸白色错位影子和右上箭头。
+ * 颜色是固定的品牌色，两种主题都不变；public/favicon.svg 也是同一幅图。
+ */
 .brandMark {
-  position: relative;
-  display: grid;
-  place-items: center;
+  display: block;
   width: 32px;
   height: 32px;
-  padding-bottom: 2px;
-  border-radius: var(--radius-control);
-  background: var(--brand);
-  color: var(--brand-foreground);
-  font-size: 21px;
-  font-weight: 600;
-  letter-spacing: 0;
-}
-.brandMark > span {
-  position: absolute;
-  top: 3px;
-  right: 4px;
-  font-size: 9px;
-  line-height: 1;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--radius-chip);
 }
 .brandPeriod {
-  color: var(--brand);
+  color: var(--signal);
 }

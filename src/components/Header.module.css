@@ -28,6 +28,7 @@
   border-radius: var(--radius-control);
   color: var(--text-secondary);
   font-size: 14px;
+  white-space: nowrap;
   transition:
     color 0.15s,
     background-color 0.15s;
@@ -47,10 +48,49 @@
   margin-inline: 8px;
   background: var(--border);
 }
-.headerInquiry {
+/* 语言切换照 onboard：幽灵按钮，显示另一种语言的简称。 */
+.langToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  border-radius: var(--radius-control);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
+}
+.langToggle:hover {
+  background: var(--control);
+  color: var(--text);
+}
+.headerLogin {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 10px;
+  margin-right: 4px;
+  border-radius: var(--radius-control);
+  white-space: nowrap;
+  color: var(--text-secondary);
+  font-size: 14px;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
+}
+.headerLogin:hover {
+  background: var(--control);
+  color: var(--text);
+}
+.headerCta {
   min-height: 32px;
   padding: 0 12px;
   gap: 6px;
+  white-space: nowrap;
 }
 .menuToggle {
   display: none;
@@ -87,7 +127,9 @@
   margin-left: auto;
   color: var(--text-secondary);
 }
-.mobileNavInner > button {
+.mobileNavActions {
+  display: grid;
+  gap: 8px;
   margin-top: 16px;
 }
 @media (min-width: 768px) {
@@ -98,6 +140,13 @@
 @media (max-width: 950px) {
   .desktopNav {
     margin-left: 8px;
+  }
+  .desktopNav a {
+    padding: 0 8px;
+  }
+  /* 窄一点的平板宽度放不下全部入口：「登录邮箱」让给首屏与页脚的入口。 */
+  .headerLogin {
+    display: none;
   }
 }
 @media (max-width: 767px) {
@@ -111,7 +160,8 @@
   .menuToggle {
     display: flex;
   }
-  .headerInquiry {
+  .headerLogin,
+  .headerCta {
     display: none;
   }
 }

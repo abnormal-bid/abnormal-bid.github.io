@@ -1,17 +1,4 @@
-export type IconName =
-  | "arrow"
-  | "up-right"
-  | "check"
-  | "plus"
-  | "close"
-  | "menu"
-  | "shield"
-  | "chat"
-  | "spark"
-  | "copy"
-  | "sun"
-  | "moon"
-  | "monitor";
+import type { IconName } from "@/i18n/types";
 
 const paths: Record<IconName, string[]> = {
   arrow: ["M5 12h14m-6-6 6 6-6 6"],
@@ -21,30 +8,25 @@ const paths: Record<IconName, string[]> = {
   close: ["m6 6 12 12M6 18 18 6"],
   menu: ["M4 7h16M4 12h16M4 17h16"],
   shield: ["M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6l-8-3Z", "m8 12 3 3 5-6"],
-  chat: [
-    "M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l1.3-4A8.5 8.5 0 1 1 21 11.5Z",
-    "M8 10h8M8 14h5",
-  ],
+  chat: ["M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l1.3-4A8.5 8.5 0 1 1 21 11.5Z", "M8 10h8M8 14h5"],
   spark: ["m12 3 2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4L12 3Z"],
-  copy: [
-    "M10 8h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z",
-    "M16 8V4H4v12h4",
-  ],
+  copy: ["M10 8h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z", "M16 8V4H4v12h4"],
   sun: [
     "M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z",
     "M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5",
   ],
   moon: ["M20.5 13.1A8.6 8.6 0 0 1 10.9 3.5a8.6 8.6 0 1 0 9.6 9.6Z"],
   monitor: ["M4 4h16v12H4zM12 16v4m-4 0h8"],
+  cart: ["M3 4h2.2l2.1 10.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L20.5 8H6.1", "M10 20h.01M17 20h.01"],
+  ticket: [
+    "M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a3 3 0 0 0 0 6v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a3 3 0 0 0 0-6V7Z",
+    "M14 5v2m0 4v2m0 4v2",
+  ],
+  mail: ["M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z", "m4 7 8 6 8-6"],
+  book: ["M4 19.5V5a2 2 0 0 1 2-2h14v14H6.5A2.5 2.5 0 0 0 4 19.5Z", "M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5M8 7h8"],
 };
 
-export function Icon({
-  name,
-  className,
-}: {
-  name: IconName;
-  className?: string;
-}) {
+export function Icon({ name, className }: { name: IconName; className?: string }) {
   return (
     <svg
       className={`icon shrink-0 fill-none stroke-current ${className ?? ""}`}

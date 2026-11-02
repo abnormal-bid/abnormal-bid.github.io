@@ -158,7 +158,7 @@
   font-weight: 500;
   letter-spacing: 0;
   font-variant-numeric: tabular-nums;
-  color: var(--brand);
+  color: var(--signal);
 }
 .legalBody :global(h3) {
   margin-top: 1.75rem;

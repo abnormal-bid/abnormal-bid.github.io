@@ -70,8 +70,8 @@
   height: 32px;
   place-items: center;
   border-radius: var(--radius-control);
-  background: var(--brand);
-  color: var(--brand-foreground);
+  background: var(--highlight);
+  color: var(--highlight-foreground);
 }
 
 .inquiryHeadingIcon :global(.icon) {

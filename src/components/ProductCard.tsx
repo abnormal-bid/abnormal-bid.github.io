@@ -1,24 +1,19 @@
-import type { Product } from "@/data/site";
+import type { Lang } from "@/data/site";
+import { useCopy } from "@/i18n";
+import type { Product } from "@/i18n/types";
 import { Icon } from "./Icon";
 import { InquiryButton } from "./InquiryDialog";
 import styles from "./ProductCard.module.css";
 
 const symbols = ["mail", "domain", "team", "settings"];
 
-export function ProductCard({
-  product,
-  index,
-}: {
-  product: Product;
-  index: number;
-}) {
+export function ProductCard({ lang, product, index }: { lang: Lang; product: Product; index: number }) {
+  const { t, links } = useCopy(lang);
   const symbol = symbols[index];
+  const actionClass = `btn ${styles.productAction} ${product.featured ? "btn-primary" : "btn-outline"}`;
 
   return (
-    <article
-      className={`${styles.productCard} ${product.featured ? styles.isFeatured : ""}`}
-      data-product={product.name}
-    >
+    <article className={`${styles.productCard} ${product.featured ? styles.isFeatured : ""}`}>
       <div className={styles.cardTop}>
         <span
           className={`${styles.productSymbol} ${symbol === "domain" ? styles.symbolDomain : ""}`}
@@ -61,16 +56,19 @@ export function ProductCard({
         ))}
       </div>
       <div className={styles.productPrice}>
-        <strong data-price>{product.price || "咨询报价"}</strong>
-        <span data-price-note>{product.priceNote}</span>
+        <strong>{product.price || t.services.priceFallback}</strong>
+        <span>{product.priceNote}</span>
       </div>
-      <InquiryButton
-        className={`btn ${styles.productAction} ${product.featured ? "btn-primary" : "btn-outline"}`}
-        product={product.name}
-        aria-label={`咨询这项服务：${product.name}`}
-      >
-        咨询这项服务 <Icon name="up-right" className="size-4" />
-      </InquiryButton>
+      {product.link ? (
+        <a className={actionClass} href={links[product.link]}>
+          {product.actionLabel}
+          <Icon name="up-right" className="size-4" />
+        </a>
+      ) : (
+        <InquiryButton className={actionClass} product={product.name} aria-label={t.services.consultAria(product.name)}>
+          {t.services.consult} <Icon name="up-right" className="size-4" />
+        </InquiryButton>
+      )}
     </article>
   );
 }

@@ -1,39 +1,51 @@
-import Link from "next/link";
+import type { Lang } from "@/data/site";
+import { useCopy } from "@/i18n";
 import { Icon } from "./Icon";
 import styles from "./Hero.module.css";
 
-const promises = ["费用提前确认", "按需选择方案", "专人协助配置"];
+const avatars = [
+  { className: styles.avatarSage, icon: "spark" },
+  { className: "", icon: "chat" },
+  { className: "", icon: "check" },
+] as const;
 
-export function Hero() {
+export function Hero({ lang }: { lang: Lang }) {
+  const { t, links } = useCopy(lang);
+  const h = t.hero;
+
   return (
-    <section
-      className={`page-shell ${styles.hero}`}
-      aria-labelledby="hero-title"
-    >
+    <section className={`page-shell ${styles.hero}`} aria-labelledby="hero-title">
       <div className={styles.heroCopy}>
         <p className={`eyebrow ${styles.heroEyebrow}`}>Email, made personal</p>
         <h1 id="hero-title">
-          好用的邮箱，
+          {h.titleLines[0]}
           <br />
           <span className={styles.heroSecondLine}>
-            沟通更简单<span className={styles.heroPeriod}>。</span>
+            {h.titleLines[1]}
+            <span className={styles.heroPeriod}>{t.dot}</span>
           </span>
         </h1>
         <p className={styles.heroDescription}>
-          一个邮箱，连接日常与工作。
+          {h.description[0]}
           <br />
-          从个人收发到团队协作，找到适合你的邮箱方案。
+          {h.description[1]}
         </p>
         <div className={styles.heroActions}>
-          <Link className="btn btn-primary" href="/#services">
-            探索邮箱服务 <Icon name="arrow" className="size-4" />
-          </Link>
-          <a className="text-link" href="#how-it-works">
-            了解服务流程 <Icon name="up-right" className="size-4" />
+          <a className="btn btn-primary" href={links.shop}>
+            {h.buy} <Icon name="arrow" className="size-4" />
+          </a>
+          <a className="btn btn-outline" href={links.redeem}>
+            {h.haveCode} <Icon name="up-right" className="size-4" />
           </a>
         </div>
+        <p className={styles.heroLogin}>
+          {h.loginPrompt}
+          <a className="text-link" href={links.webmail}>
+            {h.loginLink} <Icon name="up-right" className="size-3.5" />
+          </a>
+        </p>
         <div className={styles.heroPromises}>
-          {promises.map((promise) => (
+          {h.promises.map((promise) => (
             <span key={promise}>
               <Icon name="check" className="size-3.5" />
               {promise}
@@ -42,22 +54,12 @@ export function Hero() {
         </div>
       </div>
 
-      <div
-        className={styles.heroVisual}
-        role="img"
-        aria-label="邮箱服务概念示意：清晰的收件箱和专属域名地址，连接日常与工作。"
-      >
+      <div className={styles.heroVisual} role="img" aria-label={h.visualLabel}>
         <div className={styles.visualOrbit} aria-hidden="true"></div>
-        <span
-          className={`${styles.visualPlus} ${styles.plusOne}`}
-          aria-hidden="true"
-        >
+        <span className={`${styles.visualPlus} ${styles.plusOne}`} aria-hidden="true">
           +
         </span>
-        <span
-          className={`${styles.visualPlus} ${styles.plusTwo}`}
-          aria-hidden="true"
-        >
+        <span className={`${styles.visualPlus} ${styles.plusTwo}`} aria-hidden="true">
           +
         </span>
         <div className={styles.identityNote} aria-hidden="true">
@@ -84,60 +86,45 @@ export function Hero() {
           <div className={styles.inboxBody}>
             <div className={styles.inboxHeading}>
               <div>
-                <span className={styles.inboxOverline}>
-                  A LITTLE MORE CONNECTED
-                </span>
+                <span className={styles.inboxOverline}>{h.mock.overline}</span>
                 <p>
-                  每一封，都有归处<span>。</span>
+                  {h.mock.heading}
+                  <span>{t.dot}</span>
                 </p>
               </div>
               <span className={styles.inboxAvatar}>a.</span>
             </div>
             <div className={styles.inboxTabs}>
               <span>
-                收件箱 <b>03</b>
+                {h.mock.inbox} <b>03</b>
               </span>
-              <span>星标邮件</span>
+              <span>{h.mock.starred}</span>
               <Icon name="plus" className="size-4" />
             </div>
-            <div className={styles.mailRow}>
-              <span className={`${styles.mailAvatar} ${styles.avatarSage}`}>
-                <Icon name="spark" />
-              </span>
-              <div>
-                <strong>新的连接，新的可能。</strong>
-                <span>让每一次沟通，都成为美好的开始。</span>
+            {h.mock.mails.map((mail, index) => (
+              <div
+                className={`${styles.mailRow} ${index === h.mock.mails.length - 1 ? styles.lastMail : ""}`}
+                key={mail.title}
+              >
+                <span className={`${styles.mailAvatar} ${avatars[index]?.className ?? ""}`}>
+                  <Icon name={avatars[index]?.icon ?? "spark"} />
+                </span>
+                <div>
+                  <strong>{mail.title}</strong>
+                  <span>{mail.body}</span>
+                </div>
+                <span className={styles.mailTime}>
+                  {mail.time}
+                  {index === 0 && <span className={styles.unreadDot} />}
+                </span>
               </div>
-              <span className={styles.mailTime}>
-                09:41<span className={styles.unreadDot}></span>
-              </span>
-            </div>
-            <div className={styles.mailRow}>
-              <span className={styles.mailAvatar}>
-                <Icon name="chat" />
-              </span>
-              <div>
-                <strong>关于我们的下一个计划</strong>
-                <span>灵感、想法，还有期待已久的好消息。</span>
-              </div>
-              <span className={styles.mailTime}>昨天</span>
-            </div>
-            <div className={`${styles.mailRow} ${styles.lastMail}`}>
-              <span className={styles.mailAvatar}>
-                <Icon name="check" />
-              </span>
-              <div>
-                <strong>一切就绪，开始吧。</strong>
-                <span>你的日常，从一个顺手的邮箱开始。</span>
-              </div>
-              <span className={styles.mailTime}>昨天</span>
-            </div>
+            ))}
           </div>
         </div>
         <div className={styles.domainNote} aria-hidden="true">
           <span className={styles.domainAt}>@</span>
           <div>
-            <span>你的名字，就是你的地址</span>
+            <span>{h.mock.domainNote}</span>
             <strong>
               hello@<span>yourname</span>.com
             </strong>
@@ -147,8 +134,7 @@ export function Hero() {
           </span>
         </div>
         <p className={styles.visualCaption} aria-hidden="true">
-          <span></span> YOUR INBOX. YOUR IDENTITY.{" "}
-          <span className={styles.demoLabel}>概念示意</span>
+          <span></span> YOUR INBOX. YOUR IDENTITY. <span className={styles.demoLabel}>{h.mock.demoLabel}</span>
         </p>
       </div>
     </section>

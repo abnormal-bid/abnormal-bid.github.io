@@ -1,87 +1,120 @@
 @import "tailwindcss";
+/* 仓库配置（如 dependabot.yml 里的 version-update:semver-major）会被 Tailwind 当成任意属性类，不扫描它们。 */
+@source not "../../.github";
 
 /* 主题写在 <html data-theme> 上（theme-init.js）。 */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /*
  * 配色与 mailhq（abnormal-bid/mail 的 src/app/globals.css）同一套，两边一起改：
- * Anthropic 品牌规范的暖调中性色（Dark #141413 / Light #faf9f5 / Light Gray #e8e6dc / Mid Gray #b0aea5），
- * 唯一强调色是品牌橙，套在 Resend 式的结构上——
+ * abnormal 品牌（路线 A）——墨色 #141412 压在暖灰纸色 #f7f7f4 上，深色模式就是墨色本身 #141412，
+ * 套在 Resend 式的结构上——
+ * - 主色就是墨色：浅色 #141412 配白字（18.4:1），深色 #f0f0ea 配墨色字（16.1:1），没有彩色强调色；
+ * - 荧光黄 #ffe14d（--highlight）是第二品牌色，只用在标志、选中文字和搜索命中上，永远配墨色字（14.5:1）；
  * - 面板不铺底色（card 与页面同色），层次只靠 1px 细边，不加阴影；
- * - 控件底 control、控件描边 input 是半透明的暖墨色；
- * - 主按钮是品牌橙：浅色下白字压在 #d97757 上只有 3.1:1，用加深一级的陶土色 #b85636（4.75:1）；
- *   深色下直接用 #d97757 配 #141413 深字（5.9:1）。
+ * - 控件底 control、控件描边 input 是半透明的墨色；
+ * - 状态色在各自 10–25% 的浅底上、以及 85% 透明度压在 surface 上时都保持 4.5:1 以上。
  */
 :root {
-  --brand: #b85636;
+  --brand: #141412;
   --brand-foreground: #ffffff;
-  --bg: #faf9f5;
-  --surface: #f0eee6;
-  --text: #141413;
-  --text-secondary: #6b6a64;
-  --border: #e8e6dc;
-  --hover: #f1efe7;
-  --control: #1414130b;
-  --input: #14141322;
-  --badge-ink: #8a5a00;
-  --success: #5d6e45;
-  --destructive: #b53333;
+  --highlight: #ffe14d;
+  --highlight-foreground: #141412;
+  /* 浅黄面：选中或当前的行、柔和的提示块；上面正文 16.6:1、次要文字 6.1:1。 */
+  --highlight-muted: #fff4bf;
+  /* 流程编号下面那道荧光笔：浅色是纯黄配墨色字；深色字是浅色，压在纯黄上看不清，所以换成暗黄。 */
+  --step-band: var(--highlight);
+  /* 小号指示（圆点、标题句号、进度、编号）：浅色是墨色，深色是荧光黄，两种主题下都看得清。 */
+  --signal: #141412;
+  --bg: #f7f7f4;
+  --surface: #ecece6;
+  --text: #141412;
+  --text-secondary: #5c5c55;
+  --border: #e3e3dc;
+  --hover: #efefea;
+  --control: #1414120b;
+  --input: #14141222;
+  --badge-ink: #704800;
+  --success: #335c24;
+  --destructive: #9f1a2c;
   --card: var(--bg);
   --popover-bg: #ffffff;
-  /* 焦点描边：对象牙底 3.3:1，满足非文字对比度。 */
-  --focus: #8c8a82;
-  --popover-shadow: 0 4px 12px #1414130d, 0 16px 40px #14141317;
+  /* 焦点描边：对纸色底 3.3:1，满足非文字对比度。 */
+  --focus: #8a8a80;
+  --popover-shadow: 0 4px 12px #1414120d, 0 16px 40px #14141217;
   color-scheme: light;
 }
-/* 深色是 Anthropic 的暖炭灰：页面 #1f1e1d，浮层 #262624。 */
+/* 深色是品牌墨色：页面 #141412，浮层 #1c1c19。 */
 :root[data-theme="dark"] {
-  --brand: #d97757;
-  --brand-foreground: #141413;
-  --bg: #1f1e1d;
-  --surface: #30302e;
-  --text: #faf9f5;
-  --text-secondary: #b0aea5;
-  --border: #34332f;
-  --hover: #2a2927;
-  --control: #faf9f50d;
-  --input: #faf9f51f;
+  --brand: #f0f0ea;
+  --brand-foreground: #141412;
+  --highlight-muted: #34311b;
+  --step-band: var(--highlight-muted);
+  --signal: #ffe14d;
+  --bg: #141412;
+  --surface: #252520;
+  --text: #f0f0ea;
+  --text-secondary: #a6a69c;
+  --border: #2e2e29;
+  --hover: #1c1c19;
+  --control: #f0f0ea0d;
+  --input: #f0f0ea1f;
   --badge-ink: #e8b85a;
-  --success: #a8b88f;
-  --destructive: #ef9a85;
-  --popover-bg: #262624;
-  /* 对 #1f1e1d 3.4:1。 */
-  --focus: #7d7b74;
-  --popover-shadow: 0 0 0 1px #faf9f508, 0 16px 48px #00000080;
+  --success: #a8c48f;
+  --destructive: #ff8a96;
+  --popover-bg: #1c1c19;
+  --focus: #6f6f66;
+  --popover-shadow: 0 0 0 1px #f0f0ea08, 0 16px 48px #00000080;
   color-scheme: dark;
 }
 /* 脚本没跑（还没写 data-theme）时按系统偏好。 */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --brand: #d97757;
-    --brand-foreground: #141413;
-    --bg: #1f1e1d;
-    --surface: #30302e;
-    --text: #faf9f5;
-    --text-secondary: #b0aea5;
-    --border: #34332f;
-    --hover: #2a2927;
-    --control: #faf9f50d;
-    --input: #faf9f51f;
+    --brand: #f0f0ea;
+    --brand-foreground: #141412;
+    --highlight-muted: #34311b;
+    --step-band: var(--highlight-muted);
+    --signal: #ffe14d;
+    --bg: #141412;
+    --surface: #252520;
+    --text: #f0f0ea;
+    --text-secondary: #a6a69c;
+    --border: #2e2e29;
+    --hover: #1c1c19;
+    --control: #f0f0ea0d;
+    --input: #f0f0ea1f;
     --badge-ink: #e8b85a;
-    --success: #a8b88f;
-    --destructive: #ef9a85;
-    --popover-bg: #262624;
-    --focus: #7d7b74;
-    --popover-shadow: 0 0 0 1px #faf9f508, 0 16px 48px #00000080;
+    --success: #a8c48f;
+    --destructive: #ff8a96;
+    --popover-bg: #1c1c19;
+    --focus: #6f6f66;
+    --popover-shadow: 0 0 0 1px #f0f0ea08, 0 16px 48px #00000080;
     color-scheme: dark;
   }
 }
 
-/* Inter 可变字体（拉丁子集，OFL），与 mailhq 同一份文件，随仓库自托管；中文字形落到苹方 / 微软雅黑。 */
+/*
+ * 字体与 mailhq 同一份文件，随仓库自托管（拉丁子集，OFL）：正文 Inter，标题 Bricolage Grotesque，代码与数据 JetBrains Mono；
+ * 中文字形落到苹方 / 微软雅黑。
+ */
 @font-face {
   font-family: "Inter";
   src: url("/fonts/Inter-Variable.woff2") format("woff2");
   font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/fonts/BricolageGrotesque-Variable.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Variable.woff2") format("woff2");
+  font-weight: 100 800;
   font-style: normal;
   font-display: swap;
 }
@@ -96,19 +129,27 @@
   --color-input: var(--input);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
+  --color-highlight-muted: var(--highlight-muted);
+  --color-signal: var(--signal);
   --color-success: var(--success);
 
   --font-sans:
-    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans CJK SC", sans-serif;
+  --font-heading:
+    "Bricolage Grotesque", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   --font-mono:
-    ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", "PingFang SC", "Microsoft YaHei",
+    monospace;
 
-  /* 圆角照 Resend：徽章 8、控件 12、小面板 16、卡片与对话框 24。 */
-  --radius-chip: 8px;
-  --radius-control: 12px;
-  --radius-mark: 16px;
-  --radius-panel: 24px;
+  /* 圆角收紧，呼应方形标志：徽章 4、控件 6、小面板 8、卡片与对话框 12。 */
+  --radius-chip: 4px;
+  --radius-control: 6px;
+  --radius-mark: 8px;
+  --radius-panel: 12px;
 }
 
 @layer base {
@@ -137,6 +178,7 @@
   h1,
   h2,
   h3 {
+    font-family: var(--font-heading);
     font-weight: 600;
     letter-spacing: -0.02em;
     text-wrap: balance;
@@ -169,7 +211,7 @@
   textarea:focus-visible {
     outline-offset: -1px;
   }
-  /* 控件照 mailhq：半透明 control 底、input 细描边、12px 圆角；悬停与聚焦时描边加深，不加阴影。 */
+  /* 控件照 mailhq：半透明 control 底、input 细描边、控件圆角；悬停与聚焦时描边加深，不加阴影。 */
   select,
   textarea {
     width: 100%;
@@ -203,9 +245,10 @@
     color: color-mix(in oklab, var(--text-secondary) 70%, transparent);
     font-size: 12px;
   }
+  /* 选中文字是品牌的荧光笔：两种主题都是黄底墨字。 */
   ::selection {
-    background: var(--brand);
-    color: var(--brand-foreground);
+    background: var(--highlight);
+    color: var(--highlight-foreground);
   }
   [hidden] {
     display: none !important;
@@ -250,7 +293,7 @@
 @utility section-space {
   @apply py-16 md:py-20 lg:py-24;
 }
-/* 小标：12px 灰字大写，前面一颗品牌橙圆点。 */
+/* 小标：12px 灰字大写，前面一颗品牌色圆点。 */
 @utility eyebrow {
   display: flex;
   align-items: center;
@@ -267,10 +310,10 @@
     height: 6px;
     flex-shrink: 0;
     border-radius: 50%;
-    background: var(--brand);
+    background: var(--signal);
   }
 }
-/* 按钮照 mailhq（Resend）：12px 圆角、无阴影，按下缩到 0.98。 */
+/* 按钮照 mailhq（Resend）：控件圆角、无阴影，按下缩到 0.98。 */
 @utility btn {
   display: inline-flex;
   align-items: center;
@@ -293,7 +336,7 @@
     transform: scale(0.98);
   }
 }
-/* 主操作：品牌橙实底、600 字重。 */
+/* 主操作：品牌色（墨色）实底、600 字重。 */
 @utility btn-primary {
   background: var(--brand);
   color: var(--brand-foreground);
@@ -345,6 +388,7 @@
 }
 @utility section-title {
   margin-top: 1.25rem;
+  font-family: var(--font-heading);
   font-size: 28px;
   line-height: 1.3;
   font-weight: 600;

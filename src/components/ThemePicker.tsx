@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useSyncExternalStore } from "react";
-import { Icon, type IconName } from "./Icon";
+import type { Copy, IconName } from "@/i18n/types";
+import { Icon } from "./Icon";
 import styles from "./ThemePicker.module.css";
 
 type Preference = "system" | "light" | "dark";
 
-const options: { value: Preference; label: string; icon: IconName }[] = [
-  { value: "system", label: "跟随系统", icon: "monitor" },
-  { value: "light", label: "浅色模式", icon: "sun" },
-  { value: "dark", label: "深色模式", icon: "moon" },
-];
+const icons: Record<Preference, IconName> = { system: "monitor", light: "sun", dark: "moon" };
+const preferences = Object.keys(icons) as Preference[];
 
 // window.abnormalTheme 由头部的 theme-init.js 在水合之前写好；静态 HTML 一律按「跟随系统」输出。
 function subscribe(onChange: () => void) {
@@ -20,23 +18,15 @@ function subscribe(onChange: () => void) {
 const getPreference = () => window.abnormalTheme.getPreference();
 const getServerPreference = (): Preference => "system";
 
-export function ThemePicker({ onOpen }: { onOpen?: () => void }) {
-  const preference = useSyncExternalStore(
-    subscribe,
-    getPreference,
-    getServerPreference,
-  );
+export function ThemePicker({ copy, onOpen }: { copy: Copy["theme"]; onOpen?: () => void }) {
+  const preference = useSyncExternalStore(subscribe, getPreference, getServerPreference);
   const picker = useRef<HTMLDetailsElement>(null);
   const summary = useRef<HTMLElement>(null);
-  const label = options.find(({ value }) => value === preference)?.label;
+  const current = copy.options[preference];
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
-      if (
-        picker.current &&
-        event.target instanceof Node &&
-        !picker.current.contains(event.target)
-      )
+      if (picker.current && event.target instanceof Node && !picker.current.contains(event.target))
         picker.current.open = false;
     };
     const onKeyDown = (event: KeyboardEvent) => {
@@ -64,21 +54,21 @@ export function ThemePicker({ onOpen }: { onOpen?: () => void }) {
       <summary
         className={`icon-button ${styles.themeToggle}`}
         ref={summary}
-        aria-label={`切换主题，当前${label}`}
-        title={`主题：${label}`}
+        aria-label={copy.ariaTemplate.replace("{label}", current)}
+        title={copy.titleTemplate.replace("{label}", current)}
       >
-        {options.map(({ value, icon }) => (
+        {preferences.map((value) => (
           <span key={value} hidden={value !== preference}>
-            <Icon name={icon} />
+            <Icon name={icons[value]} />
           </span>
         ))}
       </summary>
       <fieldset className={styles.themeMenu}>
-        <legend className="sr-only">外观主题</legend>
+        <legend className="sr-only">{copy.title}</legend>
         <div className={styles.themeMenuTitle} aria-hidden="true">
-          外观主题
+          {copy.title}
         </div>
-        {options.map(({ value, label, icon }) => (
+        {preferences.map((value) => (
           <label className={styles.themeOption} key={value}>
             <input
               className="sr-only"
@@ -88,8 +78,8 @@ export function ThemePicker({ onOpen }: { onOpen?: () => void }) {
               checked={value === preference}
               onChange={() => window.abnormalTheme.setPreference(value)}
             />
-            <Icon name={icon} className="size-4" />
-            <span>{label}</span>
+            <Icon name={icons[value]} className="size-4" />
+            <span>{copy.options[value]}</span>
             <Icon name="check" className="theme-check ml-auto size-3.5" />
           </label>
         ))}

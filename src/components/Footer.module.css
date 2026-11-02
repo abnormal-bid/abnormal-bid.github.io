@@ -4,8 +4,13 @@
 }
 .footerMain {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2rem;
   padding-block: 2.5rem;
+}
+.footerBrand,
+.footerContact {
+  grid-column: 1 / -1;
 }
 .footerTagline {
   margin-top: 1rem;
@@ -17,6 +22,26 @@
   font-size: 13px;
   line-height: 1.6;
   color: var(--text-secondary);
+}
+.footerLinks ul {
+  display: grid;
+  gap: 0.5rem;
+}
+.footerLinks a,
+.footerCta {
+  color: var(--text-secondary);
+  font-size: 14px;
+  transition: color 0.15s;
+}
+.footerLinks a:hover,
+.footerCta:hover {
+  color: var(--text);
+}
+.footerCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
 }
 .footerEmail {
   font-size: 15px;
@@ -51,10 +76,14 @@
 }
 @media (width >= 768px) {
   .footerMain {
-    grid-template-columns: 1.1fr 1fr 0.9fr;
-    align-items: center;
+    grid-template-columns: 1.3fr 0.8fr 0.8fr 1fr;
+    align-items: start;
     gap: 2rem;
     padding-block: 3.5rem;
+  }
+  .footerBrand,
+  .footerContact {
+    grid-column: auto;
   }
   .footerContact {
     justify-self: end;

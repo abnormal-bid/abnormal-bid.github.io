@@ -1,29 +1,28 @@
-import { faqs } from "@/data/site";
+import type { Lang } from "@/data/site";
+import { useCopy } from "@/i18n";
 import { Icon } from "./Icon";
 import { InquiryButton } from "./InquiryDialog";
 import styles from "./Faq.module.css";
 
-export function Faq() {
+export function Faq({ lang }: { lang: Lang }) {
+  const { t } = useCopy(lang);
   return (
-    <section
-      className={`page-shell section-space ${styles.faqSection}`}
-      id="faq"
-      aria-labelledby="faq-title"
-    >
+    <section className={`page-shell section-space ${styles.faqSection}`} id="faq" aria-labelledby="faq-title">
       <div className={styles.faqIntro}>
         <p className="eyebrow">
-          <span className="mr-1 tabular-nums">03 /</span>Good questions
+          <span className="mr-1 tabular-nums">04 /</span>Good questions
         </p>
         <h2 className="section-title" id="faq-title">
-          你可能还想知道<span className="text-brand">。</span>
+          {t.faq.title}
+          <span className="text-signal">{t.dot}</span>
         </h2>
-        <p className={styles.faqDescription}>关于邮箱，先把问题说清楚。</p>
+        <p className={styles.faqDescription}>{t.faq.description}</p>
         <InquiryButton className={`text-link ${styles.faqContact}`}>
-          其他问题，聊聊看 <Icon name="up-right" className="size-4" />
+          {t.faq.contact} <Icon name="up-right" className="size-4" />
         </InquiryButton>
       </div>
       <div className={styles.faqList}>
-        {faqs.map(({ question, answer }, index) => (
+        {t.faq.items.map(({ question, answer }, index) => (
           <details className={styles.faqItem} key={question}>
             <summary>
               <span className={styles.faqNumber} aria-hidden="true">

@@ -16,18 +16,13 @@
   let preference = readPreference();
 
   const applyTheme = () => {
-    const theme =
-      preference === "system"
-        ? systemTheme.matches
-          ? "dark"
-          : "light"
-        : preference;
+    const theme = preference === "system" ? (systemTheme.matches ? "dark" : "light") : preference;
     root.dataset.theme = theme;
     root.dataset.themePreference = preference;
     root.style.colorScheme = theme;
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", theme === "dark" ? "#1f1e1d" : "#faf9f5");
+      ?.setAttribute("content", theme === "dark" ? "#141412" : "#f7f7f4");
     window.dispatchEvent(new CustomEvent("abnormal:themechange"));
   };
 

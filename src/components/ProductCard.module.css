@@ -42,8 +42,8 @@
   stroke-linejoin: round;
 }
 .isFeatured .productSymbol {
-  background: var(--brand);
-  color: var(--brand-foreground);
+  background: var(--highlight);
+  color: var(--highlight-foreground);
 }
 .symbolDomain {
   font-size: 1.6rem;

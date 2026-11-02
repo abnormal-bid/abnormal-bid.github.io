@@ -1,43 +1,21 @@
 "use client";
 
-import {
-  createContext,
-  use,
-  useRef,
-  useState,
-  type ComponentProps,
-  type ReactNode,
-} from "react";
+import { createContext, use, useRef, useState, type ComponentProps, type ReactNode } from "react";
 import { flushSync } from "react-dom";
-import {
-  otherProduct,
-  products,
-  serviceDurations,
-  site,
-  undecidedProduct,
-} from "@/data/site";
+import { site, type Lang } from "@/data/site";
+import type { Copy } from "@/i18n/types";
 import { describeContact, formatInquiry, getContactLink } from "@/lib/inquiry";
 import { Icon } from "./Icon";
 import styles from "./InquiryDialog.module.css";
 
-type OpenInquiry = (
-  selection: string | undefined,
-  trigger: HTMLElement,
-) => void;
+type OpenInquiry = (selection: string | undefined, trigger: HTMLElement) => void;
 
 const OpenInquiryContext = createContext<OpenInquiry>(() => {});
 
-const selectableProducts = [
-  ...products.map(({ name }) => name),
-  otherProduct,
-  undecidedProduct,
-];
+const linkClass =
+  "underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current";
 
-export function InquiryButton({
-  product,
-  onClick,
-  ...props
-}: ComponentProps<"button"> & { product?: string }) {
+export function InquiryButton({ product, onClick, ...props }: ComponentProps<"button"> & { product?: string }) {
   const openInquiry = use(OpenInquiryContext);
   return (
     <button
@@ -51,7 +29,7 @@ export function InquiryButton({
   );
 }
 
-async function copyText(text: string, container: HTMLElement) {
+async function copyText(text: string, container: HTMLElement, fieldLabel: string) {
   if (navigator.clipboard && window.isSecureContext) {
     try {
       await navigator.clipboard.writeText(text);
@@ -62,9 +40,8 @@ async function copyText(text: string, container: HTMLElement) {
   }
   const field = document.createElement("textarea");
   field.value = text;
-  field.setAttribute("aria-label", "待复制的咨询内容");
-  field.style.cssText =
-    "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;";
+  field.setAttribute("aria-label", fieldLabel);
+  field.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;";
   container.append(field);
   field.select();
   field.setSelectionRange(0, field.value.length);
@@ -77,9 +54,26 @@ async function copyText(text: string, container: HTMLElement) {
   }
 }
 
-export function InquiryProvider({ children }: { children: ReactNode }) {
-  const [product, setProduct] = useState<string>(undecidedProduct);
-  const [duration, setDuration] = useState<string>(serviceDurations[0]);
+export function InquiryProvider({
+  lang,
+  copy,
+  dot,
+  products,
+  termsPage,
+  privacyPage,
+  children,
+}: {
+  lang: Lang;
+  copy: Copy["inquiry"];
+  dot: string;
+  /** 可以咨询的服务名称。 */
+  products: readonly string[];
+  termsPage: { href: string; label: string };
+  privacyPage: { href: string; label: string };
+  children: ReactNode;
+}) {
+  const [product, setProduct] = useState<string>(copy.undecidedProduct);
+  const [duration, setDuration] = useState<string>(copy.durations[0]!);
   const [notes, setNotes] = useState("");
   const [status, setStatus] = useState("");
   const [copying, setCopying] = useState(false);
@@ -89,15 +83,12 @@ export function InquiryProvider({ children }: { children: ReactNode }) {
   const backdropPressed = useRef(false);
 
   const inquiry = { product, duration, notes };
-  const contactLink = getContactLink(site.contact, inquiry);
+  const contactLink = getContactLink(site.contact, inquiry, lang);
 
   const openInquiry: OpenInquiry = (selection, trigger) => {
     lastTrigger.current = trigger;
-    setProduct(
-      selection && selectableProducts.includes(selection)
-        ? selection
-        : undecidedProduct,
-    );
+    const selectable = selection === copy.otherProduct || (selection !== undefined && products.includes(selection));
+    setProduct(selectable ? selection : copy.undecidedProduct);
     setStatus("");
     dialog.current?.showModal();
   };
@@ -128,13 +119,9 @@ export function InquiryProvider({ children }: { children: ReactNode }) {
           backdropPressed.current = false;
         }}
         onClose={() => {
-          // 从移动端菜单打开时，触发按钮已随菜单收起，焦点回到菜单开关。
-          if (lastTrigger.current?.getClientRects().length)
-            lastTrigger.current.focus();
-          else
-            document
-              .querySelector<HTMLElement>('[aria-controls="mobile-nav"]')
-              ?.focus();
+          // 触发按钮已不可见时，焦点回到移动端菜单开关。
+          if (lastTrigger.current?.getClientRects().length) lastTrigger.current.focus();
+          else document.querySelector<HTMLElement>('[aria-controls="mobile-nav"]')?.focus();
         }}
       >
         <div className={styles.inquiryHeading}>
@@ -148,19 +135,20 @@ export function InquiryProvider({ children }: { children: ReactNode }) {
             <button
               className={`icon-button ${styles.inquiryClose}`}
               type="button"
-              aria-label="关闭咨询窗口"
+              aria-label={copy.close}
               onClick={() => dialog.current?.close()}
             >
               <Icon name="close" />
             </button>
           </div>
           <h2 id="inquiry-title">
-            从你的需求开始<span className="text-brand">。</span>
+            {copy.title}
+            <span className="text-signal">{dot}</span>
           </h2>
           <p id="inquiry-description">
-            选好服务，整理需求，再联系咨询。
+            {copy.description[0]}
             <br />
-            方案、报价与开通方式均需确认后再下单。
+            {copy.description[1]}
           </p>
         </div>
         <form
@@ -171,60 +159,53 @@ export function InquiryProvider({ children }: { children: ReactNode }) {
             const container = dialog.current;
             if (!container) return;
             setCopying(true);
-            const copied = await copyText(formatInquiry(inquiry), container);
+            const copied = await copyText(formatInquiry(inquiry, lang), container, copy.copyFieldLabel);
             // 先解除禁用，按钮才能重新拿到焦点。
             flushSync(() => setCopying(false));
             if (container.open) {
               copyButton.current?.focus();
-              setStatus(
-                copied
-                  ? "已复制咨询内容，可粘贴后发送给我们。"
-                  : "暂时无法自动复制，请长按或选中上方咨询内容进行复制。",
-              );
+              setStatus(copied ? copy.copied : copy.copyFailed);
             }
           }}
         >
           <div className={styles.inquiryFields}>
             <label className={styles.inquiryField}>
-              服务类型
+              {copy.productLabel}
               <select
                 className="mt-2"
                 name="product"
                 value={product}
                 onChange={(event) => setProduct(event.target.value)}
               >
-                {products.map(({ name }) => (
+                {products.map((name) => (
                   <option key={name}>{name}</option>
                 ))}
-                <option>{otherProduct}</option>
-                <option value={undecidedProduct}>还没想好，想先咨询</option>
+                <option>{copy.otherProduct}</option>
+                <option value={copy.undecidedProduct}>{copy.undecidedLabel}</option>
               </select>
             </label>
             <label className={styles.inquiryField}>
-              使用时长
+              {copy.durationLabel}
               <select
                 className="mt-2"
                 name="duration"
                 value={duration}
                 onChange={(event) => setDuration(event.target.value)}
               >
-                {serviceDurations.map((value) => (
+                {copy.durations.map((value) => (
                   <option key={value}>{value}</option>
                 ))}
               </select>
             </label>
           </div>
           <label className={styles.inquiryField}>
-            邮箱数量、域名或客户端需求{" "}
-            <span className="ml-1 text-xs font-normal text-muted-foreground">
-              选填
-            </span>
+            {copy.notesLabel} <span className="ml-1 text-xs font-normal text-muted-foreground">{copy.optional}</span>
             <textarea
               className="mt-2"
               name="notes"
               rows={3}
               maxLength={600}
-              placeholder="例如：需要 3 个邮箱，已有域名，希望在手机和电脑上收发邮件。请勿填写密码或验证码。"
+              placeholder={copy.notesPlaceholder}
               value={notes}
               onChange={(event) => setNotes(event.target.value)}
             />
@@ -232,26 +213,21 @@ export function InquiryProvider({ children }: { children: ReactNode }) {
           <div className={styles.inquiryPreview}>
             <span className={styles.inquiryPreviewLabel}>
               <Icon name="copy" className="size-3.5" />
-              你的咨询内容
+              {copy.previewLabel}
             </span>
             <p className="mt-1 text-xs leading-loose wrap-anywhere whitespace-pre-wrap">
-              {formatInquiry(inquiry)}
+              {formatInquiry(inquiry, lang)}
             </p>
           </div>
           <div className={styles.inquiryContact}>
             <Icon name="chat" className="mt-1 size-4 text-muted-foreground" />
             <p className="text-xs leading-loose wrap-anywhere text-muted-foreground">
-              {describeContact(site.contact)}
+              {describeContact(site.contact, lang)}
             </p>
           </div>
-          <button
-            className={`btn btn-primary ${styles.inquiryCopy}`}
-            ref={copyButton}
-            type="submit"
-            disabled={copying}
-          >
+          <button className={`btn btn-primary ${styles.inquiryCopy}`} ref={copyButton} type="submit" disabled={copying}>
             <Icon name="copy" />
-            复制咨询内容
+            {copy.copy}
           </button>
           {contactLink && (
             <a
@@ -265,27 +241,19 @@ export function InquiryProvider({ children }: { children: ReactNode }) {
             </a>
           )}
           <p className={styles.inquiryNote}>
-            此页面仅帮你整理需求，不会提交订单或扣款。
+            {copy.note}
             <br />
-            咨询与服务适用{" "}
-            <a
-              className="underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current"
-              href="/terms/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              服务条款<span className="sr-only">（新窗口打开）</span>
+            {copy.legal[0]}{" "}
+            <a className={linkClass} href={termsPage.href} target="_blank" rel="noopener noreferrer">
+              {termsPage.label}
+              <span className="sr-only">{copy.newWindow}</span>
             </a>{" "}
-            与{" "}
-            <a
-              className="underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current"
-              href="/privacy/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              隐私政策<span className="sr-only">（新窗口打开）</span>
+            {copy.legal[1]}{" "}
+            <a className={linkClass} href={privacyPage.href} target="_blank" rel="noopener noreferrer">
+              {privacyPage.label}
+              <span className="sr-only">{copy.newWindow}</span>
             </a>
-            。
+            {copy.legal[2]}
           </p>
           <p
             className="mt-2 text-center text-xs leading-relaxed text-foreground empty:mt-0"

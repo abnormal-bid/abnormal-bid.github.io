@@ -11,8 +11,7 @@ out/
 *.tsbuildinfo
 # next typegen / next dev 生成
 next-env.d.ts
-# wrangler 的本地状态与日志
-.wrangler/
-
 # Claude Code 的会话临时文件；launch.json（预览服务器配置）保留。
 .claude/.cc-writes/
+# wrangler 的本地状态与日志
+.wrangler/

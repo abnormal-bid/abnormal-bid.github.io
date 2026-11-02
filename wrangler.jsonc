@@ -10,7 +10,7 @@
     "directory": "./out",
     // /privacy 跳到 /privacy/，与 next.config.ts 的 trailingSlash 一致。
     "html_handling": "auto-trailing-slash",
-    // 找不到的路径交给 Next.js 生成的 404.html（src/app/not-found.tsx）。
+    // 找不到的路径交给 Next.js 生成的 404.html（src/app/global-not-found.tsx）。
     "not_found_handling": "404-page",
   },
 }

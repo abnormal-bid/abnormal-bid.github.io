@@ -11,7 +11,7 @@
   color: var(--text);
 }
 
-/* 浮层照 mailhq 的菜单：白底（深色 #262624）、16px 圆角、浮层阴影。 */
+/* 浮层照 mailhq 的菜单：白底（深色 #1c1c19）、浮层圆角、浮层阴影。 */
 .themeMenu {
   position: absolute;
   z-index: 60;
