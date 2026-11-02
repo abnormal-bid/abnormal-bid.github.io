@@ -159,7 +159,7 @@ const avatars = [
   }
   .hero-period {
     margin-left: -0.12em;
-    color: var(--brand);
+    color: var(--signal);
   }
   .hero-description {
     max-width: 500px;
@@ -247,7 +247,7 @@ const avatars = [
     background: var(--input);
   }
   .window-dots i:first-child {
-    background: var(--brand);
+    background: var(--signal);
   }
   .inbox-body {
     padding: 1.4rem 1.4rem 0.5rem;
@@ -270,7 +270,7 @@ const avatars = [
     letter-spacing: -0.02em;
   }
   .inbox-heading p > span {
-    color: var(--brand);
+    color: var(--signal);
   }
   .inbox-avatar {
     display: grid;
@@ -303,7 +303,9 @@ const avatars = [
   .inbox-tabs b {
     margin-left: 0.25rem;
     border-radius: 4px;
-    background: var(--surface);
+    /* 未读数是「新」的记号：黄底墨字。 */
+    background: var(--highlight);
+    color: var(--highlight-foreground);
     padding: 0.15rem 0.25rem;
     font-size: 0.5rem;
   }
@@ -366,7 +368,7 @@ const avatars = [
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: var(--brand);
+    background: var(--signal);
   }
   .identity-note {
     position: absolute;
@@ -377,8 +379,9 @@ const avatars = [
     height: 143px;
     padding: 1rem;
     border-radius: var(--radius-mark);
-    background: var(--brand);
-    color: var(--brand-foreground);
+    /* 首屏的展示位：荧光黄大色块，上面一律墨色。 */
+    background: var(--highlight);
+    color: var(--highlight-foreground);
     transform: rotate(10deg);
   }
   .note-brand {
@@ -471,7 +474,7 @@ const avatars = [
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: var(--brand);
+    background: var(--signal);
   }
   .demo-label {
     padding-left: 0.5rem;
