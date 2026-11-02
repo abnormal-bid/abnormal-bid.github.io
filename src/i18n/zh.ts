@@ -1,0 +1,327 @@
+import type { Copy } from "./types.ts";
+
+export const zh: Copy = {
+  htmlLang: "zh-CN",
+  ogLocale: "zh_CN",
+  dot: "。",
+  space: "",
+  meta: {
+    title: "Abnormal — 邮箱服务",
+    description:
+      "Abnormal 邮箱服务：在线选购 @abnormal.bid 邮箱，用兑换码自助开通，网页邮箱与邮件客户端都能收发；域名邮箱、团队邮箱与配置协助可咨询。",
+    socialTitle: "Abnormal — 好用的邮箱，沟通更简单。",
+    socialDescription:
+      "在线选购、自助开通 @abnormal.bid 邮箱，开通后即可在网页或邮件客户端收发。",
+  },
+  skipLink: "跳到主要内容",
+  brandLabel: "Abnormal 首页",
+  langToggle: { label: "EN", aria: "Switch to English" },
+  header: {
+    navLabel: "主导航",
+    mobileNavLabel: "移动端导航",
+    nav: [
+      { anchor: "start", label: "开始使用" },
+      { anchor: "services", label: "邮箱服务" },
+      { anchor: "how-it-works", label: "开通流程" },
+      { anchor: "faq", label: "常见问题" },
+    ],
+    openMenu: "展开导航",
+    closeMenu: "收起导航",
+    login: "登录邮箱",
+    buy: "购买邮箱",
+    haveCode: "我有兑换码",
+    loginWebmail: "登录网页邮箱",
+  },
+  theme: {
+    title: "外观主题",
+    ariaTemplate: "切换主题，当前{label}",
+    titleTemplate: "主题：{label}",
+    options: { system: "跟随系统", light: "浅色模式", dark: "深色模式" },
+  },
+  hero: {
+    titleLines: ["好用的邮箱，", "沟通更简单"],
+    description: [
+      "在线选购 @abnormal.bid 邮箱，用兑换码自助开通。",
+      "网页邮箱和常用邮件客户端都能收发，连接日常与工作。",
+    ],
+    buy: "购买邮箱",
+    haveCode: "我有兑换码",
+    loginPrompt: "已经开通？",
+    loginLink: "登录网页邮箱",
+    promises: ["付款后自动发放兑换码", "用户名自己取", "开通即可收发"],
+    visualLabel:
+      "邮箱服务概念示意：清晰的收件箱和专属域名地址，连接日常与工作。",
+    mock: {
+      overline: "A LITTLE MORE CONNECTED",
+      heading: "每一封，都有归处",
+      inbox: "收件箱",
+      starred: "星标邮件",
+      mails: [
+        {
+          title: "新的连接，新的可能。",
+          body: "让每一次沟通，都成为美好的开始。",
+          time: "09:41",
+        },
+        {
+          title: "关于我们的下一个计划",
+          body: "灵感、想法，还有期待已久的好消息。",
+          time: "昨天",
+        },
+        {
+          title: "一切就绪，开始吧。",
+          body: "你的日常，从一个顺手的邮箱开始。",
+          time: "昨天",
+        },
+      ],
+      domainNote: "你的名字，就是你的地址",
+      demoLabel: "概念示意",
+    },
+  },
+  valueStrip: {
+    lead: "少一点配置的麻烦。",
+    strong: "多一点沟通的从容。",
+    labels: ["在线选购", "自助开通", "网页收发", "客户端支持"],
+  },
+  start: {
+    title: "从这里开始",
+    intro: ["买邮箱、开通、登录、学会用，", "都从这一页出发。"],
+    entries: [
+      {
+        icon: "cart",
+        eyebrow: "还没有邮箱",
+        title: "购买邮箱",
+        description:
+          "选好套餐，用 Linux DO Credit 或银行卡付款。付款确认后自动发放兑换码。",
+        link: "shop",
+        action: "前往商店",
+        primary: true,
+      },
+      {
+        icon: "ticket",
+        eyebrow: "已有兑换码",
+        title: "兑换开通",
+        description:
+          "输入 16 位兑换码，自己取用户名、设密码，一次可开通多个，开通后立即可用。",
+        link: "redeem",
+        action: "立即开通",
+      },
+      {
+        icon: "mail",
+        eyebrow: "已经开通",
+        title: "网页邮箱",
+        description:
+          "在浏览器里收发邮件，用完整邮箱地址和密码登录，可同时登录多个邮箱。",
+        link: "webmail",
+        action: "登录邮箱",
+      },
+      {
+        icon: "book",
+        eyebrow: "开通之后",
+        title: "使用教程",
+        description:
+          "在手机或电脑的邮件客户端里收发、修改密码，以及用它注册 Claude 与 ChatGPT。",
+        link: "guide",
+        action: "查看教程",
+      },
+    ],
+    secondary: [
+      { link: "account", label: "我的订单与续费" },
+      { link: "status", label: "服务状态" },
+    ],
+    support: "客服邮箱",
+  },
+  services: {
+    titleLines: ["总有一个邮箱，", "适合你的日常"],
+    intro: [
+      "个人邮箱在线购买、自助开通；",
+      "域名、团队与配置需求，先聊聊再定方案。",
+    ],
+    products: [
+      {
+        name: "个人邮箱",
+        category: "日常通信",
+        description:
+          "@abnormal.bid 邮箱，在线选购、自助开通，适合日常收发与注册常用服务。",
+        tags: ["在线购买", "自助开通"],
+        price: "在线选购",
+        priceNote: "套餐与价格以商店页面为准",
+        link: "shop",
+        actionLabel: "前往商店购买",
+        featured: true,
+      },
+      {
+        name: "域名邮箱",
+        category: "专属地址",
+        description: "围绕你的域名规划邮箱地址，让每一次联系都带上自己的名字。",
+        tags: ["域名咨询", "地址规划"],
+        price: "",
+        priceNote: "按域名与配置需求确认",
+      },
+      {
+        name: "团队邮箱",
+        category: "工作往来",
+        description: "按成员数量与工作用途规划邮箱，方便团队开展日常沟通。",
+        tags: ["团队使用", "按需配置"],
+        price: "",
+        priceNote: "按邮箱数量与时长确认",
+      },
+      {
+        name: "邮箱配置",
+        category: "使用支持",
+        description: "协助了解收发设置与客户端配置，让邮箱融入你的日常工作。",
+        tags: ["配置协助", "使用指导"],
+        price: "",
+        priceNote: "按具体服务范围确认",
+      },
+    ],
+    priceFallback: "咨询报价",
+    consult: "咨询这项服务",
+    consultAria: (name) => `咨询这项服务：${name}`,
+    noteQuestion: "有其他邮箱或团队配置需求？",
+    noteAction: "和我们聊聊",
+    noteFine:
+      "个人邮箱以商店页面的套餐与价格为准；其他服务的方案及费用，以咨询确认为准。",
+  },
+  process: {
+    title: "三步，开始使用你的邮箱",
+    intro: ["从下单到收发，", "每一步都可以自己完成。"],
+    steps: [
+      {
+        icon: "cart",
+        title: "选购套餐",
+        description:
+          "在商店选择邮箱数量与容量，用 Linux DO Credit 或银行卡付款；付款确认后自动发放兑换码。",
+        link: "shop",
+        action: "前往商店",
+      },
+      {
+        icon: "ticket",
+        title: "兑换开通",
+        description:
+          "在开通页输入兑换码，自己取用户名、设密码。密码只显示一次，记得保存。",
+        link: "redeem",
+        action: "前往开通",
+      },
+      {
+        icon: "mail",
+        title: "登录收发",
+        description:
+          "用完整邮箱地址登录网页邮箱，或按教程在邮件客户端里通过 IMAP / SMTP 收发。",
+        link: "webmail",
+        action: "登录网页邮箱",
+      },
+    ],
+  },
+  faq: {
+    title: "你可能还想知道",
+    description: "关于邮箱，先把问题说清楚。",
+    contact: "其他问题，聊聊看",
+    items: [
+      {
+        question: "Abnormal 提供什么服务？",
+        answer:
+          "我们提供 @abnormal.bid 邮箱：在商店在线选购，用兑换码自助开通，开通后可以在网页邮箱或常用邮件客户端里收发。需要自己的域名、团队批量开通或配置协助，可以先咨询。",
+      },
+      {
+        question: "怎么购买并开通邮箱？",
+        answer:
+          "在商店选择套餐并付款（支持 Linux DO Credit 与银行卡），付款确认后会自动发放兑换码；回到开通页输入兑换码，取用户名、设密码即可。已经有兑换码的，可以直接去开通页。",
+      },
+      {
+        question: "开通之后在哪里登录？",
+        answer:
+          "网页邮箱地址是 webmail.abnormal.bid，登录名是完整的邮箱地址，密码是开通时设置的那一个。也可以在手机或电脑的邮件客户端里添加账号，服务器地址见开通结果与使用教程。",
+      },
+      {
+        question: "订单、续费或自动扣款在哪里管理？",
+        answer:
+          "在商店的「我的账户」页面可以查看订单、领取兑换码和续费；银行卡订阅的自动续费也在那里更换银行卡或取消。",
+      },
+      {
+        question: "可以使用自己的域名或为团队开通吗？",
+        answer:
+          "可以先告诉我们你的域名、邮箱数量和使用时长。我们会确认适用的方案、所需配置和费用；域名接入需由你确认拥有相应管理权限。请勿在咨询中发送密码、验证码、恢复码或支付信息。",
+      },
+      {
+        question: "遇到问题怎么办？",
+        answer:
+          "收发异常时可以先看服务状态页，确认是否有故障或维护；其他问题写信到客服邮箱，附上邮箱地址或订单号会更快处理。",
+      },
+    ],
+  },
+  closing: {
+    titleLines: ["下一封邮件，", "从这里开始"],
+    body: "选个套餐，付款后自助开通，马上开始收发；有域名或团队需求，也可以先聊聊。",
+    buy: "购买邮箱",
+    custom: "聊聊定制需求",
+  },
+  footer: {
+    productLabel: "产品 / PRODUCT",
+    supportLabel: "支持 / SUPPORT",
+    contactLabel: "保持联系 / CONTACT",
+    productLinks: [
+      { link: "shop", label: "购买邮箱" },
+      { link: "redeem", label: "兑换开通" },
+      { link: "webmail", label: "网页邮箱" },
+      { link: "guide", label: "使用教程" },
+    ],
+    supportLinks: [
+      { link: "account", label: "我的订单" },
+      { link: "status", label: "服务状态" },
+    ],
+    faq: "常见问题",
+    emailAria: (email) => `客服邮箱：${email}`,
+    copyright: (year) => `© ${year} Abnormal. 让沟通更简单。`,
+    buyOnline: "在线购买邮箱",
+    legalLabel: "法律信息",
+  },
+  legalPages: [
+    { path: "/privacy/", label: "隐私政策" },
+    { path: "/terms/", label: "服务条款" },
+  ],
+  inquiry: {
+    close: "关闭咨询窗口",
+    title: "从你的需求开始",
+    description: [
+      "选好服务，整理需求，再联系咨询。",
+      "方案、报价与开通方式均需确认后再下单。",
+    ],
+    productLabel: "服务类型",
+    durationLabel: "使用时长",
+    durations: ["1 个月", "3 个月", "6 个月", "12 个月", "尚未确定"],
+    otherProduct: "其他邮箱需求",
+    undecidedProduct: "尚未确定",
+    undecidedLabel: "还没想好，想先咨询",
+    notesLabel: "邮箱数量、域名或客户端需求",
+    optional: "选填",
+    notesPlaceholder:
+      "例如：需要 3 个邮箱，已有域名，希望在手机和电脑上收发邮件。请勿填写密码或验证码。",
+    previewLabel: "你的咨询内容",
+    copy: "复制咨询内容",
+    contactFallback: "前往咨询",
+    note: "此页面仅帮你整理需求，不会提交订单或扣款。",
+    legal: ["咨询与服务适用", "与", "。"],
+    newWindow: "（新窗口打开）",
+    copied: "已复制咨询内容，可粘贴后发送给我们。",
+    copyFailed: "暂时无法自动复制，请长按或选中上方咨询内容进行复制。",
+    copyFieldLabel: "待复制的咨询内容",
+  },
+  legal: {
+    effective: "生效日期",
+    updated: "最后更新",
+    dateLocale: "zh-CN",
+    tocLabel: "目录",
+    tocHint: "本页目录",
+    highlights: "要点速览",
+    highlightsNote: "摘要仅供快速了解，具体以正文为准。",
+    contactTitle: "联系我们",
+    contactBody: (title) =>
+      `如对本${title}有任何疑问，或需要查询、更正、删除你的信息，请通过以下方式联系我们。为便于处理，请说明你的诉求及相关订单信息；请勿在消息中发送密码、验证码或支付卡信息。`,
+    contactPending: "联系渠道即将公布，公布后会更新在本页面。",
+    contactLabels: { email: "邮箱", wechat: "微信", telegram: "Telegram" },
+    colon: "：",
+    relatedLabel: "相关页面",
+    seeAlso: (label) => `另见 ${label}`,
+    backHome: "返回首页",
+  },
+};

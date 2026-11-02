@@ -1,33 +1,47 @@
 ---
 import Icon from "./Icon.astro";
-const promises = ["费用提前确认", "按需选择方案", "专人协助配置"];
+import { useCopy } from "../i18n";
+const { t, links } = useCopy(Astro.currentLocale);
+const h = t.hero;
+const avatars = [
+  { className: "avatar-sage", icon: "spark" },
+  { className: "avatar-peach", icon: "chat" },
+  { className: "avatar-stone", icon: "check" },
+] as const;
 ---
 
 <section class="page-shell hero" aria-labelledby="hero-title">
   <div class="hero-copy">
     <p class="eyebrow hero-eyebrow">Email, made personal</p>
     <h1 id="hero-title">
-      好用的邮箱，
+      {h.titleLines[0]}
       <br />
       <span class="hero-second-line">
-        沟通更简单<span class="hero-period">。</span>
+        {h.titleLines[1]}
+        <span class="hero-period">{t.dot}</span>
       </span>
     </h1>
     <p class="hero-description">
-      一个邮箱，连接日常与工作。
+      {h.description[0]}
       <br />
-      从个人收发到团队协作，找到适合你的邮箱方案。
+      {h.description[1]}
     </p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="/#services">
-        探索邮箱服务 <Icon name="arrow" class="size-4" />
+      <a class="btn btn-primary" href={links.shop}>
+        {h.buy} <Icon name="arrow" class="size-4" />
       </a>
-      <a class="text-link" href="#how-it-works">
-        了解服务流程 <Icon name="up-right" class="size-4" />
+      <a class="btn btn-outline" href={links.redeem}>
+        {h.haveCode} <Icon name="up-right" class="size-4" />
       </a>
     </div>
+    <p class="hero-login">
+      {h.loginPrompt}
+      <a class="text-link" href={links.webmail}>
+        {h.loginLink} <Icon name="up-right" class="size-3.5" />
+      </a>
+    </p>
     <div class="hero-promises">
-      {promises.map((promise) => (
+      {h.promises.map((promise) => (
         <span>
           <Icon name="check" class="size-3.5" />
           {promise}
@@ -36,11 +50,7 @@ const promises = ["费用提前确认", "按需选择方案", "专人协助配�
     </div>
   </div>
 
-  <div
-    class="hero-visual"
-    role="img"
-    aria-label="邮箱服务概念示意：清晰的收件箱和专属域名地址，连接日常与工作。"
-  >
+  <div class="hero-visual" role="img" aria-label={h.visualLabel}>
     <div class="visual-orbit" aria-hidden="true"></div>
     <span class="visual-plus plus-one" aria-hidden="true">
       +
@@ -72,58 +82,47 @@ const promises = ["费用提前确认", "按需选择方案", "专人协助配�
       <div class="inbox-body">
         <div class="inbox-heading">
           <div>
-            <span class="inbox-overline">A LITTLE MORE CONNECTED</span>
+            <span class="inbox-overline">{h.mock.overline}</span>
             <p>
-              每一封，都有归处<span>。</span>
+              {h.mock.heading}
+              <span>{t.dot}</span>
             </p>
           </div>
           <span class="inbox-avatar">a.</span>
         </div>
         <div class="inbox-tabs">
           <span>
-            收件箱 <b>03</b>
+            {h.mock.inbox} <b>03</b>
           </span>
-          <span>星标邮件</span>
+          <span>{h.mock.starred}</span>
           <Icon name="plus" class="size-4" />
         </div>
-        <div class="mail-row">
-          <span class="mail-avatar avatar-sage">
-            <Icon name="spark" />
-          </span>
-          <div>
-            <strong>新的连接，新的可能。</strong>
-            <span>让每一次沟通，都成为美好的开始。</span>
+        {h.mock.mails.map((mail, index) => (
+          <div
+            class:list={[
+              "mail-row",
+              { "last-mail": index === h.mock.mails.length - 1 },
+            ]}
+          >
+            <span class:list={["mail-avatar", avatars[index]?.className]}>
+              <Icon name={avatars[index]?.icon ?? "spark"} />
+            </span>
+            <div>
+              <strong>{mail.title}</strong>
+              <span>{mail.body}</span>
+            </div>
+            <span class="mail-time">
+              {mail.time}
+              {index === 0 && <span class="unread-dot" />}
+            </span>
           </div>
-          <span class="mail-time">
-            09:41<span class="unread-dot"></span>
-          </span>
-        </div>
-        <div class="mail-row">
-          <span class="mail-avatar avatar-peach">
-            <Icon name="chat" />
-          </span>
-          <div>
-            <strong>关于我们的下一个计划</strong>
-            <span>灵感、想法，还有期待已久的好消息。</span>
-          </div>
-          <span class="mail-time">昨天</span>
-        </div>
-        <div class="mail-row last-mail">
-          <span class="mail-avatar avatar-stone">
-            <Icon name="check" />
-          </span>
-          <div>
-            <strong>一切就绪，开始吧。</strong>
-            <span>你的日常，从一个顺手的邮箱开始。</span>
-          </div>
-          <span class="mail-time">昨天</span>
-        </div>
+        ))}
       </div>
     </div>
     <div class="domain-note" aria-hidden="true">
       <span class="domain-at">@</span>
       <div>
-        <span>你的名字，就是你的地址</span>
+        <span>{h.mock.domainNote}</span>
         <strong>
           hello@<span>yourname</span>.com
         </strong>
@@ -134,7 +133,7 @@ const promises = ["费用提前确认", "按需选择方案", "专人协助配�
     </div>
     <p class="visual-caption" aria-hidden="true">
       <span></span> YOUR INBOX. YOUR IDENTITY.{" "}
-      <span class="demo-label">概念示意</span>
+      <span class="demo-label">{h.mock.demoLabel}</span>
     </p>
   </div>
 </section>
@@ -178,8 +177,17 @@ const promises = ["费用提前确认", "按需选择方案", "专人协助配�
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 0.75rem;
     margin-top: 2rem;
+  }
+  .hero-login {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    font-size: 14px;
+    color: var(--text-secondary);
   }
   .hero-promises {
     display: flex;
@@ -507,9 +515,6 @@ const promises = ["费用提前确认", "按需选择方案", "专人协助配�
     .hero-description {
       font-size: 14px;
     }
-    .hero-actions {
-      gap: 1rem;
-    }
     .hero-visual {
       height: 450px;
     }
@@ -561,11 +566,9 @@ const promises = ["费用提前确认", "按需选择方案", "专人协助配�
       font-size: 14px;
     }
     .hero-actions,
+    .hero-login,
     .hero-promises {
       justify-content: center;
-    }
-    .hero-actions {
-      gap: 1.5rem;
     }
     .hero-promises {
       gap: 0.8rem;
@@ -595,9 +598,6 @@ const promises = ["费用提前确认", "按需选择方案", "专人协助配�
     .hero {
       padding-top: 2.3rem;
       gap: 2.5rem;
-    }
-    .hero-actions {
-      gap: 1rem;
     }
     .hero-promises {
       gap: 0.5rem 1rem;

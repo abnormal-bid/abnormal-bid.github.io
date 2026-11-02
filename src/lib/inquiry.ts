@@ -1,4 +1,4 @@
-import type { Contact } from "../data/site.ts";
+import type { Contact, Lang } from "../data/site.ts";
 
 export interface Inquiry {
   product: string;
@@ -6,13 +6,55 @@ export interface Inquiry {
   notes: string;
 }
 
-export function formatInquiry({ product, duration, notes }: Inquiry): string {
+/** 咨询文案：发给我们的邮件与复制的文字用访客当前页面的语言。 */
+const text = {
+  zh: {
+    greeting: "你好，我想咨询邮箱服务。",
+    product: "服务类型：",
+    duration: "使用时长：",
+    notes: "需求：",
+    closing: "请帮我确认邮箱方案、总费用、开通时间与支持范围。",
+    subject: "邮箱服务咨询 · ",
+    telegram: "在 Telegram 咨询",
+    email: "通过邮件咨询",
+    wechatLabel: "微信：",
+    emailLabel: "邮箱：",
+    telegramLabel: "Telegram：",
+    separator: " · ",
+    contactHint: "。复制下方咨询内容后联系我们。",
+    noContact: "咨询渠道即将公布。你可以先复制需求，稍后再来联系我们。",
+  },
+  en: {
+    greeting: "Hi, I'd like to ask about your email service.",
+    product: "Service: ",
+    duration: "Term: ",
+    notes: "Details: ",
+    closing:
+      "Please let me know the plan, total cost, setup time and what support is included.",
+    subject: "Email service inquiry · ",
+    telegram: "Ask on Telegram",
+    email: "Ask by email",
+    wechatLabel: "WeChat: ",
+    emailLabel: "Email: ",
+    telegramLabel: "Telegram: ",
+    separator: " · ",
+    contactHint: ". Copy the message below and send it to us.",
+    noContact:
+      "Contact channels are coming soon. You can copy your request now and get in touch later.",
+  },
+} satisfies Record<Lang, Record<string, string>>;
+
+export function formatInquiry(
+  { product, duration, notes }: Inquiry,
+  lang: Lang = "zh",
+): string {
+  const t = text[lang];
   return [
-    "你好，我想咨询邮箱服务。",
-    `服务类型：${product}`,
-    `使用时长：${duration}`,
-    ...(notes.trim() ? [`需求：${notes.trim()}`] : []),
-    "请帮我确认邮箱方案、总费用、开通时间与支持范围。",
+    t.greeting,
+    `${t.product}${product}`,
+    `${t.duration}${duration}`,
+    ...(notes.trim() ? [`${t.notes}${notes.trim()}`] : []),
+    t.closing,
   ].join("\n");
 }
 
@@ -33,33 +75,39 @@ export function getTelegramUrl(value: string): string | undefined {
   return undefined;
 }
 
-export function getContactLink(contact: Contact, inquiry: Inquiry) {
+export function getContactLink(
+  contact: Contact,
+  inquiry: Inquiry,
+  lang: Lang = "zh",
+) {
+  const t = text[lang];
   const telegram = getTelegramUrl(contact.telegram);
   if (telegram)
     return {
       type: "telegram",
       href: telegram,
-      label: "在 Telegram 咨询",
+      label: t.telegram,
     } as const;
   const email = contact.email.trim();
   if (email) {
     return {
       type: "email",
-      href: `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(`邮箱服务咨询 · ${inquiry.product}`)}&body=${encodeURIComponent(formatInquiry(inquiry))}`,
-      label: "通过邮件咨询",
+      href: `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(`${t.subject}${inquiry.product}`)}&body=${encodeURIComponent(formatInquiry(inquiry, lang))}`,
+      label: t.email,
     } as const;
   }
   return undefined;
 }
 
-export function describeContact(contact: Contact): string {
+export function describeContact(contact: Contact, lang: Lang = "zh"): string {
+  const t = text[lang];
   const telegram = getTelegramUrl(contact.telegram);
   const parts = [
-    contact.wechat.trim() && `微信：${contact.wechat.trim()}`,
-    contact.email.trim() && `邮箱：${contact.email.trim()}`,
-    telegram && `Telegram：${telegram}`,
+    contact.wechat.trim() && `${t.wechatLabel}${contact.wechat.trim()}`,
+    contact.email.trim() && `${t.emailLabel}${contact.email.trim()}`,
+    telegram && `${t.telegramLabel}${telegram}`,
   ].filter(Boolean);
   return parts.length
-    ? `${parts.join(" · ")}。复制下方咨询内容后联系我们。`
-    : "咨询渠道即将公布。你可以先复制需求，稍后再来联系我们。";
+    ? `${parts.join(t.separator)}${t.contactHint}`
+    : t.noContact;
 }

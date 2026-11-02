@@ -1,4 +1,9 @@
-<a class="brand" href="/" aria-label="Abnormal 首页">
+---
+import { useCopy } from "../i18n";
+const { t, path } = useCopy(Astro.currentLocale);
+---
+
+<a class="brand" href={path("/")} aria-label={t.brandLabel}>
   <span class="brand-mark" aria-hidden="true">
     a<span>↗</span>
   </span>

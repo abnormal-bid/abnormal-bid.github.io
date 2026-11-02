@@ -1,11 +1,13 @@
 ---
-import type { Product } from "../data/site";
+import type { Product } from "../i18n/types";
+import { useCopy } from "../i18n";
 import Icon from "./Icon.astro";
 interface Props {
   product: Product;
   index: number;
 }
 const { product, index } = Astro.props;
+const { t, links } = useCopy(Astro.currentLocale);
 const symbols = ["mail", "domain", "team", "settings"];
 const symbol = symbols[index];
 ---
@@ -56,19 +58,32 @@ const symbol = symbols[index];
     ))}
   </div>
   <div class="product-price">
-    <strong data-price>{product.price || "咨询报价"}</strong>
+    <strong data-price>{product.price || t.services.priceFallback}</strong>
     <span data-price-note>{product.priceNote}</span>
   </div>
-  <button
-    class:list={[
-      "btn product-action",
-      product.featured ? "btn-primary" : "btn-outline",
-    ]}
-    data-inquiry={product.name}
-    aria-label={`咨询这项服务：${product.name}`}
-  >
-    咨询这项服务 <Icon name="up-right" class="size-4" />
-  </button>
+  {product.link ? (
+    <a
+      class:list={[
+        "btn product-action",
+        product.featured ? "btn-primary" : "btn-outline",
+      ]}
+      href={links[product.link]}
+    >
+      {product.actionLabel}
+      <Icon name="up-right" class="size-4" />
+    </a>
+  ) : (
+    <button
+      class:list={[
+        "btn product-action",
+        product.featured ? "btn-primary" : "btn-outline",
+      ]}
+      data-inquiry={product.name}
+      aria-label={t.services.consultAria(product.name)}
+    >
+      {t.services.consult} <Icon name="up-right" class="size-4" />
+    </button>
+  )}
 </article>
 
 <style>
