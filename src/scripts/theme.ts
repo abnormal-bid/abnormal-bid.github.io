@@ -5,7 +5,15 @@ export function initializeThemePicker() {
   const summary = picker?.querySelector("summary");
   if (!picker || !summary) return;
 
-  const labels = { system: "跟随系统", light: "浅色模式", dark: "深色模式" };
+  // 文案随页面语言渲染：模板在 data-aria-template / data-title-template，选项名取自菜单里的选项。
+  const ariaTemplate = picker.dataset.ariaTemplate ?? "{label}";
+  const titleTemplate = picker.dataset.titleTemplate ?? "{label}";
+  const labelOf = (preference: string) =>
+    picker
+      .querySelector(`input[value="${preference}"]`)
+      ?.closest("label")
+      ?.querySelector("[data-theme-label]")
+      ?.textContent?.trim() ?? preference;
   const syncPicker = () => {
     const preference = window.abnormalTheme.getPreference();
     picker
@@ -18,8 +26,9 @@ export function initializeThemePicker() {
       .forEach((icon) => {
         icon.hidden = icon.dataset.themeIcon !== preference;
       });
-    summary.setAttribute("aria-label", `切换主题，当前${labels[preference]}`);
-    summary.title = `主题：${labels[preference]}`;
+    const label = labelOf(preference);
+    summary.setAttribute("aria-label", ariaTemplate.replace("{label}", label));
+    summary.title = titleTemplate.replace("{label}", label);
   };
 
   picker.addEventListener("change", (event) => {

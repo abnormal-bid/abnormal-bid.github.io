@@ -1,19 +1,22 @@
 ---
 import Icon from "./Icon.astro";
-import {
-  products,
-  serviceDurations,
-  site,
-  otherProduct,
-  undecidedProduct,
-} from "../data/site";
+import { site } from "../data/site";
+import { useCopy } from "../i18n";
 import { describeContact, formatInquiry, getContactLink } from "../lib/inquiry";
+const { lang, t, path } = useCopy(Astro.currentLocale);
+const q = t.inquiry;
+const [termsPage, privacyPage] = [
+  t.legalPages.find((page) => page.path === "/terms/")!,
+  t.legalPages.find((page) => page.path === "/privacy/")!,
+];
 const initialInquiry = {
-  product: undecidedProduct,
-  duration: serviceDurations[0],
+  product: q.undecidedProduct,
+  duration: q.durations[0]!,
   notes: "",
 };
-const initialLink = getContactLink(site.contact, initialInquiry);
+const initialLink = getContactLink(site.contact, initialInquiry, lang);
+const linkClass =
+  "underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current";
 ---
 
 <dialog
@@ -21,6 +24,11 @@ const initialLink = getContactLink(site.contact, initialInquiry);
   id="inquiry-dialog"
   aria-labelledby="inquiry-title"
   aria-describedby="inquiry-description"
+  data-lang={lang}
+  data-undecided={q.undecidedProduct}
+  data-copied={q.copied}
+  data-copy-failed={q.copyFailed}
+  data-copy-field={q.copyFieldLabel}
 >
   <div class="inquiry-heading">
     <div class="inquiry-heading-top">
@@ -33,71 +41,74 @@ const initialLink = getContactLink(site.contact, initialInquiry);
       <button
         class="icon-button inquiry-close"
         id="close-dialog"
-        aria-label="关闭咨询窗口"
+        aria-label={q.close}
       >
         <Icon name="close" />
       </button>
     </div>
     <h2 id="inquiry-title">
-      从你的需求开始<span class="text-brand">。</span>
+      {q.title}
+      <span class="text-brand">{t.dot}</span>
     </h2>
     <p id="inquiry-description">
-      选好服务，整理需求，再联系咨询。
+      {q.description[0]}
       <br />
-      方案、报价与开通方式均需确认后再下单。
+      {q.description[1]}
     </p>
   </div>
   <form class="inquiry-form" id="inquiry-form">
     <div class="inquiry-fields">
       <label class="inquiry-field">
-        服务类型
+        {q.productLabel}
         <select class="mt-2" id="inquiry-product" name="product">
-          {products.map(({ name }) => (
+          {t.services.products.map(({ name }) => (
             <option>{name}</option>
           ))}
-          <option>{otherProduct}</option>
-          <option value={undecidedProduct} selected>
-            还没想好，想先咨询
+          <option>{q.otherProduct}</option>
+          <option value={q.undecidedProduct} selected>
+            {q.undecidedLabel}
           </option>
         </select>
       </label>
       <label class="inquiry-field">
-        使用时长
+        {q.durationLabel}
         <select class="mt-2" id="inquiry-duration" name="duration">
-          {serviceDurations.map((value) => (
+          {q.durations.map((value) => (
             <option>{value}</option>
           ))}
         </select>
       </label>
     </div>
     <label class="inquiry-field">
-      邮箱数量、域名或客户端需求{" "}
-      <span class="ml-1 text-xs font-normal text-muted-foreground">选填</span>
+      {q.notesLabel}{" "}
+      <span class="ml-1 text-xs font-normal text-muted-foreground">
+        {q.optional}
+      </span>
       <textarea
         class="mt-2"
         id="inquiry-notes"
         name="notes"
         rows="3"
         maxlength="600"
-        placeholder="例如：需要 3 个邮箱，已有域名，希望在手机和电脑上收发邮件。请勿填写密码或验证码。"
+        placeholder={q.notesPlaceholder}
       ></textarea>
     </label>
     <div class="inquiry-preview">
       <span class="inquiry-preview-label">
         <Icon name="copy" class="size-3.5" />
-        你的咨询内容
+        {q.previewLabel}
       </span>
       <p
         class="mt-1 text-xs leading-loose wrap-anywhere whitespace-pre-wrap"
         id="inquiry-text"
       >
-        {formatInquiry(initialInquiry)}
+        {formatInquiry(initialInquiry, lang)}
       </p>
     </div>
     <div class="inquiry-contact" id="contact-info">
       <Icon name="chat" class="mt-1 size-4 text-muted-foreground" />
       <p class="text-xs leading-loose wrap-anywhere text-muted-foreground">
-        {describeContact(site.contact)}
+        {describeContact(site.contact, lang)}
       </p>
     </div>
     <button
@@ -106,7 +117,7 @@ const initialLink = getContactLink(site.contact, initialInquiry);
       type="submit"
     >
       <Icon name="copy" />
-      复制咨询内容
+      {q.copy}
     </button>
     <a
       class="btn btn-outline inquiry-contact-link"
@@ -116,31 +127,33 @@ const initialLink = getContactLink(site.contact, initialInquiry);
       rel="noopener noreferrer"
       target={initialLink?.type === "telegram" ? "_blank" : undefined}
     >
-      <span data-contact-label>{initialLink?.label || "前往咨询"}</span>
+      <span data-contact-label>{initialLink?.label || q.contactFallback}</span>
       <Icon name="up-right" />
     </a>
     <p class="inquiry-note">
-      此页面仅帮你整理需求，不会提交订单或扣款。
+      {q.note}
       <br />
-      咨询与服务适用
+      {q.legal[0]}{" "}
       <a
-        class="underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current"
-        href="/terms/"
+        class={linkClass}
+        href={path(termsPage.path)}
         target="_blank"
         rel="noopener noreferrer"
       >
-        服务条款<span class="sr-only">（新窗口打开）</span>
-      </a>
-      与
+        {termsPage.label}
+        <span class="sr-only">{q.newWindow}</span>
+      </a>{" "}
+      {q.legal[1]}{" "}
       <a
-        class="underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current"
-        href="/privacy/"
+        class={linkClass}
+        href={path(privacyPage.path)}
         target="_blank"
         rel="noopener noreferrer"
       >
-        隐私政策<span class="sr-only">（新窗口打开）</span>
+        {privacyPage.label}
+        <span class="sr-only">{q.newWindow}</span>
       </a>
-      。
+      {q.legal[2]}
     </p>
     <p
       class="mt-2 text-center text-xs leading-relaxed text-foreground empty:mt-0"
@@ -150,6 +163,7 @@ const initialLink = getContactLink(site.contact, initialInquiry);
     ></p>
   </form>
 </dialog>
+
 <style>
   /* 对话框照 mailhq：浮层底色、24px 圆角、细边与浮层阴影，遮罩 40% 黑。 */
   .inquiry-dialog {

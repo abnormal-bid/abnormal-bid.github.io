@@ -1,0 +1,107 @@
+---
+layout: ../../layouts/LegalLayout.astro
+title: Terms of Service
+description: "Abnormal Terms of Service: the agreement for buying in the shop, redeeming codes and using @abnormal.bid mailboxes, covering payment, redeeming, service periods and renewal, expiry and suspension, refunds, acceptable use and liability."
+eyebrow: TERMS OF SERVICE
+summary: "These terms are the agreement between you and Abnormal for using the website, the shop, the redeem page, webmail and the mailbox service. Read them before you buy or redeem; paying or opening a mailbox means you have read and accepted them."
+effective: "2026-09-21"
+updated: "2026-11-02"
+highlights:
+  - "An order is placed once payment succeeds in the shop and a redeem code is issued automatically; you open mailboxes yourself with the code."
+  - "A subscription plan's service period starts when payment succeeds. After expiry there is a 7-day grace period; the mailbox is then suspended and kept for 30 days, after which it may be deleted."
+  - "Card subscriptions renew automatically and can be cancelled at any time on My account. Periods already charged are not refunded by default."
+  - "Don't use your mailbox for spam, phishing, fraud or anything illegal. Mailboxes used that way can be suspended at once without a refund."
+---
+
+This English version is a translation provided for convenience. If it differs from the [Chinese version](/terms/), the Chinese version prevails.
+
+## The service
+
+- Abnormal ("we", "us") provides mailboxes on domains such as @abnormal.bid: you buy a plan in the shop, receive a redeem code once you pay, pick your own username and password on the redeem page, and then read and send mail in webmail or any IMAP / SMTP mail app.
+- Mail is sent, received and stored by Stalwart mail servers that we set up and run ourselves.
+- Domain mailboxes, team mailboxes and setup help are provided after we agree on a plan with you, under "Custom services" below.
+- Each plan's number of mailboxes, available domains, storage per mailbox, service period, redemption window and price are as shown on the shop page when you order.
+
+## Buying and paying
+
+- You can pay with Linux DO Credit (LDC) or by card through Stripe; the methods available are those shown in the shop. The price is calculated by our server when you order and saved with the order, so later price changes don't affect orders already created.
+- An order is placed once the payment provider confirms the payment. The redeem code is then issued automatically. If it doesn't appear for a long time after you pay, click "Refresh payment result" on the order page or contact us.
+- You collect the redeem code in the same browser, or by signing in to My account. Keep it safe: anyone who has it can open mailboxes with it, and losses caused by sharing or leaking your code are your responsibility.
+- We never ask you to enter a card number on our websites; card details are handled by Stripe. Any fees a payment provider charges follow its own rules.
+
+## Redeeming and opening mailboxes
+
+- A redeem code must be used within the redemption window set by the plan, after which it expires. How many mailboxes a code can open and which domains it allows are fixed when it is issued.
+- Usernames are first come, first served and must follow the rules on the redeem page. Reserved names, names already taken, and misleading names (for example ones that impersonate other people, organisations or us) can't be used, and we may reclaim such names.
+- The password in the redeem result is shown only once, so save it right away. You can change it yourself in webmail settings.
+- If a plan's storage is 0 or not stated, the server's default quota applies; that doesn't mean unlimited storage. Each mailbox also has a daily sending limit to prevent abuse.
+
+## Service period, renewal and expiry
+
+- **Service period**: for subscription plans, the service period starts when payment succeeds, not when you redeem, so redeem soon after paying. The length depends on the plan. Plans without a service period are not subject to the renewal and expiry rules in this section.
+- **Renewal**: LDC plans can be renewed before expiry through the link in the reminder email or the order page, and the new period continues from the original expiry date. Card subscriptions are renewed automatically by Stripe each period. You can cancel automatic renewal or change your card on My account at any time; after cancelling, the service ends at the close of the current period.
+- **Grace period**: for 7 days after expiry the mailbox keeps sending and receiving as usual, and renewing during this time continues from the original expiry date.
+- **Suspension and retention**: when the grace period ends, the mailbox is suspended and can no longer be used to sign in or send, but its mail and data are kept and new mail is still received. Renewing within 30 days of suspension starts a new period from the time of payment and restores the mailbox right away.
+- **Reclaiming**: if the mailbox is still not renewed when retention ends, it is marked for reclaiming and we may delete it with all its mail. Deleted mail can't be recovered, and the username may later be taken by someone else. Back up any mail you need before expiry.
+- We send expiry and renewal reminders to the contact email you gave when ordering, or to the subscription's mailboxes if you didn't give one. Reminders are a courtesy; not receiving one doesn't change these periods.
+
+## Custom services
+
+- For domain mailboxes, team mailboxes, setup help and similar needs, contact us through the channels we publish. The inquiry dialog on the website only helps you write your request; it isn't an order and never charges you.
+- We will explain the available plan, total cost, expected delivery time, setup approach and support terms (together, the "confirmed plan"). The order is placed once you accept the confirmed plan and pay. Where the confirmed plan differs from these terms, the confirmed plan prevails.
+- Pay only to the account given in the confirmed plan and keep your receipt. Where your own domain is involved, you must have admin access to it.
+- When mailboxes have been opened or configured under the confirmed plan, we'll ask you to check them. Please report any problem within 48 hours; otherwise the work is treated as accepted.
+
+## Acceptable use
+
+When using a mailbox, you must not:
+
+- send spam, unsolicited bulk advertising or marketing, or buy or rent mailboxes for bulk sending;
+- send phishing, scams or malware, or mail that impersonates other people or organisations;
+- send, store or spread illegal content, or infringe other people's intellectual property, privacy or other rights;
+- use it for mass sign-ups, abusing promotions, evading bans or anything else that breaks third-party services' rules;
+- try to get around storage or sending limits, or attack, probe or disrupt our servers or other users;
+- resell or rent out mailboxes without our prior written consent.
+
+When you use your mailbox to sign up for third-party services (such as Claude or ChatGPT), you must follow their terms. If they restrict or ban your account, that isn't covered by our support.
+
+If we find a breach of these rules, we may, without notice, limit sending, suspend or delete the mailboxes involved, and stop providing service. Amounts already paid are not refunded for mailboxes suspended for this reason. If your actions cause us or others loss, you are responsible for it.
+
+## Your account and responsibilities
+
+- Give a real, working contact email, keep your redeem codes, mailbox passwords and shop sign-in links safe, and take responsibility for everything done with your mailbox.
+- If your password leaks or your account behaves unusually, change the password at once and contact us.
+- Your mail is your data. We work to store it reliably but can't guarantee it will never be lost; back up important mail yourself.
+
+## Cancellation and refunds
+
+- **Unused redeem code**: if the code is within its redemption window and hasn't opened any mailbox, you can ask for a full refund, minus any payment provider fees.
+- **Mailboxes already opened**: the service has started, so as a rule there is no refund. If mailboxes can't send or receive for a long time because of us, we will refund the unused part of the service period pro rata, or extend the period.
+- **Card subscriptions**: periods charged by automatic renewal are not refunded by default. If you tell us within 48 hours of the charge and the period hasn't actually been used, we may refund it at our discretion. Cancelling automatic renewal doesn't affect the current paid period.
+- **Custom services**: full refund before the service starts; after that, as set out in the confirmed plan.
+- No refund is given for mailboxes suspended for breaking "Acceptable use". Refunds go back the way you paid: LDC through Linux DO Credit and cards through Stripe, with timing depending on the provider.
+
+## Availability, changes and discontinuation
+
+- We work to keep the service stable but don't promise uninterrupted availability. Planned maintenance and outages are posted on the status page (mailhq.abnormal.bid/status).
+- Mail delivery can be affected by recipients' servers blocking, bouncing or filtering mail as spam, which is beyond our control.
+- We may change the plans, prices and features on sale; changes don't affect service periods you have already paid for.
+- If force majeure, major changes at upstream providers or similar events mean we must stop some or all of the service, we will give as much notice as we can, leave you time to export your mail, and refund the unused part of the service period pro rata.
+
+## Disclaimers and limitation of liability
+
+- The features, availability and policies of payment, hosting and network providers are up to them. Except where we are at fault, we are not responsible for what third-party providers do.
+- Content generated by AI writing or the ticket AI assistant is for reference only; check it before you send.
+- To the extent the law allows, our liability to you is limited to the amount you actually paid us for the order concerned, and we are not liable for indirect losses, lost profits or consequential losses from data loss.
+
+## Intellectual property
+
+The text, design and code of this website belong to us or their respective owners. You may not copy or modify the website's content or use it commercially without permission. The content of your mail belongs to you or its respective owners.
+
+## Changes to these terms
+
+We may update these terms from time to time. We will publish the update on this page and change the "Last updated" date at the top, and highlight significant changes on this page. If you keep using the website or service after an update, you accept the new terms; prices for service periods you have already paid for don't change because of an update.
+
+## Governing law and disputes
+
+These terms are made, take effect and are interpreted under the laws of the People's Republic of China. Any dispute arising from these terms or the service should first be settled through friendly negotiation; if that fails, either party may bring a lawsuit before the competent people's court where we are located.

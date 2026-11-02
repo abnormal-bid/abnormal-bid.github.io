@@ -1,9 +1,17 @@
-import { site, undecidedProduct } from "../data/site";
+import { site, type Lang } from "../data/site";
 import { formatInquiry, getContactLink } from "../lib/inquiry";
 import { requiredElement } from "./dom";
 
 export function initializeInquiry() {
   const dialog = requiredElement<HTMLDialogElement>("#inquiry-dialog");
+  // 页面语言与运行时文案由 InquiryDialog 渲染在 data-* 上，两种语言共用这一份脚本。
+  const lang: Lang = dialog.dataset.lang === "en" ? "en" : "zh";
+  const undecidedProduct = dialog.dataset.undecided ?? "";
+  const messages = {
+    copied: dialog.dataset.copied ?? "",
+    copyFailed: dialog.dataset.copyFailed ?? "",
+    copyField: dialog.dataset.copyField ?? "",
+  };
   const form = requiredElement<HTMLFormElement>("#inquiry-form", dialog);
   const product = requiredElement<HTMLSelectElement>("#inquiry-product", form);
   const duration = requiredElement<HTMLSelectElement>(
@@ -30,9 +38,9 @@ export function initializeInquiry() {
   }
 
   function updateInquiry() {
-    preview.textContent = formatInquiry(currentInquiry());
+    preview.textContent = formatInquiry(currentInquiry(), lang);
     status.textContent = "";
-    const link = getContactLink(site.contact, currentInquiry());
+    const link = getContactLink(site.contact, currentInquiry(), lang);
     contactLink.hidden = !link;
     if (link) {
       contactLink.href = link.href;
@@ -96,7 +104,7 @@ export function initializeInquiry() {
     }
     const field = document.createElement("textarea");
     field.value = text;
-    field.setAttribute("aria-label", "待复制的咨询内容");
+    field.setAttribute("aria-label", messages.copyField);
     field.style.cssText =
       "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;";
     dialog.append(field);
@@ -114,13 +122,11 @@ export function initializeInquiry() {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     copyButton.disabled = true;
-    const copied = await copyText(formatInquiry(currentInquiry()));
+    const copied = await copyText(formatInquiry(currentInquiry(), lang));
     copyButton.disabled = false;
     if (dialog.open) {
       copyButton.focus();
-      status.textContent = copied
-        ? "已复制咨询内容，可粘贴后发送给我们。"
-        : "暂时无法自动复制，请长按或选中上方咨询内容进行复制。";
+      status.textContent = copied ? messages.copied : messages.copyFailed;
     }
   });
   updateInquiry();

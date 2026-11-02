@@ -1,6 +1,7 @@
 ---
-import { faqs } from "../data/site";
+import { useCopy } from "../i18n";
 import Icon from "./Icon.astro";
+const { t } = useCopy(Astro.currentLocale);
 ---
 
 <section
@@ -13,15 +14,16 @@ import Icon from "./Icon.astro";
       <span class="mr-1 tabular-nums">04 /</span>Good questions
     </p>
     <h2 class="section-title" id="faq-title">
-      你可能还想知道<span class="text-brand">。</span>
+      {t.faq.title}
+      <span class="text-brand">{t.dot}</span>
     </h2>
-    <p class="faq-description">关于邮箱，先把问题说清楚。</p>
+    <p class="faq-description">{t.faq.description}</p>
     <button class="text-link faq-contact" data-inquiry>
-      其他问题，聊聊看 <Icon name="up-right" class="size-4" />
+      {t.faq.contact} <Icon name="up-right" class="size-4" />
     </button>
   </div>
   <div class="faq-list">
-    {faqs.map(({ question, answer }, index) => (
+    {t.faq.items.map(({ question, answer }, index) => (
       <details class="faq-item">
         <summary>
           <span class="faq-number" aria-hidden="true">

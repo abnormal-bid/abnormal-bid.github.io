@@ -2,29 +2,48 @@
 import Brand from "./Brand.astro";
 import Icon from "./Icon.astro";
 import ThemePicker from "./ThemePicker.astro";
-import { links, navigation } from "../data/site";
+import { switchPath, useCopy } from "../i18n";
+const { lang, t, links, path } = useCopy(Astro.currentLocale);
+const other = lang === "zh" ? "en" : "zh";
+const otherHtmlLang = other === "en" ? "en" : "zh-CN";
+const nav = t.header.nav.map(({ anchor, label }) => ({
+  href: path(`/#${anchor}`),
+  label,
+}));
 ---
 
 <header class="site-header">
   <div class="page-shell header-inner">
     <Brand />
-    <nav class="desktop-nav" aria-label="主导航">
-      {navigation.map(({ href, label }) => (
+    <nav class="desktop-nav" aria-label={t.header.navLabel}>
+      {nav.map(({ href, label }) => (
         <a href={href}>{label}</a>
       ))}
     </nav>
     <div class="header-actions">
+      <a
+        class="lang-toggle"
+        href={switchPath(Astro.url.pathname, other)}
+        hreflang={otherHtmlLang}
+        lang={otherHtmlLang}
+        aria-label={t.langToggle.aria}
+        title={t.langToggle.aria}
+      >
+        {t.langToggle.label}
+      </a>
       <ThemePicker />
       <span class="header-divider" aria-hidden="true"></span>
       <a class="header-login" href={links.webmail}>
-        登录邮箱
+        {t.header.login}
       </a>
       <a class="btn btn-primary header-cta" href={links.shop}>
-        购买邮箱 <Icon name="up-right" class="size-3.5" />
+        {t.header.buy} <Icon name="up-right" class="size-3.5" />
       </a>
       <button
         class="menu-toggle icon-button"
-        aria-label="展开导航"
+        aria-label={t.header.openMenu}
+        data-open-label={t.header.openMenu}
+        data-close-label={t.header.closeMenu}
         aria-expanded="false"
         aria-controls="mobile-nav"
       >
@@ -32,9 +51,9 @@ import { links, navigation } from "../data/site";
       </button>
     </div>
   </div>
-  <nav id="mobile-nav" aria-label="移动端导航" hidden>
+  <nav id="mobile-nav" aria-label={t.header.mobileNavLabel} hidden>
     <div class="page-shell mobile-nav-inner">
-      {navigation.map(({ href, label }, index) => (
+      {nav.map(({ href, label }, index) => (
         <a href={href}>
           <span>0{index + 1}</span>
           {label}
@@ -43,13 +62,13 @@ import { links, navigation } from "../data/site";
       ))}
       <div class="mobile-nav-actions">
         <a class="btn btn-primary" href={links.shop}>
-          购买邮箱 <Icon name="up-right" class="size-4" />
+          {t.header.buy} <Icon name="up-right" class="size-4" />
         </a>
         <a class="btn btn-outline" href={links.redeem}>
-          我有兑换码 <Icon name="up-right" class="size-4" />
+          {t.header.haveCode} <Icon name="up-right" class="size-4" />
         </a>
         <a class="btn btn-outline" href={links.webmail}>
-          登录网页邮箱 <Icon name="up-right" class="size-4" />
+          {t.header.loginWebmail} <Icon name="up-right" class="size-4" />
         </a>
       </div>
     </div>
@@ -110,6 +129,26 @@ import { links, navigation } from "../data/site";
     height: 16px;
     margin-inline: 8px;
     background: var(--border);
+  }
+  /* 语言切换照 onboard：幽灵按钮，显示另一种语言的简称。 */
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 6px;
+    border-radius: var(--radius-control);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    transition:
+      color 0.15s,
+      background-color 0.15s;
+  }
+  .lang-toggle:hover {
+    background: var(--control);
+    color: var(--text);
   }
   .header-login {
     display: flex;

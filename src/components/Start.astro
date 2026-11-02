@@ -1,7 +1,10 @@
 ---
-import { entryPoints, secondaryLinks, site } from "../data/site";
+import { site } from "../data/site";
+import { useCopy } from "../i18n";
 import Icon from "./Icon.astro";
 
+const { t, links } = useCopy(Astro.currentLocale);
+const s = t.start;
 const supportEmail = site.contact.email.trim();
 ---
 
@@ -13,20 +16,22 @@ const supportEmail = site.contact.email.trim();
           <span>01 /</span> Start here
         </p>
         <h2 class="section-title" id="start-title">
-          从这里开始<span class="text-brand">。</span>
+          {s.title}
+          <span class="text-brand">{t.dot}</span>
         </h2>
       </div>
       <p class="start-intro">
-        买邮箱、开通、登录、学会用，
+        {s.intro[0]}
+        {t.space}
         <br class="hidden md:block" />
-        都从这一页出发。
+        {s.intro[1]}
       </p>
     </div>
     <div class="start-grid">
-      {entryPoints.map((entry, index) => (
+      {s.entries.map((entry, index) => (
         <a
-          class:list={["start-card", { "is-primary": "primary" in entry }]}
-          href={entry.href}
+          class:list={["start-card", { "is-primary": entry.primary }]}
+          href={links[entry.link]}
         >
           <span class="start-top">
             <span class="start-icon" aria-hidden="true">
@@ -47,14 +52,14 @@ const supportEmail = site.contact.email.trim();
       ))}
     </div>
     <div class="start-more">
-      {secondaryLinks.map(({ href, label }) => (
-        <a class="text-link" href={href}>
+      {s.secondary.map(({ link, label }) => (
+        <a class="text-link" href={links[link]}>
           {label} <Icon name="up-right" class="size-3.5" />
         </a>
       ))}
       {supportEmail && (
         <a class="text-link" href={`mailto:${supportEmail}`}>
-          客服邮箱 {supportEmail}
+          {s.support} {supportEmail}
         </a>
       )}
     </div>

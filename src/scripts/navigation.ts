@@ -8,17 +8,21 @@ export function initializeNavigation() {
     "[data-theme-picker]",
   );
 
+  // 按钮文案随页面语言渲染在 data-open-label / data-close-label 上。
+  const openLabel = toggle.dataset.openLabel ?? "";
+  const closeLabel = toggle.dataset.closeLabel ?? "";
+
   function closeMenu() {
     nav.hidden = true;
     toggle.setAttribute("aria-expanded", "false");
-    toggle.setAttribute("aria-label", "展开导航");
+    toggle.setAttribute("aria-label", openLabel);
   }
 
   toggle.addEventListener("click", () => {
     const opening = nav.hidden;
     nav.hidden = !opening;
     toggle.setAttribute("aria-expanded", String(opening));
-    toggle.setAttribute("aria-label", opening ? "收起导航" : "展开导航");
+    toggle.setAttribute("aria-label", opening ? closeLabel : openLabel);
   });
   themePicker?.addEventListener("toggle", () => {
     if (themePicker.open) closeMenu();

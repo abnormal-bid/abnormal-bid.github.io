@@ -2,11 +2,21 @@
 
 [线上网站](https://abnormal.bid/) · [发布记录](https://github.com/abnormal-bid/abnormal-bid.github.io/releases)
 
-使用 Astro、Tailwind CSS 4 和 TypeScript 构建的中文邮箱服务官网。官网是整个 Abnormal 的落地页：介绍邮箱服务，并把访客引向购买、兑换开通、网页邮箱、教程与服务状态这几个站点；域名邮箱、团队邮箱与配置协助仍通过咨询弹窗沟通。Astro 预渲染静态页面，导航菜单、主题切换与咨询弹窗使用轻量客户端 JavaScript；GitHub Actions 验证并部署到 GitHub Pages，release-please 管理版本与更新日志。
+使用 Astro、Tailwind CSS 4 和 TypeScript 构建的中英双语邮箱服务官网。官网是整个 Abnormal 的落地页：介绍邮箱服务，并把访客引向购买、兑换开通、网页邮箱、教程与服务状态这几个站点；域名邮箱、团队邮箱与配置协助仍通过咨询弹窗沟通。Astro 预渲染静态页面，导航菜单、主题切换与咨询弹窗使用轻量客户端 JavaScript；GitHub Actions 验证并部署到 GitHub Pages，release-please 管理版本与更新日志。
+
+## 中英文
+
+中文在根路径（`/`、`/privacy/`、`/terms/`），英文在 `/en/` 下（`/en/`、`/en/privacy/`、`/en/terms/`），由 `astro.config.mjs` 的 `i18n` 配置（`prefixDefaultLocale: false`）。页头的「EN / 中」切换到另一种语言的同一页面；每页都输出互指的 `hreflang`，`x-default` 指向中文版。不按浏览器语言自动跳转。
+
+- 全部界面文案在 `src/i18n/zh.ts` 与 `src/i18n/en.ts`，二者都实现 `src/i18n/types.ts` 的 `Copy`，漏写字段会在 `npm run check` 时报错；`tests/i18n.test.ts` 还会检查两份文案的结构（列表长度、字段）一致。组件用 `useCopy(Astro.currentLocale)` 取当前语言的文案、联动地址与带语言前缀的站内路径。
+- 中文标题用全角句号、英文用半角，取 `t.dot`；只在部分宽度换行的标题，两行之间用 `t.space`（英文是空格）。
+- 联动地址由 `linksFor(lang)` 生成：onboard 的英文页在 `/en/` 下，网页邮箱与状态页按浏览器语言显示，两种语言用同一个地址。
+- 客户端脚本（主题菜单、移动端导航、咨询弹窗）不内嵌文案，读取组件渲染在 `data-*` 上的当前语言文字；咨询内容与邮件主题由 `src/lib/inquiry.ts` 按语言生成。
+- 法律页面：中文 `src/pages/privacy.md`、`terms.md`，英文 `src/pages/en/privacy.md`、`terms.md`。英文版开头注明是译文、以中文版为准；修改条款时两边一起改，并同步 `updated`。
 
 ## 与其他站点联动
 
-官网本身不收款、不开通邮箱，实际操作都在下面几个站点完成。地址统一写在 `src/data/site.ts` 的 `links` 中，页头、首屏、「从这里开始」入口卡片、服务卡片、开通流程、收尾面板与页脚都从这里取，换域名时只改这一处。
+官网本身不收款、不开通邮箱，实际操作都在下面几个站点完成。地址统一由 `src/data/site.ts` 的 `linksFor(lang)` 生成（onboard 的英文页在 `/en/` 下），页头、首屏、「从这里开始」入口卡片、服务卡片、开通流程、收尾面板与页脚都从这里取，换域名时只改这一处。
 
 | 入口           | 地址                                         | 所在仓库                                           |
 | -------------- | -------------------------------------------- | -------------------------------------------------- |
@@ -47,10 +57,11 @@ Astro 检查器当前支持 TypeScript 5/6，因此本项目使用兼容的 Type
 ```text
 src/
   components/     导航、Hero、邮箱服务卡片、流程、FAQ、咨询弹窗等 Astro 组件
-  data/site.ts    网站文案、邮箱服务、价格和公开联系方式
+  data/site.ts    公开联系方式与联动站点地址（linksFor）
+  i18n/          中英文文案（zh.ts、en.ts、types.ts）与语言路径工具
   layouts/       共享 HTML 布局、法律页面布局、SEO 与全局样式入口
   lib/inquiry.ts 咨询文案和联系方式选择的纯函数
-  pages/         页面路由：首页，以及 Markdown 编写的隐私政策与服务条款
+  pages/         页面路由：首页与 Markdown 法律页面；en/ 下是英文版
   scripts/       导航、主题及咨询弹窗的客户端交互
   styles/        Tailwind 主题、基础样式和共享 utility
 public/          favicon 等直接复制到发布目录的静态文件
@@ -78,13 +89,13 @@ tests/           咨询逻辑与主题行为回归测试
 
 ## 配置经营信息
 
-编辑 `src/data/site.ts`：
+联系方式在 `src/data/site.ts`，服务与价格文案在 `src/i18n/zh.ts` / `en.ts`：
 
 - `site.contact.wechat`：真实微信号。
 - `site.contact.email`：真实咨询邮箱；邮件咨询按钮会填入选定的服务类型、使用时长和需求。
 - `site.contact.telegram`：完整的 `https://t.me/...` 链接。有效 Telegram 优先；无效时回退到邮箱。
-- `products`：统一维护邮箱服务名称、类别、描述、标签、`price` 与 `priceNote`。`price` 留空时显示「咨询报价」；填了 `href` 的卡片按钮直接前往该地址（如商店），否则打开咨询弹窗。
-- `links`、`entryPoints`、`processSteps`：联动站点地址、首页入口卡片与开通流程。
+- `services.products`（两份文案各一套）：统一维护邮箱服务名称、类别、描述、标签、`price` 与 `priceNote`。`price` 留空时显示「咨询报价」；填了 `href` 的卡片按钮直接前往该地址（如商店），否则打开咨询弹窗。
+- `linksFor`（site.ts）与 `start.entries`、`process.steps`（文案）：联动站点地址、首页入口卡片与开通流程；文案里用 `link` 键引用地址。
 
 这些配置会公开到网页中，请勿放入密钥、密码或私人信息。修改后提交到 `main` 即会重新构建并发布。
 
@@ -92,7 +103,7 @@ tests/           咨询逻辑与主题行为回归测试
 
 ## 隐私政策与服务条款
 
-`src/pages/privacy.md` 与 `src/pages/terms.md` 通过 `src/layouts/LegalLayout.astro` 渲染，发布路径为 `/privacy/` 与 `/terms/`，页脚与咨询弹窗都有入口。正文使用 Markdown 编写，每个二级标题自动编号并生成目录；「联系我们」一节由布局根据 `site.contact` 生成，正文中无需重复联系方式。
+`src/pages/privacy.md` 与 `src/pages/terms.md`（英文版在 `src/pages/en/`）通过 `src/layouts/LegalLayout.astro` 渲染，发布路径为 `/privacy/` 与 `/terms/`（英文 `/en/privacy/`、`/en/terms/`），页脚与咨询弹窗都有入口。正文使用 Markdown 编写，每个二级标题自动编号并生成目录；「联系我们」一节由布局根据 `site.contact` 生成，正文中无需重复联系方式。
 
 frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`（页首英文小标）、`summary`（页首导语）、`effective` 与 `updated`（`YYYY-MM-DD`，修改正文后请更新 `updated`）、`highlights`（页首「要点速览」）。
 

@@ -1,20 +1,19 @@
 ---
 import Brand from "./Brand.astro";
 import Icon from "./Icon.astro";
-import { legalPages, links, site } from "../data/site";
+import { site } from "../data/site";
+import { useCopy } from "../i18n";
 
-const productLinks = [
-  { href: links.shop, label: "购买邮箱" },
-  { href: links.redeem, label: "兑换开通" },
-  { href: links.webmail, label: "网页邮箱" },
-  { href: links.guide, label: "使用教程" },
-];
+const { t, links, path } = useCopy(Astro.currentLocale);
+const f = t.footer;
+const productLinks = f.productLinks.map(({ link, label }) => ({
+  href: links[link],
+  label,
+}));
 const supportLinks = [
-  { href: links.account, label: "我的订单" },
-  { href: links.status, label: "服务状态" },
-  { href: "/#faq", label: "常见问题" },
+  ...f.supportLinks.map(({ link, label }) => ({ href: links[link], label })),
+  { href: path("/#faq"), label: f.faq },
 ];
-
 const supportEmail = site.contact.email.trim();
 ---
 
@@ -25,8 +24,8 @@ const supportEmail = site.contact.email.trim();
         <Brand />
         <p class="footer-tagline">Your inbox. Your identity.</p>
       </div>
-      <nav class="footer-links" aria-label="产品">
-        <p class="footer-label">产品 / PRODUCT</p>
+      <nav class="footer-links" aria-label={f.productLabel}>
+        <p class="footer-label">{f.productLabel}</p>
         <ul>
           {productLinks.map(({ href, label }) => (
             <li>
@@ -35,8 +34,8 @@ const supportEmail = site.contact.email.trim();
           ))}
         </ul>
       </nav>
-      <nav class="footer-links" aria-label="支持">
-        <p class="footer-label">支持 / SUPPORT</p>
+      <nav class="footer-links" aria-label={f.supportLabel}>
+        <p class="footer-label">{f.supportLabel}</p>
         <ul>
           {supportLinks.map(({ href, label }) => (
             <li>
@@ -46,12 +45,12 @@ const supportEmail = site.contact.email.trim();
         </ul>
       </nav>
       <div class="footer-contact">
-        <p class="footer-label">保持联系 / CONTACT</p>
+        <p class="footer-label">{f.contactLabel}</p>
         {supportEmail && (
           <a
             class="footer-email"
             href={`mailto:${supportEmail}`}
-            aria-label={`客服邮箱：${supportEmail}`}
+            aria-label={f.emailAria(supportEmail)}
           >
             {supportEmail}
           </a>
@@ -59,16 +58,19 @@ const supportEmail = site.contact.email.trim();
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© {new Date().getFullYear()} Abnormal. 让沟通更简单。</span>
+      <span>{f.copyright(new Date().getFullYear())}</span>
       <div class="footer-meta">
         <p>
           <a class="footer-cta" href={links.shop}>
-            在线购买邮箱 <Icon name="up-right" class="size-3.5" />
+            {f.buyOnline} <Icon name="up-right" class="size-3.5" />
           </a>
         </p>
-        <nav class="footer-legal" aria-label="法律信息">
-          {legalPages.map(({ href, label }) => (
-            <a class="transition-colors hover:text-foreground" href={href}>
+        <nav class="footer-legal" aria-label={f.legalLabel}>
+          {t.legalPages.map(({ path: page, label }) => (
+            <a
+              class="transition-colors hover:text-foreground"
+              href={path(page)}
+            >
               {label}
             </a>
           ))}
