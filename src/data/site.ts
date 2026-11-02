@@ -10,6 +10,7 @@ export interface Contact {
 }
 
 export const site = {
+  url: "https://abnormal.bid",
   contact: {
     wechat: "",
     email: "support@abnormal.bid",

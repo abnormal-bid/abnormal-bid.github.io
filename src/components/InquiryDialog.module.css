@@ -1,0 +1,229 @@
+/* 对话框照 mailhq：浮层底色、24px 圆角、细边与浮层阴影，遮罩 40% 黑。 */
+.inquiryDialog {
+  width: min(560px, calc(100% - 32px));
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  background: var(--popover-bg);
+  color: var(--text);
+  box-shadow: var(--popover-shadow);
+}
+
+.inquiryDialog[open] {
+  display: flex;
+  flex-direction: column;
+  animation: inquiry-arrive 0.15s ease-out both;
+}
+
+.inquiryDialog::backdrop {
+  background: rgb(0 0 0 / 40%);
+  backdrop-filter: blur(2px);
+}
+
+:global([data-theme="dark"]) .inquiryDialog::backdrop {
+  background: rgb(0 0 0 / 70%);
+}
+
+@keyframes inquiry-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.inquiryHeading {
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px 22px;
+}
+
+.inquiryHeadingTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.inquiryEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.inquiryHeadingIcon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: var(--radius-control);
+  background: var(--highlight);
+  color: var(--highlight-foreground);
+}
+
+.inquiryHeadingIcon :global(.icon) {
+  width: 18px;
+  height: 18px;
+}
+
+.inquiryClose {
+  margin-right: -6px;
+}
+
+.inquiryHeading h2 {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.inquiryHeading p {
+  margin-top: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.inquiryForm {
+  min-height: 0;
+  padding: 22px 24px 24px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.inquiryFields {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.inquiryField {
+  display: block;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.inquiryField select,
+.inquiryField textarea {
+  font-weight: 400;
+}
+
+.inquiryField select {
+  min-height: 40px;
+  padding-right: 8px;
+}
+
+.inquiryField textarea {
+  min-height: 104px;
+  padding: 10px 12px;
+}
+
+.inquiryField textarea::placeholder {
+  line-height: 1.8;
+}
+
+.inquiryPreview {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-mark);
+  background: var(--surface);
+}
+
+.inquiryPreviewLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.inquiryContact {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 16px;
+}
+
+.inquiryCopy,
+.inquiryContactLink {
+  width: 100%;
+  min-height: 44px;
+  gap: 8px;
+}
+
+.inquiryCopy :global(.icon),
+.inquiryContactLink :global(.icon) {
+  width: 16px;
+  height: 16px;
+}
+
+.inquiryCopy {
+  margin-top: 20px;
+}
+
+.inquiryContactLink {
+  margin-top: 8px;
+}
+
+.inquiryNote {
+  margin-top: 18px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+@media (max-height: 600px) {
+  .inquiryDialog[open] {
+    display: block;
+    overflow-y: auto;
+  }
+
+  .inquiryForm {
+    overflow: visible;
+  }
+}
+
+@media (max-width: 520px) {
+  .inquiryDialog {
+    max-height: calc(100dvh - 24px);
+    width: calc(100% - 24px);
+  }
+
+  .inquiryHeading {
+    padding: 14px 20px 18px;
+  }
+
+  .inquiryHeadingTop {
+    margin-bottom: 8px;
+  }
+
+  .inquiryHeading h2 {
+    font-size: 22px;
+  }
+
+  .inquiryForm {
+    padding: 20px;
+  }
+
+  .inquiryFields {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}

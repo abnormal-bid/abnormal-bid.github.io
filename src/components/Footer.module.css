@@ -1,0 +1,107 @@
+.siteFooter {
+  margin-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.footerMain {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  padding-block: 2.5rem;
+}
+.footerBrand,
+.footerContact {
+  grid-column: 1 / -1;
+}
+.footerTagline {
+  margin-top: 1rem;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.footerLabel {
+  margin-bottom: 0.75rem;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.footerLinks ul {
+  display: grid;
+  gap: 0.5rem;
+}
+.footerLinks a,
+.footerCta {
+  color: var(--text-secondary);
+  font-size: 14px;
+  transition: color 0.15s;
+}
+.footerLinks a:hover,
+.footerCta:hover {
+  color: var(--text);
+}
+.footerCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.footerEmail {
+  font-size: 15px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.15s;
+}
+.footerEmail:hover {
+  text-decoration-color: currentColor;
+}
+.footerBottom {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.footerMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.footerLegal {
+  display: flex;
+  gap: 1.25rem;
+}
+@media (width >= 768px) {
+  .footerMain {
+    grid-template-columns: 1.3fr 0.8fr 0.8fr 1fr;
+    align-items: start;
+    gap: 2rem;
+    padding-block: 3.5rem;
+  }
+  .footerBrand,
+  .footerContact {
+    grid-column: auto;
+  }
+  .footerContact {
+    justify-self: end;
+  }
+  .footerBottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+  .footerMeta {
+    align-items: flex-end;
+  }
+}
+@media (width >= 1100px) {
+  .footerMeta {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.75rem;
+  }
+}

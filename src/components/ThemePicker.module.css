@@ -1,0 +1,74 @@
+.themePicker {
+  position: relative;
+}
+
+.themeToggle {
+  list-style: none;
+}
+
+.themePicker[open] .themeToggle {
+  background: var(--control);
+  color: var(--text);
+}
+
+/* 浮层照 mailhq 的菜单：白底（深色 #1c1c19）、浮层圆角、浮层阴影。 */
+.themeMenu {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 176px;
+  max-height: calc(100dvh - 80px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-mark);
+  background: var(--popover-bg);
+  box-shadow: var(--popover-shadow);
+}
+
+.themeMenuTitle {
+  padding: 6px 10px 4px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.themeOption {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: var(--radius-control);
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
+}
+
+.themeOption:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.themeOption:has(input:checked) {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.themeOption:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+.themeOption :global(.theme-check) {
+  opacity: 0;
+}
+
+.themeOption:has(input:checked) :global(.theme-check) {
+  opacity: 1;
+}

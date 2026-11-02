@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Workers Builds 里连接的 Worker 名必须与这里一致。
+  "name": "abnormal-bid",
+  // 入口是 OpenNext 生成的 Worker，由 pnpm cf:build 产出。
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-01",
+  // nodejs_compat：Next.js 服务端依赖 Node API。
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
+  // 自定义域名在控制台绑定（见 README「部署」），这里不声明 routes，切换线上域名不会被一次推送顺带触发。
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  // OpenNext 用它调用自身。
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "abnormal-bid",
+    },
+  ],
+  "observability": {
+    "enabled": true,
+  },
+}

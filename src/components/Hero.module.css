@@ -1,0 +1,502 @@
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 2rem;
+  padding-block: 5rem 4.5rem;
+}
+.heroCopy {
+  position: relative;
+  z-index: 1;
+}
+.heroEyebrow {
+  display: inline-flex;
+}
+.hero h1 {
+  margin-block: 1.4rem 1.4rem;
+  font-size: clamp(2.5rem, 4.4vw, 3.5rem);
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.heroSecondLine {
+  color: var(--text-secondary);
+}
+.heroPeriod {
+  margin-left: -0.12em;
+  color: var(--signal);
+}
+.heroDescription {
+  max-width: 500px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.8;
+}
+.heroActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+.heroLogin {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.heroPromises {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin-top: 1.5rem;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.heroPromises > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.heroPromises :global(.icon) {
+  color: var(--text);
+}
+.heroVisual {
+  position: relative;
+  min-width: 0;
+  height: 475px;
+  isolation: isolate;
+}
+.visualOrbit {
+  position: absolute;
+  inset: 2% 4%;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+}
+.inboxWindow {
+  position: absolute;
+  top: 20%;
+  left: 1%;
+  width: 91%;
+  border-radius: var(--radius-mark);
+  border: 1px solid var(--border);
+  background: var(--card);
+  transform: rotate(-3deg);
+  overflow: hidden;
+  transition: transform 0.4s;
+}
+.heroVisual:hover .inboxWindow {
+  transform: rotate(-1deg) translateY(-4px);
+}
+.windowChrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.45rem;
+  letter-spacing: 0.13em;
+}
+.windowDots {
+  display: flex;
+  gap: 4px;
+}
+.windowDots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--input);
+}
+.windowDots i:first-child {
+  background: var(--signal);
+}
+.inboxBody {
+  padding: 1.4rem 1.4rem 0.5rem;
+}
+.inboxHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.inboxOverline {
+  font-size: 0.45rem;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+}
+.inboxHeading p {
+  margin-top: 0.35rem;
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+.inboxHeading p > span {
+  color: var(--signal);
+}
+.inboxAvatar {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 50%;
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: -0.06em;
+}
+.inboxTabs {
+  display: flex;
+  align-items: center;
+  gap: 1.35rem;
+  margin-top: 1.4rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+.inboxTabs > span {
+  padding-bottom: 0.7rem;
+}
+.inboxTabs > span:first-child {
+  color: var(--text);
+  border-bottom: 2px solid var(--text);
+}
+.inboxTabs b {
+  margin-left: 0.25rem;
+  border-radius: 4px;
+  /* 未读数是「新」的记号：黄底墨字。 */
+  background: var(--highlight);
+  color: var(--highlight-foreground);
+  padding: 0.15rem 0.25rem;
+  font-size: 0.5rem;
+}
+.inboxTabs :global(.icon) {
+  margin: 0 0 0.7rem auto;
+}
+.mailRow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding-block: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+.lastMail {
+  border-bottom: 0;
+}
+.mailAvatar {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-chip);
+  background: var(--surface);
+  color: var(--text-secondary);
+}
+.mailAvatar :global(.icon) {
+  width: 1rem;
+  height: 1rem;
+}
+.avatarSage {
+  color: var(--brand);
+}
+.mailRow > div {
+  min-width: 0;
+}
+.mailRow strong {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+.mailRow > div > span {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.5rem;
+  color: var(--text-secondary);
+}
+.mailTime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  margin-left: auto;
+  align-self: start;
+  padding-top: 0.2rem;
+  font-size: 0.45rem;
+  color: var(--text-secondary);
+}
+.unreadDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--signal);
+}
+.identityNote {
+  position: absolute;
+  top: 0;
+  right: 1%;
+  z-index: 2;
+  width: 125px;
+  height: 143px;
+  padding: 1rem;
+  border-radius: var(--radius-mark);
+  /* 首屏的展示位：荧光黄大色块，上面一律墨色。 */
+  background: var(--highlight);
+  color: var(--highlight-foreground);
+  transform: rotate(10deg);
+}
+.noteBrand {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  margin-bottom: 0.55rem;
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 600;
+}
+.noteBrand :global(.icon) {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.identityNote > span:nth-child(2) {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+}
+.noteFlower {
+  position: absolute;
+  bottom: 0.6rem;
+  right: 0.7rem;
+  font-size: 1.3rem;
+}
+.domainNote {
+  position: absolute;
+  z-index: 3;
+  bottom: 0.25rem;
+  left: 7%;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-mark);
+  background: var(--card);
+  transform: rotate(2deg);
+}
+.domainAt {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.4rem;
+}
+.domainNote > div > span {
+  font-size: 0.55rem;
+  color: var(--text-secondary);
+}
+.domainNote strong {
+  display: block;
+  margin-top: 1px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.domainNote strong > span {
+  color: var(--text-secondary);
+}
+.domainCheck {
+  display: grid;
+  place-items: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-left: 0.25rem;
+  border-radius: 50%;
+  background: var(--text);
+  color: var(--bg);
+}
+.visualCaption {
+  position: absolute;
+  bottom: -2rem;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+}
+.visualCaption > span:first-child {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--signal);
+}
+.demoLabel {
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--border);
+  letter-spacing: 0.05em;
+}
+.visualPlus {
+  position: absolute;
+  color: var(--text-secondary);
+  font-weight: 300;
+  font-size: 1.4rem;
+}
+.plusOne {
+  top: 6%;
+  left: 13%;
+}
+.plusTwo {
+  bottom: 1%;
+  right: 5%;
+}
+@media (min-width: 1440px) {
+  .hero {
+    padding-block: 5.5rem 5rem;
+    gap: 4rem;
+  }
+}
+@media (max-width: 1000px) and (min-width: 768px) {
+  .hero {
+    gap: 1rem;
+    padding-block: 3.75rem;
+  }
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  .heroDescription {
+    font-size: 14px;
+  }
+  .heroVisual {
+    height: 450px;
+  }
+  .inboxBody {
+    padding: 1rem 1rem 0.3rem;
+  }
+  .inboxHeading p {
+    font-size: 1rem;
+  }
+  .inboxWindow {
+    top: 19%;
+    width: 98%;
+  }
+  .mailRow > div > span {
+    max-width: 155px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .domainNote {
+    left: 0;
+    padding: 0.7rem;
+    gap: 0.5rem;
+  }
+  .domainNote strong {
+    font-size: 0.85rem;
+  }
+  .identityNote {
+    width: 108px;
+    height: 125px;
+    right: 2%;
+  }
+}
+@media (max-width: 767px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding-block: 2.8rem 3.5rem;
+  }
+  .heroCopy {
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: clamp(2.35rem, 8.2vw, 3.6rem);
+    margin-block: 1.5rem;
+  }
+  .heroDescription {
+    margin-inline: auto;
+    font-size: 14px;
+  }
+  .heroActions,
+  .heroLogin,
+  .heroPromises {
+    justify-content: center;
+  }
+  .heroPromises {
+    gap: 0.8rem;
+  }
+  .heroVisual {
+    width: min(100%, 470px);
+    height: 445px;
+    margin-inline: auto;
+  }
+  .inboxWindow {
+    left: 0;
+    width: 94%;
+    top: 14%;
+  }
+  .identityNote {
+    top: -0.5rem;
+    right: 2%;
+    width: 110px;
+    height: 127px;
+  }
+  .domainNote {
+    bottom: 0;
+    left: 5%;
+  }
+}
+@media (max-width: 380px) {
+  .hero {
+    padding-top: 2.3rem;
+    gap: 2.5rem;
+  }
+  .heroPromises {
+    gap: 0.5rem 1rem;
+  }
+  .heroVisual {
+    height: 425px;
+  }
+  .inboxBody {
+    padding: 1rem 0.85rem 0.3rem;
+  }
+  .inboxHeading p {
+    font-size: 1rem;
+  }
+  .mailRow > div > span {
+    max-width: 145px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .domainNote {
+    left: 0;
+    padding: 0.7rem;
+    gap: 0.55rem;
+  }
+  .domainNote strong {
+    font-size: 0.85rem;
+  }
+  .domainCheck {
+    margin-left: 0;
+  }
+  .identityNote {
+    top: -0.5rem;
+    width: 96px;
+    height: 112px;
+    padding: 0.8rem;
+  }
+  .identityNote > span:nth-child(2) {
+    font-size: 0.55rem;
+  }
+}

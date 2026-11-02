@@ -1,10 +1,17 @@
 node_modules/
-dist/
 .DS_Store
 .artifacts/
-.astro/
 .env
 .env.*
 !.env.example
+.dev.vars*
+# Next.js 与 OpenNext 的构建产物
+.next/
+.open-next/
+*.tsbuildinfo
+# next typegen / next dev 生成
+next-env.d.ts
 # Claude Code 的会话临时文件；launch.json（预览服务器配置）保留。
 .claude/.cc-writes/
+# wrangler 的本地状态与日志
+.wrangler/

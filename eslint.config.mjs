@@ -1,21 +1,18 @@
-import js from "@eslint/js";
-import astro from "eslint-plugin-astro";
+import { fixupConfigRules } from "@eslint/compat";
 import { defineConfig, globalIgnores } from "eslint/config";
-import globals from "globals";
-import tseslint from "typescript-eslint";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
 
 const eslintConfig = defineConfig([
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
-  ...astro.configs.recommended,
-  {
-    // 客户端脚本跑在浏览器里，测试与配置文件跑在 Node 里。
-    languageOptions: { globals: { ...globals.browser, ...globals.node } },
-  },
+  // eslint-config-next 自带的 eslint-plugin-react / import / jsx-a11y 还在调用 ESLint 10 已移除的
+  // context.getFilename() 等旧 API，用 @eslint/compat 包一层补回；等它们原生支持 ESLint 10 后可以去掉。
+  ...fixupConfigRules(nextVitals),
+  ...fixupConfigRules(nextTs),
   globalIgnores([
-    // Astro 的构建产物与生成的类型
-    "dist/**",
-    ".astro/**",
+    ".next/**",
+    ".open-next/**",
+    "next-env.d.ts",
+    ".wrangler/**",
     ".artifacts/**",
     // Claude Code 的 worktree 是整份仓库副本
     ".claude/**",

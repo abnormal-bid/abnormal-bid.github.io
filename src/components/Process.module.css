@@ -1,0 +1,89 @@
+.processSection {
+  border-top: 1px solid var(--border);
+}
+.processHeading {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2.75rem;
+}
+.processIntro,
+.stepDescription {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.8;
+}
+.processGrid {
+  display: grid;
+  gap: 2.25rem;
+}
+.processStep {
+  min-width: 0;
+}
+.stepTopline {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.3rem;
+}
+.stepNumber {
+  font-size: 2.75rem;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  /* 编号像被荧光笔划过：下半截压一道黄。字色是 --text，一半在页面底上、一半在黄上，
+     所以深色模式的黄带换成暗黄（--step-band），浅色字在两边都清楚（11.5:1）。 */
+  padding-inline: 0.06em;
+  background: linear-gradient(transparent 56%, var(--step-band) 56% 90%, transparent 90%);
+}
+.stepLine {
+  height: 1px;
+  flex: 1;
+  background: var(--border);
+}
+.stepIcon {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  color: var(--text);
+  background: var(--card);
+}
+.stepTitle {
+  margin-bottom: 0.65rem;
+  font-size: 18px;
+  line-height: 1.4;
+}
+.stepDescription {
+  max-width: 28rem;
+}
+.stepLink {
+  margin-top: 0.9rem;
+}
+@media (width >= 768px) {
+  .processHeading {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 3.75rem;
+  }
+  .processIntro {
+    flex-shrink: 0;
+  }
+  .processGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+  .stepTopline {
+    margin-bottom: 1.75rem;
+  }
+  .stepNumber {
+    font-size: 3.25rem;
+  }
+}
