@@ -20,6 +20,10 @@
   --brand-foreground: #ffffff;
   --highlight: #ffe14d;
   --highlight-foreground: #141412;
+  /* 浅黄面：选中或当前的行、柔和的提示块；上面正文 16.6:1、次要文字 6.1:1。 */
+  --highlight-muted: #fff4bf;
+  /* 小号指示（圆点、标题句号、进度、编号）：浅色是墨色，深色是荧光黄，两种主题下都看得清。 */
+  --signal: #141412;
   --bg: #f7f7f4;
   --surface: #ecece6;
   --text: #141412;
@@ -42,6 +46,8 @@
 :root[data-theme="dark"] {
   --brand: #f0f0ea;
   --brand-foreground: #141412;
+  --highlight-muted: #34311b;
+  --signal: #ffe14d;
   --bg: #141412;
   --surface: #252520;
   --text: #f0f0ea;
@@ -63,6 +69,8 @@
   :root:not([data-theme="light"]) {
     --brand: #f0f0ea;
     --brand-foreground: #141412;
+    --highlight-muted: #34311b;
+    --signal: #ffe14d;
     --bg: #141412;
     --surface: #252520;
     --text: #f0f0ea;
@@ -119,6 +127,8 @@
   --color-brand-foreground: var(--brand-foreground);
   --color-highlight: var(--highlight);
   --color-highlight-foreground: var(--highlight-foreground);
+  --color-highlight-muted: var(--highlight-muted);
+  --color-signal: var(--signal);
   --color-success: var(--success);
 
   --font-sans:
@@ -296,7 +306,7 @@
     height: 6px;
     flex-shrink: 0;
     border-radius: 50%;
-    background: var(--brand);
+    background: var(--signal);
   }
 }
 /* 按钮照 mailhq（Resend）：控件圆角、无阴影，按下缩到 0.98。 */

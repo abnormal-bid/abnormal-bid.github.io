@@ -13,7 +13,7 @@ const { t, links } = useCopy(Astro.currentLocale);
         </p>
         <h2 class="section-title" id="process-title">
           {t.process.title}
-          <span class="text-brand">{t.dot}</span>
+          <span class="text-signal">{t.dot}</span>
         </h2>
       </div>
       <p class="process-intro">
@@ -82,6 +82,9 @@ const { t, links } = useCopy(Astro.currentLocale);
     letter-spacing: -0.04em;
     color: var(--text);
     font-variant-numeric: tabular-nums;
+    /* 编号像被荧光笔划过：下半截压一道黄，字仍是墨色。 */
+    padding-inline: 0.06em;
+    background: linear-gradient(transparent 56%, var(--highlight) 56% 90%, transparent 90%);
   }
   .step-line {
     height: 1px;
