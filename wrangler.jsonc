@@ -8,11 +8,19 @@
   // nodejs_compat：Next.js 服务端依赖 Node API。
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": true,
-  // 自定义域名由部署创建（见 README「域名」）；不在这里的域名会在部署时从这个 Worker 上摘掉。
+  // 自定义域名由部署创建（见 README「域名」）；不在这里的域名会在部署时从这个 Worker 上摘掉，DNS 记录也会被删。
   "routes": [
     {
       "pattern": "abnormalhq.com",
       "zone_name": "abnormalhq.com",
+      "custom_domain": true,
+      "enabled": true,
+      "previews_enabled": false,
+    },
+    // 旧地址：zone 的 Redirect Rule 在 Worker 之前把它 301 到新地址。留在这里是为了保住它的 DNS 记录；摘掉会让这个主机因 DNS 负缓存解析不到约 30 分钟。
+    {
+      "pattern": "abnormal.bid",
+      "zone_name": "abnormal.bid",
       "custom_domain": true,
       "enabled": true,
       "previews_enabled": false,
