@@ -226,7 +226,7 @@ export const en: Copy = {
       {
         question: "Where do I sign in afterwards?",
         answer:
-          "Webmail is at webmail.abnormal.bid. Sign in with your full email address and the password you set when redeeming. You can also add the account to a mail app on your phone or computer; the server settings are in your redeem result and the guide.",
+          "Webmail is at webmail.abnormalhq.com. Sign in with your full email address and the password you set when redeeming. You can also add the account to a mail app on your phone or computer; the server settings are in your redeem result and the guide.",
       },
       {
         question: "Where do I manage orders, renewals and automatic payments?",

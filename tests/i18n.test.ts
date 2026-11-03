@@ -25,10 +25,10 @@ test("switching language keeps the same page", () => {
 });
 
 test("onboard links follow the page language; webmail and status do not", () => {
-  assert.equal(linksFor("zh").shop, "https://onboard.abnormal.bid/shop/");
-  assert.equal(linksFor("en").shop, "https://onboard.abnormal.bid/en/shop/");
-  assert.equal(linksFor("en").redeem, "https://onboard.abnormal.bid/en/");
-  assert.equal(linksFor("en").guide, "https://onboard.abnormal.bid/en/guide/");
+  assert.equal(linksFor("zh").shop, "https://onboard.abnormalhq.com/shop/");
+  assert.equal(linksFor("en").shop, "https://onboard.abnormalhq.com/en/shop/");
+  assert.equal(linksFor("en").redeem, "https://onboard.abnormalhq.com/en/");
+  assert.equal(linksFor("en").guide, "https://onboard.abnormalhq.com/en/guide/");
   assert.equal(linksFor("en").webmail, linksFor("zh").webmail);
   assert.equal(linksFor("en").status, linksFor("zh").status);
 });

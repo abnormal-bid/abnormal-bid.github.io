@@ -6,7 +6,7 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /*
- * 配色与 mailhq（abnormal-bid/mail 的 src/app/globals.css）同一套，两边一起改：
+ * 配色与 mailhq（abnormalhq/mail 的 src/app/globals.css）同一套，两边一起改：
  * abnormal 品牌（路线 A）——墨色 #141412 压在暖灰纸色 #f7f7f4 上，深色模式就是墨色本身 #141412，
  * 套在 Resend 式的结构上——
  * - 主色就是墨色：浅色 #141412 配白字（18.4:1），深色 #f0f0ea 配墨色字（16.1:1），没有彩色强调色；
