@@ -1,6 +1,6 @@
 # Abnormal · 邮箱服务
 
-[线上网站](https://abnormal.bid/)
+[线上网站](https://abnormalhq.com/)
 
 使用 Next.js（App Router）、Tailwind CSS 4 和 TypeScript 构建的中英双语邮箱服务官网。官网是整个 Abnormal 的落地页：介绍邮箱服务，并把访客引向购买、兑换开通、网页邮箱、教程与服务状态这几个站点；域名邮箱、团队邮箱与配置协助仍通过咨询弹窗沟通。页面在构建时预渲染，通过 [@opennextjs/cloudflare](https://opennext.js.org/cloudflare) 运行在 Cloudflare Worker 上，导航菜单、主题切换与咨询弹窗是 React 客户端组件；Cloudflare Workers Builds 监听 `main` 自动部署，GitHub Actions 只做检查。
 
@@ -18,16 +18,16 @@
 
 官网本身不收款、不开通邮箱，实际操作都在下面几个站点完成。地址统一由 `src/data/site.ts` 的 `linksFor(lang)` 生成（onboard 的英文页在 `/en/` 下），页头、首屏、「从这里开始」入口卡片、服务卡片、开通流程、收尾面板与页脚都从这里取，换域名时只改这一处。
 
-| 入口           | 地址                                         | 所在仓库                                           |
-| -------------- | -------------------------------------------- | -------------------------------------------------- |
-| 购买邮箱       | `https://onboard.abnormal.bid/shop/`         | [onboard](https://github.com/abnormal-bid/onboard) |
-| 兑换开通       | `https://onboard.abnormal.bid/`              | onboard                                            |
-| 我的订单与续费 | `https://onboard.abnormal.bid/shop/account/` | onboard                                            |
-| 使用教程       | `https://onboard.abnormal.bid/guide/`        | onboard                                            |
-| 网页邮箱       | `https://webmail.abnormal.bid/`              | [mail](https://github.com/abnormal-bid/mail)       |
-| 服务状态       | `https://mailhq.abnormal.bid/status`         | mail                                               |
+| 入口           | 地址                                           | 所在仓库                                           |
+| -------------- | ---------------------------------------------- | -------------------------------------------------- |
+| 购买邮箱       | `https://onboard.abnormalhq.com/shop/`         | [onboard](https://github.com/abnormal-bid/onboard) |
+| 兑换开通       | `https://onboard.abnormalhq.com/`              | onboard                                            |
+| 我的订单与续费 | `https://onboard.abnormalhq.com/shop/account/` | onboard                                            |
+| 使用教程       | `https://onboard.abnormalhq.com/guide/`        | onboard                                            |
+| 网页邮箱       | `https://webmail.abnormalhq.com/`              | [mail](https://github.com/abnormal-bid/mail)       |
+| 服务状态       | `https://console.abnormalhq.com/status`        | mail                                               |
 
-反方向：onboard 页头与页脚的「官网」、网页邮箱登录页与状态页的「官网」链接都指回 `https://abnormal.bid/`。
+反方向：onboard 页头与页脚的「官网」、网页邮箱登录页与状态页的「官网」链接都指回 `https://abnormalhq.com/`。
 
 首页从上到下：首屏（购买邮箱 / 我有兑换码 / 登录网页邮箱）→ 01 从这里开始（四张入口卡片与订单、状态、客服链接）→ 02 邮箱服务（个人邮箱直达商店，其余三项咨询）→ 03 开通流程（选购套餐 → 兑换开通 → 登录收发，每步带链接）→ 04 常见问题 → 收尾面板（购买邮箱 + 聊聊定制需求）。
 
@@ -148,11 +148,11 @@ Node.js 版本由 `.node-version` 指定。
 
 绑定都在 Cloudflare 一侧，`wrangler.jsonc` 不声明 `routes`，所以推送不会改动线上域名，部署也不加 `--strict`（严格模式会把配置里没有的绑定当成要删除的差异）。
 
-- `abnormal.bid`：Worker `abnormal-bid` 的自定义域名，DNS 里对应一条由 Cloudflare 管理的 `AAAA 100::`。需要重新绑定时，先确认主机名上没有其他 A、AAAA 或 CNAME 记录，再执行 `pnpm cf:build` 和 `pnpm exec opennextjs-cloudflare deploy -- --domain abnormal.bid`。
-- `www.abnormal.bid`：zone 的 Redirect Rule（`http_request_dynamic_redirect` 阶段）用 301 跳到 `https://abnormal.bid`，保留路径与查询参数；DNS 里只有一条代理的 `AAAA 100::` 占位记录。
-- 根域名上的 MX 与 TXT 记录属于邮件服务（`@abnormal.bid` 邮箱），改 DNS 时不要动。
+- `abnormalhq.com`：Worker `abnormal-bid` 的自定义域名，DNS 里对应一条由 Cloudflare 管理的 `AAAA 100::`。需要重新绑定时，先确认主机名上没有其他 A、AAAA 或 CNAME 记录，再执行 `pnpm cf:build` 和 `pnpm exec opennextjs-cloudflare deploy -- --domain abnormalhq.com`。
+- `abnormal.bid` 与 `www.abnormal.bid`：旧地址，域名继续持有。zone 的 Redirect Rule（`http_request_dynamic_redirect` 阶段）用 301 跳到 `https://abnormalhq.com`，保留路径与查询参数；DNS 里只有一条代理的 `AAAA 100::` 占位记录。
+- `abnormal.bid` 根域名上的 MX 与 TXT 记录属于邮件服务（`@abnormal.bid` 邮箱），改 DNS 时不要动。
 
-GitHub Pages 已不再使用：部署流程已删除，线上由上面的 Worker 提供。GitHub 不允许停用这个仓库的 Pages（API 返回 422），`abnormal-bid.github.io` 因此继续 301 跳到 `abnormal.bid`。不要清除 Pages 设置里的自定义域名，否则这个地址会直接显示最后一次部署的旧站。
+GitHub Pages 已不再使用：部署流程已删除，线上由上面的 Worker 提供。GitHub 不允许停用这个仓库的 Pages（API 返回 422），`abnormal-bid.github.io` 因此继续 301 跳到 `abnormal.bid`，再由上面的 Redirect Rule 跳到新地址。不要清除 Pages 设置里的自定义域名，否则这个地址会直接显示最后一次部署的旧站。
 
 ### 本机部署
 

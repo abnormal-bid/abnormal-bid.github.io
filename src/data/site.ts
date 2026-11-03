@@ -10,7 +10,7 @@ export interface Contact {
 }
 
 export const site = {
-  url: "https://abnormal.bid",
+  url: "https://abnormalhq.com",
   contact: {
     wechat: "",
     email: "support@abnormal.bid",
@@ -26,7 +26,7 @@ export type Lang = "zh" | "en";
  * - onboard（abnormal-bid/onboard）：兑换开通页、邮箱商店、买家账户与教程；英文页在 /en/ 下。
  * - webmail / status（abnormal-bid/mail）：网页邮箱与公开状态页，按浏览器语言自动切换，不分路径。
  */
-const onboardOrigin = "https://onboard.abnormal.bid";
+const onboardOrigin = "https://onboard.abnormalhq.com";
 
 export function linksFor(lang: Lang) {
   const onboard = `${onboardOrigin}/${lang === "en" ? "en/" : ""}`;
@@ -35,8 +35,8 @@ export function linksFor(lang: Lang) {
     redeem: onboard,
     account: `${onboard}shop/account/`,
     guide: `${onboard}guide/`,
-    webmail: "https://webmail.abnormal.bid/",
-    status: "https://mailhq.abnormal.bid/status",
+    webmail: "https://webmail.abnormalhq.com/",
+    status: "https://console.abnormalhq.com/status",
   } as const;
 }
 
