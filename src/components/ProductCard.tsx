@@ -1,74 +1,85 @@
+import { MailIcon, SlidersVerticalIcon, UsersIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { IconTile } from "@/components/ui/icon-tile";
 import type { Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
 import type { Product } from "@/i18n/types";
 import { Icon } from "./Icon";
 import { InquiryButton } from "./InquiryDialog";
-import styles from "./ProductCard.module.css";
 
-const symbols = ["mail", "domain", "team", "settings"];
+const glyphClass = "size-[22px]";
+const symbols = [
+  <MailIcon className={glyphClass} strokeWidth={1.5} key="mail" />,
+  <span className="text-[1.6rem] leading-none font-medium" key="domain">
+    @
+  </span>,
+  <UsersIcon className={glyphClass} strokeWidth={1.5} key="team" />,
+  <SlidersVerticalIcon className={glyphClass} strokeWidth={1.5} key="settings" />,
+];
 
 export function ProductCard({ lang, product, index }: { lang: Lang; product: Product; index: number }) {
   const { t, links } = useCopy(lang);
-  const symbol = symbols[index];
-  const actionClass = `btn ${styles.productAction} ${product.featured ? "btn-primary" : "btn-outline"}`;
+  const variant = product.featured ? "default" : "outline";
+  const actionClass = "mt-5 w-full justify-between";
 
   return (
-    <article className={`${styles.productCard} ${product.featured ? styles.isFeatured : ""}`}>
-      <div className={styles.cardTop}>
-        <span
-          className={`${styles.productSymbol} ${symbol === "domain" ? styles.symbolDomain : ""}`}
-          aria-hidden="true"
-        >
-          {symbol === "mail" ? (
-            <svg viewBox="0 0 24 24">
-              <rect x="3" y="5" width="18" height="14" rx="3" />
-              <path d="m4 7 8 6 8-6" />
-            </svg>
-          ) : symbol === "domain" ? (
-            <span>@</span>
-          ) : symbol === "team" ? (
-            <svg viewBox="0 0 24 24">
-              <circle cx="9" cy="8" r="3" />
-              <path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6m3 9v-2a6 6 0 0 0-2-4" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24">
-              <path d="M5 4v9m0 4v3m7-16v3m0 4v9m7-16v9m0 4v3" />
-              <circle cx="5" cy="15" r="2" />
-              <circle cx="12" cy="9" r="2" />
-              <circle cx="19" cy="15" r="2" />
-            </svg>
-          )}
-        </span>
-        <span className={styles.productCategory}>{product.category}</span>
-      </div>
-      <h3>
-        {product.name}
-        <span aria-hidden="true">0{index + 1}</span>
-      </h3>
-      <p className={styles.productDescription}>{product.description}</p>
-      <div className={styles.productTags}>
-        {product.tags.map((tag) => (
-          <span key={tag}>
-            <Icon name="check" className="size-3" />
-            {tag}
+    <Card
+      asChild
+      variant={product.featured ? "featured" : "interactive"}
+      className="relative px-[1.4rem] pt-6 pb-[1.4rem] max-card:px-[1.1rem] max-lg:px-[1.4rem] max-sm:p-6"
+    >
+      <article>
+        <div className="flex items-center justify-between gap-[0.7rem]">
+          <IconTile variant={product.featured ? "highlight" : "default"} aria-hidden="true">
+            {symbols[index]}
+          </IconTile>
+          <Badge className="h-auto border-0 py-0.5 leading-[1.55]">{product.category}</Badge>
+        </div>
+        <h3 className="mt-6 flex items-center justify-between text-xl/[1.4] max-sm:mt-[1.1rem]">
+          {product.name}
+          <span className="text-xs/[1.4] font-normal tracking-normal text-muted-foreground" aria-hidden="true">
+            0{index + 1}
           </span>
-        ))}
-      </div>
-      <div className={styles.productPrice}>
-        <strong>{product.price || t.services.priceFallback}</strong>
-        <span>{product.priceNote}</span>
-      </div>
-      {product.link ? (
-        <a className={actionClass} href={links[product.link]}>
-          {product.actionLabel}
-          <Icon name="up-right" className="size-4" />
-        </a>
-      ) : (
-        <InquiryButton className={actionClass} product={product.name} aria-label={t.services.consultAria(product.name)}>
-          {t.services.consult} <Icon name="up-right" className="size-4" />
-        </InquiryButton>
-      )}
-    </article>
+        </h3>
+        <p className="mt-[0.6rem] flex-1 text-base/prose text-muted-foreground max-sm:max-w-[28rem]">
+          {product.description}
+        </p>
+        <div className="mt-5 flex flex-wrap gap-x-3.5 gap-y-1.5 text-xs/body text-muted-foreground max-card:gap-x-2.5 max-lg:gap-x-3.5 max-sm:mt-4">
+          {product.tags.map((tag) => (
+            <span className="inline-flex items-center gap-[5px]" key={tag}>
+              <Icon name="check" className="size-3 text-foreground" />
+              {tag}
+            </span>
+          ))}
+        </div>
+        <div className="mt-[1.4rem] flex flex-col gap-1 border-t border-border pt-[1.2rem] max-sm:mt-[1.2rem]">
+          <strong className="text-xl/body font-semibold tracking-[-0.02em]">
+            {product.price || t.services.priceFallback}
+          </strong>
+          <span className="text-xs/body text-muted-foreground">{product.priceNote}</span>
+        </div>
+        {product.link ? (
+          <Button asChild variant={variant} size="lg" className={actionClass}>
+            <a href={links[product.link]}>
+              {product.actionLabel}
+              <Icon name="up-right" className="size-4" />
+            </a>
+          </Button>
+        ) : (
+          <InquiryButton product={product.name}>
+            <Button
+              variant={variant}
+              size="lg"
+              className={actionClass}
+              aria-label={t.services.consultAria(product.name)}
+            >
+              {t.services.consult} <Icon name="up-right" className="size-4" />
+            </Button>
+          </InquiryButton>
+        )}
+      </article>
+    </Card>
   );
 }

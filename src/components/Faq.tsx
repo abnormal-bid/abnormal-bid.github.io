@@ -1,42 +1,55 @@
+import { Container } from "@/components/ui/container";
+import { Disclosure, DisclosureContent, DisclosureList, DisclosureTrigger } from "@/components/ui/disclosure";
+import { Eyebrow, HeadingMark, SectionTitle, sectionSpaceClassName } from "@/components/ui/section-heading";
+import { TextLink } from "@/components/ui/text-link";
 import type { Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
+import { cn } from "@/lib/utils";
 import { Icon } from "./Icon";
 import { InquiryButton } from "./InquiryDialog";
-import styles from "./Faq.module.css";
 
 export function Faq({ lang }: { lang: Lang }) {
   const { t } = useCopy(lang);
   return (
-    <section className={`page-shell section-space ${styles.faqSection}`} id="faq" aria-labelledby="faq-title">
-      <div className={styles.faqIntro}>
-        <p className="eyebrow">
-          <span className="mr-1 tabular-nums">04 /</span>Good questions
-        </p>
-        <h2 className="section-title" id="faq-title">
-          {t.faq.title}
-          <span className="text-signal">{t.dot}</span>
-        </h2>
-        <p className={styles.faqDescription}>{t.faq.description}</p>
-        <InquiryButton className={`text-link ${styles.faqContact}`}>
-          {t.faq.contact} <Icon name="up-right" className="size-4" />
-        </InquiryButton>
-      </div>
-      <div className={styles.faqList}>
-        {t.faq.items.map(({ question, answer }, index) => (
-          <details className={styles.faqItem} key={question}>
-            <summary>
-              <span className={styles.faqNumber} aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <span className={styles.faqQuestion}>{question}</span>
-              <span className={styles.faqToggle}>
-                <Icon name="plus" className="size-4" />
-              </span>
-            </summary>
-            <p className={styles.faqAnswer}>{answer}</p>
-          </details>
-        ))}
-      </div>
-    </section>
+    <Container asChild>
+      <section
+        className={cn(sectionSpaceClassName, "grid gap-10 lg:grid-cols-[0.85fr_1.3fr] lg:gap-20")}
+        id="faq"
+        aria-labelledby="faq-title"
+      >
+        <div className="lg:pt-3">
+          <Eyebrow>
+            <span className="mr-1">04 /</span>Good questions
+          </Eyebrow>
+          <SectionTitle id="faq-title">
+            {t.faq.title}
+            <HeadingMark>{t.dot}</HeadingMark>
+          </SectionTitle>
+          <p className="mt-4 text-md/prose text-muted-foreground">{t.faq.description}</p>
+          <InquiryButton>
+            <TextLink asChild className="mt-6 lg:mt-8">
+              <button type="button">
+                {t.faq.contact} <Icon name="up-right" className="size-4" />
+              </button>
+            </TextLink>
+          </InquiryButton>
+        </div>
+        <DisclosureList>
+          {t.faq.items.map(({ question, answer }, index) => (
+            <Disclosure key={question}>
+              <DisclosureTrigger>
+                <span className="shrink-0 text-xs/[1.7] text-muted-foreground" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="flex-1 text-md/[1.7] font-medium">{question}</span>
+              </DisclosureTrigger>
+              <DisclosureContent className="mr-11 ml-[2.15rem] max-[23.4375rem]:mr-0 max-[23.4375rem]:ml-6">
+                <p>{answer}</p>
+              </DisclosureContent>
+            </Disclosure>
+          ))}
+        </DisclosureList>
+      </section>
+    </Container>
   );
 }
