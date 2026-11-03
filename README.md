@@ -18,14 +18,14 @@
 
 官网本身不收款、不开通邮箱，实际操作都在下面几个站点完成。地址统一由 `src/data/site.ts` 的 `linksFor(lang)` 生成（onboard 的英文页在 `/en/` 下），页头、首屏、「从这里开始」入口卡片、服务卡片、开通流程、收尾面板与页脚都从这里取，换域名时只改这一处。
 
-| 入口           | 地址                                           | 所在仓库                                           |
-| -------------- | ---------------------------------------------- | -------------------------------------------------- |
-| 购买邮箱       | `https://onboard.abnormalhq.com/shop/`         | [onboard](https://github.com/abnormal-bid/onboard) |
-| 兑换开通       | `https://onboard.abnormalhq.com/`              | onboard                                            |
-| 我的订单与续费 | `https://onboard.abnormalhq.com/shop/account/` | onboard                                            |
-| 使用教程       | `https://onboard.abnormalhq.com/guide/`        | onboard                                            |
-| 网页邮箱       | `https://webmail.abnormalhq.com/`              | [mail](https://github.com/abnormal-bid/mail)       |
-| 服务状态       | `https://console.abnormalhq.com/status`        | mail                                               |
+| 入口           | 地址                                           | 所在仓库                                         |
+| -------------- | ---------------------------------------------- | ------------------------------------------------ |
+| 购买邮箱       | `https://onboard.abnormalhq.com/shop/`         | [onboard](https://github.com/abnormalhq/onboard) |
+| 兑换开通       | `https://onboard.abnormalhq.com/`              | onboard                                          |
+| 我的订单与续费 | `https://onboard.abnormalhq.com/shop/account/` | onboard                                          |
+| 使用教程       | `https://onboard.abnormalhq.com/guide/`        | onboard                                          |
+| 网页邮箱       | `https://webmail.abnormalhq.com/`              | [mail](https://github.com/abnormalhq/mail)       |
+| 服务状态       | `https://console.abnormalhq.com/status`        | mail                                             |
 
 反方向：onboard 页头与页脚的「官网」、网页邮箱登录页与状态页的「官网」链接都指回 `https://abnormalhq.com/`。
 
@@ -33,7 +33,7 @@
 
 ## 开发
 
-开发设置与 [mail](https://github.com/abnormal-bid/mail)、[onboard](https://github.com/abnormal-bid/onboard) 一致：Node.js 24（见 `.node-version`）、pnpm 12（版本写在 `package.json` 的 `packageManager`）、Prettier（行宽 120）、ESLint、husky + lint-staged + commitlint。
+开发设置与 [mail](https://github.com/abnormalhq/mail)、[onboard](https://github.com/abnormalhq/onboard) 一致：Node.js 24（见 `.node-version`）、pnpm 12（版本写在 `package.json` 的 `packageManager`）、Prettier（行宽 120）、ESLint、husky + lint-staged + commitlint。
 
 ```sh
 pnpm install
@@ -78,7 +78,7 @@ wrangler.jsonc       Cloudflare Worker 与静态资源配置
 
 ## 视觉设计
 
-视觉与 [mailhq](https://github.com/abnormal-bid/mail) 及 [onboard](https://github.com/abnormal-bid/onboard) 统一，用 abnormal 品牌（路线 A）：墨色压在暖灰纸色上、深色主题就是墨色本身，主色就是墨色，荧光黄是唯一的彩色品牌色；正文 Inter、标题 Bricolage Grotesque、代码 JetBrains Mono；套在 Resend 式的结构上——1px 细线分隔、面板不铺底色、没有阴影。
+视觉与 [mailhq](https://github.com/abnormalhq/mail) 及 [onboard](https://github.com/abnormalhq/onboard) 统一，用 abnormal 品牌（路线 A）：墨色压在暖灰纸色上、深色主题就是墨色本身，主色就是墨色，荧光黄是唯一的彩色品牌色；正文 Inter、标题 Bricolage Grotesque、代码 JetBrains Mono；套在 Resend 式的结构上——1px 细线分隔、面板不铺底色、没有阴影。
 
 - `src/styles/global.css` 的令牌（配色、圆角、焦点色）照抄 mailhq 的 `src/app/globals.css`，改配色时几边一起改。组件的 CSS Modules 里直接用 `var(--text)`、`var(--text-secondary)`、`var(--border)` 等原始令牌；Tailwind 工具类用 `text-foreground`、`text-muted-foreground`、`text-brand` 等映射名。
 - 品牌色就是墨色，只用在主按钮上：浅色下是 `#141412` 配白字（18.4:1），深色下是 `#f0f0ea` 配墨色字（16.1:1）。勾选图标与链接悬停用墨色或灰色。
@@ -128,7 +128,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 ### Cloudflare 一次性配置
 
-这些已经配好，需要重建时照此设置。在 Workers & Pages 里连接 GitHub 仓库 `abnormal-bid/abnormal-bid.github.io`：
+这些已经配好，需要重建时照此设置。在 Workers & Pages 里连接 GitHub 仓库 `abnormalhq/abnormal-bid.github.io`：
 
 - Worker 名称：`abnormal-bid`（必须与 `wrangler.jsonc` 一致）
 - 生产分支：`main`，根目录：`/`
@@ -152,7 +152,7 @@ Node.js 版本由 `.node-version` 指定。
 - `abnormal.bid` 与 `www.abnormal.bid`：旧地址，域名继续持有。zone 的 Redirect Rule（`http_request_dynamic_redirect` 阶段）用 301 跳到 `https://abnormalhq.com`，保留路径与查询参数；DNS 里只有一条代理的 `AAAA 100::` 占位记录。
 - `abnormal.bid` 根域名上的 MX 与 TXT 记录属于邮件服务（`@abnormal.bid` 邮箱），改 DNS 时不要动。
 
-GitHub Pages 已不再使用：部署流程已删除，线上由上面的 Worker 提供。GitHub 不允许停用这个仓库的 Pages（API 返回 422），`abnormal-bid.github.io` 因此继续 301 跳到 `abnormal.bid`，再由上面的 Redirect Rule 跳到新地址。不要清除 Pages 设置里的自定义域名，否则这个地址会直接显示最后一次部署的旧站。
+GitHub Pages 已不再使用：部署流程已删除，线上由上面的 Worker 提供。GitHub 不允许停用这个仓库的 Pages（API 返回 422）。组织改名为 `abnormalhq` 后，仓库名不再符合 `<组织名>.github.io`，所以它成了项目站点：`abnormal-bid.github.io` 返回 404，`abnormalhq.github.io/abnormal-bid.github.io/` 继续 301 跳到 `abnormal.bid`，再由上面的 Redirect Rule 跳到新地址。不要清除 Pages 设置里的自定义域名，否则这个地址会直接显示最后一次部署的旧站。
 
 ### 本机部署
 
