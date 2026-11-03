@@ -122,7 +122,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 ## 部署
 
-站点通过 OpenNext 部署为 Cloudflare Worker（`wrangler.jsonc`，Worker 名 `abnormal-bid`，入口是生成的 `.open-next/worker.js`）。页面都是预渲染的，预渲染结果放在只读的静态资源里（`open-next.config.ts`），不需要 R2 或队列；字体等静态文件由静态资源服务直接响应。生产发布由 [Cloudflare Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) 直接监听 `main` 分支，每次推送自动检查、构建并部署；任何一步失败都不会部署，上一个成功版本继续可用。
+站点通过 OpenNext 部署为 Cloudflare Worker（`wrangler.jsonc`，Worker 名 `abnormalhq`，入口是生成的 `.open-next/worker.js`）。页面都是预渲染的，预渲染结果放在只读的静态资源里（`open-next.config.ts`），不需要 R2 或队列；字体等静态文件由静态资源服务直接响应。生产发布由 [Cloudflare Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) 直接监听 `main` 分支，每次推送自动检查、构建并部署；任何一步失败都不会部署，上一个成功版本继续可用。
 
 `.github/workflows/ci.yml` 只在 PR 与 `main` 推送时执行相同的检查与构建，不负责发布，也不需要 Cloudflare 凭据。Actions 与 mail、onboard 一样只写大版本标签（如 `actions/checkout@v7`），大版本升级由 Dependabot 提 PR。
 
@@ -130,7 +130,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 这些已经配好，需要重建时照此设置。在 Workers & Pages 里连接 GitHub 仓库 `abnormalhq/abnormalhq`：
 
-- Worker 名称：`abnormal-bid`（必须与 `wrangler.jsonc` 一致）
+- Worker 名称：`abnormalhq`（必须与 `wrangler.jsonc` 一致）
 - 生产分支：`main`，根目录：`/`
 - 构建命令：`pnpm install --frozen-lockfile && pnpm cf:build`
 - 部署命令：`pnpm cf:deploy`
@@ -146,9 +146,9 @@ Node.js 版本由 `.node-version` 指定。
 
 ### 域名
 
-绑定都在 Cloudflare 一侧，`wrangler.jsonc` 不声明 `routes`，所以推送不会改动线上域名，部署也不加 `--strict`（严格模式会把配置里没有的绑定当成要删除的差异）。
+网页域名写在 `wrangler.jsonc` 的 `routes` 里，由部署创建；旧域名的跳转规则和 DNS 占位不归 wrangler 管，在 Cloudflare 里维护。部署不加 `--strict`。
 
-- `abnormalhq.com`：Worker `abnormal-bid` 的自定义域名，DNS 里对应一条由 Cloudflare 管理的 `AAAA 100::`。需要重新绑定时，先确认主机名上没有其他 A、AAAA 或 CNAME 记录，再执行 `pnpm cf:build` 和 `pnpm exec opennextjs-cloudflare deploy -- --domain abnormalhq.com`。
+- `abnormalhq.com`：Worker `abnormalhq` 的自定义域名，DNS 里对应一条由 Cloudflare 管理的 `AAAA 100::`。重新绑定前先确认主机名上没有其他 A、AAAA 或 CNAME 记录。
 - `abnormal.bid` 与 `www.abnormal.bid`：旧地址，域名继续持有。zone 的 Redirect Rule（`http_request_dynamic_redirect` 阶段）用 301 跳到 `https://abnormalhq.com`，保留路径与查询参数；DNS 里只有一条代理的 `AAAA 100::` 占位记录。
 - `abnormal.bid` 根域名上的 MX 与 TXT 记录属于邮件服务（`@abnormal.bid` 邮箱），改 DNS 时不要动。
 

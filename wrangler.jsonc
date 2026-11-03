@@ -1,14 +1,23 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   // Workers Builds 里连接的 Worker 名必须与这里一致。
-  "name": "abnormal-bid",
+  "name": "abnormalhq",
   // 入口是 OpenNext 生成的 Worker，由 pnpm cf:build 产出。
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-09-01",
   // nodejs_compat：Next.js 服务端依赖 Node API。
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": true,
-  // 自定义域名绑定在 Cloudflare 一侧（见 README「域名」），这里不声明 routes，推送不会改动线上域名。
+  // 自定义域名由部署创建（见 README「域名」）；不在这里的域名会在部署时从这个 Worker 上摘掉。
+  "routes": [
+    {
+      "pattern": "abnormalhq.com",
+      "zone_name": "abnormalhq.com",
+      "custom_domain": true,
+      "enabled": true,
+      "previews_enabled": false,
+    },
+  ],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS",
@@ -17,7 +26,7 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "abnormal-bid",
+      "service": "abnormalhq",
     },
   ],
   "observability": {
