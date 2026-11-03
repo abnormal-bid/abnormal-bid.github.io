@@ -153,7 +153,7 @@ export function InquiryProvider({
               <label className={fieldClass}>
                 {copy.productLabel}
                 <NativeSelect
-                  className="mt-2 h-10 pr-2 font-normal"
+                  className="mt-2 h-10 font-normal"
                   name="product"
                   value={product}
                   onChange={(event) => setProduct(event.target.value)}
@@ -168,7 +168,7 @@ export function InquiryProvider({
               <label className={fieldClass}>
                 {copy.durationLabel}
                 <NativeSelect
-                  className="mt-2 h-10 pr-2 font-normal"
+                  className="mt-2 h-10 font-normal"
                   name="duration"
                   value={duration}
                   onChange={(event) => setDuration(event.target.value)}
