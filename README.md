@@ -149,6 +149,7 @@ Node.js 版本由 `.node-version` 指定。
 网页域名写在 `wrangler.jsonc` 的 `routes` 里，由部署创建；旧域名的跳转规则和 DNS 占位不归 wrangler 管，在 Cloudflare 里维护。部署不加 `--strict`。
 
 - `abnormalhq.com`：Worker `abnormalhq` 的自定义域名，DNS 里对应一条由 Cloudflare 管理的 `AAAA 100::`。重新绑定前先确认主机名上没有其他 A、AAAA 或 CNAME 记录。
+- `www.abnormalhq.com`：同一个 Worker 的自定义域名，DNS 记录同样由部署创建。Worker 里由 `next.config.ts` 的 `redirects` 用 301 跳到 `https://abnormalhq.com`，保留路径与查询参数；静态资源服务先于 Worker 响应，字体和 `/_next/` 下的文件在这个主机上不跳转。`wrangler dev` 会把 Host 改写成第一条路由，本地要加 `--local-upstream www.abnormalhq.com` 才能测到跳转。
 - `abnormal.bid`：旧地址，域名继续持有。它也留在 `routes` 里，这样 DNS 记录不会被删；zone 的 Redirect Rule（`http_request_dynamic_redirect` 阶段）在 Worker 之前用 301 跳到 `https://abnormalhq.com`，保留路径与查询参数。不要把它从 `routes` 去掉：部署会删掉它的 DNS 记录，之后约 30 分钟都因负缓存解析不到。
 - `www.abnormal.bid`：同样的 Redirect Rule 跳到 `https://abnormalhq.com`；DNS 里只有一条代理的 `AAAA 100::` 占位记录。
 - `abnormal.bid` 根域名上的 MX 与 TXT 记录属于邮件服务（`@abnormal.bid` 邮箱），改 DNS 时不要动。

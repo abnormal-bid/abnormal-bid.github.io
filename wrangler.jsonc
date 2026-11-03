@@ -12,7 +12,13 @@
   "routes": [
     {
       "pattern": "abnormalhq.com",
-      "zone_name": "abnormalhq.com",
+      "custom_domain": true,
+      "enabled": true,
+      "previews_enabled": false,
+    },
+    // 由 next.config.ts 的 redirects 301 到 abnormalhq.com。
+    {
+      "pattern": "www.abnormalhq.com",
       "custom_domain": true,
       "enabled": true,
       "previews_enabled": false,
@@ -20,7 +26,6 @@
     // 旧地址：zone 的 Redirect Rule 在 Worker 之前把它 301 到新地址。留在这里是为了保住它的 DNS 记录；摘掉会让这个主机因 DNS 负缓存解析不到约 30 分钟。
     {
       "pattern": "abnormal.bid",
-      "zone_name": "abnormal.bid",
       "custom_domain": true,
       "enabled": true,
       "previews_enabled": false,
