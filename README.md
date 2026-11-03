@@ -68,7 +68,7 @@ src/
   lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO
   scripts/        theme-init.js：内联进头部的主题初始化脚本
   styles/         Tailwind 主题、基础样式和共享 utility
-public/           favicon、字体等由静态资源服务直接响应的文件
+public/           字体等由静态资源服务直接响应的文件
 tests/            咨询逻辑、文案结构与主题行为回归测试
 open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资源里
 wrangler.jsonc       Cloudflare Worker 与静态资源配置
@@ -87,7 +87,7 @@ wrangler.jsonc       Cloudflare Worker 与静态资源配置
 - `--signal`（浅色墨色、深色荧光黄）给小号指示用：小标前的圆点、标题末尾的句号、字标 `abnormal.` 的句点、未读点、法律页的章节编号。浅色底上黄色太淡，所以这些小记号在浅色下是墨色。
 - 圆角收紧，呼应方形标志：徽章 4px、按钮与控件 6px、小面板 8px、卡片与对话框 12px。按钮按下缩到 0.98，悬停只改底色或描边，不上浮、不加阴影。
 - 控件照 mailhq：半透明 `control` 底、`input` 细描边；悬停与聚焦时描边加深，键盘焦点是 2px 灰色描边。只有浮层（主题菜单、咨询对话框）使用 `--popover-bg` 与浮层阴影。
-- 品牌标记与 mailhq 的 BrandMark 同一幅图：荧光黄方块上一个墨色小写 a，带纸白色错位影子和右上箭头，颜色固定、不随主题变化；`public/favicon.svg` 也是这幅图。
+- 品牌标记与 mailhq 的 BrandMark 同一幅图：荧光黄方块上一个墨色小写 a，带纸白色错位影子和右上箭头，颜色固定、不随主题变化；`src/app/icon.svg` 也是这幅图。
 - Inter（正文）、Bricolage Grotesque（标题）、JetBrains Mono（代码）三款可变字体（拉丁子集，OFL）自托管在 `public/fonts/`，与 mailhq 同一份文件，页面头部预载 Inter 与 Bricolage Grotesque；中文字形回退到苹方 / 微软雅黑等系统字体，不访问 Google Fonts。
 
 ## 外观主题

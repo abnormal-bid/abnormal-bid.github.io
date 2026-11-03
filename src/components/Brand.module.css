@@ -12,7 +12,7 @@
 }
 /*
  * 品牌标记与 mailhq 的 BrandMark 同一幅图：荧光黄方块上一个墨色小写 a，带纸白色错位影子和右上箭头。
- * 颜色是固定的品牌色，两种主题都不变；public/favicon.svg 也是同一幅图。
+ * 颜色是固定的品牌色，两种主题都不变；src/app/icon.svg 也是同一幅图。
  */
 .brandMark {
   display: block;
