@@ -2,7 +2,7 @@
 
 [线上网站](https://abnormalhq.com/)
 
-使用 Next.js（App Router）、Tailwind CSS 4 和 TypeScript 构建的中英双语邮箱服务官网。官网是整个 Abnormal 的落地页：介绍邮箱服务，并把访客引向购买、兑换开通、网页邮箱、教程与服务状态这几个站点；域名邮箱、团队邮箱与配置协助仍通过咨询弹窗沟通。页面在构建时预渲染，通过 [@opennextjs/cloudflare](https://opennext.js.org/cloudflare) 运行在 Cloudflare Worker 上，导航菜单、主题切换与咨询弹窗是 React 客户端组件；Cloudflare Workers Builds 监听 `main` 自动部署，GitHub Actions 只做检查。
+使用 Next.js（App Router）、Tailwind CSS 4 和 TypeScript 构建的中英双语邮箱服务官网，界面组件来自 [Abnormal 的 shadcn registry](https://github.com/abnormalhq/ui)。官网是整个 Abnormal 的落地页：介绍邮箱服务，并把访客引向购买、兑换开通、网页邮箱、教程与服务状态这几个站点；域名邮箱、团队邮箱与配置协助仍通过咨询弹窗沟通。页面在构建时预渲染，通过 [@opennextjs/cloudflare](https://opennext.js.org/cloudflare) 运行在 Cloudflare Worker 上，导航菜单、主题切换与咨询弹窗是 React 客户端组件；Cloudflare Workers Builds 监听 `main` 自动部署，GitHub Actions 只做检查。
 
 ## 中英文
 
@@ -30,6 +30,20 @@
 反方向：onboard 页头与页脚的「官网」、网页邮箱登录页与状态页的「官网」链接都指回 `https://abnormalhq.com/`。
 
 首页从上到下：首屏（购买邮箱 / 我有兑换码 / 登录网页邮箱）→ 01 从这里开始（四张入口卡片与订单、状态、客服链接）→ 02 邮箱服务（个人邮箱直达商店，其余三项咨询）→ 03 开通流程（选购套餐 → 兑换开通 → 登录收发，每步带链接）→ 04 常见问题 → 收尾面板（购买邮箱 + 聊聊定制需求）。
+
+## 组件与样式
+
+官网不写 CSS Module，样式都在 `className` 里。两类文件的边界：
+
+- `src/components/ui/`、`src/styles/abnormal.css`、`src/styles/abnormal-fonts.css`、`src/lib/utils.ts`：从 registry 安装的副本，**不要直接改**。要改就改 [ui 仓库](https://github.com/abnormalhq/ui)，发布后重新安装，三个站点才能保持一致。
+- `src/components/*.tsx`：官网自己的页面区块，负责组合 registry 组件和文案。
+- `src/styles/global.css`：只放官网专属的断点和全局规则。断点都写成 rem，因为 Tailwind 只能给同单位的断点排序。
+
+registry 地址在 `components.json`。新增或更新组件：
+
+```sh
+pnpm dlx shadcn@latest add @abnormal/button --overwrite
+```
 
 ## 开发
 
@@ -61,26 +75,26 @@ pnpm cf:deploy     # 部署已有的 .open-next/ 产物
 ```text
 src/
   app/            路由：(zh)/ 中文页、(en)/en/ 英文页，各有一个根布局；global-not-found.tsx 是两种语言共用的 404
-  components/     SiteLayout、页头、Hero、邮箱服务卡片、流程、FAQ、咨询弹窗等组件，样式放在同名 .module.css
+  components/     SiteLayout、页头、Hero、邮箱服务卡片、流程、FAQ、咨询弹窗等页面区块；ui/ 是从 registry 安装的组件
   content/legal/  MDX 编写的隐私政策与服务条款，zh/ 与 en/ 各一份
   data/site.ts    公开联系方式与联动站点地址（linksFor）
   i18n/           中英文文案（zh.ts、en.ts、types.ts）与语言路径工具（paths.ts）
   lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO
   scripts/        theme-init.js：内联进头部的主题初始化脚本
-  styles/         Tailwind 主题、基础样式和共享 utility
+  styles/         abnormal.css、abnormal-fonts.css 来自 registry；global.css 是官网专属的断点和全局规则
 public/           字体等由静态资源服务直接响应的文件
 tests/            咨询逻辑、文案结构与主题行为回归测试
 open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资源里
 wrangler.jsonc       Cloudflare Worker 与静态资源配置
 ```
 
-主要布局、排版、状态和响应式设计使用 Tailwind utility；组件特有的样式放在 CSS Modules 里。只有 `Header`、`ThemePicker`、`InquiryDialog` 是客户端组件，其余都是服务端组件，在构建时预渲染。Worker 运行时不能用 `fs` 读项目文件，所以法律文档在构建时由 MDX 编译成组件，`theme-init.js` 由 `next.config.ts` 的 `raw-loader` 规则打包成字符串。页面里任意位置要打开咨询弹窗，用 `InquiryButton`（`product` 指定预选的服务）。
+布局、排版、状态和响应式设计都使用 Tailwind utility。只有 `Header`、`ThemePicker`、`InquiryDialog` 是客户端组件，其余都是服务端组件，在构建时预渲染。Worker 运行时不能用 `fs` 读项目文件，所以法律文档在构建时由 MDX 编译成组件，`theme-init.js` 由 `next.config.ts` 的 `raw-loader` 规则打包成字符串。页面里任意位置要打开咨询弹窗，用 `InquiryButton`（`product` 指定预选的服务）。
 
 ## 视觉设计
 
 视觉与 [mailhq](https://github.com/abnormalhq/mail) 及 [onboard](https://github.com/abnormalhq/onboard) 统一，用 abnormal 品牌（路线 A）：墨色压在暖灰纸色上、深色主题就是墨色本身，主色就是墨色，荧光黄是唯一的彩色品牌色；正文 Inter、标题 Bricolage Grotesque、代码 JetBrains Mono；套在 Resend 式的结构上——1px 细线分隔、面板不铺底色、没有阴影。
 
-- `src/styles/global.css` 的令牌（配色、圆角、焦点色）照抄 mailhq 的 `src/app/globals.css`，改配色时几边一起改。组件的 CSS Modules 里直接用 `var(--text)`、`var(--text-secondary)`、`var(--border)` 等原始令牌；Tailwind 工具类用 `text-foreground`、`text-muted-foreground`、`text-brand` 等映射名。
+- 令牌（配色、圆角、焦点色）在 registry 的 `@abnormal/theme` 里，安装到 `src/styles/abnormal.css`，改配色时去改 ui 仓库。Tailwind 工具类用 `text-foreground`、`text-muted-foreground`、`text-brand` 等映射名。
 - 品牌色就是墨色，只用在主按钮上：浅色下是 `#141412` 配白字（18.4:1），深色下是 `#f0f0ea` 配墨色字（16.1:1）。勾选图标与链接悬停用墨色或灰色。
 - 荧光黄 `--highlight`（`#ffe14d`）是唯一的彩色，标记「当前、选中、新、展示」：品牌标记、选中文字、开通流程的编号（像被荧光笔划过的一道黄）、首屏插图的黄色卡片、推荐入口与主推套餐的图标块、咨询弹窗的标题图标。黄色上永远是墨色字，浅色底上不出现黄色文字。
 - `--highlight-muted`（浅色 `#fff4bf`、深色 `#34311b`）是柔和的浅黄面，留给选中或当前的行、提示块；上面正文 16.6:1 / 11.5:1、次要文字 6.1:1 / 5.3:1。

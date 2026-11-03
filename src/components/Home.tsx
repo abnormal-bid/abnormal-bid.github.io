@@ -1,3 +1,7 @@
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Container } from "@/components/ui/container";
+import { Eyebrow } from "@/components/ui/section-heading";
 import type { Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
 import { Faq } from "./Faq";
@@ -7,7 +11,6 @@ import { InquiryButton } from "./InquiryDialog";
 import { Process } from "./Process";
 import { Start } from "./Start";
 import { Subscriptions } from "./Subscriptions";
-import styles from "./Home.module.css";
 
 /** 首页：src/app/(zh)/page.tsx（中文）与 src/app/(en)/en/page.tsx（英文）共用。 */
 export function Home({ lang }: { lang: Lang }) {
@@ -15,50 +18,70 @@ export function Home({ lang }: { lang: Lang }) {
   return (
     <>
       <Hero lang={lang} />
-      <div className={`page-shell ${styles.valueStrip}`}>
-        <p>
+      <Container className="flex flex-wrap items-center justify-between gap-4 border-t border-border py-6 text-muted-foreground max-lg:justify-center max-md:flex-col">
+        <p className="text-sm/body">
           {t.valueStrip.lead}
-          <strong>{t.valueStrip.strong}</strong>
+          <strong className="ml-2 font-medium text-foreground max-phone:ml-[0.15rem]">{t.valueStrip.strong}</strong>
         </p>
-        <div>
+        <div className="flex items-center gap-8 max-lg:gap-6 max-md:flex-wrap max-md:justify-center max-md:gap-x-5 max-md:gap-y-3">
           {t.valueStrip.labels.map((label) => (
-            <span key={label}>
-              <Icon name="spark" className="size-3.5" />
+            <span className="inline-flex items-center gap-1.5 text-xs/body" key={label}>
+              <Icon name="spark" className="size-3.5 text-brand" />
               {label}
             </span>
           ))}
         </div>
-      </div>
+      </Container>
       <Start lang={lang} />
       <Subscriptions lang={lang} />
       <Process lang={lang} />
       <Faq lang={lang} />
-      <section className={`page-shell ${styles.closingSection}`} aria-labelledby="closing-title">
-        <div className={styles.closingCard}>
-          <div className={styles.closingDecoration} aria-hidden="true">
-            <span>@</span>
-          </div>
-          <div className={styles.closingCopy}>
-            <p className="eyebrow">Make every connection count</p>
-            <h2 id="closing-title">
-              {t.closing.titleLines[0]}
-              {t.space}
-              <br className={styles.closingBreak} />
-              {t.closing.titleLines[1]}
-              {t.dot}
-            </h2>
-            <span>{t.closing.body}</span>
-          </div>
-          <div className={styles.closingActions}>
-            <a className={`btn btn-primary ${styles.closingButton}`} href={links.shop}>
-              {t.closing.buy} <Icon name="arrow" className="size-4" />
-            </a>
-            <InquiryButton className={`btn btn-outline ${styles.closingButton}`}>
-              {t.closing.custom} <Icon name="up-right" className="size-4" />
-            </InquiryButton>
-          </div>
-        </div>
-      </section>
+      <Container asChild className="pb-20 max-md:pb-14">
+        <section aria-labelledby="closing-title">
+          {/* 收尾面板：细边卡片，不铺底色、不加阴影，装饰只用描边色。 */}
+          <Card
+            asChild
+            className="relative isolate flex-row items-center justify-between gap-8 overflow-hidden px-14 py-12 max-lg:p-11 max-md:flex-col max-md:items-start max-md:gap-7 max-md:px-6 max-md:py-8"
+          >
+            <div>
+              <div
+                className="absolute top-[-4rem] left-[48%] -z-1 grid size-96 place-items-center rounded-full border border-border before:absolute before:inset-11 before:rounded-full before:border before:border-border max-md:left-1/4"
+                aria-hidden="true"
+              >
+                <span className="rotate-[-18deg] text-[15rem] leading-none font-light text-surface">@</span>
+              </div>
+              <div className="relative">
+                <Eyebrow>Make every connection count</Eyebrow>
+                <h2
+                  className="mt-4 text-[clamp(1.75rem,2.6vw,2.25rem)] leading-[1.3] max-phone:text-[1.6rem]"
+                  id="closing-title"
+                >
+                  {t.closing.titleLines[0]}
+                  {t.space}
+                  <br className="hidden max-phone:block" />
+                  {t.closing.titleLines[1]}
+                  {t.dot}
+                </h2>
+                <span className="mt-3 block text-md/prose text-muted-foreground max-md:text-base/prose">
+                  {t.closing.body}
+                </span>
+              </div>
+              <div className="relative flex shrink-0 flex-wrap gap-3">
+                <Button asChild size="lg" className="gap-2.5">
+                  <a href={links.shop}>
+                    {t.closing.buy} <Icon name="arrow" className="size-4" />
+                  </a>
+                </Button>
+                <InquiryButton>
+                  <Button variant="outline" size="lg" className="gap-2.5">
+                    {t.closing.custom} <Icon name="up-right" className="size-4" />
+                  </Button>
+                </InquiryButton>
+              </div>
+            </div>
+          </Card>
+        </section>
+      </Container>
     </>
   );
 }

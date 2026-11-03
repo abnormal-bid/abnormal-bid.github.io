@@ -1,52 +1,56 @@
+import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
+import { Eyebrow, HeadingMark, SectionTitle, sectionSpaceClassName } from "@/components/ui/section-heading";
 import type { Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
 import { Icon } from "./Icon";
 import { InquiryButton } from "./InquiryDialog";
 import { ProductCard } from "./ProductCard";
-import styles from "./Subscriptions.module.css";
 
 export function Subscriptions({ lang }: { lang: Lang }) {
   const { t } = useCopy(lang);
   const s = t.services;
 
   return (
-    <section className={styles.servicesSection} id="services" aria-labelledby="services-title">
-      <div className="page-shell section-space">
-        <div className={styles.servicesHeading}>
+    <section className="border-t border-border" id="services" aria-labelledby="services-title">
+      <Container className={sectionSpaceClassName}>
+        <div className="mb-10 flex items-end justify-between gap-8 max-lg:gap-4 max-md:mb-7 max-md:flex-col max-md:items-start">
           <div>
-            <p className="eyebrow">
-              <span className="mr-1 tabular-nums">02 /</span> Find your email
-            </p>
-            <h2 className="section-title" id="services-title">
+            <Eyebrow>
+              <span className="mr-1">02 /</span> Find your email
+            </Eyebrow>
+            <SectionTitle id="services-title">
               {s.titleLines[0]}
               {t.space}
-              <br className={styles.mobileBreak} />
+              <br className="hidden max-phone:block" />
               {s.titleLines[1]}
-              <span className="text-signal">{t.dot}</span>
-            </h2>
+              <HeadingMark>{t.dot}</HeadingMark>
+            </SectionTitle>
           </div>
-          <p className={styles.servicesIntro}>
+          <p className="pb-[0.2rem] text-md/prose text-muted-foreground">
             {s.intro[0]}
             <br />
             {s.intro[1]}
           </p>
         </div>
-        <div className={styles.servicesGrid}>
+        <div className="grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-sm:grid-cols-1">
           {s.products.map((product, index) => (
             <ProductCard lang={lang} product={product} index={index} key={product.name} />
           ))}
         </div>
-        <div className={styles.servicesNote}>
-          <p>
+        <div className="mt-7 flex items-center justify-between gap-4 text-sm/body text-muted-foreground max-lg:flex-col max-lg:items-start max-lg:gap-1 max-sm:leading-[1.8]">
+          <p className="flex flex-wrap items-center gap-[0.45rem]">
             <Icon name="chat" className="size-4" />
             {s.noteQuestion}
             <InquiryButton product={t.inquiry.otherProduct}>
-              {s.noteAction} <Icon name="up-right" className="size-3" />
+              <Button variant="link" className="h-auto min-h-8 gap-[0.2rem] p-0 text-sm/[inherit] font-medium">
+                {s.noteAction} <Icon name="up-right" className="size-3" />
+              </Button>
             </InquiryButton>
           </p>
           <span>{s.noteFine}</span>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
