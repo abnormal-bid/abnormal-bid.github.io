@@ -128,7 +128,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 ### Cloudflare 一次性配置
 
-这些已经配好，需要重建时照此设置。在 Workers & Pages 里连接 GitHub 仓库 `abnormalhq/abnormal-bid.github.io`：
+这些已经配好，需要重建时照此设置。在 Workers & Pages 里连接 GitHub 仓库 `abnormalhq/abnormalhq`：
 
 - Worker 名称：`abnormal-bid`（必须与 `wrangler.jsonc` 一致）
 - 生产分支：`main`，根目录：`/`
@@ -152,7 +152,7 @@ Node.js 版本由 `.node-version` 指定。
 - `abnormal.bid` 与 `www.abnormal.bid`：旧地址，域名继续持有。zone 的 Redirect Rule（`http_request_dynamic_redirect` 阶段）用 301 跳到 `https://abnormalhq.com`，保留路径与查询参数；DNS 里只有一条代理的 `AAAA 100::` 占位记录。
 - `abnormal.bid` 根域名上的 MX 与 TXT 记录属于邮件服务（`@abnormal.bid` 邮箱），改 DNS 时不要动。
 
-GitHub Pages 已不再使用：部署流程已删除，线上由上面的 Worker 提供。GitHub 不允许停用这个仓库的 Pages（API 返回 422）。组织改名为 `abnormalhq` 后，仓库名不再符合 `<组织名>.github.io`，所以它成了项目站点：`abnormal-bid.github.io` 返回 404，`abnormalhq.github.io/abnormal-bid.github.io/` 继续 301 跳到 `abnormal.bid`，再由上面的 Redirect Rule 跳到新地址。不要清除 Pages 设置里的自定义域名，否则这个地址会直接显示最后一次部署的旧站。
+GitHub Pages 已不再使用：部署流程已删除，线上由上面的 Worker 提供。GitHub 不允许停用这个仓库的 Pages（API 返回 422）。仓库现在叫 `abnormalhq/abnormalhq`，名字不符合 `<组织名>.github.io`，所以它是项目站点：`abnormal-bid.github.io` 返回 404，`abnormalhq.github.io/abnormalhq/` 继续 301 跳到 `abnormal.bid`，再由上面的 Redirect Rule 跳到新地址。不要清除 Pages 设置里的自定义域名，否则这个地址会直接显示最后一次部署的旧站。
 
 ### 本机部署
 
