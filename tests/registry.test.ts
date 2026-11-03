@@ -33,6 +33,13 @@ test("styles live in className and the theme: no CSS modules or old utility clas
   }
 });
 
+test("smooth scrolling respects reduced motion", () => {
+  const global = readFileSync("src/styles/global.css", "utf8");
+  const declaration = global.indexOf("scroll-behavior: smooth");
+  assert.ok(declaration > global.indexOf("@media (prefers-reduced-motion: no-preference)"));
+  assert.equal(global.match(/scroll-behavior/g)?.length, 1);
+});
+
 test("registry components are not edited to import site code", () => {
   for (const file of installed) {
     const source = readFileSync(join(componentsDir, "ui", file), "utf8");

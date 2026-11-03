@@ -20,8 +20,13 @@
 /* 下面只放官网自己的全局规则；组件样式都写在 className 里。 */
 @layer base {
   html {
-    scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+  }
+  /* 写成 no-preference：这里排在主题后面，直接写 smooth 会盖掉主题里针对「减少动态效果」的规则。 */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
   body {
     margin: 0;
