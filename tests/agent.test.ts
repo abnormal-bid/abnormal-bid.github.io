@@ -3,7 +3,9 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { linksFor, site } from "../src/data/site.ts";
 import { copies } from "../src/i18n/index.ts";
+import { contactChannels } from "../src/lib/inquiry.ts";
 import { homeMarkdown, legalMarkdown, llmsTxt, stripFrontmatter } from "../src/lib/markdown.ts";
+import { wantsMarkdown } from "../src/lib/negotiate.ts";
 import { pages } from "../src/lib/pages.ts";
 
 test("every page has a Markdown path under /md/ that mirrors its URL", () => {
@@ -66,7 +68,9 @@ test("legal Markdown drops the frontmatter and keeps the metadata and body", () 
   assert.ok(markdown.startsWith("# Terms\n\nSummary\n"));
   assert.ok(markdown.includes("- Effective: 2026-01-01"));
   assert.ok(markdown.includes("- One"));
-  assert.ok(markdown.endsWith("Body\n"));
+  assert.ok(markdown.includes("\n\nBody\n\n## Contact us\n"));
+  assert.ok(markdown.includes(copies.en.legal.contactBody("Terms")));
+  assert.ok(markdown.includes(`- Email: [${site.contact.email}](mailto:${site.contact.email})`));
 });
 
 test("legal documents stay plain Markdown, so the raw body is safe to serve", () => {
@@ -82,4 +86,38 @@ test("robots.txt allows crawling, declares content signals and points at the sit
   assert.match(robots, /^Allow: \/$/m);
   assert.match(robots, /^Content-Signal: search=yes, ai-input=yes, ai-train=no$/m);
   assert.ok(robots.includes(`Sitemap: ${site.url}/sitemap.xml`));
+});
+
+test("contact channels skip what isn't configured and keep the order of the legal page", () => {
+  const labels = { email: "Email", wechat: "WeChat", telegram: "Telegram" };
+  assert.deepEqual(contactChannels({ email: " ", wechat: "", telegram: "not a url" }, labels), []);
+  assert.deepEqual(contactChannels({ email: "a@b.c", wechat: "wx", telegram: "https://t.me/x" }, labels), [
+    { label: "Email", value: "a@b.c", href: "mailto:a@b.c" },
+    { label: "WeChat", value: "wx" },
+    { label: "Telegram", value: "https://t.me/x", href: "https://t.me/x" },
+  ]);
+});
+
+test("Markdown is served only when the Accept header prefers it", () => {
+  const cases: [string | null, boolean][] = [
+    ["text/markdown", true],
+    ["TEXT/Markdown", true],
+    ["text/markdown, text/html;q=0.9", true],
+    ["text/html;q=0.9, text/markdown", true],
+    ["text/markdown;q=0.8, */*;q=0.1", true],
+    ["text/html, text/markdown", true],
+    [null, false],
+    ["", false],
+    ["*/*", false],
+    ["text/*", false],
+    ["text/html", false],
+    ["text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", false],
+    ["text/markdown;q=0", false],
+    ["text/html, text/markdown;q=0", false],
+    ["text/html, text/markdown;q=0.5", false],
+    ["text/markdown;q=0.5, text/*;q=1", false],
+    ["text/markdown;q=0.5, */*", false],
+    ["text/markdown;q=nonsense", false],
+  ];
+  for (const [accept, expected] of cases) assert.equal(wantsMarkdown(accept), expected, String(accept));
 });

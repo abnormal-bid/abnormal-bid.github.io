@@ -34,18 +34,6 @@ const nextConfig: NextConfig = {
       ],
     }));
   },
-  async rewrites() {
-    return {
-      // 页面都是预渲染的，普通 rewrites 排在页面之后不会生效，内容协商要放在 beforeFiles。
-      beforeFiles: pages.map((page) => ({
-        source: page.url,
-        has: [{ type: "header" as const, key: "accept", value: "(.*)text/markdown(.*)" }],
-        destination: page.markdown,
-      })),
-      afterFiles: [],
-      fallback: [],
-    };
-  },
   experimental: {
     // 中英文各有一个根布局，没有共同的根，404 要用 src/app/global-not-found.tsx。
     globalNotFound: true,

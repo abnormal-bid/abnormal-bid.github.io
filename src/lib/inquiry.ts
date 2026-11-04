@@ -84,6 +84,21 @@ export function getContactLink(contact: Contact, inquiry: Inquiry, lang: Lang = 
   return undefined;
 }
 
+/** 法律页面「联系我们」列出的渠道。HTML 与 Markdown 版本都从这里取，没有配置的渠道不显示。 */
+export function contactChannels(
+  contact: Contact,
+  labels: { email: string; wechat: string; telegram: string },
+): { label: string; value: string; href?: string }[] {
+  const email = contact.email.trim();
+  const wechat = contact.wechat.trim();
+  const telegram = getTelegramUrl(contact.telegram);
+  return [
+    ...(email ? [{ label: labels.email, value: email, href: `mailto:${email}` }] : []),
+    ...(wechat ? [{ label: labels.wechat, value: wechat }] : []),
+    ...(telegram ? [{ label: labels.telegram, value: telegram, href: telegram }] : []),
+  ];
+}
+
 export function describeContact(contact: Contact, lang: Lang = "zh"): string {
   const t = text[lang];
   const telegram = getTelegramUrl(contact.telegram);

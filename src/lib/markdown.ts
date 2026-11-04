@@ -5,6 +5,7 @@
 import { linksFor, site, type Lang } from "../data/site.ts";
 import { copies } from "../i18n/index.ts";
 import type { LegalFrontmatter } from "../content/legal/types.ts";
+import { contactChannels } from "./inquiry.ts";
 import { pageFor, pagePaths } from "./pages.ts";
 
 const absolute = (path: string) => `${site.url}${path}`;
@@ -60,6 +61,7 @@ export function stripFrontmatter(source: string): string {
 
 export function legalMarkdown(lang: Lang, frontmatter: LegalFrontmatter, body: string): string {
   const l = copies[lang].legal;
+  const contacts = contactChannels(site.contact, l.contactLabels);
   return `${paragraphs([
     `# ${frontmatter.title}`,
     frontmatter.summary,
@@ -68,6 +70,12 @@ export function legalMarkdown(lang: Lang, frontmatter: LegalFrontmatter, body: s
     list(frontmatter.highlights),
     l.highlightsNote,
     body,
+    // 这一节在 HTML 版本里由 LegalDocument 输出，不在 MDX 正文里，而正文会让读者参照它。
+    `## ${l.contactTitle}`,
+    l.contactBody(frontmatter.title),
+    contacts.length > 0
+      ? list(contacts.map(({ label, value, href }) => `${label}${l.colon}${href ? `[${value}](${href})` : value}`))
+      : l.contactPending,
   ])}\n`;
 }
 
