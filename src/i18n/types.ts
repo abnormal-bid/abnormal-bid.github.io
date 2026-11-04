@@ -1,4 +1,5 @@
 import type { LinkKey } from "../data/site.ts";
+import type { Template } from "../lib/template.ts";
 
 /** Icon 组件支持的图标名；文案里的入口与流程图标从这里选。 */
 export type IconName =
@@ -79,8 +80,8 @@ export interface Copy {
   theme: {
     title: string;
     /** {label} 换成当前选项。 */
-    ariaTemplate: string;
-    titleTemplate: string;
+    ariaTemplate: Template<"label">;
+    titleTemplate: Template<"label">;
     options: { system: string; light: string; dark: string };
   };
   hero: {
@@ -169,7 +170,7 @@ export interface Copy {
     faq: string;
     emailAria: (email: string) => string;
     /** {year} 换成当前年份。 */
-    copyright: string;
+    copyright: Template<"year">;
     buyOnline: string;
     legalLabel: string;
   };
@@ -193,7 +194,7 @@ export interface Copy {
     copy: string;
     note: string;
     /** 「咨询与服务适用{terms}与{privacy}。」：{terms}、{privacy} 换成服务条款与隐私政策的链接，链接两侧的空格写在文案里。 */
-    legal: string;
+    legal: Template<"terms" | "privacy">;
     newWindow: string;
     copied: string;
     copyFailed: string;

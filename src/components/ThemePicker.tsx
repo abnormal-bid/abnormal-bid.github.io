@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { Copy, IconName } from "@/i18n/types";
+import { fillTemplate } from "@/lib/template";
 import { Icon } from "./Icon";
 
 type Preference = "system" | "light" | "dark";
@@ -42,8 +43,8 @@ export function ThemePicker({ copy, onOpen }: { copy: Copy["theme"]; onOpen?: ()
           variant="ghost"
           size="icon"
           className="size-9"
-          aria-label={copy.ariaTemplate.replace("{label}", current)}
-          title={copy.titleTemplate.replace("{label}", current)}
+          aria-label={fillTemplate(copy.ariaTemplate, { label: current }).join("")}
+          title={fillTemplate(copy.titleTemplate, { label: current }).join("")}
         >
           <Icon name={icons[preference]} />
         </Button>

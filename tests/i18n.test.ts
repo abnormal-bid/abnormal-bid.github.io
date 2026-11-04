@@ -4,9 +4,10 @@ import { readdirSync, readFileSync } from "node:fs";
 import { linksFor } from "../src/data/site.ts";
 import { en } from "../src/i18n/en.ts";
 import { localePath, stripLocale, switchPath, toLang } from "../src/i18n/index.ts";
+import type { Copy } from "../src/i18n/types.ts";
 import { zh } from "../src/i18n/zh.ts";
 import { describeContact, formatInquiry } from "../src/lib/inquiry.ts";
-import { fillTemplate } from "../src/lib/template.ts";
+import { fillTemplate, type TemplateSlot } from "../src/lib/template.ts";
 
 test("Chinese stays at the root and English lives under /en/", () => {
   assert.equal(localePath("zh", "/privacy/"), "/privacy/");
@@ -123,6 +124,37 @@ test("every eyebrow on the site is marked English and takes its words from the c
       assert.doesNotMatch(text, /[A-Za-z]/, `${file}: hard-coded words in an eyebrow: ${text.trim()}`);
     }
   }
+});
+
+/**
+ * Every copy template and the slots its Template type declares. `satisfies` keeps each list equal to the type, and the
+ * type keeps it equal to what the component passes, so a slot renamed on one side fails the type check.
+ */
+const templateSlots = {
+  "theme.ariaTemplate": { label: true } satisfies Record<TemplateSlot<Copy["theme"]["ariaTemplate"]>, true>,
+  "theme.titleTemplate": { label: true } satisfies Record<TemplateSlot<Copy["theme"]["titleTemplate"]>, true>,
+  "footer.copyright": { year: true } satisfies Record<TemplateSlot<Copy["footer"]["copyright"]>, true>,
+  "inquiry.legal": { terms: true, privacy: true } satisfies Record<TemplateSlot<Copy["inquiry"]["legal"]>, true>,
+};
+
+/** Each string in the copy that has {name} slots, by its path, with the names it uses. */
+const slotsIn = (value: unknown, path = ""): [string, string[]][] =>
+  typeof value === "string"
+    ? /\{\w+\}/.test(value)
+      ? [[path, [...value.matchAll(/\{(\w+)\}/g)].map(([, name]) => name!).sort()]]
+      : []
+    : value && typeof value === "object"
+      ? Object.entries(value).flatMap(([key, item]) => slotsIn(item, path ? `${path}.${key}` : key))
+      : [];
+
+test("each copy template uses exactly the slots its type declares, in both languages", () => {
+  // The inquiry's legal sentence renders only once the client dialog opens: a slot misspelled in one language would
+  // throw in the browser, after the prerender has passed.
+  const byPath = (entries: [string, string[]][]) => Object.fromEntries(entries);
+  const expected = byPath(Object.entries(templateSlots).map(([path, slots]) => [path, Object.keys(slots).sort()]));
+  for (const copy of [zh, en]) assert.deepEqual(byPath(slotsIn(copy)), expected, copy.htmlLang);
+  const misspelled = { ...zh, inquiry: { ...zh.inquiry, legal: "咨询与服务适用{terms}与{privcy}。" } };
+  assert.notDeepEqual(slotsIn(misspelled), slotsIn(zh));
 });
 
 test("the inquiry's legal sentence keeps each language's own spacing around its links", () => {
