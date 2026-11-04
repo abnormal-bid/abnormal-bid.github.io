@@ -99,8 +99,8 @@ We don't use your information for unrelated marketing, and we don't send you pro
 
 We don't sell or rent your personal information. To run the service, the following providers process the information they need for their part:
 
-- **Cloudflare**: hosts the website, runs the shop, redeem page, webmail and management system, provides network delivery, runtime logs, AI Gateway, the human check (Turnstile) and finding things by meaning (Workers AI and Vectorize), and runs follow-up tasks.
-- **Database provider**: stores accounts, orders, redeem codes, tickets, follow-up task records, settings and similar data (currently PlanetScale).
+- **Cloudflare**: hosts the website, runs the shop, redeem page, webmail and management system, provides network delivery, runtime logs, AI Gateway, the human check (Turnstile) and finding things by meaning (Workers AI and Vectorize), stores screenshots attached to tickets in R2, and runs follow-up tasks.
+- **Database provider**: stores accounts, orders, redeem codes, ticket text, follow-up task records, settings and similar data (currently PlanetScale).
 - **Cloud host for the mail servers**: runs our own mail servers and the mail stored on them.
 - **Linux DO Credit** and **Stripe**: process the payment method you choose, under their own privacy policies.
 - **Large language model provider** (currently DeepSeek): receives the content needed to generate a result, only when the AI features described above are used.
