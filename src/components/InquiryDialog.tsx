@@ -1,7 +1,7 @@
 "use client";
 
 import { Slot } from "radix-ui";
-import { createContext, use, useRef, useState, type ComponentProps, type ReactNode } from "react";
+import { createContext, Fragment, use, useRef, useState, type ComponentProps, type ReactNode } from "react";
 import { flushSync } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { site, type Lang } from "@/data/site";
 import type { Copy } from "@/i18n/types";
 import { describeContact, formatInquiry, getContactLink } from "@/lib/inquiry";
+import { fillTemplate } from "@/lib/template";
 import { Icon } from "./Icon";
 
 type OpenInquiry = (selection: string | undefined, trigger: HTMLElement) => void;
@@ -110,11 +111,14 @@ export function InquiryProvider({
         >
           <div className="shrink-0 border-b border-border px-6 pt-5 pb-[22px] max-dialog:px-5 max-dialog:pt-3.5 max-dialog:pb-[18px]">
             <div className="mb-3.5 flex items-center justify-between gap-3 max-dialog:mb-2">
-              <span className="inline-flex items-center gap-2.5 text-xs/body font-medium tracking-[0.06em] text-muted-foreground uppercase">
+              <span
+                className="inline-flex items-center gap-2.5 text-xs/body font-medium tracking-[0.06em] text-muted-foreground uppercase"
+                lang="en"
+              >
                 <IconTile variant="highlight" size="sm">
                   <Icon name="chat" className="size-[18px]" />
                 </IconTile>
-                Let&apos;s get you started
+                {copy.kicker}
               </span>
               <DialogClose asChild>
                 <Button variant="ghost" size="icon" className="-mr-1.5 size-9" aria-label={copy.close}>
@@ -225,17 +229,19 @@ export function InquiryProvider({
             <p className="mt-[18px] text-center text-xs/prose text-muted-foreground">
               {copy.note}
               <br />
-              {copy.legal[0]}{" "}
-              <a className={linkClass} href={termsPage.href} target="_blank" rel="noopener noreferrer">
-                {termsPage.label}
-                <span className="sr-only">{copy.newWindow}</span>
-              </a>{" "}
-              {copy.legal[1]}{" "}
-              <a className={linkClass} href={privacyPage.href} target="_blank" rel="noopener noreferrer">
-                {privacyPage.label}
-                <span className="sr-only">{copy.newWindow}</span>
-              </a>
-              {copy.legal[2]}
+              {fillTemplate(copy.legal, {
+                terms: termsPage,
+                privacy: privacyPage,
+              }).map((part, index) =>
+                typeof part === "string" ? (
+                  <Fragment key={index}>{part}</Fragment>
+                ) : (
+                  <a className={linkClass} href={part.href} target="_blank" rel="noopener noreferrer" key={index}>
+                    {part.label}
+                    <span className="sr-only">{copy.newWindow}</span>
+                  </a>
+                ),
+              )}
             </p>
             <p
               className="mt-2 text-center text-xs leading-relaxed text-foreground empty:mt-0"

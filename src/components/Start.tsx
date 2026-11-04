@@ -19,8 +19,8 @@ export function Start({ lang }: { lang: Lang }) {
       <Container className={sectionSpaceClassName}>
         <div className="mb-10 flex items-end justify-between gap-8 max-lg:gap-4 max-md:mb-7 max-md:flex-col max-md:items-start">
           <div>
-            <Eyebrow>
-              <span className="mr-1">01 /</span> Start here
+            <Eyebrow lang="en">
+              <span className="mr-1">01 /</span> {s.eyebrow}
             </Eyebrow>
             <SectionTitle id="start-title">
               {s.title}

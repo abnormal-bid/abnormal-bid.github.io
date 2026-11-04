@@ -24,7 +24,9 @@ export function Hero({ lang }: { lang: Lang }) {
         aria-labelledby="hero-title"
       >
         <div className="relative z-1 max-md:text-center">
-          <Eyebrow className="inline-flex">Email, made personal</Eyebrow>
+          <Eyebrow className="inline-flex" lang="en">
+            {h.eyebrow}
+          </Eyebrow>
           <h1
             className="my-[1.4rem] text-[clamp(2.5rem,4.4vw,3.5rem)] leading-[1.25] font-semibold tracking-[-0.02em] max-hero:text-[2.5rem] max-md:my-6 max-md:text-[clamp(2.35rem,8.2vw,3.6rem)]"
             id="hero-title"

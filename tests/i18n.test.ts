@@ -1,10 +1,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readdirSync, readFileSync } from "node:fs";
 import { linksFor } from "../src/data/site.ts";
 import { en } from "../src/i18n/en.ts";
 import { localePath, stripLocale, switchPath, toLang } from "../src/i18n/index.ts";
 import { zh } from "../src/i18n/zh.ts";
 import { describeContact, formatInquiry } from "../src/lib/inquiry.ts";
+import { fillTemplate } from "../src/lib/template.ts";
 
 test("Chinese stays at the root and English lives under /en/", () => {
   assert.equal(localePath("zh", "/privacy/"), "/privacy/");
@@ -90,4 +92,45 @@ test("each service card names its own icon instead of relying on its position", 
     const icons = copy.services.products.map(({ icon }) => icon);
     assert.equal(new Set(icons).size, icons.length, copy.htmlLang);
   }
+});
+
+const cjk = /[\u3000-\u303f\u3400-\u9fff\uff00-\uffef]/;
+
+test('decorative labels are English in both languages, as their lang="en" says', () => {
+  for (const copy of [zh, en]) {
+    const labels = [
+      copy.hero.eyebrow,
+      copy.start.eyebrow,
+      copy.services.eyebrow,
+      copy.process.eyebrow,
+      copy.faq.eyebrow,
+      copy.closing.eyebrow,
+      copy.footer.tagline,
+      copy.inquiry.kicker,
+      copy.legal.tocKicker,
+    ];
+    for (const label of labels) assert.doesNotMatch(label, cjk, `${copy.htmlLang}: ${label}`);
+  }
+});
+
+test("every eyebrow on the site is marked English and takes its words from the copy", () => {
+  // The Chinese pages are <html lang="zh-CN">: an unmarked English eyebrow is read with the Chinese voice.
+  for (const file of readdirSync("src/components").filter((name) => name.endsWith(".tsx"))) {
+    const source = readFileSync(`src/components/${file}`, "utf8");
+    for (const [, tag, inner] of source.matchAll(/<Eyebrow\b([^>]*)>([\s\S]*?)<\/Eyebrow>/g)) {
+      assert.match(tag!, /lang="en"/, `${file}: <Eyebrow${tag}>`);
+      const text = inner!.replace(/\{[^}]*\}/g, "").replace(/<[^>]*>/g, "");
+      assert.doesNotMatch(text, /[A-Za-z]/, `${file}: hard-coded words in an eyebrow: ${text.trim()}`);
+    }
+  }
+});
+
+test("the inquiry's legal sentence keeps each language's own spacing around its links", () => {
+  const links = { terms: "<terms>", privacy: "<privacy>" };
+  assert.equal(fillTemplate(zh.inquiry.legal, links).join(""), "咨询与服务适用<terms>与<privacy>。");
+  assert.equal(
+    fillTemplate(en.inquiry.legal, links).join(""),
+    "Requests and services are covered by the <terms> and <privacy>.",
+  );
+  assert.throws(() => fillTemplate("适用{terms}与{privcy}。", links), /privcy/);
 });

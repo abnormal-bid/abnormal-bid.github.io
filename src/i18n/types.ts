@@ -43,7 +43,11 @@ export interface LinkItem {
   label: string;
 }
 
-/** 一种语言的全部文案。站外地址只写成 LinkKey，由 linksFor(lang) 换成对应语言的页面。 */
+/**
+ * 一种语言的全部文案。站外地址只写成 LinkKey，由 linksFor(lang) 换成对应语言的页面。
+ * eyebrow、kicker、tagline 与 tocKicker 是装饰性的英文小标：两种语言都写英文，组件渲染时带 lang="en"，
+ * 读屏软件才会用英文读；tests/i18n.test.ts 检查它们不含中文。
+ */
 export interface Copy {
   /** <html lang> 与 hreflang。 */
   htmlLang: string;
@@ -80,6 +84,7 @@ export interface Copy {
     options: { system: string; light: string; dark: string };
   };
   hero: {
+    eyebrow: string;
     titleLines: readonly [string, string];
     description: readonly [string, string];
     buy: string;
@@ -100,6 +105,7 @@ export interface Copy {
   };
   valueStrip: { lead: string; strong: string; labels: readonly string[] };
   start: {
+    eyebrow: string;
     title: string;
     intro: readonly [string, string];
     entries: readonly {
@@ -115,6 +121,7 @@ export interface Copy {
     support: string;
   };
   services: {
+    eyebrow: string;
     titleLines: readonly [string, string];
     intro: readonly [string, string];
     products: readonly Product[];
@@ -126,6 +133,7 @@ export interface Copy {
     noteFine: string;
   };
   process: {
+    eyebrow: string;
     title: string;
     intro: readonly [string, string];
     steps: readonly {
@@ -137,18 +145,22 @@ export interface Copy {
     }[];
   };
   faq: {
+    eyebrow: string;
     title: string;
     description: string;
     contact: string;
     items: readonly { question: string; answer: string }[];
   };
   closing: {
+    eyebrow: string;
     titleLines: readonly [string, string];
     body: string;
     buy: string;
     custom: string;
   };
   footer: {
+    /** 品牌标记下的一句话。 */
+    tagline: string;
     productLabel: string;
     supportLabel: string;
     contactLabel: string;
@@ -162,6 +174,8 @@ export interface Copy {
   };
   legalPages: readonly { path: string; label: string }[];
   inquiry: {
+    /** 弹窗标题上方的小标。 */
+    kicker: string;
     close: string;
     title: string;
     description: readonly [string, string];
@@ -177,8 +191,8 @@ export interface Copy {
     previewLabel: string;
     copy: string;
     note: string;
-    /** 「咨询与服务适用 [服务条款] 与 [隐私政策]。」拆成四段，中间两段是链接。 */
-    legal: readonly [string, string, string];
+    /** 「咨询与服务适用{terms}与{privacy}。」：{terms}、{privacy} 换成服务条款与隐私政策的链接，链接两侧的空格写在文案里。 */
+    legal: string;
     newWindow: string;
     copied: string;
     copyFailed: string;
@@ -190,6 +204,8 @@ export interface Copy {
     dateLocale: string;
     tocLabel: string;
     tocHint: string;
+    /** 目录标题旁的英文小标。 */
+    tocKicker: string;
     highlights: string;
     highlightsNote: string;
     contactTitle: string;

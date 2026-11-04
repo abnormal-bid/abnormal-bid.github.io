@@ -38,6 +38,7 @@ export const zh: Copy = {
     options: { system: "跟随系统", light: "浅色模式", dark: "深色模式" },
   },
   hero: {
+    eyebrow: "Email, made personal",
     titleLines: ["好用的邮箱，", "沟通更简单"],
     description: [
       "在线选购 @abnormal.bid 邮箱，用兑换码自助开通。",
@@ -81,6 +82,7 @@ export const zh: Copy = {
     labels: ["在线选购", "自助开通", "网页收发", "客户端支持"],
   },
   start: {
+    eyebrow: "Start here",
     title: "从这里开始",
     intro: ["买邮箱、开通、登录、学会用，", "都从这一页出发。"],
     entries: [
@@ -125,6 +127,7 @@ export const zh: Copy = {
     support: "客服邮箱",
   },
   services: {
+    eyebrow: "Find your email",
     titleLines: ["总有一个邮箱，", "适合你的日常"],
     intro: ["个人邮箱在线购买、自助开通；", "域名、团队与配置需求，先聊聊再定方案。"],
     products: [
@@ -176,6 +179,7 @@ export const zh: Copy = {
     noteFine: "个人邮箱以商店页面的套餐与价格为准；其他服务的方案及费用，以咨询确认为准。",
   },
   process: {
+    eyebrow: "A simple way to get started",
     title: "三步，开始使用你的邮箱",
     intro: ["从下单到收发，", "每一步都可以自己完成。"],
     steps: [
@@ -203,6 +207,7 @@ export const zh: Copy = {
     ],
   },
   faq: {
+    eyebrow: "Good questions",
     title: "你可能还想知道",
     description: "关于邮箱，先把问题说清楚。",
     contact: "其他问题，聊聊看",
@@ -240,12 +245,14 @@ export const zh: Copy = {
     ],
   },
   closing: {
+    eyebrow: "Make every connection count",
     titleLines: ["下一封邮件，", "从这里开始"],
     body: "选个套餐，付款后自助开通，马上开始收发；有域名或团队需求，也可以先聊聊。",
     buy: "购买邮箱",
     custom: "聊聊定制需求",
   },
   footer: {
+    tagline: "Your inbox. Your identity.",
     productLabel: "产品 / PRODUCT",
     supportLabel: "支持 / SUPPORT",
     contactLabel: "保持联系 / CONTACT",
@@ -270,6 +277,7 @@ export const zh: Copy = {
     { path: "/terms/", label: "服务条款" },
   ],
   inquiry: {
+    kicker: "Let's get you started",
     close: "关闭咨询窗口",
     title: "从你的需求开始",
     description: ["选好服务，整理需求，再联系咨询。", "方案、报价与开通方式均需确认后再下单。"],
@@ -285,7 +293,7 @@ export const zh: Copy = {
     previewLabel: "你的咨询内容",
     copy: "复制咨询内容",
     note: "此页面仅帮你整理需求，不会提交订单或扣款。",
-    legal: ["咨询与服务适用", "与", "。"],
+    legal: "咨询与服务适用{terms}与{privacy}。",
     newWindow: "（新窗口打开）",
     copied: "已复制咨询内容，可粘贴后发送给我们。",
     copyFailed: "暂时无法自动复制，请长按或选中上方咨询内容进行复制。",
@@ -297,6 +305,7 @@ export const zh: Copy = {
     dateLocale: "zh-CN",
     tocLabel: "目录",
     tocHint: "本页目录",
+    tocKicker: "Contents",
     highlights: "要点速览",
     highlightsNote: "摘要仅供快速了解，具体以正文为准。",
     contactTitle: "联系我们",

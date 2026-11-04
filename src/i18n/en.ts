@@ -39,6 +39,7 @@ export const en: Copy = {
     options: { system: "System", light: "Light", dark: "Dark" },
   },
   hero: {
+    eyebrow: "Email, made personal",
     titleLines: ["Good email,", "simple conversations"],
     description: [
       "Buy an @abnormal.bid mailbox online and set it up yourself with a redeem code.",
@@ -82,6 +83,7 @@ export const en: Copy = {
     labels: ["Buy online", "Self-service setup", "Webmail", "Mail apps"],
   },
   start: {
+    eyebrow: "Start here",
     title: "Start here",
     intro: ["Buy, redeem, sign in and learn the ropes,", "all from this page."],
     entries: [
@@ -130,6 +132,7 @@ export const en: Copy = {
     support: "Support",
   },
   services: {
+    eyebrow: "Find your email",
     titleLines: ["A mailbox", "for every day"],
     intro: ["Personal mailboxes are bought and set up online.", "For domains, teams or setup help, let's talk first."],
     products: [
@@ -183,6 +186,7 @@ export const en: Copy = {
       "Personal mailboxes follow the plans and prices in the shop. Other services are quoted once we've talked.",
   },
   process: {
+    eyebrow: "A simple way to get started",
     title: "Three steps to your mailbox",
     intro: ["From checkout to your first email,", "every step is self-service."],
     steps: [
@@ -213,6 +217,7 @@ export const en: Copy = {
     ],
   },
   faq: {
+    eyebrow: "Good questions",
     title: "Questions, answered",
     description: "What's worth knowing before you start.",
     contact: "Something else? Ask us",
@@ -250,12 +255,14 @@ export const en: Copy = {
     ],
   },
   closing: {
+    eyebrow: "Make every connection count",
     titleLines: ["Your next email", "starts here"],
     body: "Pick a plan, pay, set it up yourself and start sending right away. Need a domain or a team? Let's talk.",
     buy: "Buy a mailbox",
     custom: "Talk about custom needs",
   },
   footer: {
+    tagline: "Your inbox. Your identity.",
     productLabel: "Product",
     supportLabel: "Support",
     contactLabel: "Contact",
@@ -280,6 +287,7 @@ export const en: Copy = {
     { path: "/terms/", label: "Terms of Service" },
   ],
   inquiry: {
+    kicker: "Let's get you started",
     close: "Close",
     title: "Start with what you need",
     description: [
@@ -299,7 +307,7 @@ export const en: Copy = {
     previewLabel: "Your message",
     copy: "Copy message",
     note: "This dialog only helps you write your request. It doesn't place an order or charge you.",
-    legal: ["Requests and services are covered by the", "and", "."],
+    legal: "Requests and services are covered by the {terms} and {privacy}.",
     newWindow: " (opens in a new window)",
     copied: "Copied. Paste it into a message to us.",
     copyFailed: "Couldn't copy automatically. Select the text above and copy it.",
@@ -311,6 +319,7 @@ export const en: Copy = {
     dateLocale: "en-US",
     tocLabel: "Contents",
     tocHint: "On this page",
+    tocKicker: "Contents",
     highlights: "At a glance",
     highlightsNote: "This summary is for convenience; the full text below governs.",
     contactTitle: "Contact us",
