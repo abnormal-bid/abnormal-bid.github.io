@@ -104,7 +104,7 @@ src/
 public/           字体等由静态资源服务直接响应的文件
 tests/            咨询逻辑、文案结构与主题行为回归测试
 open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资源里
-worker.ts            Worker 入口：Markdown 内容协商
+worker.ts            Worker 入口：Markdown 内容协商与缓存头
 wrangler.jsonc       Cloudflare Worker 与静态资源配置
 ```
 
