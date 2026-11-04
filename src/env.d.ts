@@ -12,10 +12,11 @@ declare module "@/scripts/theme-init.js" {
 }
 
 // next.config.ts 的 remark / rehype 插件从法律文档里导出 frontmatter 与 tableOfContents。
+// frontmatter 是 YAML 原样导出的，没有经过检查，页面先用 parseLegalFrontmatter（src/lib/legal.ts）读它。
 declare module "@/content/legal/*.mdx" {
   import type { MDXContent } from "mdx/types";
-  import type { LegalFrontmatter, LegalHeading } from "@/content/legal/types";
-  export const frontmatter: LegalFrontmatter;
+  import type { LegalHeading } from "@/content/legal/types";
+  export const frontmatter: unknown;
   export const tableOfContents: LegalHeading[];
   const Content: MDXContent;
   export default Content;

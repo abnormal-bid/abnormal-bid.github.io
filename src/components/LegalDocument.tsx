@@ -9,6 +9,7 @@ import type { LegalFrontmatter, LegalHeading } from "@/content/legal/types";
 import { site, type Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
 import { getTelegramUrl } from "@/lib/inquiry";
+import { legalSections } from "@/lib/legal";
 import { cn } from "@/lib/utils";
 import { Icon } from "./Icon";
 
@@ -21,7 +22,7 @@ export function LegalDocument({
 }: {
   lang: Lang;
   frontmatter: LegalFrontmatter;
-  headings: LegalHeading[];
+  headings: readonly LegalHeading[];
   /** 不带语言前缀的页面路径，如 /privacy/。 */
   href: string;
   /** MDX 正文。 */
@@ -31,10 +32,7 @@ export function LegalDocument({
   const { t, path } = useCopy(lang);
   const l = t.legal;
   const relatedPages = t.legalPages.filter(({ path: page }) => page !== currentPage);
-  const sections = [
-    ...headings.filter(({ depth }) => depth === 2).map(({ id, value }) => ({ slug: id, text: value })),
-    { slug: "contact", text: l.contactTitle },
-  ];
+  const sections = [...legalSections(headings), { slug: "contact", text: l.contactTitle }];
 
   const dateFormatter = new Intl.DateTimeFormat(l.dateLocale, { dateStyle: "long", timeZone: "UTC" });
   const formatDate = (value: string) => dateFormatter.format(new Date(`${value}T00:00:00Z`));

@@ -1,5 +1,6 @@
 import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
+import { rehypePlugins, remarkPlugins } from "./src/content/legal/mdx.ts";
 
 // 带扩展名的路径（/icon.svg），写法与 Next.js 内置的尾部斜杠规则相同。
 const filePath = "/:file((?!\\.well-known(?:/.*)?)(?:[^/]+/)*[^/]+\\.\\w+)";
@@ -30,12 +31,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-// Turbopack 要求插件写成包名字符串。
-const withMDX = createMDX({
-  options: {
-    remarkPlugins: ["remark-frontmatter", "remark-mdx-frontmatter", "remark-gfm", "remark-smartypants"],
-    rehypePlugins: ["rehype-slug", "@stefanprobst/rehype-extract-toc", "@stefanprobst/rehype-extract-toc/mdx"],
-  },
-});
+// Turbopack 要求插件写成包名字符串；清单在 src/content/legal/mdx.ts，测试用同一份编译法律文档。
+const withMDX = createMDX({ options: { remarkPlugins, rehypePlugins } });
 
 export default withMDX(nextConfig);

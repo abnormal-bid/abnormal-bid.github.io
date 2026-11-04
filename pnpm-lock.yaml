@@ -209,6 +209,9 @@ importers:
       '@mdx-js/loader':
         specifier: ^3.1.1
         version: 3.1.1(supports-color@10.2.2)(webpack@5.112.2(esbuild@0.28.2)(lightningcss@1.32.0)(postcss@8.5.32)(sharp@0.35.5(@types/node@26.6.6)))
+      '@mdx-js/mdx':
+        specifier: ^3.1.1
+        version: 3.1.1(supports-color@10.2.2)
       '@next/mdx':
         specifier: 16.4.3
         version: 16.4.3(@mdx-js/loader@3.1.1(supports-color@10.2.2)(webpack@5.112.2(esbuild@0.28.2)(lightningcss@1.32.0)(postcss@8.5.32)(sharp@0.35.5(@types/node@26.6.6))))(@mdx-js/react@3.1.1(@types/react@19.3.0)(react@19.3.1))

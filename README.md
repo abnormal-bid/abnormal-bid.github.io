@@ -62,7 +62,7 @@ pnpm dev
 pnpm check         # lint + typecheck + test
 pnpm lint          # ESLint（eslint-config-next）
 pnpm typecheck     # next typegen 与 TypeScript 检查
-pnpm test          # 咨询逻辑、文案结构、页面元数据与主题偏好测试
+pnpm test          # 咨询逻辑、文案结构、页面元数据、法律文档与主题偏好测试
 pnpm format:check  # 格式检查
 pnpm build         # next build
 pnpm cf:preview    # OpenNext 构建，并在本地 workerd 里预览（端口 8787）
@@ -81,11 +81,11 @@ src/
   content/legal/  MDX 编写的隐私政策与服务条款，zh/ 与 en/ 各一份
   data/site.ts    公开联系方式与联动站点地址（linksFor）
   i18n/           中英文文案（zh.ts、en.ts、types.ts）与语言路径工具（paths.ts）
-  lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO
+  lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO；legal.ts 法律文档的 frontmatter 检查与目录；template.ts 文案模板
   scripts/        theme-init.js：内联进头部的主题初始化脚本
   styles/         abnormal.css、abnormal-fonts.css 来自 registry；global.css 是官网专属的断点和全局规则
 public/           字体等由静态资源服务直接响应的文件
-tests/            咨询逻辑、文案结构与主题行为回归测试
+tests/            咨询逻辑、文案结构、页面元数据、法律文档与主题行为回归测试
 open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资源里
 wrangler.jsonc       Cloudflare Worker 与静态资源配置
 ```
@@ -130,7 +130,9 @@ wrangler.jsonc       Cloudflare Worker 与静态资源配置
 
 `src/content/legal/zh/` 与 `src/content/legal/en/` 下的 `privacy.mdx`、`terms.mdx` 在构建时由 [`@next/mdx`](https://nextjs.org/docs/app/guides/mdx) 编译，通过 `src/components/LegalDocument.tsx` 输出，发布路径为 `/privacy/` 与 `/terms/`（英文 `/en/privacy/`、`/en/terms/`），页脚与咨询弹窗都有入口。正文使用 MDX 编写（普通文字里的 `{`、`}`、`<` 会被当成语法，要写成 `\{`、`\}`、`\<`），每个二级标题自动编号并生成目录；「联系我们」一节由组件根据 `site.contact` 生成，正文中无需重复联系方式。
 
-frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`（页首英文小标）、`summary`（页首导语）、`effective` 与 `updated`（`YYYY-MM-DD`，修改正文后请更新 `updated`）、`highlights`（页首「要点速览」）。
+frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`（页首英文小标）、`summary`（页首导语）、`effective` 与 `updated`（`YYYY-MM-DD`，修改正文后请更新 `updated`）、`highlights`（页首「要点速览」）。页面先用 `src/lib/legal.ts` 的 `parseLegalFrontmatter` 检查 frontmatter：缺字段、日期不是真实的 `YYYY-MM-DD`、`highlights` 为空时构建直接报错，并指出是哪个文件的哪个字段。目录取文档里的全部二级标题，正文不要写一级标题（页首已经是 h1）。
+
+`tests/legal.test.ts` 用与 `next.config.ts` 相同的插件（清单在 `src/content/legal/mdx.ts`）编译四份文档，要求同一页面的中英文二级标题数量、`effective` 与 `updated`、`highlights` 条数和 `eyebrow` 一致；只改一种语言时测试会提醒。
 
 两份文本覆盖官网、商店与开通页（onboard）、网页邮箱与状态页（mail）。其中与系统行为对应的部分（订阅服务期限从付款成功时起算、到期后 7 天宽限期与 30 天保留期、购买会话 Cookie、15 分钟登录链接、AI 功能的数据流向）照 mail 仓库 `src/lib/shop/` 与 onboard 的文案写成，相关逻辑变化时请同步修改。
 
