@@ -58,3 +58,13 @@ export function markdownUrl(request: Request): URL | undefined {
   url.pathname = markdown;
   return url;
 }
+
+/**
+ * 同一地址有 HTML 和 Markdown 两个版本，协商出的响应必须声明 Vary: Accept，否则共享缓存可能把 Markdown 发给浏览器。
+ * 要在 Worker 这一层加：线上预渲染路由的响应不一定带上路由自己设置的 Vary。
+ */
+export function varyOnAccept(response: Response): Response {
+  const negotiated = new Response(response.body, response);
+  negotiated.headers.append("Vary", "Accept");
+  return negotiated;
+}

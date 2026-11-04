@@ -3,12 +3,13 @@
  * next.config 的 rewrites 只能用正则匹配 Accept，比较不了权重，所以放在这里。
  */
 import handler from "./.open-next/worker.js";
-import { markdownUrl } from "./src/lib/negotiate.ts";
+import { markdownUrl, varyOnAccept } from "./src/lib/negotiate.ts";
 
 const worker = {
-  fetch(request: Request, env: unknown, ctx: unknown) {
+  async fetch(request: Request, env: unknown, ctx: unknown) {
     const markdown = markdownUrl(request);
-    return handler.fetch(markdown ? new Request(markdown, request) : request, env, ctx);
+    if (!markdown) return handler.fetch(request, env, ctx);
+    return varyOnAccept(await handler.fetch(new Request(markdown, request), env, ctx));
   },
 };
 
