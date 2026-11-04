@@ -20,7 +20,8 @@ function parseAccept(accept: string | null): MediaRange[] {
       const params = qIndex < 0 ? rest : rest.slice(0, qIndex);
       return {
         type,
-        params: params.map((param) => param.replaceAll('"', "")),
+        // RFC 9110 允许空参数，比如 text/markdown; 末尾多余的分号。
+        params: params.filter(Boolean).map((param) => param.replaceAll('"', "")),
         q: qIndex < 0 ? 1 : Number(rest[qIndex]!.slice(2)),
       };
     });

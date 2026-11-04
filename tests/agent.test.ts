@@ -128,6 +128,12 @@ test("Markdown is served only when the Accept header prefers it", () => {
     ["text/markdown;charset=gbk;q=1, text/markdown;q=0.5, text/html;q=0.4", true],
     ["text/markdown;q=0.5, text/html;charset=utf-8;q=1, text/html;q=0", false],
     ["text/markdown;q=0.5;ext=1, text/html;q=0.4", true],
+    // RFC 9110 允许空参数，比如末尾多余的分号。
+    ["text/markdown;", true],
+    ["text/markdown;charset=utf-8;", true],
+    ["text/markdown;;q=0.5, text/html;q=0.4", true],
+    ["text/markdown;q=0.5, text/html;", false],
+    ["text/markdown;charset=utf-8;;q=0, text/markdown;q=1", false],
   ];
   for (const [accept, expected] of cases) assert.equal(wantsMarkdown(accept), expected, String(accept));
 });
