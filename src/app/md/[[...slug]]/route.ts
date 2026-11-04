@@ -36,7 +36,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
       "Content-Type": "text/markdown; charset=utf-8",
       // 这份内容与 HTML 页面相同，搜索引擎应该收录 HTML 地址。
       Link: `<${site.url}${page.url}>; rel="canonical"`,
-      Vary: "Accept",
     },
   });
 }

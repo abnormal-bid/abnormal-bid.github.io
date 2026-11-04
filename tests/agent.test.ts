@@ -5,7 +5,7 @@ import { linksFor, site } from "../src/data/site.ts";
 import { copies } from "../src/i18n/index.ts";
 import { contactChannels } from "../src/lib/inquiry.ts";
 import { homeMarkdown, legalMarkdown, llmsTxt, stripFrontmatter } from "../src/lib/markdown.ts";
-import { markdownUrl, wantsMarkdown } from "../src/lib/negotiate.ts";
+import { markdownUrl, varyOnAccept, wantsMarkdown } from "../src/lib/negotiate.ts";
 import { pages } from "../src/lib/pages.ts";
 
 test("every page has a Markdown path under /md/ that mirrors its URL", () => {
@@ -149,4 +149,18 @@ test("only GET and HEAD for a listed page on the main host are sent to Markdown"
   assert.equal(markdownUrl(request("https://abnormalhq.com/md/")), undefined);
   assert.equal(markdownUrl(request("https://abnormalhq.com/privacy")), undefined);
   assert.equal(markdownUrl(request("https://abnormalhq.com/llms.txt")), undefined);
+});
+
+test("negotiated responses add Accept to Vary and keep everything else", async () => {
+  const response = varyOnAccept(
+    new Response("# Title", {
+      headers: { "Content-Type": "text/markdown; charset=utf-8", Vary: "RSC, Next-Url", Link: '</>; rel="canonical"' },
+    }),
+  );
+  assert.equal(response.headers.get("vary"), "RSC, Next-Url, Accept");
+  assert.equal(response.headers.get("content-type"), "text/markdown; charset=utf-8");
+  assert.equal(response.headers.get("link"), '</>; rel="canonical"');
+  assert.equal(await response.text(), "# Title");
+
+  assert.equal(varyOnAccept(new Response(null)).headers.get("vary"), "Accept");
 });
