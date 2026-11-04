@@ -8,7 +8,7 @@
 
 中文在根路径（`/`、`/privacy/`、`/terms/`），英文在 `/en/` 下（`/en/`、`/en/privacy/`、`/en/terms/`），由 `src/app` 下的 `(zh)` 与 `(en)` 两个路由组实现，各有一个根布局。页头的「EN / 中」切换到另一种语言的同一页面；每页都输出互指的 `hreflang`，`x-default` 指向中文版。不按浏览器语言自动跳转。
 
-- 全部界面文案在 `src/i18n/zh.ts` 与 `src/i18n/en.ts`，二者都实现 `src/i18n/types.ts` 的 `Copy`，漏写字段会在 `pnpm typecheck` 时报错；`tests/i18n.test.ts` 还会检查两份文案的结构（列表长度、字段）一致。服务端组件用 `useCopy(lang)` 取当前语言的文案、联动地址与带语言前缀的站内路径。
+- 全部界面文案在 `src/i18n/zh.ts` 与 `src/i18n/en.ts`，二者都实现 `src/i18n/types.ts` 的 `Copy`，漏写字段会在 `pnpm typecheck` 时报错；`tests/i18n.test.ts` 还会逐项检查两份文案的结构一致（包括每个列表项的字段，可选字段也算），并要求 `link`、`icon`、`anchor`、`featured`、`primary`、`path` 这些与语言无关的值两边相同。服务端组件用 `useCopy(lang)` 取当前语言的文案、联动地址与带语言前缀的站内路径。
 - 中文标题用全角句号、英文用半角，取 `t.dot`；只在部分宽度换行的标题，两行之间用 `t.space`（英文是空格）。
 - 联动地址由 `linksFor(lang)` 生成：onboard 的英文页在 `/en/` 下，网页邮箱与状态页按浏览器语言显示，两种语言用同一个地址。
 - 客户端组件（`Header`、`ThemePicker`、`InquiryDialog`）不引用文案模块，由 `SiteLayout` 通过 props 传入各自用得到的文案，浏览器脚本里不带两种语言的全部文案；路径工具放在 `src/i18n/paths.ts` 也是这个原因。咨询内容与邮件主题由 `src/lib/inquiry.ts` 按语言生成。

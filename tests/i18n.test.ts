@@ -33,14 +33,43 @@ test("onboard links follow the page language; webmail and status do not", () => 
   assert.equal(linksFor("en").status, linksFor("zh").status);
 });
 
-test("both languages have the same shape of content", () => {
-  const shape = (value: unknown): unknown =>
-    Array.isArray(value)
-      ? value.length
-      : value && typeof value === "object"
-        ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, shape(item)]))
-        : typeof value;
+/** Values that are the same in both languages: where an entry links, which icon it shows, whether it is featured. */
+const languageIndependent = new Set(["link", "icon", "anchor", "featured", "primary", "path"]);
+
+/** Keeps the structure of the copy, with each text replaced by its type, down to every field of every list item. */
+const shape = (value: unknown): unknown =>
+  Array.isArray(value)
+    ? value.map(shape)
+    : value && typeof value === "object"
+      ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, shape(item)]))
+      : typeof value;
+
+/** Keeps only the language-independent values, where they sit. */
+const fixed = (value: unknown): unknown =>
+  Array.isArray(value)
+    ? value.map(fixed)
+    : value && typeof value === "object"
+      ? Object.fromEntries(
+          Object.entries(value)
+            .filter(([key, item]) => languageIndependent.has(key) || (item !== null && typeof item === "object"))
+            .map(([key, item]) => [key, languageIndependent.has(key) ? item : fixed(item)]),
+        )
+      : undefined;
+
+test("both languages have the same shape of content, down to each list item", () => {
   assert.deepEqual(shape(en), shape(zh));
+});
+
+test("links, icons, anchors and flags are the same in both languages", () => {
+  assert.deepEqual(fixed(en), fixed(zh));
+});
+
+test("the parity checks see a change inside a list item", () => {
+  const product = zh.services.products[0]!;
+  const withoutLink = { ...zh, services: { ...zh.services, products: [{ ...product, link: undefined }] } };
+  const otherIcon = { ...zh, start: { ...zh.start, entries: zh.start.entries.toReversed() } };
+  assert.notDeepEqual(shape({ ...zh, services: { ...zh.services, products: [product] } }), shape(withoutLink));
+  assert.notDeepEqual(fixed(zh), fixed(otherIcon));
 });
 
 test("the English inquiry message is written in English", () => {
