@@ -172,7 +172,6 @@ export interface Copy {
     notesPlaceholder: string;
     previewLabel: string;
     copy: string;
-    contactFallback: string;
     note: string;
     /** 「咨询与服务适用 [服务条款] 与 [隐私政策]。」拆成四段，中间两段是链接。 */
     legal: readonly [string, string, string];

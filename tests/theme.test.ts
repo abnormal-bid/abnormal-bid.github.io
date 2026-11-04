@@ -137,7 +137,8 @@ function initializeTheme({
 
 function assertTheme(state: ReturnType<typeof initializeTheme>, preference: Preference, resolved: "light" | "dark") {
   assert.equal(state.api.getPreference(), preference);
-  assert.equal(state.root.dataset.themePreference, preference);
+  // Only data-theme is written: the CSS reads it, and the preference is read through window.abnormalTheme.
+  assert.deepEqual(Object.keys(state.root.dataset), ["theme"]);
   assert.equal(state.root.dataset.theme, resolved);
   assert.equal(state.root.style.colorScheme, resolved);
   assert.match(state.meta.content, /^#[\da-f]{3,8}$/i);

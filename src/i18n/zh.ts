@@ -280,7 +280,6 @@ export const zh: Copy = {
     notesPlaceholder: "例如：需要 3 个邮箱，已有域名，希望在手机和电脑上收发邮件。请勿填写密码或验证码。",
     previewLabel: "你的咨询内容",
     copy: "复制咨询内容",
-    contactFallback: "前往咨询",
     note: "此页面仅帮你整理需求，不会提交订单或扣款。",
     legal: ["咨询与服务适用", "与", "。"],
     newWindow: "（新窗口打开）",

@@ -294,7 +294,6 @@ export const en: Copy = {
       "For example: 3 mailboxes, I already own a domain, and I want mail on my phone and laptop. Never include passwords or codes.",
     previewLabel: "Your message",
     copy: "Copy message",
-    contactFallback: "Contact us",
     note: "This dialog only helps you write your request. It doesn't place an order or charge you.",
     legal: ["Requests and services are covered by the", "and", "."],
     newWindow: " (opens in a new window)",
