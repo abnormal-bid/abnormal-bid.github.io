@@ -55,10 +55,12 @@ pnpm dlx shadcn@latest add @abnormal/button --overwrite
 | 站点地图        | `/sitemap.xml`                     | `src/app/sitemap.ts`                                                       |
 | 目录            | `/llms.txt`                        | `src/app/llms.txt/route.ts`，内容由 `src/lib/markdown.ts` 生成             |
 | Markdown 版页面 | `/md/`、`/md/en/privacy/`          | `src/app/md/[[...slug]]/route.ts`，首页来自界面文案，法律页面来自 MDX 正文 |
-| 内容协商        | 页面地址 + `Accept: text/markdown` | `next.config.ts` 的 `beforeFiles` rewrites 转到上面的 Markdown 版本        |
+| 内容协商        | 页面地址 + `Accept: text/markdown` | `worker.ts` 按权重判断（`src/lib/negotiate.ts`）后转到上面的 Markdown 版本 |
 | 发现头          | 每个页面的 `Link` 响应头           | `next.config.ts` 的 `headers()`，同时输出 `Vary: Accept`                   |
 
 `Content-Signal` 目前是 `search=yes, ai-input=yes, ai-train=no`：允许搜索和 AI 回答引用，不授权模型训练。
+
+内容协商在 `worker.ts` 里，`pnpm dev` 不经过它；要测请用 `pnpm cf:preview`，或直接打开 `/md/` 下的地址。
 
 MCP、OAuth、API Catalog、Agent Skills 和商务协议没有实现：官网没有 API，也不收款，这些检查对它不适用。购买流程在 onboard。
 
@@ -102,6 +104,7 @@ src/
 public/           字体等由静态资源服务直接响应的文件
 tests/            咨询逻辑、文案结构与主题行为回归测试
 open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资源里
+worker.ts            Worker 入口：Markdown 内容协商
 wrangler.jsonc       Cloudflare Worker 与静态资源配置
 ```
 
@@ -153,7 +156,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 ## 部署
 
-站点通过 OpenNext 部署为 Cloudflare Worker（`wrangler.jsonc`，Worker 名 `abnormalhq`，入口是生成的 `.open-next/worker.js`）。页面都是预渲染的，预渲染结果放在只读的静态资源里（`open-next.config.ts`），不需要 R2 或队列；字体等静态文件由静态资源服务直接响应。生产发布由 [Cloudflare Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) 直接监听 `main` 分支，每次推送自动检查、构建并部署；任何一步失败都不会部署，上一个成功版本继续可用。
+站点通过 OpenNext 部署为 Cloudflare Worker（`wrangler.jsonc`，Worker 名 `abnormalhq`，入口是 `worker.ts`，它包住生成的 `.open-next/worker.js`）。页面都是预渲染的，预渲染结果放在只读的静态资源里（`open-next.config.ts`），不需要 R2 或队列；字体等静态文件由静态资源服务直接响应。生产发布由 [Cloudflare Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) 直接监听 `main` 分支，每次推送自动检查、构建并部署；任何一步失败都不会部署，上一个成功版本继续可用。
 
 `.github/workflows/ci.yml` 只在 PR 与 `main` 推送时执行相同的检查与构建，不负责发布，也不需要 Cloudflare 凭据。Actions 与 mail、onboard 一样只写大版本标签（如 `actions/checkout@v7`），大版本升级由 Dependabot 提 PR。
 

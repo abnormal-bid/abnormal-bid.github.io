@@ -11,6 +11,8 @@ export interface Contact {
 
 export const site = {
   url: "https://abnormalhq.com",
+  /** 只负责跳到主域名，见 next.config.ts 的 redirects。 */
+  wwwHost: "www.abnormalhq.com",
   contact: {
     wechat: "",
     email: "support@abnormal.bid",

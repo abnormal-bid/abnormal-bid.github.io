@@ -20,3 +20,9 @@ declare module "@/content/legal/*.mdx" {
   const Content: MDXContent;
   export default Content;
 }
+
+// OpenNext 在构建时生成，typecheck 时可能还不存在。
+declare module "*/.open-next/worker.js" {
+  const handler: { fetch(request: Request, env: unknown, ctx: unknown): Promise<Response> };
+  export default handler;
+}

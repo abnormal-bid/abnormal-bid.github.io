@@ -1,10 +1,11 @@
 import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
+import { site } from "./src/data/site.ts";
 import { pages } from "./src/lib/pages.ts";
 
 // 带扩展名的路径（/icon.svg），写法与 Next.js 内置的尾部斜杠规则相同。
 const filePath = "/:file((?!\\.well-known(?:/.*)?)(?:[^/]+/)*[^/]+\\.\\w+)";
-const onWww = [{ type: "host" as const, value: "www.abnormalhq.com" }];
+const onWww = [{ type: "host" as const, value: site.wwwHost }];
 
 const nextVary = "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch, Next-Url";
 
@@ -33,18 +34,6 @@ const nextConfig: NextConfig = {
         { key: "Vary", value: `${nextVary}, Accept` },
       ],
     }));
-  },
-  async rewrites() {
-    return {
-      // 页面都是预渲染的，普通 rewrites 排在页面之后不会生效，内容协商要放在 beforeFiles。
-      beforeFiles: pages.map((page) => ({
-        source: page.url,
-        has: [{ type: "header" as const, key: "accept", value: "(.*)text/markdown(.*)" }],
-        destination: page.markdown,
-      })),
-      afterFiles: [],
-      fallback: [],
-    };
   },
   experimental: {
     // 中英文各有一个根布局，没有共同的根，404 要用 src/app/global-not-found.tsx。
