@@ -73,7 +73,7 @@ export function Footer({ lang }: { lang: Lang }) {
         <div className="flex flex-col gap-4 border-t border-border py-6 text-sm/[1.7] text-muted-foreground md:flex-row md:items-center md:justify-between md:gap-8">
           <span>
             {fillTemplate(f.copyright, {
-              // 预渲染时的年份只是占位，浏览器里由 CurrentYear 换成访问时的年份。
+              // The prerendered year is a placeholder that CurrentYear replaces in the browser.
               year: <CurrentYear buildYear={new Date().getFullYear()} />,
             }).map((part, index) => (
               <Fragment key={index}>{part}</Fragment>

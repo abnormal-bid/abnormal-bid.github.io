@@ -1,6 +1,7 @@
 /**
- * 把「咨询与服务适用{terms}与{privacy}。」这样的文案模板拆开，{名字} 换成传入的内容（通常是链接）。
- * 空格与语序都写在各语言的文案里，组件不再自己补空格；模板里有但没传的名字直接报错，预渲染时就能发现拼写错误。
+ * Fills a copy template such as "咨询与服务适用{terms}与{privacy}。", swapping each {name} for the given part (usually
+ * a link). Spacing and word order stay in each language's copy, so components add no spaces of their own. A name the
+ * template uses but the caller does not pass throws, so a typo fails the prerender instead of shipping.
  */
 export function fillTemplate<T>(template: string, slots: Record<string, T>): (string | T)[] {
   const parts: (string | T)[] = [];
@@ -10,7 +11,7 @@ export function fillTemplate<T>(template: string, slots: Record<string, T>): (st
     } else if (Object.hasOwn(slots, part)) {
       parts.push(slots[part]!);
     } else {
-      throw new Error(`文案模板「${template}」缺少 {${part}}`);
+      throw new Error(`The copy template "${template}" has no value for {${part}}`);
     }
   });
   return parts;
