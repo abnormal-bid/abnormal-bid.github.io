@@ -33,6 +33,7 @@ export function pageMetadata({
         [copies.en.htmlLang]: localePath("en", path),
         "x-default": localePath("zh", path),
       },
+      types: { "text/markdown": `/md${url}` },
     },
     openGraph: {
       title: title ?? t.meta.socialTitle,

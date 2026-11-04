@@ -47,6 +47,25 @@ registry 地址在 `components.json`。新增或更新组件：
 pnpm dlx shadcn@latest add @abnormal/button --overwrite
 ```
 
+## 给 Agent 的入口
+
+对照 [Is Your Site Agent-Ready](https://isitagentready.com/) 的内容站检查项（可用 `POST https://isitagentready.com/api/scan` 复查）。页面清单在 `src/lib/pages.ts`，下面几项都从那里取，新增页面时只改这一处。
+
+| 入口            | 地址                               | 实现                                                                       |
+| --------------- | ---------------------------------- | -------------------------------------------------------------------------- |
+| 抓取规则        | `/robots.txt`                      | `public/robots.txt`，含 Content Signals 与 sitemap                         |
+| 站点地图        | `/sitemap.xml`                     | `src/app/sitemap.ts`                                                       |
+| 目录            | `/llms.txt`                        | `src/app/llms.txt/route.ts`，内容由 `src/lib/markdown.ts` 生成             |
+| Markdown 版页面 | `/md/`、`/md/en/privacy/`          | `src/app/md/[[...slug]]/route.ts`，首页来自界面文案，法律页面来自 MDX 正文 |
+| 内容协商        | 页面地址 + `Accept: text/markdown` | `worker.ts` 按权重判断（`src/lib/negotiate.ts`）后转到上面的 Markdown 版本 |
+| 发现头          | 每个页面的 `Link` 响应头           | `next.config.ts` 的 `headers()`，同时输出 `Vary: Accept`                   |
+
+`Content-Signal` 目前是 `search=yes, ai-input=yes, ai-train=no`：允许搜索和 AI 回答引用，不授权模型训练。
+
+内容协商在 `worker.ts` 里，`pnpm dev` 不经过它；要测请用 `pnpm cf:preview`，或直接打开 `/md/` 下的地址。
+
+MCP、OAuth、API Catalog、Agent Skills 和商务协议没有实现：官网没有 API，也不收款，这些检查对它不适用。购买流程在 onboard。
+
 ## 开发
 
 开发设置与 [mail](https://github.com/abnormalhq/mail)、[onboard](https://github.com/abnormalhq/onboard)、[ui](https://github.com/abnormalhq/ui) 一致：Node.js 24（见 `.node-version`；`package.json` 的 `engines` 写的是工具链实际需要的最低版本 22.22.1，`tests/toolchain.test.ts` 检查它不低于任何直接依赖的要求）、pnpm 12（版本写在 `package.json` 的 `packageManager`）、TypeScript、Prettier（行宽 120）、ESLint、husky + lint-staged + commitlint。
@@ -71,7 +90,7 @@ pnpm dev
 pnpm check         # lint + typecheck + test
 pnpm lint          # ESLint（eslint-config-next）
 pnpm typecheck     # next typegen 与 TypeScript 检查
-pnpm test          # 咨询逻辑、文案结构、页面元数据、法律文档与主题偏好测试
+pnpm test          # 咨询逻辑、文案结构、页面元数据、法律文档、Agent 入口、缓存头与主题偏好测试
 pnpm format:check  # 格式检查
 pnpm build         # next build
 pnpm cf:preview    # OpenNext 构建，并在本地 workerd 里预览（端口 8786）
@@ -90,12 +109,13 @@ src/
   content/legal/  MDX 编写的隐私政策与服务条款，zh/ 与 en/ 各一份
   data/site.ts    公开联系方式与联动站点地址（linksFor）
   i18n/           中英文文案（zh.ts、en.ts、types.ts）与语言路径工具（paths.ts）
-  lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO；legal.ts 法律文档的 frontmatter 检查与目录；template.ts 文案模板
+  lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO；legal.ts 法律文档的 frontmatter 检查与目录；template.ts 文案模板；pages.ts 页面清单；markdown.ts 与 negotiate.ts 给 Agent 的 Markdown 与内容协商；cache.ts 浏览器缓存头
   scripts/        theme-init.js：内联进头部的主题初始化脚本
   styles/         abnormal.css、abnormal-fonts.css 来自 registry；global.css 是官网专属的断点和全局规则
 public/           字体等由静态资源服务直接响应的文件
-tests/            咨询逻辑、文案结构、页面元数据、法律文档与主题行为回归测试
+tests/            咨询逻辑、文案结构、页面元数据、法律文档、Agent 入口、缓存头与主题行为回归测试
 open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资源里
+worker.ts            Worker 入口：Markdown 内容协商与缓存头
 wrangler.jsonc       Cloudflare Worker 与静态资源配置
 ```
 
@@ -149,7 +169,7 @@ frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`
 
 ## 部署
 
-站点通过 OpenNext 部署为 Cloudflare Worker（`wrangler.jsonc`，Worker 名 `abnormalhq`，入口是生成的 `.open-next/worker.js`）。页面都是预渲染的，预渲染结果放在只读的静态资源里（`open-next.config.ts`），不需要 R2 或队列；字体等静态文件由静态资源服务直接响应。生产发布由 [Cloudflare Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) 直接监听 `main` 分支，每次推送自动检查、构建并部署；任何一步失败都不会部署，上一个成功版本继续可用。
+站点通过 OpenNext 部署为 Cloudflare Worker（`wrangler.jsonc`，Worker 名 `abnormalhq`，入口是 `worker.ts`，它包住生成的 `.open-next/worker.js`）。页面都是预渲染的，预渲染结果放在只读的静态资源里（`open-next.config.ts`），不需要 R2 或队列；字体等静态文件由静态资源服务直接响应。生产发布由 [Cloudflare Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) 直接监听 `main` 分支，每次推送自动检查、构建并部署；任何一步失败都不会部署，上一个成功版本继续可用。
 
 `.github/workflows/ci.yml` 只在 PR 与 `main` 推送时执行相同的检查与构建，不负责发布，也不需要 Cloudflare 凭据。Actions 与 mail、onboard 一样只写大版本标签（如 `actions/checkout@v7`），大版本升级由 Dependabot 提 PR。
 

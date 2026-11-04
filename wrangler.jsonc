@@ -2,8 +2,8 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   // Workers Builds 里连接的 Worker 名必须与这里一致。
   "name": "abnormalhq",
-  // 入口是 OpenNext 生成的 Worker，由 pnpm cf:build 产出。
-  "main": ".open-next/worker.js",
+  // 入口在 OpenNext 生成的 Worker 外面包了一层内容协商；.open-next/worker.js 由 pnpm cf:build 产出。
+  "main": "worker.ts",
   "compatibility_date": "2026-09-01",
   // nodejs_compat：Next.js 服务端依赖 Node API。
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],

@@ -8,7 +8,7 @@ import { TextLink } from "@/components/ui/text-link";
 import type { LegalFrontmatter, LegalHeading } from "@/content/legal/types";
 import { site, type Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
-import { getTelegramUrl } from "@/lib/inquiry";
+import { contactChannels } from "@/lib/inquiry";
 import { legalSections } from "@/lib/legal";
 import { cn } from "@/lib/utils";
 import { Icon } from "./Icon";
@@ -37,13 +37,7 @@ export function LegalDocument({
   const dateFormatter = new Intl.DateTimeFormat(l.dateLocale, { dateStyle: "long", timeZone: "UTC" });
   const formatDate = (value: string) => dateFormatter.format(new Date(`${value}T00:00:00Z`));
 
-  const email = site.contact.email.trim();
-  const wechat = site.contact.wechat.trim();
-  const telegram = getTelegramUrl(site.contact.telegram);
-  const contacts: { label: string; value: string; href?: string }[] = [];
-  if (email) contacts.push({ label: l.contactLabels.email, value: email, href: `mailto:${email}` });
-  if (wechat) contacts.push({ label: l.contactLabels.wechat, value: wechat });
-  if (telegram) contacts.push({ label: l.contactLabels.telegram, value: telegram, href: telegram });
+  const contacts = contactChannels(site.contact, l.contactLabels);
 
   return (
     <>
