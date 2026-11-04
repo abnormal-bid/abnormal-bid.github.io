@@ -168,7 +168,8 @@ export interface Copy {
     supportLinks: readonly LinkItem[];
     faq: string;
     emailAria: (email: string) => string;
-    copyright: (year: number) => string;
+    /** {year} 换成当前年份。 */
+    copyright: string;
     buyOnline: string;
     legalLabel: string;
   };

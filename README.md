@@ -13,7 +13,7 @@
 - 装饰性的英文小标（各区块的 `eyebrow`、咨询弹窗的 `kicker`、页脚的 `tagline`、法律页目录的 `tocKicker`）也写在文案里：两种语言都用英文，组件渲染时带 `lang="en"`，读屏软件才会用英文读，测试会检查它们不含中文、页面里的 `Eyebrow` 都带 `lang="en"`。
 - 中间夹着链接的句子写成模板，如 `inquiry.legal` 的「咨询与服务适用{terms}与{privacy}。」，由 `src/lib/template.ts` 的 `fillTemplate` 填入链接；链接两侧的空格写在各语言的文案里，组件不另补空格。
 - 联动地址由 `linksFor(lang)` 生成：onboard 的英文页在 `/en/` 下，网页邮箱与状态页按浏览器语言显示，两种语言用同一个地址。
-- 客户端组件（`Header`、`ThemePicker`、`InquiryDialog`）不引用文案模块，由 `SiteLayout` 通过 props 传入各自用得到的文案，浏览器脚本里不带两种语言的全部文案；路径工具放在 `src/i18n/paths.ts` 也是这个原因。咨询内容与邮件主题由 `src/lib/inquiry.ts` 按语言生成。
+- 客户端组件（`Header`、`ThemePicker`、`InquiryDialog`、`CurrentYear`）不引用文案模块，由 `SiteLayout` 通过 props 传入各自用得到的文案，浏览器脚本里不带两种语言的全部文案；路径工具放在 `src/i18n/paths.ts` 也是这个原因。咨询内容与邮件主题由 `src/lib/inquiry.ts` 按语言生成。
 - 法律页面：中文 `src/content/legal/zh/privacy.mdx`、`terms.mdx`，英文 `src/content/legal/en/privacy.mdx`、`terms.mdx`。英文版开头注明是译文、以中文版为准；修改条款时两边一起改，并同步 `updated`。
 
 ## 与其他站点联动
@@ -90,7 +90,7 @@ open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资�
 wrangler.jsonc       Cloudflare Worker 与静态资源配置
 ```
 
-布局、排版、状态和响应式设计都使用 Tailwind utility。只有 `Header`、`ThemePicker`、`InquiryDialog` 是客户端组件，其余都是服务端组件，在构建时预渲染。Worker 运行时不能用 `fs` 读项目文件，所以法律文档在构建时由 MDX 编译成组件，`theme-init.js` 由 `next.config.ts` 的 `raw-loader` 规则打包成字符串。页面里任意位置要打开咨询弹窗，用 `InquiryButton`（`product` 指定预选的服务）。
+布局、排版、状态和响应式设计都使用 Tailwind utility。只有 `Header`、`ThemePicker`、`InquiryDialog` 和页脚年份的 `CurrentYear` 是客户端组件，其余都是服务端组件，在构建时预渲染。预渲染的内容要到下次部署才会变，所以服务端组件不直接显示当前时间：页脚版权年份先用构建时的年份占位，浏览器里由 `CurrentYear` 换成访问时的年份。Worker 运行时不能用 `fs` 读项目文件，所以法律文档在构建时由 MDX 编译成组件，`theme-init.js` 由 `next.config.ts` 的 `raw-loader` 规则打包成字符串。页面里任意位置要打开咨询弹窗，用 `InquiryButton`（`product` 指定预选的服务）。
 
 ## 视觉设计
 

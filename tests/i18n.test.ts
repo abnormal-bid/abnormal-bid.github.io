@@ -134,3 +134,8 @@ test("the inquiry's legal sentence keeps each language's own spacing around its 
   );
   assert.throws(() => fillTemplate("适用{terms}与{privcy}。", links), /privcy/);
 });
+
+test("the copyright line takes the year through a template slot", () => {
+  assert.equal(fillTemplate(zh.footer.copyright, { year: 2027 }).join(""), "© 2027 Abnormal. 让沟通更简单。");
+  assert.equal(fillTemplate(en.footer.copyright, { year: 2027 }).join(""), "© 2027 Abnormal. Mail made simple.");
+});

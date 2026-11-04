@@ -268,7 +268,7 @@ export const zh: Copy = {
     ],
     faq: "常见问题",
     emailAria: (email) => `客服邮箱：${email}`,
-    copyright: (year) => `© ${year} Abnormal. 让沟通更简单。`,
+    copyright: "© {year} Abnormal. 让沟通更简单。",
     buyOnline: "在线购买邮箱",
     legalLabel: "法律信息",
   },

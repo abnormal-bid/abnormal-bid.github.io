@@ -278,7 +278,7 @@ export const en: Copy = {
     ],
     faq: "FAQ",
     emailAria: (email) => `Support email: ${email}`,
-    copyright: (year) => `© ${year} Abnormal. Mail made simple.`,
+    copyright: "© {year} Abnormal. Mail made simple.",
     buyOnline: "Buy a mailbox online",
     legalLabel: "Legal",
   },

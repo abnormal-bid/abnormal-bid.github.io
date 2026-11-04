@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { Fragment } from "react";
 import { Container } from "@/components/ui/container";
 import { site, type Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
+import { fillTemplate } from "@/lib/template";
 import { Brand } from "./Brand";
+import { CurrentYear } from "./CurrentYear";
 import { Icon } from "./Icon";
 
 const labelClass = "mb-3 text-sm/[1.6] text-muted-foreground";
@@ -68,7 +71,14 @@ export function Footer({ lang }: { lang: Lang }) {
           </div>
         </div>
         <div className="flex flex-col gap-4 border-t border-border py-6 text-sm/[1.7] text-muted-foreground md:flex-row md:items-center md:justify-between md:gap-8">
-          <span>{f.copyright(new Date().getFullYear())}</span>
+          <span>
+            {fillTemplate(f.copyright, {
+              // 预渲染时的年份只是占位，浏览器里由 CurrentYear 换成访问时的年份。
+              year: <CurrentYear buildYear={new Date().getFullYear()} />,
+            }).map((part, index) => (
+              <Fragment key={index}>{part}</Fragment>
+            ))}
+          </span>
           <div className="flex flex-col gap-3 md:items-end card:flex-row card:items-center card:gap-7">
             <p>
               <a
