@@ -58,7 +58,14 @@ pnpm install
 pnpm dev
 ```
 
-开发地址为 `http://localhost:4321`。
+开发地址为 `http://localhost:4320`，本地 workerd 预览在 `http://localhost:8786`。各仓库的端口互不相同，可以同时开着：
+
+| 仓库       | `next dev` | 本地 Worker 预览                      |
+| ---------- | ---------- | ------------------------------------- |
+| abnormalhq | 4320       | 8786（`pnpm cf:preview`）             |
+| onboard    | 4321       | 8787（`pnpm preview`）                |
+| mail       | 3000       | 8788（`pnpm cf:preview --port 8788`） |
+| ui         | 4342       | 4341（`pnpm serve`）                  |
 
 ```sh
 pnpm check         # lint + typecheck + test
@@ -67,7 +74,7 @@ pnpm typecheck     # next typegen 与 TypeScript 检查
 pnpm test          # 咨询逻辑、文案结构、页面元数据、法律文档与主题偏好测试
 pnpm format:check  # 格式检查
 pnpm build         # next build
-pnpm cf:preview    # OpenNext 构建，并在本地 workerd 里预览（端口 8787）
+pnpm cf:preview    # OpenNext 构建，并在本地 workerd 里预览（端口 8786）
 pnpm cf:build      # 完整发布前检查：check、format:check、OpenNext 构建到 .open-next/ 与 wrangler deploy --dry-run
 pnpm cf:deploy     # 部署已有的 .open-next/ 产物
 ```
