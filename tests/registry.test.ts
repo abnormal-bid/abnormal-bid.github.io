@@ -40,6 +40,14 @@ test("smooth scrolling respects reduced motion", () => {
   assert.equal(global.match(/scroll-behavior/g)?.length, 1);
 });
 
+test("dark: utilities follow the system preference like the theme tokens", () => {
+  // Process.tsx darkens the step band with dark:, which must still apply on a dark system when theme-init.js has not run.
+  const theme = readFileSync("src/styles/abnormal.css", "utf8");
+  const variant = theme.slice(theme.indexOf("@custom-variant dark"), theme.indexOf("@custom-variant data-open"));
+  assert.match(variant, /&:where\(\[data-theme="dark"\], \[data-theme="dark"\] \*\)/);
+  assert.match(variant, /@media \(prefers-color-scheme: dark\) \{\s*&:where\(:root:not\(\[data-theme="light"\]\)/);
+});
+
 test("registry components are not edited to import site code", () => {
   for (const file of installed) {
     const source = readFileSync(join(componentsDir, "ui", file), "utf8");
