@@ -9,7 +9,7 @@ const installed = readdirSync(join(componentsDir, "ui"));
 
 test("the website pulls its components from the @abnormal registry", () => {
   const config = JSON.parse(readFileSync("components.json", "utf8"));
-  assert.match(config.registries["@abnormal"], /\{name\}\.json$/);
+  assert.equal(config.registries["@abnormal"], "https://ui.abnormalhq.com/r/{name}.json");
   assert.ok(existsSync("src/styles/abnormal.css"), "@abnormal/theme is installed");
   assert.ok(existsSync("src/lib/utils.ts"), "@abnormal/utils is installed");
   assert.ok(installed.length > 0);
