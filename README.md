@@ -49,7 +49,9 @@ pnpm dlx shadcn@latest add @abnormal/button --overwrite
 
 ## 开发
 
-开发设置与 [mail](https://github.com/abnormalhq/mail)、[onboard](https://github.com/abnormalhq/onboard) 一致：Node.js 24（见 `.node-version`）、pnpm 12（版本写在 `package.json` 的 `packageManager`）、Prettier（行宽 120）、ESLint、husky + lint-staged + commitlint。
+开发设置与 [mail](https://github.com/abnormalhq/mail)、[onboard](https://github.com/abnormalhq/onboard)、[ui](https://github.com/abnormalhq/ui) 一致：Node.js 24（见 `.node-version`）、pnpm 12（版本写在 `package.json` 的 `packageManager`）、TypeScript、Prettier（行宽 120）、ESLint、husky + lint-staged + commitlint。
+
+类型检查使用 TypeScript 7 的 `tsc`。依赖采用[微软推荐的双包别名](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6-0)：`@typescript/native` 指向 TypeScript 7，`typescript` 指向 `@typescript/typescript6` 兼容包，供 Next.js 构建与 ESLint（typescript-eslint 还不支持 TS 7）使用。升级依赖时保留这两个别名，四个仓库才用同一个编译器检查同一份 registry 组件。
 
 ```sh
 pnpm install
