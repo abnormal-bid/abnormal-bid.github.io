@@ -45,6 +45,23 @@ registry 地址在 `components.json`。新增或更新组件：
 pnpm dlx shadcn@latest add @abnormal/button --overwrite
 ```
 
+## 给 Agent 的入口
+
+对照 [Is Your Site Agent-Ready](https://isitagentready.com/) 的内容站检查项（可用 `POST https://isitagentready.com/api/scan` 复查）。页面清单在 `src/lib/pages.ts`，下面几项都从那里取，新增页面时只改这一处。
+
+| 入口            | 地址                               | 实现                                                                       |
+| --------------- | ---------------------------------- | -------------------------------------------------------------------------- |
+| 抓取规则        | `/robots.txt`                      | `public/robots.txt`，含 Content Signals 与 sitemap                         |
+| 站点地图        | `/sitemap.xml`                     | `src/app/sitemap.ts`                                                       |
+| 目录            | `/llms.txt`                        | `src/app/llms.txt/route.ts`，内容由 `src/lib/markdown.ts` 生成             |
+| Markdown 版页面 | `/md/`、`/md/en/privacy/`          | `src/app/md/[[...slug]]/route.ts`，首页来自界面文案，法律页面来自 MDX 正文 |
+| 内容协商        | 页面地址 + `Accept: text/markdown` | `next.config.ts` 的 `beforeFiles` rewrites 转到上面的 Markdown 版本        |
+| 发现头          | 每个页面的 `Link` 响应头           | `next.config.ts` 的 `headers()`，同时输出 `Vary: Accept`                   |
+
+`Content-Signal` 目前是 `search=yes, ai-input=yes, ai-train=no`：允许搜索和 AI 回答引用，不授权模型训练。
+
+MCP、OAuth、API Catalog、Agent Skills 和商务协议没有实现：官网没有 API，也不收款，这些检查对它不适用。购买流程在 onboard。
+
 ## 开发
 
 开发设置与 [mail](https://github.com/abnormalhq/mail)、[onboard](https://github.com/abnormalhq/onboard) 一致：Node.js 24（见 `.node-version`）、pnpm 12（版本写在 `package.json` 的 `packageManager`）、Prettier（行宽 120）、ESLint、husky + lint-staged + commitlint。
