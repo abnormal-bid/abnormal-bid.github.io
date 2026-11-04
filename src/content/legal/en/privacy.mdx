@@ -47,6 +47,7 @@ When you buy in the shop, manage orders or redeem a code, we process:
 - **Payment details**: Linux DO Credit payments happen on Linux DO Credit; card payments happen on Stripe, which handles the card number, expiry date and security code. We never see or store them. We receive only the payment result, transaction number and amount, plus the Stripe customer and subscription IDs needed for card subscriptions.
 - **Redeem details**: the redeem code you enter, the domain and username you choose, and the password you set for the mailbox. If you fill in a "receiving email", we send the new mailbox's address, password and server settings to that address.
 - **Security information**: the IP address and browser details of requests, used to limit request rates and block abuse such as guessing redeem codes.
+- **Human check**: the redeem page, shop sign-in, webmail sign-in and management system sign-in may run a Cloudflare Turnstile check. It reads signals your browser sends (such as browser characteristics and how the page is used) to tell people from automated programs, and usually needs no action from you; we receive only a pass or fail result. See the [Cloudflare Turnstile Privacy Addendum](https://www.cloudflare.com/turnstile-privacy-policy/).
 
 ## Information processed when you use a mailbox
 
@@ -61,9 +62,11 @@ Once a mailbox is open, providing mail service necessarily involves:
   - **Conversation summaries and suggested replies**: when you ask for them, the senders, recipients, times, subjects and bodies of the messages in that conversation.
   - **Natural-language search**: only the sentence you typed and today's date, no mail content.
   - **Follow-up tasks**: the task description, and the mail in this mailbox that the task searches and reads while it runs. Once created, a task runs by itself on a schedule or when related mail arrives, until it finishes or is cancelled, and may send mail automatically depending on the chosen send mode. When a task needs the web, its search terms and the addresses of pages to read are sent to Tavily.
-  - **Ticket AI assistant**: when it is on, it handles the tickets you submit first, and receives the ticket text plus the mailbox address, status, creation date, storage use and message counts.
+  - **Ticket AI assistant**: when it is on, it handles the tickets you submit first, and receives the ticket text plus the mailbox address, status, creation date, storage use and message counts, and the few passages of our help material most relevant to your question.
 
   Apart from these cases, your mail is not sent to a language model provider.
+
+- **Finding things by meaning**: to pick the relevant help material for the ticket AI assistant, the ticket subject and your latest message are sent to Cloudflare Workers AI and turned into a set of numbers (a vector) for comparison; they are not kept. The management system also has a "semantic search" feature which, when on, sends the subject, sender and recipients and the start of the body of mail to Cloudflare Workers AI to make vectors, stored on Cloudflare Vectorize, so admins can find mail by meaning. It is currently off, and we will update this policy before turning it on. Workers AI does not keep this content or train on it, and these calls do not go through AI Gateway, which keeps logs.
 
 - **Tickets and help requests**: tickets you submit in webmail, the messages exchanged and any details you include.
 
@@ -87,7 +90,7 @@ When you contact us, or use a custom service we have agreed on, we may process:
 - To handle renewals, expiry, suspension and restoration, refunds and disputes.
 - To provide support and answer tickets and inquiries.
 - To provide the AI features described above: generating drafts, summaries, suggested replies and search filters, running follow-up tasks and handling tickets first.
-- To keep the service safe: limiting request rates and finding and stopping spam, phishing, account theft and other abuse.
+- To keep the service safe: human checks, limiting request rates and finding and stopping spam, phishing, account theft and other abuse.
 - For bookkeeping and to meet legal obligations.
 
 We don't use your information for unrelated marketing, and we don't send you promotions without your consent.
@@ -96,7 +99,7 @@ We don't use your information for unrelated marketing, and we don't send you pro
 
 We don't sell or rent your personal information. To run the service, the following providers process the information they need for their part:
 
-- **Cloudflare**: hosts the website, runs the shop, redeem page, webmail and management system, provides network delivery, runtime logs and AI Gateway, and runs follow-up tasks.
+- **Cloudflare**: hosts the website, runs the shop, redeem page, webmail and management system, provides network delivery, runtime logs, AI Gateway, the human check (Turnstile) and finding things by meaning (Workers AI and Vectorize), and runs follow-up tasks.
 - **Database provider**: stores accounts, orders, redeem codes, tickets, follow-up task records, settings and similar data (currently PlanetScale).
 - **Cloud host for the mail servers**: runs our own mail servers and the mail stored on them.
 - **Linux DO Credit** and **Stripe**: process the payment method you choose, under their own privacy policies.
