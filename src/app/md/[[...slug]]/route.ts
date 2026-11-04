@@ -4,6 +4,7 @@ import { frontmatter as zhPrivacy } from "@/content/legal/zh/privacy.mdx";
 import { frontmatter as zhTerms } from "@/content/legal/zh/terms.mdx";
 import { legalSources } from "@/content/legal/sources";
 import { site } from "@/data/site";
+import { parseLegalFrontmatter } from "@/lib/legal";
 import { homeMarkdown, legalMarkdown, stripFrontmatter } from "@/lib/markdown";
 import { pages, type Page } from "@/lib/pages";
 
@@ -16,9 +17,16 @@ export function generateStaticParams() {
   return pages.map((page) => ({ slug: slugOf(page) }));
 }
 
+// 与 HTML 页面一样先检查 frontmatter，缺字段时构建报错并指出文件，而不是输出带 undefined 的 Markdown。
 const frontmatters = {
-  zh: { "/privacy/": zhPrivacy, "/terms/": zhTerms },
-  en: { "/privacy/": enPrivacy, "/terms/": enTerms },
+  zh: {
+    "/privacy/": parseLegalFrontmatter(zhPrivacy, "zh/privacy.mdx"),
+    "/terms/": parseLegalFrontmatter(zhTerms, "zh/terms.mdx"),
+  },
+  en: {
+    "/privacy/": parseLegalFrontmatter(enPrivacy, "en/privacy.mdx"),
+    "/terms/": parseLegalFrontmatter(enTerms, "en/terms.mdx"),
+  },
 } as const;
 
 function render({ lang, path }: Page): string {

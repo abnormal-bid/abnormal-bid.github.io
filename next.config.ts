@@ -1,5 +1,6 @@
 import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
+import { rehypePlugins, remarkPlugins } from "./src/content/legal/mdx.ts";
 import { site } from "./src/data/site.ts";
 import { pages } from "./src/lib/pages.ts";
 
@@ -47,12 +48,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-// Turbopack 要求插件写成包名字符串。
-const withMDX = createMDX({
-  options: {
-    remarkPlugins: ["remark-frontmatter", "remark-mdx-frontmatter", "remark-gfm", "remark-smartypants"],
-    rehypePlugins: ["rehype-slug", "@stefanprobst/rehype-extract-toc", "@stefanprobst/rehype-extract-toc/mdx"],
-  },
-});
+// Turbopack 要求插件写成包名字符串；清单在 src/content/legal/mdx.ts，测试用同一份编译法律文档。
+const withMDX = createMDX({ options: { remarkPlugins, rehypePlugins } });
 
 export default withMDX(nextConfig);

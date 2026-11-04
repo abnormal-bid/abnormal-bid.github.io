@@ -19,8 +19,8 @@ export function Start({ lang }: { lang: Lang }) {
       <Container className={sectionSpaceClassName}>
         <div className="mb-10 flex items-end justify-between gap-8 max-lg:gap-4 max-md:mb-7 max-md:flex-col max-md:items-start">
           <div>
-            <Eyebrow>
-              <span className="mr-1">01 /</span> Start here
+            <Eyebrow lang="en">
+              <span className="mr-1">01 /</span> {s.eyebrow}
             </Eyebrow>
             <SectionTitle id="start-title">
               {s.title}
@@ -52,7 +52,7 @@ export function Start({ lang }: { lang: Lang }) {
                 <span className="mt-6 flex items-center justify-between text-xl/[1.4] font-semibold tracking-[-0.01em] max-sm:mt-[1.1rem]">
                   {entry.title}
                   <span className="text-xs/[1.4] font-normal tracking-normal text-muted-foreground" aria-hidden="true">
-                    0{index + 1}
+                    {String(index + 1).padStart(2, "0")}
                   </span>
                 </span>
                 <span className="mt-[0.6rem] flex-1 text-base/prose text-muted-foreground">{entry.description}</span>

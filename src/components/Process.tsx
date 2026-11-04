@@ -13,8 +13,9 @@ export function Process({ lang }: { lang: Lang }) {
       <Container className={sectionSpaceClassName}>
         <div className="mb-11 flex flex-col gap-5 md:mb-[3.75rem] md:flex-row md:items-end md:justify-between md:gap-8">
           <div>
-            <Eyebrow>
-              <span className="mr-1">03 /</span>A simple way to get started
+            <Eyebrow lang="en">
+              <span className="mr-1">03 /</span>
+              {t.process.eyebrow}
             </Eyebrow>
             <SectionTitle id="process-title">
               {t.process.title}

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { site, type Lang } from "@/data/site";
-import { copies } from "@/i18n";
-import { localePath } from "@/i18n/paths";
+import { site, type Lang } from "../data/site.ts";
+import { copies } from "../i18n/index.ts";
+import { localePath } from "../i18n/paths.ts";
 
 /**
  * 每个页面都有中英两版：hreflang 互相指向，x-default 指向中文版。
- * 子页面的 openGraph 会整体覆盖父级，所以每个页面都从这里生成完整的一份。
+ * 子页面的 openGraph 会整体覆盖父级，所以每个页面都从这里生成完整的一份；
+ * 传了 title / description 的页面（法律页），分享卡片也用它们，不传时用首页的分享文案。
  */
 export function pageMetadata({
   lang,
@@ -35,8 +36,8 @@ export function pageMetadata({
       types: { "text/markdown": `/md${url}` },
     },
     openGraph: {
-      title: t.meta.socialTitle,
-      description: t.meta.socialDescription,
+      title: title ?? t.meta.socialTitle,
+      description: description ?? t.meta.socialDescription,
       type: "website",
       url,
       locale: t.ogLocale,

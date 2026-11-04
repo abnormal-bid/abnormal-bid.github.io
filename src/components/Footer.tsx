@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { Fragment } from "react";
 import { Container } from "@/components/ui/container";
 import { site, type Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
+import { fillTemplate } from "@/lib/template";
 import { Brand } from "./Brand";
+import { CurrentYear } from "./CurrentYear";
 import { Icon } from "./Icon";
 
 const labelClass = "mb-3 text-sm/[1.6] text-muted-foreground";
@@ -21,7 +24,9 @@ export function Footer({ lang }: { lang: Lang }) {
         <div className="grid grid-cols-2 gap-8 py-10 md:grid-cols-[1.3fr_0.8fr_0.8fr_1fr] md:items-start md:py-14">
           <div className="col-span-full md:col-auto">
             <Brand lang={lang} />
-            <p className="mt-4 text-sm/body text-muted-foreground">Your inbox. Your identity.</p>
+            <p className="mt-4 text-sm/body text-muted-foreground" lang="en">
+              {f.tagline}
+            </p>
           </div>
           <nav aria-label={f.productLabel}>
             <p className={labelClass}>{f.productLabel}</p>
@@ -66,7 +71,14 @@ export function Footer({ lang }: { lang: Lang }) {
           </div>
         </div>
         <div className="flex flex-col gap-4 border-t border-border py-6 text-sm/[1.7] text-muted-foreground md:flex-row md:items-center md:justify-between md:gap-8">
-          <span>{f.copyright(new Date().getFullYear())}</span>
+          <span>
+            {fillTemplate(f.copyright, {
+              // The prerendered year is a placeholder that CurrentYear replaces in the browser.
+              year: <CurrentYear buildYear={new Date().getFullYear()} />,
+            }).map((part, index) => (
+              <Fragment key={index}>{part}</Fragment>
+            ))}
+          </span>
           <div className="flex flex-col gap-3 md:items-end card:flex-row card:items-center card:gap-7">
             <p>
               <a

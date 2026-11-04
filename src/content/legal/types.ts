@@ -9,9 +9,10 @@ export interface LegalFrontmatter {
   highlights: string[];
 }
 
-/** rehype-extract-toc 导出的标题；id 由 rehype-slug 生成。 */
+/** rehype-extract-toc 导出的标题树；id 由 rehype-slug 生成。下级标题在 children 里，所以要遍历整棵树（见 legalSections）。 */
 export interface LegalHeading {
   depth: number;
-  id: string;
+  id?: string;
   value: string;
+  children?: LegalHeading[];
 }

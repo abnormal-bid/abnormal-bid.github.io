@@ -51,7 +51,7 @@ export function Home({ lang }: { lang: Lang }) {
                 <span className="rotate-[-18deg] text-[15rem] leading-none font-light text-surface">@</span>
               </div>
               <div className="relative">
-                <Eyebrow>Make every connection count</Eyebrow>
+                <Eyebrow lang="en">{t.closing.eyebrow}</Eyebrow>
                 <h2
                   className="mt-4 text-[clamp(1.75rem,2.6vw,2.25rem)] leading-[1.3] max-phone:text-[1.6rem]"
                   id="closing-title"

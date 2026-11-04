@@ -9,6 +9,7 @@ import type { LegalFrontmatter, LegalHeading } from "@/content/legal/types";
 import { site, type Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
 import { contactChannels } from "@/lib/inquiry";
+import { legalSections } from "@/lib/legal";
 import { cn } from "@/lib/utils";
 import { Icon } from "./Icon";
 
@@ -21,7 +22,7 @@ export function LegalDocument({
 }: {
   lang: Lang;
   frontmatter: LegalFrontmatter;
-  headings: LegalHeading[];
+  headings: readonly LegalHeading[];
   /** 不带语言前缀的页面路径，如 /privacy/。 */
   href: string;
   /** MDX 正文。 */
@@ -31,10 +32,7 @@ export function LegalDocument({
   const { t, path } = useCopy(lang);
   const l = t.legal;
   const relatedPages = t.legalPages.filter(({ path: page }) => page !== currentPage);
-  const sections = [
-    ...headings.filter(({ depth }) => depth === 2).map(({ id, value }) => ({ slug: id, text: value })),
-    { slug: "contact", text: l.contactTitle },
-  ];
+  const sections = [...legalSections(headings), { slug: "contact", text: l.contactTitle }];
 
   const dateFormatter = new Intl.DateTimeFormat(l.dateLocale, { dateStyle: "long", timeZone: "UTC" });
   const formatDate = (value: string) => dateFormatter.format(new Date(`${value}T00:00:00Z`));
@@ -46,7 +44,7 @@ export function LegalDocument({
       <section className="relative border-b border-border" aria-labelledby="legal-title">
         <Container className="flex flex-col gap-10 py-14 md:py-[4.5rem] lg:flex-row lg:items-end lg:justify-between lg:gap-14">
           <div className="max-w-[40rem]">
-            <Eyebrow>{eyebrow}</Eyebrow>
+            <Eyebrow lang="en">{eyebrow}</Eyebrow>
             <h1 className="mt-4 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.25]" id="legal-title">
               {title}
               <HeadingMark>{t.dot}</HeadingMark>
@@ -75,7 +73,9 @@ export function LegalDocument({
           <nav aria-label={l.tocLabel}>
             <p className="flex items-center justify-between gap-4 text-sm/body font-medium text-foreground">
               {l.tocHint}{" "}
-              <span className="text-[11px] font-normal tracking-[0.06em] text-muted-foreground">CONTENTS</span>
+              <span className="text-[11px] font-normal tracking-[0.06em] text-muted-foreground uppercase" lang="en">
+                {l.tocKicker}
+              </span>
             </p>
             <ol className="mt-4 flex flex-wrap gap-2 lg:grid lg:gap-0 lg:border-t lg:border-border">
               {sections.map(({ slug, text }, index) => (

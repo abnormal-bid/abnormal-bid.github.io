@@ -22,7 +22,7 @@ export default function GlobalNotFound() {
       <body>
         <Container asChild className={sectionSpaceClassName}>
           <main>
-            <Eyebrow>404 / Page not found</Eyebrow>
+            <Eyebrow lang="en">404 / Page not found</Eyebrow>
             <SectionTitle asChild>
               <h1>
                 这个页面不存在<HeadingMark>。</HeadingMark>

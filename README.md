@@ -8,10 +8,12 @@
 
 中文在根路径（`/`、`/privacy/`、`/terms/`），英文在 `/en/` 下（`/en/`、`/en/privacy/`、`/en/terms/`），由 `src/app` 下的 `(zh)` 与 `(en)` 两个路由组实现，各有一个根布局。页头的「EN / 中」切换到另一种语言的同一页面；每页都输出互指的 `hreflang`，`x-default` 指向中文版。不按浏览器语言自动跳转。
 
-- 全部界面文案在 `src/i18n/zh.ts` 与 `src/i18n/en.ts`，二者都实现 `src/i18n/types.ts` 的 `Copy`，漏写字段会在 `pnpm typecheck` 时报错；`tests/i18n.test.ts` 还会检查两份文案的结构（列表长度、字段）一致。服务端组件用 `useCopy(lang)` 取当前语言的文案、联动地址与带语言前缀的站内路径。
+- 全部界面文案在 `src/i18n/zh.ts` 与 `src/i18n/en.ts`，二者都实现 `src/i18n/types.ts` 的 `Copy`，漏写字段会在 `pnpm typecheck` 时报错；`tests/i18n.test.ts` 还会逐项检查两份文案的结构一致（包括每个列表项的字段，可选字段也算），并要求 `link`、`icon`、`anchor`、`featured`、`primary`、`path` 这些与语言无关的值两边相同。服务端组件用 `useCopy(lang)` 取当前语言的文案、联动地址与带语言前缀的站内路径。
 - 中文标题用全角句号、英文用半角，取 `t.dot`；只在部分宽度换行的标题，两行之间用 `t.space`（英文是空格）。
+- 装饰性的英文小标（各区块的 `eyebrow`、咨询弹窗的 `kicker`、页脚的 `tagline`、法律页目录的 `tocKicker`）也写在文案里：两种语言都用英文，组件渲染时带 `lang="en"`，读屏软件才会用英文读，测试会检查它们不含中文、页面里的 `Eyebrow` 都带 `lang="en"`。
+- 中间夹着链接或变量的句子写成模板，如 `inquiry.legal` 的「咨询与服务适用{terms}与{privacy}。」，由 `src/lib/template.ts` 的 `fillTemplate` 填入链接；链接两侧的空格写在各语言的文案里，组件不另补空格。模板字段在 `Copy` 里写成 `Template<"terms" | "privacy">`，组件少传、多传或拼错名字都会在 `pnpm typecheck` 时报错；`tests/i18n.test.ts` 再检查每种语言的模板正好用到这些名字，也不会有未登记的模板。咨询弹窗只在浏览器里渲染，预渲染发现不了这里的错字，所以要靠这两道检查。
 - 联动地址由 `linksFor(lang)` 生成：onboard 的英文页在 `/en/` 下，网页邮箱与状态页按浏览器语言显示，两种语言用同一个地址。
-- 客户端组件（`Header`、`ThemePicker`、`InquiryDialog`）不引用文案模块，由 `SiteLayout` 通过 props 传入各自用得到的文案，浏览器脚本里不带两种语言的全部文案；路径工具放在 `src/i18n/paths.ts` 也是这个原因。咨询内容与邮件主题由 `src/lib/inquiry.ts` 按语言生成。
+- 客户端组件（`Header`、`ThemePicker`、`InquiryDialog`、`CurrentYear`）不引用文案模块，由 `SiteLayout` 通过 props 传入各自用得到的文案，浏览器脚本里不带两种语言的全部文案；路径工具放在 `src/i18n/paths.ts` 也是这个原因。咨询内容与邮件主题由 `src/lib/inquiry.ts` 按语言生成。
 - 法律页面：中文 `src/content/legal/zh/privacy.mdx`、`terms.mdx`，英文 `src/content/legal/en/privacy.mdx`、`terms.mdx`。英文版开头注明是译文、以中文版为准；修改条款时两边一起改，并同步 `updated`。
 
 ## 与其他站点联动
@@ -66,23 +68,32 @@ MCP、OAuth、API Catalog、Agent Skills 和商务协议没有实现：官网没
 
 ## 开发
 
-开发设置与 [mail](https://github.com/abnormalhq/mail)、[onboard](https://github.com/abnormalhq/onboard) 一致：Node.js 24（见 `.node-version`）、pnpm 12（版本写在 `package.json` 的 `packageManager`）、Prettier（行宽 120）、ESLint、husky + lint-staged + commitlint。
+开发设置与 [mail](https://github.com/abnormalhq/mail)、[onboard](https://github.com/abnormalhq/onboard)、[ui](https://github.com/abnormalhq/ui) 一致：Node.js 24（见 `.node-version`；`package.json` 的 `engines` 写的是工具链实际需要的最低版本 22.22.1，`tests/toolchain.test.ts` 检查它不低于任何直接依赖的要求）、pnpm 12（版本写在 `package.json` 的 `packageManager`）、TypeScript、Prettier（行宽 120）、ESLint、husky + lint-staged + commitlint。
+
+类型检查使用 TypeScript 7 的 `tsc`。依赖采用[微软推荐的双包别名](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6-0)：`@typescript/native` 指向 TypeScript 7，`typescript` 指向 `@typescript/typescript6` 兼容包，供 Next.js 构建与 ESLint（typescript-eslint 还不支持 TS 7）使用。升级依赖时保留这两个别名，四个仓库才用同一个编译器检查同一份 registry 组件。`tsconfig.json` 显式写了 `useDefineForClassFields: true`：tsc 与 `node --test` 对 ES2022 目标本来就按 define 语义处理类字段，而 Next.js 的 SWC 只认显式写出的值，不写就按赋值语义编译，构建结果会与测试不同。
 
 ```sh
 pnpm install
 pnpm dev
 ```
 
-开发地址为 `http://localhost:4321`。
+开发地址为 `http://localhost:4320`，本地 workerd 预览在 `http://localhost:8786`。各仓库的端口互不相同，可以同时开着：
+
+| 仓库       | `next dev` | 本地 Worker 预览                      |
+| ---------- | ---------- | ------------------------------------- |
+| abnormalhq | 4320       | 8786（`pnpm cf:preview`）             |
+| onboard    | 4321       | 8787（`pnpm preview`）                |
+| mail       | 3000       | 8788（`pnpm cf:preview --port 8788`） |
+| ui         | 4342       | 4341（`pnpm serve`）                  |
 
 ```sh
 pnpm check         # lint + typecheck + test
 pnpm lint          # ESLint（eslint-config-next）
 pnpm typecheck     # next typegen 与 TypeScript 检查
-pnpm test          # 咨询逻辑、文案结构与主题偏好测试
+pnpm test          # 咨询逻辑、文案结构、页面元数据、法律文档、Agent 入口、缓存头与主题偏好测试
 pnpm format:check  # 格式检查
 pnpm build         # next build
-pnpm cf:preview    # OpenNext 构建，并在本地 workerd 里预览（端口 8787）
+pnpm cf:preview    # OpenNext 构建，并在本地 workerd 里预览（端口 8786）
 pnpm cf:build      # 完整发布前检查：check、format:check、OpenNext 构建到 .open-next/ 与 wrangler deploy --dry-run
 pnpm cf:deploy     # 部署已有的 .open-next/ 产物
 ```
@@ -98,17 +109,17 @@ src/
   content/legal/  MDX 编写的隐私政策与服务条款，zh/ 与 en/ 各一份
   data/site.ts    公开联系方式与联动站点地址（linksFor）
   i18n/           中英文文案（zh.ts、en.ts、types.ts）与语言路径工具（paths.ts）
-  lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO
+  lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO；legal.ts 法律文档的 frontmatter 检查与目录；template.ts 文案模板；pages.ts 页面清单；markdown.ts 与 negotiate.ts 给 Agent 的 Markdown 与内容协商；cache.ts 浏览器缓存头
   scripts/        theme-init.js：内联进头部的主题初始化脚本
   styles/         abnormal.css、abnormal-fonts.css 来自 registry；global.css 是官网专属的断点和全局规则
 public/           字体等由静态资源服务直接响应的文件
-tests/            咨询逻辑、文案结构与主题行为回归测试
+tests/            咨询逻辑、文案结构、页面元数据、法律文档、Agent 入口、缓存头与主题行为回归测试
 open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资源里
 worker.ts            Worker 入口：Markdown 内容协商与缓存头
 wrangler.jsonc       Cloudflare Worker 与静态资源配置
 ```
 
-布局、排版、状态和响应式设计都使用 Tailwind utility。只有 `Header`、`ThemePicker`、`InquiryDialog` 是客户端组件，其余都是服务端组件，在构建时预渲染。Worker 运行时不能用 `fs` 读项目文件，所以法律文档在构建时由 MDX 编译成组件，`theme-init.js` 由 `next.config.ts` 的 `raw-loader` 规则打包成字符串。页面里任意位置要打开咨询弹窗，用 `InquiryButton`（`product` 指定预选的服务）。
+布局、排版、状态和响应式设计都使用 Tailwind utility。只有 `Header`、`ThemePicker`、`InquiryDialog` 和页脚年份的 `CurrentYear` 是客户端组件，其余都是服务端组件，在构建时预渲染。预渲染的内容要到下次部署才会变，所以服务端组件不直接显示当前时间：页脚版权年份先用构建时的年份占位，浏览器里由 `CurrentYear` 换成访问时的年份。Worker 运行时不能用 `fs` 读项目文件，所以法律文档在构建时由 MDX 编译成组件，`theme-init.js` 由 `next.config.ts` 的 `raw-loader` 规则打包成字符串。页面里任意位置要打开咨询弹窗，用 `InquiryButton`（`product` 指定预选的服务）。
 
 ## 视觉设计
 
@@ -137,7 +148,7 @@ wrangler.jsonc       Cloudflare Worker 与静态资源配置
 - `site.contact.wechat`：真实微信号。
 - `site.contact.email`：真实咨询邮箱；邮件咨询按钮会填入选定的服务类型、使用时长和需求。
 - `site.contact.telegram`：完整的 `https://t.me/...` 链接。有效 Telegram 优先；无效时回退到邮箱。
-- `services.products`（两份文案各一套）：统一维护邮箱服务名称、类别、描述、标签、`price` 与 `priceNote`。`price` 留空时显示「咨询报价」；填了 `href` 的卡片按钮直接前往该地址（如商店），否则打开咨询弹窗。
+- `services.products`（两份文案各一套）：统一维护邮箱服务名称、类别、描述、标签、`price` 与 `priceNote`，`icon` 选卡片左上角的图标（`mail`、`domain`、`team`、`setup`），卡片顺序可以随意调整。`price` 留空时显示「咨询报价」；填了 `href` 的卡片按钮直接前往该地址（如商店），否则打开咨询弹窗。
 - `linksFor`（site.ts）与 `start.entries`、`process.steps`（文案）：联动站点地址、首页入口卡片与开通流程；文案里用 `link` 键引用地址。
 
 这些配置会公开到网页中，请勿放入密钥、密码或私人信息。修改后提交到 `main` 即会自动重新构建并部署。
@@ -148,7 +159,9 @@ wrangler.jsonc       Cloudflare Worker 与静态资源配置
 
 `src/content/legal/zh/` 与 `src/content/legal/en/` 下的 `privacy.mdx`、`terms.mdx` 在构建时由 [`@next/mdx`](https://nextjs.org/docs/app/guides/mdx) 编译，通过 `src/components/LegalDocument.tsx` 输出，发布路径为 `/privacy/` 与 `/terms/`（英文 `/en/privacy/`、`/en/terms/`），页脚与咨询弹窗都有入口。正文使用 MDX 编写（普通文字里的 `{`、`}`、`<` 会被当成语法，要写成 `\{`、`\}`、`\<`），每个二级标题自动编号并生成目录；「联系我们」一节由组件根据 `site.contact` 生成，正文中无需重复联系方式。
 
-frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`（页首英文小标）、`summary`（页首导语）、`effective` 与 `updated`（`YYYY-MM-DD`，修改正文后请更新 `updated`）、`highlights`（页首「要点速览」）。
+frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`（页首英文小标）、`summary`（页首导语）、`effective` 与 `updated`（`YYYY-MM-DD`，修改正文后请更新 `updated`）、`highlights`（页首「要点速览」）。页面先用 `src/lib/legal.ts` 的 `parseLegalFrontmatter` 检查 frontmatter：缺字段、日期不是真实的 `YYYY-MM-DD`、`highlights` 为空时构建直接报错，并指出是哪个文件的哪个字段。目录取文档里的全部二级标题，正文不要写一级标题（页首已经是 h1）。
+
+`tests/legal.test.ts` 用与 `next.config.ts` 相同的插件（清单在 `src/content/legal/mdx.ts`）编译四份文档，要求同一页面的中英文二级标题数量、`effective` 与 `updated`、`highlights` 条数和 `eyebrow` 一致；只改一种语言时测试会提醒。
 
 两份文本覆盖官网、商店与开通页（onboard）、网页邮箱与状态页（mail）。其中与系统行为对应的部分（订阅服务期限从付款成功时起算、到期后 7 天宽限期与 30 天保留期、购买会话 Cookie、15 分钟登录链接、AI 功能的数据流向）照 mail 仓库 `src/lib/shop/` 与 onboard 的文案写成，相关逻辑变化时请同步修改。
 
