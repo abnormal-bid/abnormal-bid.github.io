@@ -5,7 +5,7 @@ import { linksFor, site } from "../src/data/site.ts";
 import { copies } from "../src/i18n/index.ts";
 import { contactChannels } from "../src/lib/inquiry.ts";
 import { homeMarkdown, legalMarkdown, llmsTxt, stripFrontmatter } from "../src/lib/markdown.ts";
-import { wantsMarkdown } from "../src/lib/negotiate.ts";
+import { markdownUrl, wantsMarkdown } from "../src/lib/negotiate.ts";
 import { pages } from "../src/lib/pages.ts";
 
 test("every page has a Markdown path under /md/ that mirrors its URL", () => {
@@ -118,6 +118,35 @@ test("Markdown is served only when the Accept header prefers it", () => {
     ["text/markdown;q=0.5, text/*;q=1", false],
     ["text/markdown;q=0.5, */*", false],
     ["text/markdown;q=nonsense", false],
+    // 带参数的范围更具体，且只有 charset=utf-8 能匹配我们的响应。
+    ["text/markdown;charset=utf-8;q=0, text/markdown;q=1, text/html;q=0.5", false],
+    ["text/markdown;q=1, text/markdown;charset=utf-8;q=0, text/html;q=0.5", false],
+    ['text/markdown;charset="UTF-8"', true],
+    ["text/markdown;charset=utf-8, text/html;q=0.5", true],
+    ["text/markdown;charset=gbk, text/html;q=0.5", false],
+    ["text/markdown;variant=gfm, text/html;q=0.5", false],
+    ["text/markdown;charset=gbk;q=1, text/markdown;q=0.5, text/html;q=0.4", true],
+    ["text/markdown;q=0.5, text/html;charset=utf-8;q=1, text/html;q=0", false],
+    ["text/markdown;q=0.5;ext=1, text/html;q=0.4", true],
   ];
   for (const [accept, expected] of cases) assert.equal(wantsMarkdown(accept), expected, String(accept));
+});
+
+test("only GET and HEAD for a listed page on the main host are sent to Markdown", () => {
+  const request = (url: string, method = "GET", accept = "text/markdown") =>
+    new Request(url, { method, headers: { accept } });
+
+  assert.equal(markdownUrl(request("https://abnormalhq.com/"))?.href, "https://abnormalhq.com/md/");
+  assert.equal(
+    markdownUrl(request("https://abnormalhq.com/en/privacy/?a=1"))?.href,
+    "https://abnormalhq.com/md/en/privacy/?a=1",
+  );
+  assert.equal(markdownUrl(request("https://abnormalhq.com/terms/", "HEAD"))?.pathname, "/md/terms/");
+
+  assert.equal(markdownUrl(request("https://www.abnormalhq.com/privacy/")), undefined);
+  assert.equal(markdownUrl(request("https://abnormalhq.com/", "POST")), undefined);
+  assert.equal(markdownUrl(request("https://abnormalhq.com/", "GET", "text/html")), undefined);
+  assert.equal(markdownUrl(request("https://abnormalhq.com/md/")), undefined);
+  assert.equal(markdownUrl(request("https://abnormalhq.com/privacy")), undefined);
+  assert.equal(markdownUrl(request("https://abnormalhq.com/llms.txt")), undefined);
 });
