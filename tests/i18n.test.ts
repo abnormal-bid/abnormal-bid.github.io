@@ -84,3 +84,10 @@ test("the English inquiry message is written in English", () => {
   );
   assert.match(describeContact({ wechat: "", email: "", telegram: "" }, "en"), /coming soon/);
 });
+
+test("each service card names its own icon instead of relying on its position", () => {
+  for (const copy of [zh, en]) {
+    const icons = copy.services.products.map(({ icon }) => icon);
+    assert.equal(new Set(icons).size, icons.length, copy.htmlLang);
+  }
+});

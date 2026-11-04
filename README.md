@@ -117,7 +117,7 @@ wrangler.jsonc       Cloudflare Worker 与静态资源配置
 - `site.contact.wechat`：真实微信号。
 - `site.contact.email`：真实咨询邮箱；邮件咨询按钮会填入选定的服务类型、使用时长和需求。
 - `site.contact.telegram`：完整的 `https://t.me/...` 链接。有效 Telegram 优先；无效时回退到邮箱。
-- `services.products`（两份文案各一套）：统一维护邮箱服务名称、类别、描述、标签、`price` 与 `priceNote`。`price` 留空时显示「咨询报价」；填了 `href` 的卡片按钮直接前往该地址（如商店），否则打开咨询弹窗。
+- `services.products`（两份文案各一套）：统一维护邮箱服务名称、类别、描述、标签、`price` 与 `priceNote`，`icon` 选卡片左上角的图标（`mail`、`domain`、`team`、`setup`），卡片顺序可以随意调整。`price` 留空时显示「咨询报价」；填了 `href` 的卡片按钮直接前往该地址（如商店），否则打开咨询弹窗。
 - `linksFor`（site.ts）与 `start.entries`、`process.steps`（文案）：联动站点地址、首页入口卡片与开通流程；文案里用 `link` 键引用地址。
 
 这些配置会公开到网页中，请勿放入密钥、密码或私人信息。修改后提交到 `main` 即会自动重新构建并部署。

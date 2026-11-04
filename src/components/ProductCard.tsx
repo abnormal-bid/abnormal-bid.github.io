@@ -1,23 +1,22 @@
 import { MailIcon, SlidersVerticalIcon, UsersIcon } from "lucide-react";
+import type { ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { IconTile } from "@/components/ui/icon-tile";
 import type { Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
-import type { Product } from "@/i18n/types";
+import type { Product, ProductIcon } from "@/i18n/types";
 import { Icon } from "./Icon";
 import { InquiryButton } from "./InquiryDialog";
 
 const glyphClass = "size-[22px]";
-const symbols = [
-  <MailIcon className={glyphClass} strokeWidth={1.5} key="mail" />,
-  <span className="text-[1.6rem] leading-none font-medium" key="domain">
-    @
-  </span>,
-  <UsersIcon className={glyphClass} strokeWidth={1.5} key="team" />,
-  <SlidersVerticalIcon className={glyphClass} strokeWidth={1.5} key="settings" />,
-];
+const glyphs: Record<ProductIcon, ReactNode> = {
+  mail: <MailIcon className={glyphClass} strokeWidth={1.5} />,
+  domain: <span className="text-[1.6rem] leading-none font-medium">@</span>,
+  team: <UsersIcon className={glyphClass} strokeWidth={1.5} />,
+  setup: <SlidersVerticalIcon className={glyphClass} strokeWidth={1.5} />,
+};
 
 export function ProductCard({ lang, product, index }: { lang: Lang; product: Product; index: number }) {
   const { t, links } = useCopy(lang);
@@ -33,14 +32,14 @@ export function ProductCard({ lang, product, index }: { lang: Lang; product: Pro
       <article>
         <div className="flex items-center justify-between gap-[0.7rem]">
           <IconTile variant={product.featured ? "highlight" : "default"} aria-hidden="true">
-            {symbols[index]}
+            {glyphs[product.icon]}
           </IconTile>
           <Badge className="h-auto border-0 py-0.5 leading-[1.55]">{product.category}</Badge>
         </div>
         <h3 className="mt-6 flex items-center justify-between text-xl/[1.4] max-sm:mt-[1.1rem]">
           {product.name}
           <span className="text-xs/[1.4] font-normal tracking-normal text-muted-foreground" aria-hidden="true">
-            0{index + 1}
+            {String(index + 1).padStart(2, "0")}
           </span>
         </h3>
         <p className="mt-[0.6rem] flex-1 text-base/prose text-muted-foreground max-sm:max-w-[28rem]">

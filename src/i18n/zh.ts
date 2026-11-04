@@ -129,6 +129,7 @@ export const zh: Copy = {
     intro: ["个人邮箱在线购买、自助开通；", "域名、团队与配置需求，先聊聊再定方案。"],
     products: [
       {
+        icon: "mail",
         name: "个人邮箱",
         category: "日常通信",
         description: "@abnormal.bid 邮箱，在线选购、自助开通，适合日常收发与注册常用服务。",
@@ -140,6 +141,7 @@ export const zh: Copy = {
         featured: true,
       },
       {
+        icon: "domain",
         name: "域名邮箱",
         category: "专属地址",
         description: "围绕你的域名规划邮箱地址，让每一次联系都带上自己的名字。",
@@ -148,6 +150,7 @@ export const zh: Copy = {
         priceNote: "按域名与配置需求确认",
       },
       {
+        icon: "team",
         name: "团队邮箱",
         category: "工作往来",
         description: "按成员数量与工作用途规划邮箱，方便团队开展日常沟通。",
@@ -156,6 +159,7 @@ export const zh: Copy = {
         priceNote: "按邮箱数量与时长确认",
       },
       {
+        icon: "setup",
         name: "邮箱配置",
         category: "使用支持",
         description: "协助了解收发设置与客户端配置，让邮箱融入你的日常工作。",

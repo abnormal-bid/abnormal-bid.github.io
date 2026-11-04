@@ -134,6 +134,7 @@ export const en: Copy = {
     intro: ["Personal mailboxes are bought and set up online.", "For domains, teams or setup help, let's talk first."],
     products: [
       {
+        icon: "mail",
         name: "Personal mailbox",
         category: "Everyday mail",
         description:
@@ -146,6 +147,7 @@ export const en: Copy = {
         featured: true,
       },
       {
+        icon: "domain",
         name: "Domain mailbox",
         category: "Your address",
         description: "Addresses planned around your own domain, so every message carries your name.",
@@ -154,6 +156,7 @@ export const en: Copy = {
         priceNote: "Quoted by domain and setup",
       },
       {
+        icon: "team",
         name: "Team mailbox",
         category: "Work",
         description: "Mailboxes planned around your team's size and the way you work together.",
@@ -162,6 +165,7 @@ export const en: Copy = {
         priceNote: "Quoted by mailboxes and term",
       },
       {
+        icon: "setup",
         name: "Mailbox setup",
         category: "Support",
         description: "Help with sending and receiving settings and mail apps, so email fits into your day.",

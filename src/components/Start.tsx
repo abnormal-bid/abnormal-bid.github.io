@@ -52,7 +52,7 @@ export function Start({ lang }: { lang: Lang }) {
                 <span className="mt-6 flex items-center justify-between text-xl/[1.4] font-semibold tracking-[-0.01em] max-sm:mt-[1.1rem]">
                   {entry.title}
                   <span className="text-xs/[1.4] font-normal tracking-normal text-muted-foreground" aria-hidden="true">
-                    0{index + 1}
+                    {String(index + 1).padStart(2, "0")}
                   </span>
                 </span>
                 <span className="mt-[0.6rem] flex-1 text-base/prose text-muted-foreground">{entry.description}</span>

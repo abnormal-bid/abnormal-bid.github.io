@@ -20,7 +20,11 @@ export type IconName =
   | "mail"
   | "book";
 
+/** 服务卡片的图标，ProductCard 按这个键画；与卡片在列表里的位置无关。 */
+export type ProductIcon = "mail" | "domain" | "team" | "setup";
+
 export interface Product {
+  icon: ProductIcon;
   name: string;
   category: string;
   description: string;
