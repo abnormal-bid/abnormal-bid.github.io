@@ -60,7 +60,7 @@ pnpm dev
 pnpm check         # lint + typecheck + test
 pnpm lint          # ESLint（eslint-config-next）
 pnpm typecheck     # next typegen 与 TypeScript 检查
-pnpm test          # 咨询逻辑、文案结构与主题偏好测试
+pnpm test          # 咨询逻辑、文案结构、页面元数据与主题偏好测试
 pnpm format:check  # 格式检查
 pnpm build         # next build
 pnpm cf:preview    # OpenNext 构建，并在本地 workerd 里预览（端口 8787）
