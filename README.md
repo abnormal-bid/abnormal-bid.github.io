@@ -51,7 +51,7 @@ pnpm dlx shadcn@latest add @abnormal/button --overwrite
 
 开发设置与 [mail](https://github.com/abnormalhq/mail)、[onboard](https://github.com/abnormalhq/onboard)、[ui](https://github.com/abnormalhq/ui) 一致：Node.js 24（见 `.node-version`；`package.json` 的 `engines` 写的是工具链实际需要的最低版本 22.22.1，`tests/toolchain.test.ts` 检查它不低于任何直接依赖的要求）、pnpm 12（版本写在 `package.json` 的 `packageManager`）、TypeScript、Prettier（行宽 120）、ESLint、husky + lint-staged + commitlint。
 
-类型检查使用 TypeScript 7 的 `tsc`。依赖采用[微软推荐的双包别名](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6-0)：`@typescript/native` 指向 TypeScript 7，`typescript` 指向 `@typescript/typescript6` 兼容包，供 Next.js 构建与 ESLint（typescript-eslint 还不支持 TS 7）使用。升级依赖时保留这两个别名，四个仓库才用同一个编译器检查同一份 registry 组件。
+类型检查使用 TypeScript 7 的 `tsc`。依赖采用[微软推荐的双包别名](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6-0)：`@typescript/native` 指向 TypeScript 7，`typescript` 指向 `@typescript/typescript6` 兼容包，供 Next.js 构建与 ESLint（typescript-eslint 还不支持 TS 7）使用。升级依赖时保留这两个别名，四个仓库才用同一个编译器检查同一份 registry 组件。`tsconfig.json` 显式写了 `useDefineForClassFields: true`：tsc 与 `node --test` 对 ES2022 目标本来就按 define 语义处理类字段，而 Next.js 的 SWC 只认显式写出的值，不写就按赋值语义编译，构建结果会与测试不同。
 
 ```sh
 pnpm install
