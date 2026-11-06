@@ -13,8 +13,8 @@ export function Download({ lang }: { lang: Lang }) {
   const { t, links } = useCopy(lang);
   const d = t.download;
   const platforms = [
-    { ...d.macos, href: desktopDownloads.macos, brew: true },
-    { ...d.windows, href: desktopDownloads.windows, brew: false },
+    { ...d.macos, href: desktopDownloads.macos, brew: true, arm: undefined },
+    { ...d.windows, href: desktopDownloads.windows, brew: false, arm: d.windows.armDownload },
   ];
 
   return (
@@ -47,6 +47,14 @@ export function Download({ lang }: { lang: Lang }) {
                   </a>
                 </Button>
               </div>
+              {platform.arm && (
+                <p className="mt-4">
+                  {/* inline, not flex: on a narrow card the arrow follows the last word when the line wraps. */}
+                  <TextLink className="inline text-sm/[1.6]" href={desktopDownloads.windowsArm} download>
+                    {platform.arm} <Icon name="arrow" className="inline size-3.5 rotate-90 align-[-2px]" />
+                  </TextLink>
+                </p>
+              )}
               {platform.brew && (
                 <div className="mt-5">
                   <p className="text-sm/[1.6] text-muted-foreground">{d.macos.brewLabel}</p>

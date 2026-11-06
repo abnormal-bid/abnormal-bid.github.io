@@ -42,7 +42,12 @@ for (const lang of ["zh", "en"] as const) {
     const d = copies[lang].download;
     const markdown = downloadMarkdown(lang);
     assert.ok(markdown.startsWith(`# ${d.title}\n`));
-    for (const url of [desktopDownloads.macos, desktopDownloads.windows, desktopDownloads.manifest]) {
+    for (const url of [
+      desktopDownloads.macos,
+      desktopDownloads.windows,
+      desktopDownloads.windowsArm,
+      desktopDownloads.manifest,
+    ]) {
       assert.ok(markdown.includes(`(${url})`), url);
     }
     assert.ok(markdown.includes(desktopDownloads.brew));

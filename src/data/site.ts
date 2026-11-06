@@ -53,6 +53,7 @@ const downloadsOrigin = "https://downloads.abnormalhq.com";
 export const desktopDownloads = {
   macos: `${downloadsOrigin}/desktop/latest/Abnormal-Mail-macos-universal.dmg`,
   windows: `${downloadsOrigin}/desktop/latest/Abnormal-Mail-windows-x64-setup.exe`,
+  windowsArm: `${downloadsOrigin}/desktop/latest/Abnormal-Mail-windows-arm64-setup.exe`,
   manifest: `${downloadsOrigin}/desktop/latest.json`,
   brew: "brew install --cask abnormalhq/tap/abnormal-mail",
 } as const;

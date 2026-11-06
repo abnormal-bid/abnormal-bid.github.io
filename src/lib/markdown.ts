@@ -61,6 +61,7 @@ export function downloadMarkdown(lang: Lang): string {
     `## ${d.windows.name}`,
     d.windows.requirement,
     `[${d.windows.download}](${desktopDownloads.windows})`,
+    `[${d.windows.armDownload}](${desktopDownloads.windowsArm})`,
     d.windows.firstLaunch,
     `## ${d.signInTitle}`,
     d.signInSteps.map((step, index) => `${index + 1}. ${step}`).join("\n"),

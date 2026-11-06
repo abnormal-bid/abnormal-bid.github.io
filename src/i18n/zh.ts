@@ -292,8 +292,9 @@ export const zh: Copy = {
     },
     windows: {
       name: "Windows",
-      requirement: "Windows 10 或 11（64 位），安装到当前用户，不需要管理员权限。",
+      requirement: "Windows 10 或 11（64 位，x64 或 Arm），安装到当前用户，不需要管理员权限。",
       download: "下载安装程序",
+      armDownload: "Arm 处理器的电脑（如骁龙笔记本）请下载 Arm 版",
       firstLaunch: "安装程序暂未签名，若出现 SmartScreen 提示，请点「更多信息」，再点「仍要运行」。",
     },
     signInTitle: "登录",

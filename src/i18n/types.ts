@@ -185,7 +185,14 @@ export interface Copy {
     title: string;
     intro: string;
     macos: { name: string; requirement: string; download: string; brewLabel: string; firstLaunch: string };
-    windows: { name: string; requirement: string; download: string; firstLaunch: string };
+    windows: {
+      name: string;
+      requirement: string;
+      download: string;
+      /** 下载按钮下方给 Windows on Arm 设备的链接。 */
+      armDownload: string;
+      firstLaunch: string;
+    };
     signInTitle: string;
     signInSteps: readonly string[];
     checksums: string;

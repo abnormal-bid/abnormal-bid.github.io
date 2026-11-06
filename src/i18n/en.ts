@@ -305,8 +305,10 @@ export const en: Copy = {
     },
     windows: {
       name: "Windows",
-      requirement: "Windows 10 or 11 (64-bit). Installs for the current user, no administrator rights needed.",
+      requirement:
+        "Windows 10 or 11 (64-bit, x64 or Arm). Installs for the current user, no administrator rights needed.",
       download: "Download the installer",
+      armDownload: "On an Arm PC (such as a Snapdragon laptop)? Get the Arm version",
       firstLaunch: "The installer is not signed yet. If SmartScreen appears, click More info, then Run anyway.",
     },
     signInTitle: "Sign in",
