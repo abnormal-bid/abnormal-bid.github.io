@@ -76,7 +76,14 @@ MCP、OAuth、API Catalog、Agent Skills 和商务协议没有实现：官网没
 | 站点地图             | `src/app/sitemap.ts`：法律页面的 `lastmod` 取 frontmatter 的 `updated`，改条款时同步更新它                                                   |
 | 图标                 | `src/app/icon.svg`、`icon.png`，以及 iOS 主屏幕用的 `apple-icon.png`（180×180）                                                              |
 
-分享图片 `public/og/zh.png`、`en.png`（1200×630）由 `scripts/og-images.ts` 生成，文案取首屏的 `hero.eyebrow`、`hero.titleLines` 与 `meta.socialDescription`；改了这几项后运行 `node scripts/og-images.ts` 重新生成。脚本需要 Playwright 与 Chromium，并要联网从 Google Fonts 取中文字形，不在构建时运行。图片的替代文字在文案的 `meta.socialImageAlt`。
+分享图片 `public/og/zh.png`、`en.png`（1200×630）由 `scripts/og-images.ts` 生成，文案取首屏的 `hero.eyebrow`、`hero.titleLines` 与 `meta.socialDescription`；改了这几项后重新生成。本仓库不依赖 Playwright，先全局安装它与 Chromium，再用 `NODE_PATH` 指向全局目录运行脚本：
+
+```sh
+npm install -g playwright && playwright install chromium
+NODE_PATH="$(npm root -g)" node scripts/og-images.ts
+```
+
+脚本要联网从 Google Fonts 取中文字形，不在构建时运行。图片的替代文字在文案的 `meta.socialImageAlt`。
 
 结构化数据只写页面上看得到的内容；新增问答写进 `faq.items` 即可，FAQPage 会跟着更新。可用 [Rich Results Test](https://search.google.com/test/rich-results) 或 [Schema Markup Validator](https://validator.schema.org/) 检查。
 

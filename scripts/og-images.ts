@@ -1,10 +1,12 @@
 /**
  * 生成分享卡片图片 public/og/zh.png 与 public/og/en.png（1200×630，src/lib/metadata.ts 引用）。
- * 文案取首屏标题与分享描述，改了 src/i18n 里的这几项后重新运行：
+ * 文案取首屏标题与分享描述，改了 src/i18n 里的这几项后重新运行。
  *
- *   node scripts/og-images.ts
+ * 本仓库不依赖 Playwright：先全局装一份和它的 Chromium，再用 NODE_PATH 指向全局目录，脚本才能加载到它：
  *
- * 需要 Playwright 和它的 Chromium（本仓库不依赖它，可用 `pnpm dlx playwright install chromium` 装一份）；
+ *   npm install -g playwright && playwright install chromium
+ *   NODE_PATH="$(npm root -g)" node scripts/og-images.ts
+ *
  * 中文字形从 Google Fonts 取 Noto Sans SC，生成时需要联网。
  */
 import { mkdirSync, readFileSync } from "node:fs";
