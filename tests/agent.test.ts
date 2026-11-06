@@ -1,10 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { linksFor, site } from "../src/data/site.ts";
+import { desktopDownloads, linksFor, site } from "../src/data/site.ts";
 import { copies } from "../src/i18n/index.ts";
 import { contactChannels } from "../src/lib/inquiry.ts";
-import { homeMarkdown, legalMarkdown, llmsTxt, stripFrontmatter } from "../src/lib/markdown.ts";
+import { downloadMarkdown, homeMarkdown, legalMarkdown, llmsTxt, stripFrontmatter } from "../src/lib/markdown.ts";
 import { markdownUrl, varyOnAccept, wantsMarkdown } from "../src/lib/negotiate.ts";
 import { pages } from "../src/lib/pages.ts";
 
@@ -13,9 +13,11 @@ test("every page has a Markdown path under /md/ that mirrors its URL", () => {
     pages.map((page) => [page.url, page.markdown]),
     [
       ["/", "/md/"],
+      ["/download/", "/md/download/"],
       ["/privacy/", "/md/privacy/"],
       ["/terms/", "/md/terms/"],
       ["/en/", "/md/en/"],
+      ["/en/download/", "/md/en/download/"],
       ["/en/privacy/", "/md/en/privacy/"],
       ["/en/terms/", "/md/en/terms/"],
     ],
@@ -33,6 +35,18 @@ for (const lang of ["zh", "en"] as const) {
     for (const item of t.faq.items) assert.ok(markdown.includes(item.answer));
     for (const url of Object.values(linksFor(lang))) assert.ok(markdown.includes(`(${url})`), url);
     assert.ok(markdown.includes(site.contact.email));
+    assert.ok(!markdown.includes("undefined"));
+  });
+
+  test(`${lang} download Markdown carries both installers, the brew command and the checksums`, () => {
+    const d = copies[lang].download;
+    const markdown = downloadMarkdown(lang);
+    assert.ok(markdown.startsWith(`# ${d.title}\n`));
+    for (const url of [desktopDownloads.macos, desktopDownloads.windows, desktopDownloads.manifest]) {
+      assert.ok(markdown.includes(`(${url})`), url);
+    }
+    assert.ok(markdown.includes(desktopDownloads.brew));
+    for (const step of d.signInSteps) assert.ok(markdown.includes(step));
     assert.ok(!markdown.includes("undefined"));
   });
 }

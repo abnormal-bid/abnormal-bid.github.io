@@ -29,6 +29,8 @@
 | 网页邮箱       | `https://webmail.abnormalhq.com/`              | [mail](https://github.com/abnormalhq/mail)       |
 | 服务状态       | `https://console.abnormalhq.com/status`        | mail                                             |
 
+下载页 `/download/`（英文 `/en/download/`，入口在页脚「产品」一栏）提供桌面客户端（[mail](https://github.com/abnormalhq/mail) 的 `desktop/`）的 macOS `.dmg` 与 Windows 安装程序，以及 Homebrew 安装命令。安装包由 mail 仓库的发布流程上传到 R2 公开桶 `downloads.abnormalhq.com`：`desktop/latest/` 下是固定文件名的最新版本，下载页直接链接这些地址，发新版本不用改官网；`desktop/latest.json` 列出版本号与 SHA-256。地址集中在 `src/data/site.ts` 的 `desktopDownloads`。
+
 反方向：onboard 页头与页脚的「官网」、网页邮箱登录页与状态页的「官网」链接都指回 `https://abnormalhq.com/`。
 
 首页从上到下：首屏（购买邮箱 / 我有兑换码 / 登录网页邮箱）→ 01 从这里开始（四张入口卡片与订单、状态、客服链接）→ 02 邮箱服务（个人邮箱直达商店，其余三项咨询）→ 03 开通流程（选购套餐 → 兑换开通 → 登录收发，每步带链接）→ 04 常见问题 → 收尾面板（购买邮箱 + 聊聊定制需求）。

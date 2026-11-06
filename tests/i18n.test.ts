@@ -109,6 +109,7 @@ test('decorative labels are English in both languages, as their lang="en" says',
       copy.footer.tagline,
       copy.inquiry.kicker,
       copy.legal.tocKicker,
+      copy.download.eyebrow,
     ];
     for (const label of labels) assert.doesNotMatch(label, cjk, `${copy.htmlLang}: ${label}`);
   }

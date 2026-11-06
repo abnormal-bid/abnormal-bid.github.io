@@ -286,6 +286,39 @@ export const en: Copy = {
     { path: "/privacy/", label: "Privacy Policy" },
     { path: "/terms/", label: "Terms of Service" },
   ],
+  download: {
+    metaTitle: "Download the desktop app — Abnormal",
+    metaDescription:
+      "The Abnormal Mail desktop app for macOS and Windows: read, search, reply and send, in sync with webmail.",
+    navLabel: "Desktop app",
+    eyebrow: "Desktop app",
+    title: "Your mail on the desktop",
+    intro:
+      "A native app for macOS and Windows. Sign in with your mailbox address and password; folders, read state and stars stay in sync with webmail.",
+    macos: {
+      name: "macOS",
+      requirement: "macOS 11 or later, for Apple silicon and Intel.",
+      download: "Download .dmg",
+      brewLabel: "Or install with Homebrew:",
+      firstLaunch:
+        "The app is not signed yet. The first time you open it, go to System Settings › Privacy & Security and click Open Anyway.",
+    },
+    windows: {
+      name: "Windows",
+      requirement: "Windows 10 or 11 (64-bit). Installs for the current user, no administrator rights needed.",
+      download: "Download the installer",
+      firstLaunch: "The installer is not signed yet. If SmartScreen appears, click More info, then Run anyway.",
+    },
+    signInTitle: "Sign in",
+    signInSteps: [
+      "Server: the same server address mail clients use, shown when your mailbox is set up and in the guide.",
+      "Email address: your full mailbox address.",
+      "Password: the mailbox's own password, the same one IMAP / SMTP clients use.",
+    ],
+    checksums: "Version and SHA-256 checksums",
+    webmailNote: "Rather not install anything?",
+    webmailLink: "Use webmail in your browser",
+  },
   inquiry: {
     kicker: "Let's get you started",
     close: "Close",

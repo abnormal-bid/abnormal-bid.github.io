@@ -6,7 +6,7 @@ import type { Lang } from "../data/site.ts";
 import { localePath } from "../i18n/paths.ts";
 
 /** 不带语言前缀的页面路径。 */
-export const pagePaths = ["/", "/privacy/", "/terms/"] as const;
+export const pagePaths = ["/", "/download/", "/privacy/", "/terms/"] as const;
 export type PagePath = (typeof pagePaths)[number];
 
 export interface Page {

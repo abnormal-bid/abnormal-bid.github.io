@@ -5,7 +5,7 @@ import { frontmatter as zhTerms } from "@/content/legal/zh/terms.mdx";
 import { legalSources } from "@/content/legal/sources";
 import { site } from "@/data/site";
 import { parseLegalFrontmatter } from "@/lib/legal";
-import { homeMarkdown, legalMarkdown, stripFrontmatter } from "@/lib/markdown";
+import { downloadMarkdown, homeMarkdown, legalMarkdown, stripFrontmatter } from "@/lib/markdown";
 import { pages, type Page } from "@/lib/pages";
 
 export const dynamic = "force-static";
@@ -31,6 +31,7 @@ const frontmatters = {
 
 function render({ lang, path }: Page): string {
   if (path === "/") return homeMarkdown(lang);
+  if (path === "/download/") return downloadMarkdown(lang);
   return legalMarkdown(lang, frontmatters[lang][path], stripFrontmatter(legalSources[lang][path]));
 }
 

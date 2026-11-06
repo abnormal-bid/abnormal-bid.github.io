@@ -43,3 +43,16 @@ export function linksFor(lang: Lang) {
 }
 
 export type LinkKey = keyof ReturnType<typeof linksFor>;
+
+/**
+ * 桌面客户端（abnormalhq/mail 的 desktop/）的下载地址。发布时安装包上传到 R2 公开桶，
+ * desktop/latest/ 下是固定文件名的最新版本，这里直接链接；latest.json 列出版本号、SHA-256 与大小。
+ */
+const downloadsOrigin = "https://downloads.abnormalhq.com";
+
+export const desktopDownloads = {
+  macos: `${downloadsOrigin}/desktop/latest/Abnormal-Mail-macos-universal.dmg`,
+  windows: `${downloadsOrigin}/desktop/latest/Abnormal-Mail-windows-x64-setup.exe`,
+  manifest: `${downloadsOrigin}/desktop/latest.json`,
+  brew: "brew install --cask abnormalhq/tap/abnormal-mail",
+} as const;

@@ -175,6 +175,23 @@ export interface Copy {
     legalLabel: string;
   };
   legalPages: readonly { path: string; label: string }[];
+  /** 桌面客户端下载页（/download/）。下载地址在 src/data/site.ts 的 desktopDownloads。 */
+  download: {
+    metaTitle: string;
+    metaDescription: string;
+    /** 页脚产品栏里的入口。 */
+    navLabel: string;
+    eyebrow: string;
+    title: string;
+    intro: string;
+    macos: { name: string; requirement: string; download: string; brewLabel: string; firstLaunch: string };
+    windows: { name: string; requirement: string; download: string; firstLaunch: string };
+    signInTitle: string;
+    signInSteps: readonly string[];
+    checksums: string;
+    webmailNote: string;
+    webmailLink: string;
+  };
   inquiry: {
     /** 弹窗标题上方的小标。 */
     kicker: string;
