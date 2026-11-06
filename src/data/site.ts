@@ -10,6 +10,8 @@ export interface Contact {
 }
 
 export const site = {
+  /** 品牌名：og:site_name、结构化数据里的组织与网站名称。 */
+  name: "Abnormal",
   url: "https://abnormalhq.com",
   /** 只负责跳到主域名，见 next.config.ts 的 redirects。 */
   wwwHost: "www.abnormalhq.com",

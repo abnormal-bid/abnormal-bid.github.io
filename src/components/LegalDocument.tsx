@@ -10,8 +10,10 @@ import { site, type Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
 import { contactChannels } from "@/lib/inquiry";
 import { legalSections } from "@/lib/legal";
+import { legalStructuredData } from "@/lib/structured-data";
 import { cn } from "@/lib/utils";
 import { Icon } from "./Icon";
+import { JsonLd } from "./JsonLd";
 
 export function LegalDocument({
   lang,
@@ -41,6 +43,7 @@ export function LegalDocument({
 
   return (
     <>
+      <JsonLd data={legalStructuredData(lang, currentPage, frontmatter)} />
       <section className="relative border-b border-border" aria-labelledby="legal-title">
         <Container className="flex flex-col gap-10 py-14 md:py-[4.5rem] lg:flex-row lg:items-end lg:justify-between lg:gap-14">
           <div className="max-w-[40rem]">
