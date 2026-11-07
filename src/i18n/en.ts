@@ -30,6 +30,7 @@ export const en: Copy = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     login: "Log in",
+    account: "My account",
     buy: "Buy a mailbox",
     haveCode: "I have a code",
     loginWebmail: "Log in to webmail",
@@ -44,14 +45,15 @@ export const en: Copy = {
     eyebrow: "Email, made personal",
     titleLines: ["Good email,", "simple conversations"],
     description: [
-      "Buy an @abnormal.bid mailbox online and set it up yourself with a redeem code.",
+      "Create an account, buy @abnormal.bid mailboxes online, and set them up and manage them from your account.",
       "Read and send from webmail or the mail app you already use.",
     ],
     buy: "Buy a mailbox",
-    haveCode: "I have a code",
-    loginPrompt: "Already set up?",
-    loginLink: "Log in to webmail",
-    promises: ["Code issued on payment", "Pick your own username", "Ready to send right away"],
+    register: "Create an account",
+    loginPrompt: "Have an account?",
+    loginLink: "Manage your mailboxes",
+    webmailLink: "Log in to webmail",
+    promises: ["Orders and mailboxes in one account", "Set up in your account once paid", "Pick your own username"],
     visualLabel: "Concept illustration of the email service: a tidy inbox and an address on your own domain.",
     mock: {
       overline: "A LITTLE MORE CONNECTED",
@@ -82,29 +84,38 @@ export const en: Copy = {
   valueStrip: {
     lead: "Less setup hassle.",
     strong: "More time to talk.",
-    labels: ["Buy online", "Self-service setup", "Webmail", "Mail apps"],
+    labels: ["Your account", "Buy online", "Self-service setup", "Webmail"],
   },
   start: {
     eyebrow: "Start here",
     title: "Start here",
-    intro: ["Buy, redeem, sign in and learn the ropes,", "all from this page."],
+    intro: ["Sign up, buy, set up and start sending,", "all from this page."],
     entries: [
       {
         icon: "cart",
         eyebrow: "No mailbox yet",
         title: "Buy a mailbox",
         description:
-          "Pick a plan and pay with Linux DO Credit or card. A redeem code is issued as soon as payment is confirmed.",
+          "Pick a plan and pay with Linux DO Credit or card. Once payment is confirmed, the order and its redeem code join your account.",
         link: "shop",
         action: "Go to the shop",
         primary: true,
       },
       {
+        icon: "user",
+        eyebrow: "Sign up / sign in",
+        title: "My account",
+        description:
+          "Sign up and sign in with your email and a password. Under My mailboxes, set up, reset, disable or delete mailboxes; orders and renewals are there too.",
+        link: "account",
+        action: "Sign up or sign in",
+      },
+      {
         icon: "ticket",
-        eyebrow: "Have a code",
+        eyebrow: "Got a code",
         title: "Redeem",
         description:
-          "Enter your 16-character code, pick usernames and passwords, and open several mailboxes at once. They work right away.",
+          "Someone gave you a code? Enter it on the redeem page, pick a username and password, and the mailbox works right away.",
         link: "redeem",
         action: "Redeem now",
       },
@@ -117,18 +128,9 @@ export const en: Copy = {
         link: "webmail",
         action: "Log in",
       },
-      {
-        icon: "book",
-        eyebrow: "After you redeem",
-        title: "Guide",
-        description:
-          "Set up mail apps on your phone or computer, change your password, and use your mailbox to sign up for Claude and ChatGPT.",
-        link: "guide",
-        action: "Read the guide",
-      },
     ],
     secondary: [
-      { link: "account", label: "Orders and renewals" },
+      { link: "guide", label: "Guide: mail app settings and changing passwords" },
       { link: "status", label: "Service status" },
     ],
     support: "Support",
@@ -189,24 +191,32 @@ export const en: Copy = {
   },
   process: {
     eyebrow: "A simple way to get started",
-    title: "Three steps to your mailbox",
-    intro: ["From checkout to your first email,", "every step is self-service."],
+    title: "Four steps to your mailbox",
+    intro: ["From sign-up to your first email,", "every step is self-service."],
     steps: [
+      {
+        icon: "user",
+        title: "Create an account",
+        description:
+          "Sign up with your email and a password, then open the link in the confirmation email. Your orders, codes and mailboxes all live in this account.",
+        link: "register",
+        action: "Create an account",
+      },
       {
         icon: "cart",
         title: "Choose a plan",
         description:
-          "Pick the number of mailboxes and storage in the shop, and pay with Linux DO Credit or card. The redeem code is issued once payment is confirmed.",
+          "Pick the number of mailboxes and storage in the shop, and pay with Linux DO Credit or card. Once payment is confirmed, the redeem code joins your account.",
         link: "shop",
         action: "Go to the shop",
       },
       {
         icon: "ticket",
-        title: "Redeem",
+        title: "Set up mailboxes",
         description:
-          "Enter the code on the redeem page and pick a username and password. The password is shown only once, so save it.",
-        link: "redeem",
-        action: "Redeem",
+          "Under My account, My mailboxes, pick a username and password to set one up right away. You can also give the code to someone to redeem themselves.",
+        link: "account",
+        action: "Go to My account",
       },
       {
         icon: "mail",
@@ -227,12 +237,12 @@ export const en: Copy = {
       {
         question: "What does Abnormal offer?",
         answer:
-          "We offer @abnormal.bid mailboxes: buy one in the shop, set it up yourself with a redeem code, and read and send from webmail or the mail app you already use. For your own domain, a batch of team mailboxes or setup help, ask us first.",
+          "We offer @abnormal.bid mailboxes: create an account, buy in the shop, set mailboxes up and manage them from your account, and read and send from webmail or the mail app you already use. For your own domain, a batch of team mailboxes or setup help, ask us first.",
       },
       {
         question: "How do I buy and set up a mailbox?",
         answer:
-          "Pick a plan in the shop and pay with Linux DO Credit or card. Once payment is confirmed you get a redeem code; enter it on the redeem page and pick a username and password. If you already have a code, go straight to the redeem page.",
+          "Create an account with your email and a password and confirm it from the email we send. Then pick a plan in the shop and pay with Linux DO Credit or card. Once payment is confirmed, the order and its code join your account: under My account, My mailboxes, pick a username and password to set one up. You can also give the code to someone to enter on the redeem page.",
       },
       {
         question: "Where do I sign in afterwards?",
@@ -240,9 +250,9 @@ export const en: Copy = {
           "Webmail is at webmail.abnormalhq.com. Sign in with your full email address and the password you set when redeeming. You can also add the account to a mail app on your phone or computer; the server settings are in your redeem result and the guide.",
       },
       {
-        question: "Where do I manage orders, renewals and automatic payments?",
+        question: "Where do I manage mailboxes, orders and renewals?",
         answer:
-          "On the My account page in the shop you can see your orders, collect redeem codes and renew. Card subscriptions are managed there too, including changing the card or cancelling automatic renewal.",
+          "All in My account: set up new mailboxes, reset their passwords, disable or delete them, see orders and codes, and renew. Card subscriptions are managed there too, including changing the card or cancelling automatic renewal. Forgot your account password? Sign in with an emailed link and set a new one.",
       },
       {
         question: "Can I use my own domain or set up mailboxes for a team?",
@@ -259,7 +269,7 @@ export const en: Copy = {
   closing: {
     eyebrow: "Make every connection count",
     titleLines: ["Your next email", "starts here"],
-    body: "Pick a plan, pay, set it up yourself and start sending right away. Need a domain or a team? Let's talk.",
+    body: "Create an account, pick a plan, set mailboxes up in your account once paid and start sending right away. Need a domain or a team? Let's talk.",
     buy: "Buy a mailbox",
     custom: "Talk about custom needs",
   },
@@ -275,7 +285,8 @@ export const en: Copy = {
       { link: "guide", label: "Guide" },
     ],
     supportLinks: [
-      { link: "account", label: "My orders" },
+      { link: "account", label: "My account" },
+      { link: "register", label: "Create an account" },
       { link: "status", label: "Service status" },
     ],
     faq: "FAQ",

@@ -15,6 +15,7 @@ import {
   SparkleIcon,
   SunIcon,
   TicketIcon,
+  UserRoundIcon,
   XIcon,
   type LucideIcon,
 } from "lucide-react";
@@ -39,6 +40,7 @@ const icons: Record<IconName, LucideIcon> = {
   ticket: TicketIcon,
   mail: MailIcon,
   book: BookIcon,
+  user: UserRoundIcon,
 };
 
 /** 文案里按名字选图标（入口卡片、流程步骤），所以这里保留一层名字到 lucide 图标的映射。 */

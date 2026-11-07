@@ -29,7 +29,7 @@ export function Process({ lang }: { lang: Lang }) {
             {t.process.intro[1]}
           </p>
         </div>
-        <div className="grid gap-9 md:grid-cols-3 md:gap-10">
+        <div className="grid gap-9 md:grid-cols-2 md:gap-10 lg:grid-cols-4">
           {t.process.steps.map((step, index) => (
             <article className="min-w-0" key={step.title}>
               <div className="mb-[1.3rem] flex items-center gap-5 md:mb-7">

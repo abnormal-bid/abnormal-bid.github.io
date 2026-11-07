@@ -28,6 +28,7 @@ export const zh: Copy = {
     openMenu: "展开导航",
     closeMenu: "收起导航",
     login: "登录邮箱",
+    account: "我的账户",
     buy: "购买邮箱",
     haveCode: "我有兑换码",
     loginWebmail: "登录网页邮箱",
@@ -42,14 +43,15 @@ export const zh: Copy = {
     eyebrow: "Email, made personal",
     titleLines: ["好用的邮箱，", "沟通更简单"],
     description: [
-      "在线选购 @abnormal.bid 邮箱，用兑换码自助开通。",
+      "注册账户，在线选购 @abnormal.bid 邮箱，在账户里直接开通和管理。",
       "网页邮箱和常用邮件客户端都能收发，连接日常与工作。",
     ],
     buy: "购买邮箱",
-    haveCode: "我有兑换码",
-    loginPrompt: "已经开通？",
-    loginLink: "登录网页邮箱",
-    promises: ["付款后自动发放兑换码", "用户名自己取", "开通即可收发"],
+    register: "注册账户",
+    loginPrompt: "已有账户？",
+    loginLink: "登录管理邮箱",
+    webmailLink: "登录网页邮箱",
+    promises: ["订单与邮箱一个账户管理", "付款后在账户里直接开通", "用户名自己取"],
     visualLabel: "邮箱服务概念示意：清晰的收件箱和专属域名地址，连接日常与工作。",
     mock: {
       overline: "A LITTLE MORE CONNECTED",
@@ -80,27 +82,35 @@ export const zh: Copy = {
   valueStrip: {
     lead: "少一点配置的麻烦。",
     strong: "多一点沟通的从容。",
-    labels: ["在线选购", "自助开通", "网页收发", "客户端支持"],
+    labels: ["注册账户", "在线选购", "自助开通", "网页收发"],
   },
   start: {
     eyebrow: "Start here",
     title: "从这里开始",
-    intro: ["买邮箱、开通、登录、学会用，", "都从这一页出发。"],
+    intro: ["注册、买邮箱、开通、登录收发，", "都从这一页出发。"],
     entries: [
       {
         icon: "cart",
         eyebrow: "还没有邮箱",
         title: "购买邮箱",
-        description: "选好套餐，用 Linux DO Credit 或银行卡付款。付款确认后自动发放兑换码。",
+        description: "选好套餐，用 Linux DO Credit 或银行卡付款。付款确认后，订单和兑换码自动归到你的账户。",
         link: "shop",
         action: "前往商店",
         primary: true,
       },
       {
+        icon: "user",
+        eyebrow: "注册 / 登录",
+        title: "我的账户",
+        description: "用邮箱和密码注册登录。在「我的邮箱」里直接开通、重设密码、停用或删除邮箱，订单与续费也在这里。",
+        link: "account",
+        action: "注册或登录",
+      },
+      {
         icon: "ticket",
-        eyebrow: "已有兑换码",
+        eyebrow: "收到兑换码",
         title: "兑换开通",
-        description: "输入 16 位兑换码，自己取用户名、设密码，一次可开通多个，开通后立即可用。",
+        description: "别人送你的兑换码，在开通页输入，自己取用户名、设密码，开通后立即可用。",
         link: "redeem",
         action: "立即开通",
       },
@@ -112,17 +122,9 @@ export const zh: Copy = {
         link: "webmail",
         action: "登录邮箱",
       },
-      {
-        icon: "book",
-        eyebrow: "开通之后",
-        title: "使用教程",
-        description: "在手机或电脑的邮件客户端里收发、修改密码，以及用它注册 Claude 与 ChatGPT。",
-        link: "guide",
-        action: "查看教程",
-      },
     ],
     secondary: [
-      { link: "account", label: "我的订单与续费" },
+      { link: "guide", label: "使用教程：邮件客户端设置、修改密码" },
       { link: "status", label: "服务状态" },
     ],
     support: "客服邮箱",
@@ -181,22 +183,29 @@ export const zh: Copy = {
   },
   process: {
     eyebrow: "A simple way to get started",
-    title: "三步，开始使用你的邮箱",
-    intro: ["从下单到收发，", "每一步都可以自己完成。"],
+    title: "四步，开始使用你的邮箱",
+    intro: ["从注册到收发，", "每一步都可以自己完成。"],
     steps: [
+      {
+        icon: "user",
+        title: "注册账户",
+        description: "用邮箱和密码注册，点开确认邮件里的链接即可登录。之后的订单、兑换码和邮箱都在这个账户里。",
+        link: "register",
+        action: "注册账户",
+      },
       {
         icon: "cart",
         title: "选购套餐",
-        description: "在商店选择邮箱数量与容量，用 Linux DO Credit 或银行卡付款；付款确认后自动发放兑换码。",
+        description: "在商店选择邮箱数量与容量，用 Linux DO Credit 或银行卡付款；付款确认后，兑换码自动归到你的账户。",
         link: "shop",
         action: "前往商店",
       },
       {
         icon: "ticket",
-        title: "兑换开通",
-        description: "在开通页输入兑换码，自己取用户名、设密码。密码只显示一次，记得保存。",
-        link: "redeem",
-        action: "前往开通",
+        title: "开通邮箱",
+        description: "在「我的账户 · 我的邮箱」里取用户名、设密码，直接开通；兑换码也可以送给别人，在开通页自己开通。",
+        link: "account",
+        action: "前往我的账户",
       },
       {
         icon: "mail",
@@ -216,12 +225,12 @@ export const zh: Copy = {
       {
         question: "Abnormal 提供什么服务？",
         answer:
-          "我们提供 @abnormal.bid 邮箱：在商店在线选购，用兑换码自助开通，开通后可以在网页邮箱或常用邮件客户端里收发。需要自己的域名、团队批量开通或配置协助，可以先咨询。",
+          "我们提供 @abnormal.bid 邮箱：注册账户后在商店在线选购，在账户里自助开通和管理，开通后可以在网页邮箱或常用邮件客户端里收发。需要自己的域名、团队批量开通或配置协助，可以先咨询。",
       },
       {
         question: "怎么购买并开通邮箱？",
         answer:
-          "在商店选择套餐并付款（支持 Linux DO Credit 与银行卡），付款确认后会自动发放兑换码；回到开通页输入兑换码，取用户名、设密码即可。已经有兑换码的，可以直接去开通页。",
+          "先用邮箱和密码注册账户，点开确认邮件里的链接完成注册；再在商店选择套餐并付款（支持 Linux DO Credit 与银行卡）。付款确认后订单和兑换码归到你的账户，在「我的账户 · 我的邮箱」里取用户名、设密码就能开通。兑换码也可以送给别人，在开通页输入后自己开通。",
       },
       {
         question: "开通之后在哪里登录？",
@@ -229,9 +238,9 @@ export const zh: Copy = {
           "网页邮箱地址是 webmail.abnormalhq.com，登录名是完整的邮箱地址，密码是开通时设置的那一个。也可以在手机或电脑的邮件客户端里添加账号，服务器地址见开通结果与使用教程。",
       },
       {
-        question: "订单、续费或自动扣款在哪里管理？",
+        question: "邮箱、订单和续费在哪里管理？",
         answer:
-          "在商店的「我的账户」页面可以查看订单、领取兑换码和续费；银行卡订阅的自动续费也在那里更换银行卡或取消。",
+          "都在「我的账户」：可以开通新邮箱、重设邮箱密码、停用或删除邮箱，查看订单与兑换码、续费；银行卡订阅的自动续费也在那里更换银行卡或取消。忘了账户密码，可以用邮件里的登录链接登录后重设。",
       },
       {
         question: "可以使用自己的域名或为团队开通吗？",
@@ -248,7 +257,7 @@ export const zh: Copy = {
   closing: {
     eyebrow: "Make every connection count",
     titleLines: ["下一封邮件，", "从这里开始"],
-    body: "选个套餐，付款后自助开通，马上开始收发；有域名或团队需求，也可以先聊聊。",
+    body: "注册账户、选个套餐，付款后在账户里开通，马上开始收发；有域名或团队需求，也可以先聊聊。",
     buy: "购买邮箱",
     custom: "聊聊定制需求",
   },
@@ -264,7 +273,8 @@ export const zh: Copy = {
       { link: "guide", label: "使用教程" },
     ],
     supportLinks: [
-      { link: "account", label: "我的订单" },
+      { link: "account", label: "我的账户" },
+      { link: "register", label: "注册账户" },
       { link: "status", label: "服务状态" },
     ],
     faq: "常见问题",

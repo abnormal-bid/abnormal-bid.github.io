@@ -20,18 +20,18 @@
 
 官网本身不收款、不开通邮箱，实际操作都在下面几个站点完成。地址统一由 `src/data/site.ts` 的 `linksFor(lang)` 生成（onboard 的英文页在 `/en/` 下），页头、首屏、「从这里开始」入口卡片、服务卡片、开通流程、收尾面板与页脚都从这里取，换域名时只改这一处。
 
-| 入口           | 地址                                           | 所在仓库                                         |
-| -------------- | ---------------------------------------------- | ------------------------------------------------ |
-| 购买邮箱       | `https://onboard.abnormalhq.com/shop/`         | [onboard](https://github.com/abnormalhq/onboard) |
-| 兑换开通       | `https://onboard.abnormalhq.com/`              | onboard                                          |
-| 我的订单与续费 | `https://onboard.abnormalhq.com/shop/account/` | onboard                                          |
-| 使用教程       | `https://onboard.abnormalhq.com/guide/`        | onboard                                          |
-| 网页邮箱       | `https://webmail.abnormalhq.com/`              | [mail](https://github.com/abnormalhq/mail)       |
-| 服务状态       | `https://console.abnormalhq.com/status`        | mail                                             |
+| 入口                                         | 地址                                           | 所在仓库                                         |
+| -------------------------------------------- | ---------------------------------------------- | ------------------------------------------------ |
+| 购买邮箱                                     | `https://onboard.abnormalhq.com/shop/`         | [onboard](https://github.com/abnormalhq/onboard) |
+| 兑换开通                                     | `https://onboard.abnormalhq.com/`              | onboard                                          |
+| 我的账户（注册、登录、邮箱管理、订单与续费） | `https://onboard.abnormalhq.com/shop/account/` | onboard                                          |
+| 使用教程                                     | `https://onboard.abnormalhq.com/guide/`        | onboard                                          |
+| 网页邮箱                                     | `https://webmail.abnormalhq.com/`              | [mail](https://github.com/abnormalhq/mail)       |
+| 服务状态                                     | `https://console.abnormalhq.com/status`        | mail                                             |
 
 反方向：onboard 页头与页脚的「官网」、网页邮箱登录页与状态页的「官网」链接都指回 `https://abnormalhq.com/`。
 
-首页从上到下：首屏（购买邮箱 / 我有兑换码 / 登录网页邮箱）→ 01 从这里开始（四张入口卡片与订单、状态、客服链接）→ 02 邮箱服务（个人邮箱直达商店，其余三项咨询）→ 03 开通流程（选购套餐 → 兑换开通 → 登录收发，每步带链接）→ 04 常见问题 → 收尾面板（购买邮箱 + 聊聊定制需求）。
+页头右侧是「我的账户」（买家注册、登录与邮箱管理）、「登录邮箱」（网页邮箱）与「购买邮箱」。首页从上到下把买家流程串起来：首屏（购买邮箱 / 注册账户，下面是「登录管理邮箱 · 登录网页邮箱」）→ 01 从这里开始（购买邮箱、我的账户、兑换开通、网页邮箱四张卡片与教程、状态、客服链接）→ 02 邮箱服务（个人邮箱直达商店，其余三项咨询）→ 03 开通流程（注册账户 → 选购套餐 → 在「我的账户」开通邮箱 → 登录收发，每步带链接；「注册账户」直接打开账户页的注册表单 `?mode=register`）→ 04 常见问题 → 收尾面板（购买邮箱 + 聊聊定制需求）。
 
 ## 组件与样式
 
