@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { legalFrontmatters } from "@/content/legal/frontmatter";
 import { site } from "@/data/site";
-import { copies } from "@/i18n";
+import { copies, defaultLang, langs } from "@/i18n";
 import { pageFor, pages } from "@/lib/pages";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -11,9 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(path === "/" ? {} : { lastModified: legalFrontmatters[lang][path].updated }),
     alternates: {
       languages: {
-        [copies.zh.htmlLang]: `${site.url}${pageFor("zh", path).url}`,
-        [copies.en.htmlLang]: `${site.url}${pageFor("en", path).url}`,
-        "x-default": `${site.url}${pageFor("zh", path).url}`,
+        ...Object.fromEntries(langs.map((other) => [copies[other].htmlLang, `${site.url}${pageFor(other, path).url}`])),
+        "x-default": `${site.url}${pageFor(defaultLang, path).url}`,
       },
     },
   }));

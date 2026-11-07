@@ -14,7 +14,7 @@ import { Process } from "./Process";
 import { Start } from "./Start";
 import { Subscriptions } from "./Subscriptions";
 
-/** 首页：src/app/(zh)/page.tsx（中文）与 src/app/(en)/en/page.tsx（英文）共用。 */
+/** 首页：src/app/(en)/page.tsx（英文）与 src/app/(zh)/zh/page.tsx（中文）共用。 */
 export function Home({ lang }: { lang: Lang }) {
   const { t, links } = useCopy(lang);
   return (

@@ -15,9 +15,9 @@ test("every page has a Markdown path under /md/ that mirrors its URL", () => {
       ["/", "/md/"],
       ["/privacy/", "/md/privacy/"],
       ["/terms/", "/md/terms/"],
-      ["/en/", "/md/en/"],
-      ["/en/privacy/", "/md/en/privacy/"],
-      ["/en/terms/", "/md/en/terms/"],
+      ["/zh/", "/md/zh/"],
+      ["/zh/privacy/", "/md/zh/privacy/"],
+      ["/zh/terms/", "/md/zh/terms/"],
     ],
   );
 });
@@ -144,8 +144,8 @@ test("only GET and HEAD for a listed page on the main host are sent to Markdown"
 
   assert.equal(markdownUrl(request("https://abnormalhq.com/"))?.href, "https://abnormalhq.com/md/");
   assert.equal(
-    markdownUrl(request("https://abnormalhq.com/en/privacy/?a=1"))?.href,
-    "https://abnormalhq.com/md/en/privacy/?a=1",
+    markdownUrl(request("https://abnormalhq.com/zh/privacy/?a=1"))?.href,
+    "https://abnormalhq.com/md/zh/privacy/?a=1",
   );
   assert.equal(markdownUrl(request("https://abnormalhq.com/terms/", "HEAD"))?.pathname, "/md/terms/");
 

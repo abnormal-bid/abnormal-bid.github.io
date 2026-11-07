@@ -92,13 +92,13 @@ function llmsSection(lang: Lang, heading: string): string {
   ]);
 }
 
-/** 格式见 https://llmstxt.org/。中文是官网的默认语言，放在前面。 */
+/** 格式见 https://llmstxt.org/。英文是官网的默认语言，放在前面。 */
 export function llmsTxt(): string {
   return `${paragraphs([
     "# Abnormal",
-    `> ${copies.zh.meta.description}`,
     `> ${copies.en.meta.description}`,
-    llmsSection("zh", "中文"),
+    `> ${copies.zh.meta.description}`,
     llmsSection("en", "English"),
+    llmsSection("zh", "中文"),
   ])}\n`;
 }

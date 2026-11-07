@@ -6,7 +6,9 @@
 
 ## 中英文
 
-中文在根路径（`/`、`/privacy/`、`/terms/`），英文在 `/en/` 下（`/en/`、`/en/privacy/`、`/en/terms/`），由 `src/app` 下的 `(zh)` 与 `(en)` 两个路由组实现，各有一个根布局。页头的「EN / 中」切换到另一种语言的同一页面；每页都输出互指的 `hreflang`，`x-default` 指向中文版。不按浏览器语言自动跳转。
+英文是默认语言，在根路径（`/`、`/privacy/`、`/terms/`）；中文在 `/zh/` 下（`/zh/`、`/zh/privacy/`、`/zh/terms/`）。由 `src/app` 下的 `(en)` 与 `(zh)` 两个路由组实现，各有一个根布局。默认语言与语言顺序只在 `src/i18n/paths.ts` 的 `defaultLang`、`langs` 里写一次，路径、`hreflang`、站点地图、`llms.txt` 与结构化数据都从这里取。页头的「EN / 中」切换到另一种语言的同一页面；每页都输出互指的 `hreflang`，`x-default` 指向英文版。不按浏览器语言自动跳转。
+
+英文原来在 `/en/` 下：`/en/`、`/en/privacy/`、`/en/terms/` 与对应的 `/md/en/...` 由 `next.config.ts` 的 `redirects()` 301 到根路径的新地址，旧外链与搜索结果不会失效。
 
 - 全部界面文案在 `src/i18n/zh.ts` 与 `src/i18n/en.ts`，二者都实现 `src/i18n/types.ts` 的 `Copy`，漏写字段会在 `pnpm typecheck` 时报错；`tests/i18n.test.ts` 还会逐项检查两份文案的结构一致（包括每个列表项的字段，可选字段也算），并要求 `link`、`icon`、`anchor`、`featured`、`primary`、`path` 这些与语言无关的值两边相同。服务端组件用 `useCopy(lang)` 取当前语言的文案、联动地址与带语言前缀的站内路径。
 - 中文标题用全角句号、英文用半角，取 `t.dot`；只在部分宽度换行的标题，两行之间用 `t.space`（英文是空格）。
@@ -56,7 +58,7 @@ pnpm dlx shadcn@latest add @abnormal/button --overwrite
 | 抓取规则        | `/robots.txt`                      | `public/robots.txt`，含 Content Signals 与 sitemap                         |
 | 站点地图        | `/sitemap.xml`                     | `src/app/sitemap.ts`                                                       |
 | 目录            | `/llms.txt`                        | `src/app/llms.txt/route.ts`，内容由 `src/lib/markdown.ts` 生成             |
-| Markdown 版页面 | `/md/`、`/md/en/privacy/`          | `src/app/md/[[...slug]]/route.ts`，首页来自界面文案，法律页面来自 MDX 正文 |
+| Markdown 版页面 | `/md/`、`/md/zh/privacy/`          | `src/app/md/[[...slug]]/route.ts`，首页来自界面文案，法律页面来自 MDX 正文 |
 | 内容协商        | 页面地址 + `Accept: text/markdown` | `worker.ts` 按权重判断（`src/lib/negotiate.ts`）后转到上面的 Markdown 版本 |
 | 发现头          | 每个页面的 `Link` 响应头           | `next.config.ts` 的 `headers()`，同时输出 `Vary: Accept`                   |
 
@@ -70,7 +72,7 @@ MCP、OAuth、API Catalog、Agent Skills 和商务协议没有实现：官网没
 
 | 项目                 | 实现                                                                                                                                         |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| 标题、描述、hreflang | `src/lib/metadata.ts` 的 `pageMetadata`：canonical、中英互指的 `hreflang`（`x-default` 指向中文）、`robots` 允许大图预览与完整摘要           |
+| 标题、描述、hreflang | `src/lib/metadata.ts` 的 `pageMetadata`：canonical、中英互指的 `hreflang`（`x-default` 指向英文）、`robots` 允许大图预览与完整摘要           |
 | 分享卡片             | 同一处输出 Open Graph（含 `og:site_name`、另一种语言的 `og:locale:alternate`）与 `summary_large_image` 的 Twitter 卡片，图片在 `public/og/`  |
 | 结构化数据           | `src/lib/structured-data.ts`：每页都有 Organization 与 WebSite；首页另有 FAQPage（问答取自 `faq.items`），法律页面另有生效、修订日期与面包屑 |
 | 站点地图             | `src/app/sitemap.ts`：法律页面的 `lastmod` 取 frontmatter 的 `updated`，改条款时同步更新它                                                   |
@@ -125,7 +127,7 @@ pnpm cf:deploy     # 部署已有的 .open-next/ 产物
 
 ```text
 src/
-  app/            路由：(zh)/ 中文页、(en)/en/ 英文页，各有一个根布局；global-not-found.tsx 是两种语言共用的 404
+  app/            路由：(en)/ 英文页（默认语言，在根路径）、(zh)/zh/ 中文页，各有一个根布局；global-not-found.tsx 是两种语言共用的 404
   components/     SiteLayout、页头、Hero、邮箱服务卡片、流程、FAQ、咨询弹窗等页面区块；ui/ 是从 registry 安装的组件
   content/legal/  MDX 编写的隐私政策与服务条款，zh/ 与 en/ 各一份
   data/site.ts    公开联系方式与联动站点地址（linksFor）
@@ -179,7 +181,7 @@ wrangler.jsonc       Cloudflare Worker 与静态资源配置
 
 ## 隐私政策与服务条款
 
-`src/content/legal/zh/` 与 `src/content/legal/en/` 下的 `privacy.mdx`、`terms.mdx` 在构建时由 [`@next/mdx`](https://nextjs.org/docs/app/guides/mdx) 编译，通过 `src/components/LegalDocument.tsx` 输出，发布路径为 `/privacy/` 与 `/terms/`（英文 `/en/privacy/`、`/en/terms/`），页脚与咨询弹窗都有入口。正文使用 MDX 编写（普通文字里的 `{`、`}`、`<` 会被当成语法，要写成 `\{`、`\}`、`\<`），每个二级标题自动编号并生成目录；「联系我们」一节由组件根据 `site.contact` 生成，正文中无需重复联系方式。
+`src/content/legal/zh/` 与 `src/content/legal/en/` 下的 `privacy.mdx`、`terms.mdx` 在构建时由 [`@next/mdx`](https://nextjs.org/docs/app/guides/mdx) 编译，通过 `src/components/LegalDocument.tsx` 输出，发布路径为 `/privacy/` 与 `/terms/`（中文 `/zh/privacy/`、`/zh/terms/`），页脚与咨询弹窗都有入口。正文使用 MDX 编写（普通文字里的 `{`、`}`、`<` 会被当成语法，要写成 `\{`、`\}`、`\<`），每个二级标题自动编号并生成目录；「联系我们」一节由组件根据 `site.contact` 生成，正文中无需重复联系方式。
 
 frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`（页首英文小标）、`summary`（页首导语）、`effective` 与 `updated`（`YYYY-MM-DD`，修改正文后请更新 `updated`）、`highlights`（页首「要点速览」）。页面先用 `src/lib/legal.ts` 的 `parseLegalFrontmatter` 检查 frontmatter：缺字段、日期不是真实的 `YYYY-MM-DD`、`highlights` 为空时构建直接报错，并指出是哪个文件的哪个字段。目录取文档里的全部二级标题，正文不要写一级标题（页首已经是 h1）。
 
