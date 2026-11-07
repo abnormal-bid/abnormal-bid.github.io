@@ -38,6 +38,11 @@ export function Footer({ lang }: { lang: Lang }) {
                   </a>
                 </li>
               ))}
+              <li>
+                <Link className={linkClass} href={path("/download/")}>
+                  {t.download.navLabel}
+                </Link>
+              </li>
             </ul>
           </nav>
           <nav aria-label={f.supportLabel}>

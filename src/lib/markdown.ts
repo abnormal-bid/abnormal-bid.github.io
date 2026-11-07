@@ -2,7 +2,7 @@
  * 给 Agent 读的 Markdown：首页由界面文案生成，法律页面用 MDX 正文，llms.txt 是两者的目录。
  * 文案只有 src/i18n 一份，改了界面文案，这里跟着变。
  */
-import { linksFor, site, type Lang } from "../data/site.ts";
+import { desktopDownloads, linksFor, site, type Lang } from "../data/site.ts";
 import { copies, langs } from "../i18n/index.ts";
 import type { LegalFrontmatter } from "../content/legal/types.ts";
 import { contactChannels } from "./inquiry.ts";
@@ -47,6 +47,29 @@ export function homeMarkdown(lang: Lang): string {
   ])}\n`;
 }
 
+export function downloadMarkdown(lang: Lang): string {
+  const t = copies[lang];
+  const d = t.download;
+  return `${paragraphs([
+    `# ${d.title}`,
+    d.intro,
+    `## ${d.macos.name}`,
+    d.macos.requirement,
+    `[${d.macos.download}](${desktopDownloads.macos})`,
+    `${d.macos.brewLabel}\n\n\`\`\`sh\n${desktopDownloads.brew}\n\`\`\``,
+    d.macos.firstLaunch,
+    `## ${d.windows.name}`,
+    d.windows.requirement,
+    `[${d.windows.download}](${desktopDownloads.windows})`,
+    `[${d.windows.armDownload}](${desktopDownloads.windowsArm})`,
+    d.windows.firstLaunch,
+    `## ${d.signInTitle}`,
+    d.signInSteps.map((step, index) => `${index + 1}. ${step}`).join("\n"),
+    `[${d.checksums}](${desktopDownloads.manifest})`,
+    `${d.webmailNote}${t.space}[${d.webmailLink}](${linksFor(lang).webmail})`,
+  ])}\n`;
+}
+
 /** 文案里的法律页面路径是普通字符串，这里确认它确实是清单里的页面。 */
 function toPagePath(path: string) {
   const match = pagePaths.find((pagePath) => pagePath === path);
@@ -86,6 +109,7 @@ function llmsSection(lang: Lang, heading: string): string {
     `## ${heading}`,
     list([
       `[${t.meta.title}](${absolute(pageFor(lang, "/").markdown)})`,
+      `[${t.download.title}](${absolute(pageFor(lang, "/download/").markdown)})`,
       ...t.legalPages.map((page) => `[${page.label}](${absolute(pageFor(lang, toPagePath(page.path)).markdown)})`),
       ...[...t.footer.productLinks, ...t.footer.supportLinks].map((item) => `[${item.label}](${links[item.link]})`),
     ]),

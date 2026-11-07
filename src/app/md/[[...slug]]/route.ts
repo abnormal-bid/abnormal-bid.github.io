@@ -1,7 +1,7 @@
 import { legalFrontmatters } from "@/content/legal/frontmatter";
 import { legalSources } from "@/content/legal/sources";
 import { site } from "@/data/site";
-import { homeMarkdown, legalMarkdown, stripFrontmatter } from "@/lib/markdown";
+import { downloadMarkdown, homeMarkdown, legalMarkdown, stripFrontmatter } from "@/lib/markdown";
 import { pages, type Page } from "@/lib/pages";
 
 export const dynamic = "force-static";
@@ -15,6 +15,7 @@ export function generateStaticParams() {
 
 function render({ lang, path }: Page): string {
   if (path === "/") return homeMarkdown(lang);
+  if (path === "/download/") return downloadMarkdown(lang);
   return legalMarkdown(lang, legalFrontmatters[lang][path], stripFrontmatter(legalSources[lang][path]));
 }
 
