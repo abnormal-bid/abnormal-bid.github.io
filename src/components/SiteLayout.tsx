@@ -1,6 +1,6 @@
 /**
  * 两种语言共用的 HTML 骨架：主题脚本、字体预载、跳转链接、页头页脚与咨询弹窗。
- * / 与 /en/ 各有一个根布局（src/app 下的两个路由组），都只是把语言交给这里。
+ * /（英文）与 /zh/（中文）各有一个根布局（src/app 下的两个路由组），都只是把语言交给这里。
  */
 import type { ReactNode } from "react";
 import { preload } from "react-dom";

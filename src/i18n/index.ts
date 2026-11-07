@@ -8,9 +8,8 @@ import { localePath, toLang } from "./paths.ts";
 import type { Copy } from "./types.ts";
 import { zh } from "./zh.ts";
 
-export { localePath, stripLocale, switchPath, toLang } from "./paths.ts";
+export { defaultLang, langs, localePath, stripLocale, switchPath, toLang } from "./paths.ts";
 export type { Lang };
-export const langs: readonly Lang[] = ["zh", "en"];
 export const copies: Record<Lang, Copy> = { zh, en };
 
 export function useCopy(locale: string | undefined) {

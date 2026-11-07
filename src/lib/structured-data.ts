@@ -6,7 +6,7 @@
 import type { LegalFrontmatter } from "../content/legal/types.ts";
 import { site, type Lang } from "../data/site.ts";
 import { copies } from "../i18n/index.ts";
-import { localePath } from "../i18n/paths.ts";
+import { langs, localePath } from "../i18n/paths.ts";
 import { socialImage } from "./metadata.ts";
 
 type Node = Record<string, unknown>;
@@ -27,7 +27,7 @@ function organization(): Node {
       "@type": "ContactPoint",
       contactType: "customer support",
       email: site.contact.email,
-      availableLanguage: [copies.zh.htmlLang, copies.en.htmlLang],
+      availableLanguage: langs.map((lang) => copies[lang].htmlLang),
     },
   };
 }
@@ -39,7 +39,7 @@ function website(lang: Lang): Node {
     name: site.name,
     url: `${site.url}/`,
     description: copies[lang].meta.description,
-    inLanguage: [copies.zh.htmlLang, copies.en.htmlLang],
+    inLanguage: langs.map((lang) => copies[lang].htmlLang),
     publisher: { "@id": organizationId },
   };
 }

@@ -16,7 +16,7 @@ for (const lang of ["zh", "en"] as const) {
     assert.equal(ofType(graph, "Organization")?.name, site.name);
     assert.equal(ofType(graph, "WebSite")?.url, `${site.url}/`);
     const page = ofType(graph, "FAQPage")!;
-    assert.equal(page.url, lang === "zh" ? `${site.url}/` : `${site.url}/en/`);
+    assert.equal(page.url, lang === "en" ? `${site.url}/` : `${site.url}/zh/`);
     assert.equal(page.inLanguage, t.htmlLang);
     const questions = page.mainEntity as { name: string; acceptedAnswer: { text: string } }[];
     assert.deepEqual(
@@ -36,14 +36,14 @@ test("a legal page carries its dates and a breadcrumb back to its language's hom
     updated: "2026-11-04",
     highlights: ["One"],
   };
-  const page = ofType(nodes(legalStructuredData("en", "/terms/", frontmatter)), "WebPage")!;
-  assert.equal(page.url, `${site.url}/en/terms/`);
+  const page = ofType(nodes(legalStructuredData("zh", "/terms/", frontmatter)), "WebPage")!;
+  assert.equal(page.url, `${site.url}/zh/terms/`);
   assert.equal(page.datePublished, "2026-09-21");
   assert.equal(page.dateModified, "2026-11-04");
   const crumbs = (page.breadcrumb as { itemListElement: { item: string }[] }).itemListElement;
   assert.deepEqual(
     crumbs.map(({ item }) => item),
-    [`${site.url}/en/`, `${site.url}/en/terms/`],
+    [`${site.url}/zh/`, `${site.url}/zh/terms/`],
   );
 });
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { site, type Lang } from "../data/site.ts";
 import { copies } from "../i18n/index.ts";
-import { localePath } from "../i18n/paths.ts";
+import { defaultLang, langs, localePath } from "../i18n/paths.ts";
 
 /** 分享卡片图片，由 scripts/og-images.ts 生成；改了首屏标题或分享描述后重新生成。 */
 export function socialImage(lang: Lang) {
@@ -9,7 +9,7 @@ export function socialImage(lang: Lang) {
 }
 
 /**
- * 每个页面都有中英两版：hreflang 互相指向，x-default 指向中文版。
+ * 每个页面都有中英两版：hreflang 互相指向，x-default 指向默认语言（英文）。
  * 子页面的 openGraph 会整体覆盖父级，所以每个页面都从这里生成完整的一份；
  * 传了 title / description 的页面（法律页），分享卡片也用它们，不传时用首页的分享文案。
  */
@@ -38,9 +38,8 @@ export function pageMetadata({
     alternates: {
       canonical: url,
       languages: {
-        [copies.zh.htmlLang]: localePath("zh", path),
-        [copies.en.htmlLang]: localePath("en", path),
-        "x-default": localePath("zh", path),
+        ...Object.fromEntries(langs.map((other) => [copies[other].htmlLang, localePath(other, path)])),
+        "x-default": localePath(defaultLang, path),
       },
       types: { "text/markdown": `/md${url}` },
     },
@@ -57,7 +56,7 @@ export function pageMetadata({
       url,
       siteName: site.name,
       locale: t.ogLocale,
-      alternateLocale: (["zh", "en"] as const).filter((other) => other !== lang).map((other) => copies[other].ogLocale),
+      alternateLocale: langs.filter((other) => other !== lang).map((other) => copies[other].ogLocale),
       images: [image],
     },
     twitter: {
