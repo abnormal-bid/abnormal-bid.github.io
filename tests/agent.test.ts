@@ -7,6 +7,8 @@ import { contactChannels } from "../src/lib/inquiry.ts";
 import { downloadMarkdown, homeMarkdown, legalMarkdown, llmsTxt, stripFrontmatter } from "../src/lib/markdown.ts";
 import { markdownUrl, varyOnAccept, wantsMarkdown } from "../src/lib/negotiate.ts";
 import { pages } from "../src/lib/pages.ts";
+import { parseReleaseIndex } from "../src/lib/releases.ts";
+import { releaseIndex } from "./support/releases.ts";
 
 test("every page has a Markdown path under /md/ that mirrors its URL", () => {
   assert.deepEqual(
@@ -40,7 +42,7 @@ for (const lang of ["zh", "en"] as const) {
 
   test(`${lang} download Markdown carries both installers, the brew command and the checksums`, () => {
     const d = copies[lang].download;
-    const markdown = downloadMarkdown(lang);
+    const markdown = downloadMarkdown(lang, parseReleaseIndex(releaseIndex));
     assert.ok(markdown.startsWith(`# ${d.title}\n`));
     for (const url of [
       desktopDownloads.macos,
@@ -53,6 +55,29 @@ for (const lang of ["zh", "en"] as const) {
     assert.ok(markdown.includes(desktopDownloads.brew));
     for (const step of d.signInSteps) assert.ok(markdown.includes(step));
     assert.ok(!markdown.includes("undefined"));
+  });
+
+  test(`${lang} download Markdown lists the current version and the previous ones`, () => {
+    const d = copies[lang].download;
+    const markdown = downloadMarkdown(lang, parseReleaseIndex(releaseIndex));
+    assert.ok(markdown.includes(`${d.currentLabel} 0.2.0 · ${d.releasedLabel} 2026-12-01`), "current version");
+    assert.ok(markdown.includes(`## ${d.historyTitle}`));
+    assert.ok(markdown.includes(d.historyIntro));
+    assert.ok(
+      markdown.includes("- 0.1.0 (2026-11-07) · [macOS, 20.4 MB](https://downloads.abnormalhq.com/desktop/0.1.0/"),
+    );
+    assert.ok(markdown.includes("(https://downloads.abnormalhq.com/desktop/0.1.0/latest.json)"));
+    assert.ok(!markdown.includes("- 0.2.0"), "the current version is not a previous one");
+  });
+
+  test(`${lang} download Markdown says when there are no previous versions, and works without any`, () => {
+    const d = copies[lang].download;
+    const only = { latest: "0.1.0", releases: releaseIndex.releases.slice(1) };
+    assert.ok(downloadMarkdown(lang, parseReleaseIndex(only)).includes(d.historyEmpty));
+    const without = downloadMarkdown(lang, undefined);
+    assert.ok(!without.includes(d.currentLabel));
+    assert.ok(!without.includes(d.historyTitle));
+    assert.ok(without.includes(`(${desktopDownloads.macos})`));
   });
 }
 
