@@ -204,6 +204,15 @@ export interface Copy {
     signInTitle: string;
     signInSteps: readonly string[];
     checksums: string;
+    /** 首屏下方的「当前版本 0.1.0 · 发布于 2026-11-07」。版本数据来自 src/lib/releases.ts。 */
+    currentLabel: string;
+    releasedLabel: string;
+    historyTitle: string;
+    historyIntro: string;
+    /** 只有一个版本时，历史版本一节显示这句。 */
+    historyEmpty: string;
+    /** 历史版本每一行末尾，链到那一版的 latest.json。 */
+    historyChecksums: string;
     webmailNote: string;
     webmailLink: string;
   };

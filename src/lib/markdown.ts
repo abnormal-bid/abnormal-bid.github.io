@@ -6,6 +6,8 @@ import { desktopDownloads, linksFor, site, type Lang } from "../data/site.ts";
 import { copies, langs } from "../i18n/index.ts";
 import type { LegalFrontmatter } from "../content/legal/types.ts";
 import { contactChannels } from "./inquiry.ts";
+import { markdownResponse } from "./markdown-response.ts";
+import { fetchDesktopReleases, fileLabel, formatSize, releaseDate, type DesktopReleases } from "./releases.ts";
 import { pageFor, pagePaths } from "./pages.ts";
 
 const absolute = (path: string) => `${site.url}${path}`;
@@ -47,12 +49,39 @@ export function homeMarkdown(lang: Lang): string {
   ])}\n`;
 }
 
-export function downloadMarkdown(lang: Lang): string {
+/** 下载页的 Markdown 响应：每次请求时读取版本列表，由 /md/download/ 与 /md/zh/download/ 的路由调用。 */
+export async function downloadMarkdownResponse(lang: Lang): Promise<Response> {
+  return markdownResponse(pageFor(lang, "/download/"), downloadMarkdown(lang, await fetchDesktopReleases()));
+}
+
+export function downloadMarkdown(lang: Lang, releases: DesktopReleases | undefined): string {
   const t = copies[lang];
   const d = t.download;
+  const history = releases
+    ? [
+        `## ${d.historyTitle}`,
+        releases.previous.length > 0 ? d.historyIntro : d.historyEmpty,
+        ...(releases.previous.length > 0
+          ? [
+              list(
+                releases.previous.map((release) =>
+                  [
+                    `${release.version} (${releaseDate(release)})`,
+                    ...release.files.map((file) => `[${fileLabel(file)}, ${formatSize(file.size)}](${file.url})`),
+                    `[${d.historyChecksums}](${release.manifestUrl})`,
+                  ].join(" · "),
+                ),
+              ),
+            ]
+          : []),
+      ]
+    : [];
   return `${paragraphs([
     `# ${d.title}`,
     d.intro,
+    ...(releases
+      ? [`${d.currentLabel} ${releases.current.version} · ${d.releasedLabel} ${releaseDate(releases.current)}`]
+      : []),
     `## ${d.macos.name}`,
     d.macos.requirement,
     `[${d.macos.download}](${desktopDownloads.macos})`,
@@ -65,6 +94,7 @@ export function downloadMarkdown(lang: Lang): string {
     d.windows.firstLaunch,
     `## ${d.signInTitle}`,
     d.signInSteps.map((step, index) => `${index + 1}. ${step}`).join("\n"),
+    ...history,
     `[${d.checksums}](${desktopDownloads.manifest})`,
     `${d.webmailNote}${t.space}[${d.webmailLink}](${linksFor(lang).webmail})`,
   ])}\n`;

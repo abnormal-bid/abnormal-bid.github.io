@@ -33,6 +33,8 @@
 
 下载页 `/download/`（中文 `/zh/download/`，入口在页脚「产品」一栏）提供桌面客户端（[mail](https://github.com/abnormalhq/mail) 的 `desktop/`）的 macOS `.dmg` 与 Windows 安装程序（x64 与 Arm 各一个），以及 Homebrew 安装命令。安装包由 mail 仓库的发布流程上传到 R2 公开桶 `downloads.abnormalhq.com`：`desktop/latest/` 下是固定文件名的最新版本，下载页直接链接这些地址，发新版本不用改官网；`desktop/latest.json` 列出版本号与 SHA-256。地址集中在 `src/data/site.ts` 的 `desktopDownloads`。
 
+下载页还列出当前版本（版本号与发布日期）和历史版本（每一版的各平台安装包、大小与 SHA-256 校验值）。数据来自同一个桶里的 `desktop/releases.json`，由 mail 的发布流程从各版本的 `desktop/<version>/latest.json` 重新生成，按新到旧排列，`latest` 指当前版本。下载页（`/download/`、`/zh/download/`）与它的 Markdown 版本（`/md/download/`、`/md/zh/download/`）因此不预渲染：每次请求时在 Worker 上渲染，读取这份列表（`src/lib/releases.ts`），请求在 Cloudflare 边缘缓存 60 秒，mail 发布新版本后不用重新部署官网，一分钟左右就能看到。其余页面仍在构建时预渲染。读不到 `releases.json` 时退回 `desktop/latest.json`，只显示当前版本；两者都读不到时（3 秒超时）页面照常返回，只是不显示版本信息。下载按钮链接的是 `desktop/latest/`，始终是最新版本。
+
 反方向：onboard 页头与页脚的「官网」、网页邮箱登录页与状态页的「官网」链接都指回 `https://abnormalhq.com/`。
 
 页头右侧是「我的账户」（买家注册、登录与邮箱管理）、「登录邮箱」（网页邮箱）与「购买邮箱」。首页从上到下把买家流程串起来：首屏（购买邮箱 / 注册账户，下面是「登录管理邮箱 · 登录网页邮箱」）→ 01 从这里开始（购买邮箱、我的账户、兑换开通、网页邮箱四张卡片与教程、状态、客服链接）→ 02 邮箱服务（个人邮箱直达商店，其余三项咨询）→ 03 开通流程（注册账户 → 选购套餐 → 在「我的账户」开通邮箱 → 登录收发，每步带链接；「注册账户」直接打开账户页的注册表单 `?mode=register`）→ 04 常见问题 → 收尾面板（购买邮箱 + 聊聊定制需求）。

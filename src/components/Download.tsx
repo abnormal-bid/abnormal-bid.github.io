@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
@@ -6,10 +7,14 @@ import { Eyebrow, HeadingMark, SectionTitle, sectionSpaceClassName } from "@/com
 import { TextLink } from "@/components/ui/text-link";
 import { desktopDownloads, type Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
+import { fileLabel, formatSize, releaseDate, type DesktopReleases } from "@/lib/releases";
 import { Icon } from "./Icon";
 
-/** 桌面客户端下载页：两个平台各一张卡片，下面是登录说明与校验值。 */
-export function Download({ lang }: { lang: Lang }) {
+/**
+ * 桌面客户端下载页：当前版本号，两个平台各一张卡片，登录说明，历史版本与校验值。
+ * releases 在每次请求时读取（src/lib/releases.ts），读不到时不显示版本号与历史版本，下载按钮照常可用。
+ */
+export function Download({ lang, releases }: { lang: Lang; releases?: DesktopReleases }) {
   const { t, links } = useCopy(lang);
   const d = t.download;
   const platforms = [
@@ -28,6 +33,18 @@ export function Download({ lang }: { lang: Lang }) {
           </h1>
         </SectionTitle>
         <p className="mt-4 max-w-2xl text-md/prose text-muted-foreground">{d.intro}</p>
+        {releases && (
+          <p className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm/[1.6] text-muted-foreground">
+            <span>{d.currentLabel}</span>
+            <Badge className="font-mono" variant="brand">
+              {releases.current.version}
+            </Badge>
+            <span aria-hidden="true">·</span>
+            <span>
+              {d.releasedLabel} <time dateTime={releases.current.releasedAt}>{releaseDate(releases.current)}</time>
+            </span>
+          </p>
+        )}
 
         <div className="mt-10 grid grid-cols-2 gap-4 max-md:grid-cols-1">
           {platforms.map((platform) => (
@@ -78,6 +95,45 @@ export function Download({ lang }: { lang: Lang }) {
             ))}
           </ol>
         </div>
+
+        {releases && (
+          <div className="mt-12">
+            <h2 className="text-xl/[1.4] font-semibold tracking-[-0.01em]" id="previous-versions">
+              {d.historyTitle}
+            </h2>
+            <p className="mt-2 max-w-2xl text-base/prose text-muted-foreground">
+              {releases.previous.length > 0 ? d.historyIntro : d.historyEmpty}
+            </p>
+            {releases.previous.length > 0 && (
+              <ul aria-labelledby="previous-versions" className="mt-5 border-t border-border">
+                {releases.previous.map((release) => (
+                  <li
+                    className="flex flex-wrap items-baseline gap-x-8 gap-y-2 border-b border-border py-4"
+                    key={release.version}
+                  >
+                    <span className="flex min-w-40 items-baseline gap-3">
+                      <span className="font-mono text-base/[1.6] font-semibold">{release.version}</span>
+                      <time className="text-sm/[1.6] text-muted-foreground" dateTime={release.releasedAt}>
+                        {releaseDate(release)}
+                      </time>
+                    </span>
+                    <span className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
+                      {release.files.map((file) => (
+                        <TextLink className="inline text-sm/[1.6]" download href={file.url} key={file.name}>
+                          {fileLabel(file)}{" "}
+                          <span className="font-normal whitespace-nowrap">({formatSize(file.size)})</span>
+                        </TextLink>
+                      ))}
+                      <TextLink className="text-sm/[1.6]" href={release.manifestUrl}>
+                        {d.historyChecksums} <Icon name="up-right" className="size-3.5" />
+                      </TextLink>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
 
         <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-2">
           <TextLink className="text-sm/[1.6]" href={desktopDownloads.manifest}>
