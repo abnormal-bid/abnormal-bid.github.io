@@ -2,8 +2,8 @@
  * 桌面客户端的版本列表，下载页用它显示当前版本与历史版本。
  *
  * 数据来自 abnormalhq/mail 发布流程写到 downloads.abnormalhq.com 的 desktop/releases.json：
- * 全部版本按新到旧排列，latest 是 desktop/latest/ 下那一版。官网在构建时读取一次（页面是预渲染的），
- * mail 发布后通过 Workers Builds 的 deploy hook 重新构建官网，版本列表随之更新。
+ * 全部版本按新到旧排列，latest 是 desktop/latest/ 下那一版。下载页（与它的 Markdown 版本）不预渲染，
+ * 每次请求时在 Worker 上读取，mail 发布新版本后不需要重新部署官网，约一分钟内（见 edgeCacheSeconds）就能看到。
  * releases.json 出现以前只有 desktop/latest.json，读不到列表时退回到它，只显示当前版本。
  */
 import { desktopDownloads } from "../data/site.ts";
@@ -113,18 +113,26 @@ export function parseManifest(value: unknown): DesktopReleases {
   return { current: parseRelease(value), previous: [] };
 }
 
+/** 两个 JSON 在桶上是 max-age=60；这里也让 Cloudflare 边缘缓存 60 秒，不必每次访问都回源到 R2。 */
+const edgeCacheSeconds = 60;
+
 async function getJson(url: string): Promise<unknown> {
-  // no-store：不写进 Next.js 的数据缓存（.next/cache/fetch-cache）。构建缓存会被下次构建恢复，
-  // 写进去的话，mail 发了新版本、deploy hook 触发的那次构建读到的还是旧列表。
-  // 用它的页面都是 force-static，所以仍在构建时预渲染，只请求一次。
-  const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(10_000) });
+  // no-store：Next.js 不缓存这次请求，新鲜度只由下面的边缘缓存决定。cf 是 Workers 的 fetch 选项，
+  // Node（测试与 next dev）会忽略它。超时短一些：桶慢的时候，页面先不显示版本，也不拖住整页。
+  const init = {
+    cache: "no-store",
+    cf: { cacheEverything: true, cacheTtl: edgeCacheSeconds },
+    signal: AbortSignal.timeout(3_000),
+  };
+  const response = await fetch(url, init as RequestInit);
   if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
   return response.json();
 }
 
 /**
  * 读取版本列表。读不到 releases.json 时用 latest.json；两个都读不到时返回 undefined，
- * 下载页仍然给出固定地址的下载按钮，只是不显示版本号与历史版本，构建不因此失败。
+ * 下载页仍然给出固定地址的下载按钮，只是不显示版本号与历史版本。
+ * 不在模块里缓存结果：Worker 的 isolate 会处理很多请求，模块级的缓存会让列表一直停在第一次读到的版本。
  */
 export async function fetchDesktopReleases(): Promise<DesktopReleases | undefined> {
   try {
@@ -138,12 +146,4 @@ export async function fetchDesktopReleases(): Promise<DesktopReleases | undefine
     console.warn(`Could not read the desktop release either; the download page shows no versions: ${String(error)}`);
     return undefined;
   }
-}
-
-let loading: Promise<DesktopReleases | undefined> | undefined;
-
-/** fetchDesktopReleases，同一次构建里的页面与 Markdown 共用一次请求。 */
-export function loadDesktopReleases(): Promise<DesktopReleases | undefined> {
-  loading ??= fetchDesktopReleases();
-  return loading;
 }

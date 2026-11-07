@@ -107,3 +107,19 @@ test("the loader gives no versions, without throwing, when neither file can be r
   mockFetch(t, { [desktopDownloads.releases]: 503, [desktopDownloads.manifest]: new TypeError("fetch failed") });
   assert.equal(await fetchDesktopReleases(), undefined);
 });
+
+test("the loader asks again on every call, so a long-lived Worker sees new releases", async (t) => {
+  const requested = mockFetch(t, { [desktopDownloads.releases]: releaseIndex });
+  await fetchDesktopReleases();
+  await fetchDesktopReleases();
+  assert.equal(requested.length, 2);
+});
+
+test("the loader keeps Next.js from caching the list and lets the edge cache it for a minute", async (t) => {
+  t.mock.method(console, "warn", () => {});
+  const fetch = t.mock.method(globalThis, "fetch", async () => Response.json(releaseIndex));
+  await fetchDesktopReleases();
+  const init = fetch.mock.calls[0]!.arguments[1] as RequestInit & { cf?: { cacheTtl?: number } };
+  assert.equal(init.cache, "no-store");
+  assert.equal(init.cf?.cacheTtl, 60);
+});

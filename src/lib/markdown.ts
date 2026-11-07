@@ -6,7 +6,8 @@ import { desktopDownloads, linksFor, site, type Lang } from "../data/site.ts";
 import { copies, langs } from "../i18n/index.ts";
 import type { LegalFrontmatter } from "../content/legal/types.ts";
 import { contactChannels } from "./inquiry.ts";
-import { fileLabel, formatSize, releaseDate, type DesktopReleases } from "./releases.ts";
+import { markdownResponse } from "./markdown-response.ts";
+import { fetchDesktopReleases, fileLabel, formatSize, releaseDate, type DesktopReleases } from "./releases.ts";
 import { pageFor, pagePaths } from "./pages.ts";
 
 const absolute = (path: string) => `${site.url}${path}`;
@@ -46,6 +47,11 @@ export function homeMarkdown(lang: Lang): string {
     `## ${t.footer.legalLabel}`,
     list(t.legalPages.map((page) => `[${page.label}](${absolute(pageFor(lang, toPagePath(page.path)).markdown)})`)),
   ])}\n`;
+}
+
+/** 下载页的 Markdown 响应：每次请求时读取版本列表，由 /md/download/ 与 /md/zh/download/ 的路由调用。 */
+export async function downloadMarkdownResponse(lang: Lang): Promise<Response> {
+  return markdownResponse(pageFor(lang, "/download/"), downloadMarkdown(lang, await fetchDesktopReleases()));
 }
 
 export function downloadMarkdown(lang: Lang, releases: DesktopReleases | undefined): string {

@@ -33,7 +33,7 @@
 
 下载页 `/download/`（中文 `/zh/download/`，入口在页脚「产品」一栏）提供桌面客户端（[mail](https://github.com/abnormalhq/mail) 的 `desktop/`）的 macOS `.dmg` 与 Windows 安装程序（x64 与 Arm 各一个），以及 Homebrew 安装命令。安装包由 mail 仓库的发布流程上传到 R2 公开桶 `downloads.abnormalhq.com`：`desktop/latest/` 下是固定文件名的最新版本，下载页直接链接这些地址，发新版本不用改官网；`desktop/latest.json` 列出版本号与 SHA-256。地址集中在 `src/data/site.ts` 的 `desktopDownloads`。
 
-下载页还列出当前版本（版本号与发布日期）和历史版本（每一版的各平台安装包、大小与 SHA-256 校验值）。数据来自同一个桶里的 `desktop/releases.json`，由 mail 的发布流程从各版本的 `desktop/<version>/latest.json` 重新生成，按新到旧排列，`latest` 指当前版本。官网在构建时读取一次（`src/lib/releases.ts`，用 `no-store` 请求，不进 Next.js 的数据缓存；下载页与 `/md/download/` 仍是预渲染的）；mail 发布后调用本站 Workers Builds 的 Deploy Hook（mail 仓库 `desktop-release` 环境的 `WEBSITE_DEPLOY_HOOK`）重新构建，版本列表随之更新。没配 Deploy Hook 时，列表在本站下次部署时更新；下载按钮链接的是 `desktop/latest/`，始终是最新版本。读不到 `releases.json` 时退回 `desktop/latest.json`，只显示当前版本；两者都读不到时构建照常完成，页面只是不显示版本信息。
+下载页还列出当前版本（版本号与发布日期）和历史版本（每一版的各平台安装包、大小与 SHA-256 校验值）。数据来自同一个桶里的 `desktop/releases.json`，由 mail 的发布流程从各版本的 `desktop/<version>/latest.json` 重新生成，按新到旧排列，`latest` 指当前版本。下载页（`/download/`、`/zh/download/`）与它的 Markdown 版本（`/md/download/`、`/md/zh/download/`）因此不预渲染：每次请求时在 Worker 上渲染，读取这份列表（`src/lib/releases.ts`），请求在 Cloudflare 边缘缓存 60 秒，mail 发布新版本后不用重新部署官网，一分钟左右就能看到。其余页面仍在构建时预渲染。读不到 `releases.json` 时退回 `desktop/latest.json`，只显示当前版本；两者都读不到时（3 秒超时）页面照常返回，只是不显示版本信息。下载按钮链接的是 `desktop/latest/`，始终是最新版本。
 
 反方向：onboard 页头与页脚的「官网」、网页邮箱登录页与状态页的「官网」链接都指回 `https://abnormalhq.com/`。
 

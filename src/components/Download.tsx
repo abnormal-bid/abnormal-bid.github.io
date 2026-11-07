@@ -12,7 +12,7 @@ import { Icon } from "./Icon";
 
 /**
  * 桌面客户端下载页：当前版本号，两个平台各一张卡片，登录说明，历史版本与校验值。
- * releases 在构建时读取（src/lib/releases.ts），读不到时不显示版本号与历史版本，下载按钮照常可用。
+ * releases 在每次请求时读取（src/lib/releases.ts），读不到时不显示版本号与历史版本，下载按钮照常可用。
  */
 export function Download({ lang, releases }: { lang: Lang; releases?: DesktopReleases }) {
   const { t, links } = useCopy(lang);
