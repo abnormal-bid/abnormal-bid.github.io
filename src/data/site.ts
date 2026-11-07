@@ -25,7 +25,7 @@ export type Lang = "zh" | "en";
 /**
  * 与官网联动的其他站点。官网是落地页：购买、开通、登录与教程都在这些站点完成，
  * 页头、首屏、入口卡片、流程、页脚统一从这里取地址，换域名时只改这一处。
- * - onboard（abnormalhq/onboard）：兑换开通页、邮箱商店、买家账户与教程；英文页在 /en/ 下。
+ * - onboard（abnormalhq/onboard）：兑换开通页、邮箱商店、买家账户（注册、登录、邮箱管理）与教程；英文页在 /en/ 下。
  * - webmail / status（abnormalhq/mail）：网页邮箱与公开状态页，按浏览器语言自动切换，不分路径。
  */
 const onboardOrigin = "https://onboard.abnormalhq.com";
@@ -36,6 +36,8 @@ export function linksFor(lang: Lang) {
     shop: `${onboard}shop/`,
     redeem: onboard,
     account: `${onboard}shop/account/`,
+    /** 账户页直接打开注册表单。 */
+    register: `${onboard}shop/account/?mode=register`,
     guide: `${onboard}guide/`,
     webmail: "https://webmail.abnormalhq.com/",
     status: "https://console.abnormalhq.com/status",

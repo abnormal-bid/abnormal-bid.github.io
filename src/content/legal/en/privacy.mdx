@@ -4,7 +4,7 @@ description: "Abnormal Privacy Policy: how we collect, use, keep and protect you
 eyebrow: PRIVACY POLICY
 summary: "This policy explains how we collect, use, keep and protect your information when you visit the Abnormal website, buy in the shop, redeem a code, and use your mailbox and webmail. We only process what the service needs, and we don't sell personal information."
 effective: "2026-09-21"
-updated: "2026-11-04"
+updated: "2026-11-07"
 highlights:
   - "The website has no accounts, no cookies and no analytics or ad scripts. The shop and webmail use only the cookies needed to sign in and collect orders."
   - "Card payments are handled by Stripe and Credit payments by Linux DO Credit. We never see or store card numbers."
@@ -42,10 +42,11 @@ When you buy in the shop, manage orders or redeem a code, we process:
 
 - **Order details**: the plan, price and discount, order number, payment method, payment status, the transaction number returned by the payment provider, the amount and time, and the redeem code and renewals tied to the order.
 - **Contact email**: an optional address you give when ordering or renewing, used for expiry and renewal reminders and to find your orders when you sign in to your shop account.
-- **Shop account**: the email address you use to sign in to My account. There is no password: we email you a one-time sign-in link that works for 15 minutes.
+- **Shop account**: the email address you register and sign in to My account with, and the account password you set. The password is kept only as a one-way hash, so we never see it. When you register we send a confirmation link to that address; you can also sign in with a one-time link sent there (it works for 15 minutes) and set a new account password once signed in.
 - **Purchase session cookie**: when you order, your browser keeps a random identifier (`mailhq_shop`, HttpOnly) so you can collect the redeem code and see the order in that browser. It lasts one year and is renewed with each order. Our database stores only a digest of it, and an order number alone cannot be used to collect a code.
 - **Payment details**: Linux DO Credit payments happen on Linux DO Credit; card payments happen on Stripe, which handles the card number, expiry date and security code. We never see or store them. We receive only the payment result, transaction number and amount, plus the Stripe customer and subscription IDs needed for card subscriptions.
 - **Redeem details**: the redeem code you enter, the domain and username you choose, and the password you set for the mailbox. If you fill in a "receiving email", we send the new mailbox's address, password and server settings to that address.
+- **Buyers managing mailboxes**: a mailbox set up with an order's redeem code is managed by that order's buyer in My account, including a mailbox you set up with a code the buyer gave you. The buyer can see its address, status and usage, and can reset its password, disable it or delete it; these actions are recorded in the management system's activity log.
 - **Security information**: the IP address and browser details of requests, used to limit request rates and block abuse such as guessing redeem codes.
 - **Human check**: the redeem page, shop sign-in, webmail sign-in and management system sign-in may run a Cloudflare Turnstile check. It reads signals your browser sends (such as browser characteristics and how the page is used) to tell people from automated programs, and usually needs no action from you; we receive only a pass or fail result. See the [Cloudflare Turnstile Privacy Addendum](https://www.cloudflare.com/turnstile-privacy-policy/).
 
@@ -86,7 +87,7 @@ When you contact us, or use a custom service we have agreed on, we may process:
 ## How we use information
 
 - To confirm payment, issue redeem codes, open mailboxes, and deliver and store your mail.
-- To send the emails the service needs: shop sign-in links, account details after redeeming (only if you gave a receiving email), expiry and renewal reminders, and subscription charges and status changes.
+- To send the emails the service needs: shop registration confirmations and sign-in links, account details after redeeming (only if you gave a receiving email), expiry and renewal reminders, and subscription charges and status changes.
 - To handle renewals, expiry, suspension and restoration, refunds and disputes.
 - To provide support and answer tickets and inquiries.
 - To provide the AI features described above: generating drafts, summaries, suggested replies and search filters, running follow-up tasks and handling tickets first.
@@ -113,7 +114,7 @@ In addition, the mail you send is delivered to the recipients' mail servers as t
 - **Mail and mailboxes**: kept while the service is valid, and you can delete mail yourself. After expiry there is a 7-day grace period during which everything works as usual. When the grace period ends the mailbox is suspended, and its mail and data are kept for another 30 days, during which you can still renew to restore it. After that the mailbox is marked for reclaiming and, once an admin confirms, the mailbox and its mail are deleted.
 - **Tickets and follow-up task records**: ticket messages, AI assistant drafts, and the descriptions, messages and run records of follow-up tasks (which may include excerpts of mail they read) are kept in the database. They are not currently removed automatically when a mailbox is deleted; you can ask us to delete them at any time (see "Your rights").
 - **Orders and payment records**: kept for up to 12 months after the service ends to handle support, renewals and disputes, then deleted or anonymised, unless the law requires longer.
-- **Sign-in and sessions**: shop sign-in links work for 15 minutes; the purchase session cookie lasts one year; webmail sessions end when you sign out or they expire.
+- **Sign-in and sessions**: shop registration and sign-in links work for 15 minutes; shop account sign-ins last 30 days, and changing the account password signs out every other browser; the purchase session cookie lasts one year; webmail sessions end when you sign out or they expire.
 - **Runtime and access logs**: deleted automatically under our hosting providers' retention periods. The management system's activity log is kept for security auditing for as long as the service runs.
 - **Inquiries that don't lead to a service**: correspondence is deleted within 3 months after the inquiry ends.
 - You can ask us to delete information sooner at any time (see "Your rights"), except where it is needed for an open order or dispute or the law requires us to keep it.
@@ -121,9 +122,9 @@ In addition, the mail you send is delivered to the recipients' mail servers as t
 ## Security
 
 - Every site uses HTTPS throughout; payment credentials, merchant keys and other sensitive settings are stored encrypted; the password in a redeem result is shown only once.
-- Redeem, sign-in and payment endpoints are rate-limited by IP, and suspicious code guessing is locked out; the management system authorises by role and logs sensitive actions.
-- Apart from what you type yourself on the redeem page, the webmail sign-in page or when changing your password, we will never ask for your password, verification codes or card details by email, chat or any other channel. If anyone asks in Abnormal's name, don't give them anything, and check with us using the email address under "Contact us".
-- Keep redeem codes, mailbox passwords and shop sign-in links safe: anyone who has a redeem code can use it to open mailboxes.
+- Redeem, sign-in and payment endpoints are rate-limited by IP, shop account password attempts are also limited per account, and suspicious code guessing is locked out; the management system authorises by role and logs sensitive actions.
+- Apart from what you type yourself on the redeem page, in your shop account, on the webmail sign-in page or when changing your password, we will never ask for your password, verification codes or card details by email, chat or any other channel. If anyone asks in Abnormal's name, don't give them anything, and check with us using the email address under "Contact us".
+- Keep redeem codes, mailbox passwords, your shop account password and shop sign-in links safe: anyone who has a redeem code can use it to open mailboxes, and anyone who can sign in to your shop account can manage the mailboxes of your orders.
 - No transmission over the internet is entirely without risk. If you notice anything unusual with your account, change your password and contact us as soon as possible.
 
 ## Your rights

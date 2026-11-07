@@ -141,11 +141,6 @@ export function Header({
               </a>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <a href={links.redeem} onClick={closeMenu}>
-                {copy.haveCode} <Icon name="up-right" className="size-4" />
-              </a>
-            </Button>
-            <Button asChild variant="outline" size="lg">
               <a href={links.account} onClick={closeMenu}>
                 {copy.account} <Icon name="up-right" className="size-4" />
               </a>
@@ -153,6 +148,11 @@ export function Header({
             <Button asChild variant="outline" size="lg">
               <a href={links.webmail} onClick={closeMenu}>
                 {copy.loginWebmail} <Icon name="up-right" className="size-4" />
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <a href={links.redeem} onClick={closeMenu}>
+                {copy.haveCode} <Icon name="up-right" className="size-4" />
               </a>
             </Button>
           </div>

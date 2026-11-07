@@ -19,7 +19,8 @@ export type IconName =
   | "cart"
   | "ticket"
   | "mail"
-  | "book";
+  | "book"
+  | "user";
 
 /** 服务卡片的图标，ProductCard 按这个键画；与卡片在列表里的位置无关。 */
 export type ProductIcon = "mail" | "domain" | "team" | "setup";
@@ -91,9 +92,12 @@ export interface Copy {
     titleLines: readonly [string, string];
     description: readonly [string, string];
     buy: string;
-    haveCode: string;
+    register: string;
     loginPrompt: string;
+    /** 登录买家账户（管理邮箱与订单）。 */
     loginLink: string;
+    /** 登录网页邮箱（收发邮件）。 */
+    webmailLink: string;
     promises: readonly string[];
     visualLabel: string;
     mock: {
