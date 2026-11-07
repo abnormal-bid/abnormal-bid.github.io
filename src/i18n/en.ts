@@ -252,7 +252,7 @@ export const en: Copy = {
       {
         question: "Where do I manage mailboxes, orders and renewals?",
         answer:
-          "All in My account: set up new mailboxes, reset their passwords, disable or delete them, see orders and codes, and renew. Card subscriptions are managed there too, including changing the card or cancelling automatic renewal. Forgot your account password? Sign in with an emailed link and set a new one.",
+          "All in My account: set up new mailboxes, reset their passwords, disable or delete them, see orders and codes, and renew. Card subscriptions are managed there too, including changing the card or cancelling automatic renewal. Forgot your account password? Choose “Forgot your password? Reset it” on the sign-in page and set a new one from the emailed link.",
       },
       {
         question: "Can I use my own domain or set up mailboxes for a team?",
