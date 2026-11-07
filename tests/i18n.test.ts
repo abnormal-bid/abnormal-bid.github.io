@@ -3,28 +3,33 @@ import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
 import { linksFor } from "../src/data/site.ts";
 import { en } from "../src/i18n/en.ts";
-import { localePath, stripLocale, switchPath, toLang } from "../src/i18n/index.ts";
+import { defaultLang, langs, localePath, stripLocale, switchPath, toLang } from "../src/i18n/index.ts";
 import type { Copy } from "../src/i18n/types.ts";
 import { zh } from "../src/i18n/zh.ts";
 import { describeContact, formatInquiry } from "../src/lib/inquiry.ts";
+import { pages } from "../src/lib/pages.ts";
 import { fillTemplate, type TemplateSlot } from "../src/lib/template.ts";
 
-test("Chinese stays at the root and English lives under /en/", () => {
-  assert.equal(localePath("zh", "/privacy/"), "/privacy/");
-  assert.equal(localePath("en", "/privacy/"), "/en/privacy/");
-  assert.equal(localePath("en", "/#faq"), "/en/#faq");
+test("English is the default at the root and Chinese lives under /zh/", () => {
+  assert.equal(defaultLang, "en");
+  assert.equal(langs[0], defaultLang);
+  assert.equal(localePath("en", "/privacy/"), "/privacy/");
+  assert.equal(localePath("zh", "/privacy/"), "/zh/privacy/");
+  assert.equal(localePath("zh", "/#faq"), "/zh/#faq");
+  assert.equal(toLang("zh"), "zh");
   assert.equal(toLang("en"), "en");
-  assert.equal(toLang(undefined), "zh");
+  assert.equal(toLang(undefined), "en");
+  assert.equal(toLang("fr"), "en");
 });
 
 test("switching language keeps the same page", () => {
-  assert.equal(switchPath("/", "en"), "/en/");
-  assert.equal(switchPath("/terms/", "en"), "/en/terms/");
-  assert.equal(switchPath("/en/", "zh"), "/");
-  assert.equal(switchPath("/en/privacy/", "zh"), "/privacy/");
-  assert.equal(switchPath("/en", "zh"), "/");
-  // A Chinese page whose path merely starts with "en" is not English.
-  assert.equal(stripLocale("/enterprise/"), "/enterprise/");
+  assert.equal(switchPath("/", "zh"), "/zh/");
+  assert.equal(switchPath("/terms/", "zh"), "/zh/terms/");
+  assert.equal(switchPath("/zh/", "en"), "/");
+  assert.equal(switchPath("/zh/privacy/", "en"), "/privacy/");
+  assert.equal(switchPath("/zh", "en"), "/");
+  // An English page whose path merely starts with "zh" is not Chinese.
+  assert.equal(stripLocale("/zhuanti/"), "/zhuanti/");
 });
 
 test("onboard links follow the page language; webmail and status do not", () => {
@@ -171,4 +176,20 @@ test("the inquiry's legal sentence keeps each language's own spacing around its 
 test("the copyright line takes the year through a template slot", () => {
   assert.equal(fillTemplate(zh.footer.copyright, { year: 2027 }).join(""), "© 2027 Abnormal. 让沟通更简单。");
   assert.equal(fillTemplate(en.footer.copyright, { year: 2027 }).join(""), "© 2027 Abnormal. Mail made simple.");
+});
+
+test("the old English addresses under /en/ redirect permanently to the root", async () => {
+  const { default: config } = await import("../next.config.ts");
+  const redirects = await config.redirects!();
+  const moved = (source: string) => redirects.find((rule) => rule.source === source && !rule.has);
+  for (const page of pages.filter(({ lang }) => lang === "en")) {
+    for (const [legacy, current] of [
+      [`/en${page.url}`, page.url],
+      [`/md/en${page.url}`, page.markdown],
+    ]) {
+      const rule = moved(legacy!);
+      assert.ok(rule, `${legacy} has no redirect`);
+      assert.deepEqual([rule.destination, "statusCode" in rule && rule.statusCode], [current, 301], legacy);
+    }
+  }
 });

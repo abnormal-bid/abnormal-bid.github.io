@@ -42,7 +42,7 @@ const text = {
   },
 } satisfies Record<Lang, Record<string, string>>;
 
-export function formatInquiry({ product, duration, notes }: Inquiry, lang: Lang = "zh"): string {
+export function formatInquiry({ product, duration, notes }: Inquiry, lang: Lang): string {
   const t = text[lang];
   return [
     t.greeting,
@@ -64,7 +64,7 @@ export function getTelegramUrl(value: string): string | undefined {
   return undefined;
 }
 
-export function getContactLink(contact: Contact, inquiry: Inquiry, lang: Lang = "zh") {
+export function getContactLink(contact: Contact, inquiry: Inquiry, lang: Lang) {
   const t = text[lang];
   const telegram = getTelegramUrl(contact.telegram);
   if (telegram)
@@ -99,7 +99,7 @@ export function contactChannels(
   ];
 }
 
-export function describeContact(contact: Contact, lang: Lang = "zh"): string {
+export function describeContact(contact: Contact, lang: Lang): string {
   const t = text[lang];
   const telegram = getTelegramUrl(contact.telegram);
   const parts = [

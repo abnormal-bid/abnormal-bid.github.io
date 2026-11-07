@@ -3,7 +3,7 @@
  * 文案只有 src/i18n 一份，改了界面文案，这里跟着变。
  */
 import { desktopDownloads, linksFor, site, type Lang } from "../data/site.ts";
-import { copies } from "../i18n/index.ts";
+import { copies, langs } from "../i18n/index.ts";
 import type { LegalFrontmatter } from "../content/legal/types.ts";
 import { contactChannels } from "./inquiry.ts";
 import { pageFor, pagePaths } from "./pages.ts";
@@ -116,13 +116,14 @@ function llmsSection(lang: Lang, heading: string): string {
   ]);
 }
 
-/** 格式见 https://llmstxt.org/。中文是官网的默认语言，放在前面。 */
+/** llms.txt 里各语言小节的标题，用该语言自己的名字。 */
+const languageNames: Record<Lang, string> = { en: "English", zh: "中文" };
+
+/** 格式见 https://llmstxt.org/。语言按 langs 的顺序列出，默认语言（英文）在前。 */
 export function llmsTxt(): string {
   return `${paragraphs([
     "# Abnormal",
-    `> ${copies.zh.meta.description}`,
-    `> ${copies.en.meta.description}`,
-    llmsSection("zh", "中文"),
-    llmsSection("en", "English"),
+    ...langs.map((lang) => `> ${copies[lang].meta.description}`),
+    ...langs.map((lang) => llmsSection(lang, languageNames[lang])),
   ])}\n`;
 }

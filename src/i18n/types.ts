@@ -19,7 +19,8 @@ export type IconName =
   | "cart"
   | "ticket"
   | "mail"
-  | "book";
+  | "book"
+  | "user";
 
 /** 服务卡片的图标，ProductCard 按这个键画；与卡片在列表里的位置无关。 */
 export type ProductIcon = "mail" | "domain" | "team" | "setup";
@@ -62,6 +63,8 @@ export interface Copy {
     description: string;
     socialTitle: string;
     socialDescription: string;
+    /** 分享卡片图片（public/og/）的替代文字。 */
+    socialImageAlt: string;
   };
   skipLink: string;
   brandLabel: string;
@@ -73,6 +76,8 @@ export interface Copy {
     openMenu: string;
     closeMenu: string;
     login: string;
+    /** 买家账户（onboard 的 /shop/account/）：注册、登录、管理邮箱与订单。 */
+    account: string;
     buy: string;
     haveCode: string;
     loginWebmail: string;
@@ -89,9 +94,12 @@ export interface Copy {
     titleLines: readonly [string, string];
     description: readonly [string, string];
     buy: string;
-    haveCode: string;
+    register: string;
     loginPrompt: string;
+    /** 登录买家账户（管理邮箱与订单）。 */
     loginLink: string;
+    /** 登录网页邮箱（收发邮件）。 */
+    webmailLink: string;
     promises: readonly string[];
     visualLabel: string;
     mock: {

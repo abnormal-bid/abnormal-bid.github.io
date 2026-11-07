@@ -50,15 +50,19 @@ export function Hero({ lang }: { lang: Lang }) {
               </a>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <a href={links.redeem}>
-                {h.haveCode} <Icon name="up-right" className="size-4" />
+              <a href={links.register}>
+                {h.register} <Icon name="up-right" className="size-4" />
               </a>
             </Button>
           </div>
           <p className="mt-5 flex flex-wrap items-center gap-2 text-base/body text-muted-foreground max-md:justify-center">
             {h.loginPrompt}
-            <TextLink href={links.webmail}>
+            <TextLink href={links.account}>
               {h.loginLink} <Icon name="up-right" className="size-3.5" />
+            </TextLink>
+            <span aria-hidden="true">·</span>
+            <TextLink href={links.webmail}>
+              {h.webmailLink} <Icon name="up-right" className="size-3.5" />
             </TextLink>
           </p>
           <div className="mt-6 flex flex-wrap gap-x-[22px] gap-y-2.5 text-xs/body text-muted-foreground max-md:justify-center max-md:gap-[0.8rem] max-phone:gap-x-4 max-phone:gap-y-2">

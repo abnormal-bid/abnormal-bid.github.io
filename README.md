@@ -6,7 +6,9 @@
 
 ## 中英文
 
-中文在根路径（`/`、`/privacy/`、`/terms/`），英文在 `/en/` 下（`/en/`、`/en/privacy/`、`/en/terms/`），由 `src/app` 下的 `(zh)` 与 `(en)` 两个路由组实现，各有一个根布局。页头的「EN / 中」切换到另一种语言的同一页面；每页都输出互指的 `hreflang`，`x-default` 指向中文版。不按浏览器语言自动跳转。
+英文是默认语言，在根路径（`/`、`/privacy/`、`/terms/`）；中文在 `/zh/` 下（`/zh/`、`/zh/privacy/`、`/zh/terms/`）。由 `src/app` 下的 `(en)` 与 `(zh)` 两个路由组实现，各有一个根布局。默认语言与语言顺序只在 `src/i18n/paths.ts` 的 `defaultLang`、`langs` 里写一次，路径、`hreflang`、站点地图、`llms.txt` 与结构化数据都从这里取。页头的「EN / 中」切换到另一种语言的同一页面；每页都输出互指的 `hreflang`，`x-default` 指向英文版。不按浏览器语言自动跳转。
+
+英文原来在 `/en/` 下：`/en/`、`/en/privacy/`、`/en/terms/` 与对应的 `/md/en/...` 由 `next.config.ts` 的 `redirects()` 301 到根路径的新地址，旧外链与搜索结果不会失效。
 
 - 全部界面文案在 `src/i18n/zh.ts` 与 `src/i18n/en.ts`，二者都实现 `src/i18n/types.ts` 的 `Copy`，漏写字段会在 `pnpm typecheck` 时报错；`tests/i18n.test.ts` 还会逐项检查两份文案的结构一致（包括每个列表项的字段，可选字段也算），并要求 `link`、`icon`、`anchor`、`featured`、`primary`、`path` 这些与语言无关的值两边相同。服务端组件用 `useCopy(lang)` 取当前语言的文案、联动地址与带语言前缀的站内路径。
 - 中文标题用全角句号、英文用半角，取 `t.dot`；只在部分宽度换行的标题，两行之间用 `t.space`（英文是空格）。
@@ -20,20 +22,20 @@
 
 官网本身不收款、不开通邮箱，实际操作都在下面几个站点完成。地址统一由 `src/data/site.ts` 的 `linksFor(lang)` 生成（onboard 的英文页在 `/en/` 下），页头、首屏、「从这里开始」入口卡片、服务卡片、开通流程、收尾面板与页脚都从这里取，换域名时只改这一处。
 
-| 入口           | 地址                                           | 所在仓库                                         |
-| -------------- | ---------------------------------------------- | ------------------------------------------------ |
-| 购买邮箱       | `https://onboard.abnormalhq.com/shop/`         | [onboard](https://github.com/abnormalhq/onboard) |
-| 兑换开通       | `https://onboard.abnormalhq.com/`              | onboard                                          |
-| 我的订单与续费 | `https://onboard.abnormalhq.com/shop/account/` | onboard                                          |
-| 使用教程       | `https://onboard.abnormalhq.com/guide/`        | onboard                                          |
-| 网页邮箱       | `https://webmail.abnormalhq.com/`              | [mail](https://github.com/abnormalhq/mail)       |
-| 服务状态       | `https://console.abnormalhq.com/status`        | mail                                             |
+| 入口                                         | 地址                                           | 所在仓库                                         |
+| -------------------------------------------- | ---------------------------------------------- | ------------------------------------------------ |
+| 购买邮箱                                     | `https://onboard.abnormalhq.com/shop/`         | [onboard](https://github.com/abnormalhq/onboard) |
+| 兑换开通                                     | `https://onboard.abnormalhq.com/`              | onboard                                          |
+| 我的账户（注册、登录、邮箱管理、订单与续费） | `https://onboard.abnormalhq.com/shop/account/` | onboard                                          |
+| 使用教程                                     | `https://onboard.abnormalhq.com/guide/`        | onboard                                          |
+| 网页邮箱                                     | `https://webmail.abnormalhq.com/`              | [mail](https://github.com/abnormalhq/mail)       |
+| 服务状态                                     | `https://console.abnormalhq.com/status`        | mail                                             |
 
-下载页 `/download/`（英文 `/en/download/`，入口在页脚「产品」一栏）提供桌面客户端（[mail](https://github.com/abnormalhq/mail) 的 `desktop/`）的 macOS `.dmg` 与 Windows 安装程序（x64 与 Arm 各一个），以及 Homebrew 安装命令。安装包由 mail 仓库的发布流程上传到 R2 公开桶 `downloads.abnormalhq.com`：`desktop/latest/` 下是固定文件名的最新版本，下载页直接链接这些地址，发新版本不用改官网；`desktop/latest.json` 列出版本号与 SHA-256。地址集中在 `src/data/site.ts` 的 `desktopDownloads`。
+下载页 `/download/`（中文 `/zh/download/`，入口在页脚「产品」一栏）提供桌面客户端（[mail](https://github.com/abnormalhq/mail) 的 `desktop/`）的 macOS `.dmg` 与 Windows 安装程序（x64 与 Arm 各一个），以及 Homebrew 安装命令。安装包由 mail 仓库的发布流程上传到 R2 公开桶 `downloads.abnormalhq.com`：`desktop/latest/` 下是固定文件名的最新版本，下载页直接链接这些地址，发新版本不用改官网；`desktop/latest.json` 列出版本号与 SHA-256。地址集中在 `src/data/site.ts` 的 `desktopDownloads`。
 
 反方向：onboard 页头与页脚的「官网」、网页邮箱登录页与状态页的「官网」链接都指回 `https://abnormalhq.com/`。
 
-首页从上到下：首屏（购买邮箱 / 我有兑换码 / 登录网页邮箱）→ 01 从这里开始（四张入口卡片与订单、状态、客服链接）→ 02 邮箱服务（个人邮箱直达商店，其余三项咨询）→ 03 开通流程（选购套餐 → 兑换开通 → 登录收发，每步带链接）→ 04 常见问题 → 收尾面板（购买邮箱 + 聊聊定制需求）。
+页头右侧是「我的账户」（买家注册、登录与邮箱管理）、「登录邮箱」（网页邮箱）与「购买邮箱」。首页从上到下把买家流程串起来：首屏（购买邮箱 / 注册账户，下面是「登录管理邮箱 · 登录网页邮箱」）→ 01 从这里开始（购买邮箱、我的账户、兑换开通、网页邮箱四张卡片与教程、状态、客服链接）→ 02 邮箱服务（个人邮箱直达商店，其余三项咨询）→ 03 开通流程（注册账户 → 选购套餐 → 在「我的账户」开通邮箱 → 登录收发，每步带链接；「注册账户」直接打开账户页的注册表单 `?mode=register`）→ 04 常见问题 → 收尾面板（购买邮箱 + 聊聊定制需求）。
 
 ## 组件与样式
 
@@ -58,7 +60,7 @@ pnpm dlx shadcn@latest add @abnormal/button --overwrite
 | 抓取规则        | `/robots.txt`                      | `public/robots.txt`，含 Content Signals 与 sitemap                         |
 | 站点地图        | `/sitemap.xml`                     | `src/app/sitemap.ts`                                                       |
 | 目录            | `/llms.txt`                        | `src/app/llms.txt/route.ts`，内容由 `src/lib/markdown.ts` 生成             |
-| Markdown 版页面 | `/md/`、`/md/en/privacy/`          | `src/app/md/[[...slug]]/route.ts`，首页来自界面文案，法律页面来自 MDX 正文 |
+| Markdown 版页面 | `/md/`、`/md/zh/privacy/`          | `src/app/md/[[...slug]]/route.ts`，首页来自界面文案，法律页面来自 MDX 正文 |
 | 内容协商        | 页面地址 + `Accept: text/markdown` | `worker.ts` 按权重判断（`src/lib/negotiate.ts`）后转到上面的 Markdown 版本 |
 | 发现头          | 每个页面的 `Link` 响应头           | `next.config.ts` 的 `headers()`，同时输出 `Vary: Accept`                   |
 
@@ -67,6 +69,27 @@ pnpm dlx shadcn@latest add @abnormal/button --overwrite
 内容协商在 `worker.ts` 里，`pnpm dev` 不经过它；要测请用 `pnpm cf:preview`，或直接打开 `/md/` 下的地址。
 
 MCP、OAuth、API Catalog、Agent Skills 和商务协议没有实现：官网没有 API，也不收款，这些检查对它不适用。购买流程在 onboard。
+
+## 搜索引擎与分享卡片
+
+| 项目                 | 实现                                                                                                                                         |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| 标题、描述、hreflang | `src/lib/metadata.ts` 的 `pageMetadata`：canonical、中英互指的 `hreflang`（`x-default` 指向英文）、`robots` 允许大图预览与完整摘要           |
+| 分享卡片             | 同一处输出 Open Graph（含 `og:site_name`、另一种语言的 `og:locale:alternate`）与 `summary_large_image` 的 Twitter 卡片，图片在 `public/og/`  |
+| 结构化数据           | `src/lib/structured-data.ts`：每页都有 Organization 与 WebSite；首页另有 FAQPage（问答取自 `faq.items`），法律页面另有生效、修订日期与面包屑 |
+| 站点地图             | `src/app/sitemap.ts`：法律页面的 `lastmod` 取 frontmatter 的 `updated`，改条款时同步更新它                                                   |
+| 图标                 | `src/app/icon.svg`、`icon.png`，以及 iOS 主屏幕用的 `apple-icon.png`（180×180）                                                              |
+
+分享图片 `public/og/zh.png`、`en.png`（1200×630）由 `scripts/og-images.ts` 生成，文案取首屏的 `hero.eyebrow`、`hero.titleLines` 与 `meta.socialDescription`；改了这几项后重新生成。本仓库不依赖 Playwright，先全局安装它与 Chromium，再用 `NODE_PATH` 指向全局目录运行脚本：
+
+```sh
+npm install -g playwright && playwright install chromium
+NODE_PATH="$(npm root -g)" node scripts/og-images.ts
+```
+
+脚本要联网从 Google Fonts 取中文字形，不在构建时运行。图片的替代文字在文案的 `meta.socialImageAlt`。
+
+结构化数据只写页面上看得到的内容；新增问答写进 `faq.items` 即可，FAQPage 会跟着更新。可用 [Rich Results Test](https://search.google.com/test/rich-results) 或 [Schema Markup Validator](https://validator.schema.org/) 检查。
 
 ## 开发
 
@@ -106,15 +129,16 @@ pnpm cf:deploy     # 部署已有的 .open-next/ 产物
 
 ```text
 src/
-  app/            路由：(zh)/ 中文页、(en)/en/ 英文页，各有一个根布局；global-not-found.tsx 是两种语言共用的 404
+  app/            路由：(en)/ 英文页（默认语言，在根路径）、(zh)/zh/ 中文页，各有一个根布局；global-not-found.tsx 是两种语言共用的 404
   components/     SiteLayout、页头、Hero、邮箱服务卡片、流程、FAQ、咨询弹窗等页面区块；ui/ 是从 registry 安装的组件
   content/legal/  MDX 编写的隐私政策与服务条款，zh/ 与 en/ 各一份
   data/site.ts    公开联系方式与联动站点地址（linksFor）
   i18n/           中英文文案（zh.ts、en.ts、types.ts）与语言路径工具（paths.ts）
-  lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO；legal.ts 法律文档的 frontmatter 检查与目录；template.ts 文案模板；pages.ts 页面清单；markdown.ts 与 negotiate.ts 给 Agent 的 Markdown 与内容协商；cache.ts 浏览器缓存头
+  lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO 与分享卡片；structured-data.ts 结构化数据（JSON-LD）；legal.ts 法律文档的 frontmatter 检查与目录；template.ts 文案模板；pages.ts 页面清单；markdown.ts 与 negotiate.ts 给 Agent 的 Markdown 与内容协商；cache.ts 浏览器缓存头
   scripts/        theme-init.js：内联进头部的主题初始化脚本
   styles/         abnormal.css、abnormal-fonts.css 来自 registry；global.css 是官网专属的断点和全局规则
-public/           字体等由静态资源服务直接响应的文件
+public/           字体、分享图片（og/）等由静态资源服务直接响应的文件
+scripts/          og-images.ts：生成 public/og/ 的分享图片
 tests/            咨询逻辑、文案结构、页面元数据、法律文档、Agent 入口、缓存头与主题行为回归测试
 open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资源里
 worker.ts            Worker 入口：Markdown 内容协商与缓存头
@@ -159,7 +183,7 @@ wrangler.jsonc       Cloudflare Worker 与静态资源配置
 
 ## 隐私政策与服务条款
 
-`src/content/legal/zh/` 与 `src/content/legal/en/` 下的 `privacy.mdx`、`terms.mdx` 在构建时由 [`@next/mdx`](https://nextjs.org/docs/app/guides/mdx) 编译，通过 `src/components/LegalDocument.tsx` 输出，发布路径为 `/privacy/` 与 `/terms/`（英文 `/en/privacy/`、`/en/terms/`），页脚与咨询弹窗都有入口。正文使用 MDX 编写（普通文字里的 `{`、`}`、`<` 会被当成语法，要写成 `\{`、`\}`、`\<`），每个二级标题自动编号并生成目录；「联系我们」一节由组件根据 `site.contact` 生成，正文中无需重复联系方式。
+`src/content/legal/zh/` 与 `src/content/legal/en/` 下的 `privacy.mdx`、`terms.mdx` 在构建时由 [`@next/mdx`](https://nextjs.org/docs/app/guides/mdx) 编译，通过 `src/components/LegalDocument.tsx` 输出，发布路径为 `/privacy/` 与 `/terms/`（中文 `/zh/privacy/`、`/zh/terms/`），页脚与咨询弹窗都有入口。正文使用 MDX 编写（普通文字里的 `{`、`}`、`<` 会被当成语法，要写成 `\{`、`\}`、`\<`），每个二级标题自动编号并生成目录；「联系我们」一节由组件根据 `site.contact` 生成，正文中无需重复联系方式。
 
 frontmatter 字段：`title`、`description`（页面 meta 描述）、`eyebrow`（页首英文小标）、`summary`（页首导语）、`effective` 与 `updated`（`YYYY-MM-DD`，修改正文后请更新 `updated`）、`highlights`（页首「要点速览」）。页面先用 `src/lib/legal.ts` 的 `parseLegalFrontmatter` 检查 frontmatter：缺字段、日期不是真实的 `YYYY-MM-DD`、`highlights` 为空时构建直接报错，并指出是哪个文件的哪个字段。目录取文档里的全部二级标题，正文不要写一级标题（页首已经是 h1）。
 

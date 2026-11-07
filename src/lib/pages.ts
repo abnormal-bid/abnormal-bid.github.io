@@ -3,7 +3,7 @@
  * next.config.ts 也引用这个文件，所以这里只能依赖不带运行时副作用的模块。
  */
 import type { Lang } from "../data/site.ts";
-import { localePath } from "../i18n/paths.ts";
+import { langs, localePath } from "../i18n/paths.ts";
 
 /** 不带语言前缀的页面路径。 */
 export const pagePaths = ["/", "/download/", "/privacy/", "/terms/"] as const;
@@ -23,6 +23,4 @@ export function pageFor(lang: Lang, path: PagePath): Page {
   return { lang, path, url, markdown: `/md${url}` };
 }
 
-export const pages: readonly Page[] = (["zh", "en"] as const).flatMap((lang) =>
-  pagePaths.map((path) => pageFor(lang, path)),
-);
+export const pages: readonly Page[] = langs.flatMap((lang) => pagePaths.map((path) => pageFor(lang, path)));
