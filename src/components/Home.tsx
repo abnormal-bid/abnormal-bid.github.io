@@ -4,10 +4,12 @@ import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/section-heading";
 import type { Lang } from "@/data/site";
 import { useCopy } from "@/i18n";
+import { homeStructuredData } from "@/lib/structured-data";
 import { Faq } from "./Faq";
 import { Hero } from "./Hero";
 import { Icon } from "./Icon";
 import { InquiryButton } from "./InquiryDialog";
+import { JsonLd } from "./JsonLd";
 import { Process } from "./Process";
 import { Start } from "./Start";
 import { Subscriptions } from "./Subscriptions";
@@ -17,6 +19,7 @@ export function Home({ lang }: { lang: Lang }) {
   const { t, links } = useCopy(lang);
   return (
     <>
+      <JsonLd data={homeStructuredData(lang)} />
       <Hero lang={lang} />
       <Container className="flex flex-wrap items-center justify-between gap-4 border-t border-border py-6 text-muted-foreground max-lg:justify-center max-md:flex-col">
         <p className="text-sm/body">

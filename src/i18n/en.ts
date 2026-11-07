@@ -12,6 +12,8 @@ export const en: Copy = {
     socialTitle: "Abnormal — Good email, simple conversations.",
     socialDescription:
       "Buy and set up an @abnormal.bid mailbox yourself, then read and send from webmail or your mail app.",
+    socialImageAlt:
+      "Abnormal email service: good email, simple conversations. Buy and set up an @abnormal.bid mailbox online.",
   },
   skipLink: "Skip to main content",
   brandLabel: "Abnormal home",

@@ -62,6 +62,8 @@ export interface Copy {
     description: string;
     socialTitle: string;
     socialDescription: string;
+    /** 分享卡片图片（public/og/）的替代文字。 */
+    socialImageAlt: string;
   };
   skipLink: string;
   brandLabel: string;

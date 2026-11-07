@@ -11,6 +11,7 @@ export const zh: Copy = {
       "Abnormal 邮箱服务：在线选购 @abnormal.bid 邮箱，用兑换码自助开通，网页邮箱与邮件客户端都能收发；域名邮箱、团队邮箱与配置协助可咨询。",
     socialTitle: "Abnormal — 好用的邮箱，沟通更简单。",
     socialDescription: "在线选购、自助开通 @abnormal.bid 邮箱，开通后即可在网页或邮件客户端收发。",
+    socialImageAlt: "Abnormal 邮箱服务：好用的邮箱，沟通更简单。@abnormal.bid 邮箱，在线选购、自助开通。",
   },
   skipLink: "跳到主要内容",
   brandLabel: "Abnormal 首页",

@@ -66,6 +66,27 @@ pnpm dlx shadcn@latest add @abnormal/button --overwrite
 
 MCP、OAuth、API Catalog、Agent Skills 和商务协议没有实现：官网没有 API，也不收款，这些检查对它不适用。购买流程在 onboard。
 
+## 搜索引擎与分享卡片
+
+| 项目                 | 实现                                                                                                                                         |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| 标题、描述、hreflang | `src/lib/metadata.ts` 的 `pageMetadata`：canonical、中英互指的 `hreflang`（`x-default` 指向中文）、`robots` 允许大图预览与完整摘要           |
+| 分享卡片             | 同一处输出 Open Graph（含 `og:site_name`、另一种语言的 `og:locale:alternate`）与 `summary_large_image` 的 Twitter 卡片，图片在 `public/og/`  |
+| 结构化数据           | `src/lib/structured-data.ts`：每页都有 Organization 与 WebSite；首页另有 FAQPage（问答取自 `faq.items`），法律页面另有生效、修订日期与面包屑 |
+| 站点地图             | `src/app/sitemap.ts`：法律页面的 `lastmod` 取 frontmatter 的 `updated`，改条款时同步更新它                                                   |
+| 图标                 | `src/app/icon.svg`、`icon.png`，以及 iOS 主屏幕用的 `apple-icon.png`（180×180）                                                              |
+
+分享图片 `public/og/zh.png`、`en.png`（1200×630）由 `scripts/og-images.ts` 生成，文案取首屏的 `hero.eyebrow`、`hero.titleLines` 与 `meta.socialDescription`；改了这几项后重新生成。本仓库不依赖 Playwright，先全局安装它与 Chromium，再用 `NODE_PATH` 指向全局目录运行脚本：
+
+```sh
+npm install -g playwright && playwright install chromium
+NODE_PATH="$(npm root -g)" node scripts/og-images.ts
+```
+
+脚本要联网从 Google Fonts 取中文字形，不在构建时运行。图片的替代文字在文案的 `meta.socialImageAlt`。
+
+结构化数据只写页面上看得到的内容；新增问答写进 `faq.items` 即可，FAQPage 会跟着更新。可用 [Rich Results Test](https://search.google.com/test/rich-results) 或 [Schema Markup Validator](https://validator.schema.org/) 检查。
+
 ## 开发
 
 开发设置与 [mail](https://github.com/abnormalhq/mail)、[onboard](https://github.com/abnormalhq/onboard)、[ui](https://github.com/abnormalhq/ui) 一致：Node.js 24（见 `.node-version`；`package.json` 的 `engines` 写的是工具链实际需要的最低版本 22.22.1，`tests/toolchain.test.ts` 检查它不低于任何直接依赖的要求）、pnpm 12（版本写在 `package.json` 的 `packageManager`）、TypeScript、Prettier（行宽 120）、ESLint、husky + lint-staged + commitlint。
@@ -109,10 +130,11 @@ src/
   content/legal/  MDX 编写的隐私政策与服务条款，zh/ 与 en/ 各一份
   data/site.ts    公开联系方式与联动站点地址（linksFor）
   i18n/           中英文文案（zh.ts、en.ts、types.ts）与语言路径工具（paths.ts）
-  lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO；legal.ts 法律文档的 frontmatter 检查与目录；template.ts 文案模板；pages.ts 页面清单；markdown.ts 与 negotiate.ts 给 Agent 的 Markdown 与内容协商；cache.ts 浏览器缓存头
+  lib/            inquiry.ts 咨询文案与联系方式的纯函数；metadata.ts 页面 SEO 与分享卡片；structured-data.ts 结构化数据（JSON-LD）；legal.ts 法律文档的 frontmatter 检查与目录；template.ts 文案模板；pages.ts 页面清单；markdown.ts 与 negotiate.ts 给 Agent 的 Markdown 与内容协商；cache.ts 浏览器缓存头
   scripts/        theme-init.js：内联进头部的主题初始化脚本
   styles/         abnormal.css、abnormal-fonts.css 来自 registry；global.css 是官网专属的断点和全局规则
-public/           字体等由静态资源服务直接响应的文件
+public/           字体、分享图片（og/）等由静态资源服务直接响应的文件
+scripts/          og-images.ts：生成 public/og/ 的分享图片
 tests/            咨询逻辑、文案结构、页面元数据、法律文档、Agent 入口、缓存头与主题行为回归测试
 open-next.config.ts  OpenNext 配置：预渲染结果放在只读的静态资源里
 worker.ts            Worker 入口：Markdown 内容协商与缓存头
