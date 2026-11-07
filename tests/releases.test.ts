@@ -1,6 +1,14 @@
-import { test } from "node:test";
+import { test, type TestContext } from "node:test";
 import assert from "node:assert/strict";
-import { fileLabel, formatSize, parseManifest, parseReleaseIndex, releaseDate } from "../src/lib/releases.ts";
+import { desktopDownloads } from "../src/data/site.ts";
+import {
+  fetchDesktopReleases,
+  fileLabel,
+  formatSize,
+  parseManifest,
+  parseReleaseIndex,
+  releaseDate,
+} from "../src/lib/releases.ts";
 import { releaseIndex } from "./support/releases.ts";
 
 test("the release index splits into the current version and the previous ones", () => {
@@ -57,4 +65,45 @@ test("a broken index is an error, not an empty list", () => {
   assert.throws(() => parseReleaseIndex({ releases: [] }), /latest/);
   assert.throws(() => parseReleaseIndex({ latest: "0.3.0", releases: releaseIndex.releases }), /0\.3\.0/);
   assert.throws(() => parseReleaseIndex(null), /releases/);
+});
+
+/** Answers fetch with the given response (or error) per URL; any other URL is a test bug. */
+function mockFetch(t: TestContext, responses: Record<string, unknown>) {
+  const requested: string[] = [];
+  t.mock.method(console, "warn", () => {});
+  t.mock.method(globalThis, "fetch", async (input: string | URL | Request) => {
+    const url = String(input);
+    requested.push(url);
+    if (!(url in responses)) throw new Error(`unexpected fetch ${url}`);
+    const answer = responses[url];
+    if (answer instanceof Error) throw answer;
+    if (typeof answer === "number") return new Response(null, { status: answer });
+    return Response.json(answer);
+  });
+  return requested;
+}
+
+test("the loader reads releases.json and does not need latest.json", async (t) => {
+  const requested = mockFetch(t, { [desktopDownloads.releases]: releaseIndex });
+  const releases = await fetchDesktopReleases();
+  assert.equal(releases?.current.version, "0.2.0");
+  assert.deepEqual(requested, [desktopDownloads.releases]);
+});
+
+for (const [why, answer] of [
+  ["is missing", 404],
+  ["is broken", { latest: "0.9.0", releases: [] }],
+  ["cannot be reached", new TypeError("fetch failed")],
+] as const) {
+  test(`the loader falls back to latest.json when releases.json ${why}`, async (t) => {
+    mockFetch(t, { [desktopDownloads.releases]: answer, [desktopDownloads.manifest]: releaseIndex.releases[1] });
+    const releases = await fetchDesktopReleases();
+    assert.equal(releases?.current.version, "0.1.0");
+    assert.deepEqual(releases?.previous, []);
+  });
+}
+
+test("the loader gives no versions, without throwing, when neither file can be read", async (t) => {
+  mockFetch(t, { [desktopDownloads.releases]: 503, [desktopDownloads.manifest]: new TypeError("fetch failed") });
+  assert.equal(await fetchDesktopReleases(), undefined);
 });

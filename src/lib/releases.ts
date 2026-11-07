@@ -122,25 +122,28 @@ async function getJson(url: string): Promise<unknown> {
   return response.json();
 }
 
-let loading: Promise<DesktopReleases | undefined> | undefined;
-
 /**
  * 读取版本列表。读不到 releases.json 时用 latest.json；两个都读不到时返回 undefined，
  * 下载页仍然给出固定地址的下载按钮，只是不显示版本号与历史版本，构建不因此失败。
  */
+export async function fetchDesktopReleases(): Promise<DesktopReleases | undefined> {
+  try {
+    return parseReleaseIndex(await getJson(desktopDownloads.releases));
+  } catch (error) {
+    console.warn(`Could not read the desktop release list, falling back to latest.json: ${String(error)}`);
+  }
+  try {
+    return parseManifest(await getJson(desktopDownloads.manifest));
+  } catch (error) {
+    console.warn(`Could not read the desktop release either; the download page shows no versions: ${String(error)}`);
+    return undefined;
+  }
+}
+
+let loading: Promise<DesktopReleases | undefined> | undefined;
+
+/** fetchDesktopReleases，同一次构建里的页面与 Markdown 共用一次请求。 */
 export function loadDesktopReleases(): Promise<DesktopReleases | undefined> {
-  loading ??= (async () => {
-    try {
-      return parseReleaseIndex(await getJson(desktopDownloads.releases));
-    } catch (error) {
-      console.warn(`Could not read the desktop release list, falling back to latest.json: ${String(error)}`);
-    }
-    try {
-      return parseManifest(await getJson(desktopDownloads.manifest));
-    } catch (error) {
-      console.warn(`Could not read the desktop release either; the download page shows no versions: ${String(error)}`);
-      return undefined;
-    }
-  })();
+  loading ??= fetchDesktopReleases();
   return loading;
 }
