@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { linksFor, site } from "../src/data/site.ts";
-import { copies } from "../src/i18n/index.ts";
+import { copies, langs } from "../src/i18n/index.ts";
 import { contactChannels } from "../src/lib/inquiry.ts";
 import { homeMarkdown, legalMarkdown, llmsTxt, stripFrontmatter } from "../src/lib/markdown.ts";
 import { markdownUrl, varyOnAccept, wantsMarkdown } from "../src/lib/negotiate.ts";
@@ -41,6 +41,14 @@ test("llms.txt follows the format and lists every page and linked site in both l
   const text = llmsTxt();
   assert.match(text, /^# Abnormal\n\n> /);
   for (const page of pages) assert.ok(text.includes(`(${site.url}${page.markdown})`), page.markdown);
+  // Descriptions and sections follow the shared language order, default language first.
+  const positions = langs.map((lang) => text.indexOf(`> ${copies[lang].meta.description}`));
+  assert.ok(
+    positions.every((at, i) => at > 0 && (i === 0 || at > positions[i - 1]!)),
+    String(positions),
+  );
+  const sections = [...text.matchAll(/^## (.+)$/gm)].map(([, heading]) => heading);
+  assert.deepEqual(sections, ["English", "中文"]);
   for (const lang of ["zh", "en"] as const) {
     for (const url of Object.values(linksFor(lang))) assert.ok(text.includes(`(${url})`), url);
   }
