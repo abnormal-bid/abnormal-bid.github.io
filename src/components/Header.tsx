@@ -88,7 +88,10 @@ export function Header({
           </Button>
           <ThemePicker copy={themeCopy} onOpen={closeMenu} />
           <span className="mx-2 h-4 w-px bg-border max-md:hidden" aria-hidden="true"></span>
-          {/* 窄一点的平板宽度放不下全部入口：「登录邮箱」让给首屏与页脚的入口。 */}
+          {/* 窄一点的平板宽度放不下全部入口：「我的账户」「登录邮箱」让给首屏与页脚的入口。 */}
+          <Button asChild variant="ghost" className="border-0 px-2.5 font-normal max-nav:hidden">
+            <a href={links.account}>{copy.account}</a>
+          </Button>
           <Button asChild variant="ghost" className="mr-1 border-0 px-2.5 font-normal max-nav:hidden">
             <a href={links.webmail}>{copy.login}</a>
           </Button>
@@ -140,6 +143,11 @@ export function Header({
             <Button asChild variant="outline" size="lg">
               <a href={links.redeem} onClick={closeMenu}>
                 {copy.haveCode} <Icon name="up-right" className="size-4" />
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <a href={links.account} onClick={closeMenu}>
+                {copy.account} <Icon name="up-right" className="size-4" />
               </a>
             </Button>
             <Button asChild variant="outline" size="lg">

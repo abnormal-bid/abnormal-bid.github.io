@@ -27,6 +27,7 @@ export const zh: Copy = {
     openMenu: "展开导航",
     closeMenu: "收起导航",
     login: "登录邮箱",
+    account: "我的账户",
     buy: "购买邮箱",
     haveCode: "我有兑换码",
     loginWebmail: "登录网页邮箱",
@@ -121,7 +122,7 @@ export const zh: Copy = {
       },
     ],
     secondary: [
-      { link: "account", label: "我的订单与续费" },
+      { link: "account", label: "我的账户：邮箱管理、订单与续费" },
       { link: "status", label: "服务状态" },
     ],
     support: "客服邮箱",
@@ -263,7 +264,7 @@ export const zh: Copy = {
       { link: "guide", label: "使用教程" },
     ],
     supportLinks: [
-      { link: "account", label: "我的订单" },
+      { link: "account", label: "我的账户" },
       { link: "status", label: "服务状态" },
     ],
     faq: "常见问题",

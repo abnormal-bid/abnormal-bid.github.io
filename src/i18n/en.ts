@@ -28,6 +28,7 @@ export const en: Copy = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     login: "Log in",
+    account: "My account",
     buy: "Buy a mailbox",
     haveCode: "I have a code",
     loginWebmail: "Log in to webmail",
@@ -126,7 +127,7 @@ export const en: Copy = {
       },
     ],
     secondary: [
-      { link: "account", label: "Orders and renewals" },
+      { link: "account", label: "My account: mailboxes, orders and renewals" },
       { link: "status", label: "Service status" },
     ],
     support: "Support",
@@ -273,7 +274,7 @@ export const en: Copy = {
       { link: "guide", label: "Guide" },
     ],
     supportLinks: [
-      { link: "account", label: "My orders" },
+      { link: "account", label: "My account" },
       { link: "status", label: "Service status" },
     ],
     faq: "FAQ",

@@ -73,6 +73,8 @@ export interface Copy {
     openMenu: string;
     closeMenu: string;
     login: string;
+    /** 买家账户（onboard 的 /shop/account/）：注册、登录、管理邮箱与订单。 */
+    account: string;
     buy: string;
     haveCode: string;
     loginWebmail: string;
